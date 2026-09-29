@@ -1,0 +1,160 @@
+---
+import '../styles/global.css';
+import { profileData, withBase } from '../data/portfolio';
+import InteractiveCursor from '../components/InteractiveCursor.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${profileData.name} | Senior Backend & Full-Stack Developer (Node.js, NestJS, Java, AWS)`,
+  description = profileData.heroSubtitle,
+} = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profileData.name,
+  jobTitle: 'Senior Backend Developer & Full Stack Developer',
+  url: 'https://lhachas.github.io/portfolio/',
+  email: `mailto:${profileData.email}`,
+  telephone: profileData.phone,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Espinar, Cusco',
+    addressCountry: 'PE',
+  },
+  sameAs: [
+    profileData.linkedin,
+    profileData.github,
+    profileData.facebook,
+    profileData.instagram,
+  ],
+  knowsAbout: profileData.coreStackPills,
+};
+---
+
+<!doctype html>
+<html
+  lang="es"
+  data-theme="light"
+  style={`--bg-cartographer: url('${withBase('/assets/images/cartographer.png')}');`}
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profileData.name} />
+    <meta name="keywords" content="Leonel Hacha Salazar, Senior Backend Developer, Full Stack Developer, Node.js, TypeScript, NestJS, Java, Spring Boot, WebFlux, AWS, Microservices, Angular, React, Perú" />
+
+    <!-- Open Graph / Recruiter Preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={withBase('/assets/images/iam-4.jpg')} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />
+
+    <!-- Original Typography (Oswald + Victor Mono for Hero Typewriter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css"
+    />
+
+    <!-- Original Icon Fonts (Icofont & Technology Icons) -->
+    <link rel="stylesheet" href={withBase('/assets/css/plugins/icofont.css')} />
+    <link rel="stylesheet" href={withBase('/assets/css/plugins/technology-icons.css')} />
+
+    <!-- Structured Data for Recruiters & Search Engines -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Flash-Free Theme & Accent Initialization -->
+    <script is:inline>
+      (function () {
+        try {
+          var params = new URLSearchParams(window.location.search);
+          var urlTheme = params.get('theme');
+          var savedTheme = urlTheme || localStorage.getItem('user-theme');
+          var theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+
+          var savedAccent = localStorage.getItem('user-accent-hex');
+          var savedAccentHover = localStorage.getItem('user-accent-hover');
+          if (savedAccent) {
+            document.documentElement.style.setProperty('--brand-primary', savedAccent);
+          }
+          if (savedAccentHover) {
+            document.documentElement.style.setProperty('--brand-primary-hover', savedAccentHover);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="antialiased selection:bg-[#cdb30c] selection:text-[#1a1a1a]">
+    <a
+      href="#home"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10001] focus:rounded-full focus:bg-[#cdb30c] focus:px-5 focus:py-2.5 focus:font-medium focus:text-[#1a1a1a] focus:shadow-lg"
+    >
+      Saltar al contenido principal
+    </a>
+
+    <InteractiveCursor />
+
+    <slot />
+
+    <!-- Global Scroll-Reveal & Skill Progress Bar Observer -->
+    <script>
+      function initObservers() {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // 1. Reveal elements on scroll
+        const revealEls = document.querySelectorAll('.reveal');
+        if (prefersReducedMotion) {
+          revealEls.forEach((el) => el.classList.add('is-visible'));
+        } else {
+          const revealObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add('is-visible');
+                  revealObserver.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+          );
+          revealEls.forEach((el) => revealObserver.observe(el));
+        }
+
+        // 2. Animate skill progress bars when entering viewport
+        const progressBars = document.querySelectorAll<HTMLElement>('.progres[data-value]');
+        const skillObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const bar = entry.target as HTMLElement;
+                const targetWidth = bar.getAttribute('data-value') || '0%';
+                bar.style.width = targetWidth;
+                skillObserver.unobserve(bar);
+              }
+            });
+          },
+          { threshold: 0.2 }
+        );
+        progressBars.forEach((bar) => skillObserver.observe(bar));
+      }
+
+      document.addEventListener('DOMContentLoaded', initObservers);
+    </script>
+  </body>
+</html>

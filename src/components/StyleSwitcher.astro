@@ -1,0 +1,92 @@
+---
+import { colorThemes } from '../data/portfolio';
+---
+
+<!-- START SWITCHER -->
+<div id="style-switcher" aria-label="Selector de color de tema">
+  <div>
+    <h3 class="text-white text-center text-sm font-bold uppercase tracking-wider mb-2">
+      Selecciona tu color
+    </h3>
+    <ul class="grid grid-cols-3 gap-2.5 p-2 justify-items-center" role="list">
+      {
+        colorThemes.map((theme) => (
+          <li>
+            <button
+              type="button"
+              data-accent-color={theme.hex}
+              data-accent-hover={theme.hoverHex}
+              title={theme.name}
+              aria-label={`Cambiar color de acento a ${theme.name}`}
+              class="h-9 w-9 rounded-full border-2 border-white/25 transition-transform hover:scale-110 cursor-pointer"
+              style={`background-color: ${theme.hex};`}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <div class="bottom">
+    <button
+      type="button"
+      id="style-switcher-toggle"
+      class="settings-btn"
+      aria-label="Alternar selector de colores"
+      aria-expanded="false"
+    >
+      <i class="icofont icofont-color-bucket text-2xl ti-spin-slow" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+<!-- END SWITCHER -->
+
+<!-- Back to top -->
+<a
+  href="#home"
+  id="back-to-top"
+  class="back-to-top-btn"
+  aria-label="Volver arriba"
+>
+  <i class="icofont icofont-caret-up text-lg" aria-hidden="true"></i>
+</a>
+
+<script is:inline>
+  (() => {
+    const switcher = document.getElementById('style-switcher');
+    const toggleBtn = document.getElementById('style-switcher-toggle');
+    const swatches = document.querySelectorAll('[data-accent-color]');
+    const backToTop = document.getElementById('back-to-top');
+
+    toggleBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (!switcher) return;
+      const isOpen = switcher.classList.toggle('open');
+      toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    swatches.forEach((swatch) => {
+      swatch.addEventListener('click', () => {
+        const primary = swatch.getAttribute('data-accent-color');
+        const hover = swatch.getAttribute('data-accent-hover');
+        if (primary && hover) {
+          document.documentElement.style.setProperty('--brand-primary', primary);
+          document.documentElement.style.setProperty('--brand-primary-hover', hover);
+          localStorage.setItem('user-accent-hex', primary);
+          localStorage.setItem('user-accent-hover', hover);
+        }
+      });
+    });
+
+    const onScroll = () => {
+      if (!backToTop) return;
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>

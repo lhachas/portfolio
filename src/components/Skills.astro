@@ -1,0 +1,193 @@
+---
+import { skillCategories } from '../data/portfolio';
+---
+
+<!-- START SKILLS -->
+<section class="section th-secondary" id="skills" aria-labelledby="skills-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
+    <div class="text-center reveal">
+      <i class="icofont icofont-certificate-alt-1 title-icon" aria-hidden="true"></i>
+      <h2 id="skills-heading" class="title">
+        Mis <span class="font-medium">Habilidades</span>
+      </h2>
+      <p class="txt-primary mt-3 title-subtitle mx-auto">
+        Especialización técnica estructurada en los 4 pilares de ingeniería de mi CV 2026: Lenguajes y Frameworks, Cloud y Sistemas Distribuidos, Base de Datos/Calidad/Observabilidad y Desarrollo Asistido por IA.
+      </p>
+    </div>
+
+    <!-- Interactive Pillar Filter -->
+    <div
+      class="mt-8 flex flex-wrap items-center justify-center gap-2.5 reveal"
+      role="tablist"
+      aria-label="Filtrar categorías de habilidades"
+    >
+      <button
+        type="button"
+        role="tab"
+        aria-selected="true"
+        data-skill-filter="all"
+        class="skill-filter-btn active min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 cursor-pointer"
+      >
+        Todas las áreas (4)
+      </button>
+      {
+        skillCategories.map((category) => (
+          <button
+            type="button"
+            role="tab"
+            aria-selected="false"
+            data-skill-filter={category.id}
+            class="skill-filter-btn min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 cursor-pointer"
+          >
+            {category.title}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- 2x2 Skills Grid (Preserves .card-box.th-primary + 45deg diamond .card-icon .icon + .skill-progress .progres) -->
+    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-7" id="skills-grid">
+      {
+        skillCategories.map((category, idx) => (
+          <article
+            class="card-box th-primary reveal justify-between"
+            data-skill-card={category.id}
+            style={`--reveal-delay: ${(idx % 2) * 100}ms;`}
+          >
+            <div>
+              <!-- 45deg Diamond Rotating Icon -->
+              <div class="card-icon">
+                <i class={`${category.icon} icon`} aria-hidden="true"></i>
+              </div>
+
+              <h3 class="card-title">
+                {category.title}
+              </h3>
+              <p class="detail-copy mt-1.5 opacity-90">
+                {category.subtitle}
+              </p>
+
+              <!-- Animated Skill Progress Bars (Preserves .skills-list / .skill-item / .skill-text / .skill-progress / .progres) -->
+              <div class="skills-list mt-6">
+                {
+                  category.items.map((skill) => (
+                    <div class="skill-item">
+                      <h4 class="skill-text">
+                        <span class="inline-flex items-center">
+                          <i class={`${skill.icon} skill-icon`} aria-hidden="true"></i>
+                          <span class="font-normal tracking-wide">{skill.name}</span>
+                        </span>
+                      </h4>
+                      <div class="skill-progress">
+                        <div
+                          class="progres"
+                          style={`width: ${skill.level};`}
+                          data-value={skill.level}
+                          role="progressbar"
+                          aria-label={`${skill.name}: ${skill.level}`}
+                        />
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+
+            <!-- Granular Tech Pills from 2026 CV -->
+            <div class="mt-5 pt-4 border-t" style="border-color: var(--card-border);">
+              <div class="flex flex-wrap justify-center gap-1.5">
+                {
+                  category.tags.map((tag) => (
+                    <span class="tech-pill">
+                      {tag}
+                    </span>
+                  ))
+                }
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Original Top-Anchored SVG Wave Divider (Hangs downward from #about into #skills) -->
+  <svg
+    class="wave"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 81.717"
+    xml:space="preserve"
+    aria-hidden="true"
+  >
+    <path
+      d="M1920,0c0,0-109.246,46.107-316.333,67.334C1343.5,94,1137.095,77.238,999.167,67.5C854,57.25,637.662,24.697,541.709,18.834C375.334,8.666,147,11,0,37.875V0H1920L1920,0z"
+    ></path>
+  </svg>
+</section>
+<!-- END SKILLS -->
+
+<style>
+  .skill-filter-btn {
+    background-color: var(--th-primary);
+    color: var(--txt-primary);
+    border: 1px solid var(--card-border);
+  }
+  .skill-filter-btn:hover {
+    border-color: var(--brand-gold);
+    color: var(--brand-gold);
+  }
+  .skill-filter-btn.active {
+    background-color: var(--brand-gold);
+    color: #ffffff;
+    border-color: var(--brand-gold);
+    box-shadow: 0 6px 18px rgba(205, 179, 12, 0.28);
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const filterBtns = document.querySelectorAll('[data-skill-filter]');
+    const skillCards = document.querySelectorAll('[data-skill-card]');
+    const skillsGrid = document.getElementById('skills-grid');
+
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-skill-filter');
+
+        filterBtns.forEach((b) => {
+          const isActive = b === btn;
+          b.classList.toggle('active', isActive);
+          b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        if (skillsGrid) {
+          skillsGrid.classList.toggle('lg:grid-cols-1', filter !== 'all');
+          skillsGrid.classList.toggle('lg:grid-cols-2', filter === 'all');
+          skillsGrid.classList.toggle('max-w-3xl', filter !== 'all');
+          skillsGrid.classList.toggle('mx-auto', filter !== 'all');
+        }
+
+        skillCards.forEach((card) => {
+          const cardId = card.getAttribute('data-skill-card');
+          const shouldShow = filter === 'all' || cardId === filter;
+          if (shouldShow) {
+            card.classList.remove('hidden');
+            const bars = card.querySelectorAll('.progres[data-value]');
+            bars.forEach((bar) => {
+              bar.style.width = '0%';
+              requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                  bar.style.width = bar.getAttribute('data-value') || '90%';
+                });
+              });
+            });
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  })();
+</script>
