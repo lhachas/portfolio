@@ -1,2 +1,0 @@
-https://blog.khophi.co/deploy-angular-with-github-actions/
-https://dev.to/es404020/ci-cd-using-github-action-for-angular-deployment-on-ssh-server-3hpd

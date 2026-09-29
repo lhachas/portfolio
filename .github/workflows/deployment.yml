@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+      - feat/astro-tailwind-migration
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,51 +16,29 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16.x.x
+          node-version: 22.x
           cache: npm
 
-      - name: Clean Cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Install
-        run: npm i --legacy-peer-deps
-
-    #   - name: Test
-    #     run: npm run test -- --watch=false --browsers=ChromeHeadless
-
-      - name: Build
-        run: npm run build -- -c production --base-href "https://lhachas.github.io/portfolio/"
-
-      - name: Copy file via ssh key
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          rm: true
-          source: dist/portfolio
-          target: "/var/www/html/portfolio"
-          strip_components: 2
+      - name: Build Astro Static Site
+        run: npm run build
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/portfolio
+          path: dist
 
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     permissions:
       repository-projects: read
       pages: write
@@ -68,4 +51,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

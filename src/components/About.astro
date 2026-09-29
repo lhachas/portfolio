@@ -1,0 +1,222 @@
+---
+import { profileData, educationData, coursesData, withBase } from '../data/portfolio';
+---
+
+<!-- START ABOUT -->
+<section class="section th-primary about" id="about" aria-labelledby="about-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Section Title Header -->
+    <div class="text-center reveal">
+      <i class="icofont icofont-man-in-glasses title-icon" aria-hidden="true"></i>
+      <h2 id="about-heading" class="title">
+        Sobre <span class="font-medium">Mí</span>
+      </h2>
+      <p class="txt-primary mt-3 title-subtitle mx-auto">
+        {profileData.aboutLead}
+      </p>
+    </div>
+
+    <!-- Main 2-Column Content (Preserves circular profile photo + Full-Stack / Backend bio) -->
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <!-- Left Column: Circular Framed Profile Image -->
+      <div class="lg:col-span-5 flex flex-col items-center reveal">
+        <div class="iam-img-wrapper">
+          <div class="iam-orbit-ring" aria-hidden="true"></div>
+          <img
+            class="iam-photo"
+            src={withBase('/assets/images/iam-4.jpg')}
+            alt="Fotografía profesional de Leonel Hacha Salazar"
+            width="345"
+            height="345"
+            loading="eager"
+          />
+          <!-- Experience Floating Badge -->
+          <div class="absolute -bottom-3 right-2 rounded-full bg-[#1a1a1a] border-2 border-[#cdb30c] px-4 py-1.5 text-white shadow-lg flex items-center gap-2">
+            <i class="icofont icofont-code-alt text-gold text-base" aria-hidden="true"></i>
+            <span class="text-xs font-medium uppercase tracking-wider">
+              {profileData.yearsExperience} Años Exp.
+            </span>
+          </div>
+        </div>
+
+        <!-- Languages & Location Quick Strip -->
+        <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
+          <span class="tech-pill">
+            <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i>
+            <span>{profileData.location}</span>
+          </span>
+          {
+            profileData.languages.map((lang) => (
+              <span class="tech-pill">
+                <strong>{lang.name}:</strong> <span>{lang.level}</span>
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Right Column: Senior Backend & Full-Stack Bio + Stack Pills + CTAs -->
+      <div class="lg:col-span-7 reveal">
+        <div class="features-desc">
+          <h3 class="subsection-title">
+            {profileData.aboutRoleTitle} <span class="font-medium">{profileData.aboutRoleHighlight}</span>
+          </h3>
+
+          {
+            profileData.aboutParagraphs.map((paragraph) => (
+              <p class="body-copy txt-primary mt-4 text-justify sm:text-left">
+                {paragraph}
+              </p>
+            ))
+          }
+
+          <!-- Core Stack Pills -->
+          <div class="mt-5">
+            <span class="label-c block mb-2.5">Especialización Principal:</span>
+            <div class="flex flex-wrap gap-2">
+              {
+                profileData.coreStackPills.map((tech) => (
+                  <span class="tech-pill">
+                    {tech}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Action Buttons (Preserves Descargar CV + Contáctame + Official Social Brand Buttons) -->
+          <div class="mt-7 flex flex-wrap items-center gap-3.5">
+            <a
+              href={profileData.cvBackendUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              download="CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
+              class="btn-brand btn-gold"
+              data-cursor-label="PDF 2026"
+            >
+              <span>Descargar CV</span>
+            </a>
+
+            <a href="#contact" class="btn-brand btn-theme-primary" data-cursor-label="Contacto">
+              <span>Contáctame</span>
+            </a>
+
+            <!-- Official LinkedIn Brand Button (#0A66C2) -->
+            <a
+              href={profileData.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-magnetic
+              data-cursor-label="LinkedIn"
+              class="btn-social-pill linkedin"
+            >
+              <i class="icofont icofont-linkedin" aria-hidden="true"></i>
+              <span>LinkedIn</span>
+            </a>
+
+            <!-- Official GitHub Brand Button (#24292F) -->
+            <a
+              href={profileData.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-magnetic
+              data-cursor-label="GitHub"
+              class="btn-social-pill github"
+            >
+              <i class="icofont icofont-github" aria-hidden="true"></i>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education & Continuous Training Strip (Zero full-width straight horizontal line) -->
+    <div class="mt-14 reveal">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {
+          educationData.map((edu, idx) => (
+            <div
+              class="spotlight-card rounded-xl p-5 border transition-transform duration-300 hover:-translate-y-1"
+              style={`background-color: var(--th-secondary); border-color: var(--card-border); --reveal-delay: ${idx * 90}ms;`}
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="label-c text-gold">
+                  {edu.category}
+                </span>
+                <span class="text-xs txt-primary opacity-80">
+                  {edu.period}
+                </span>
+              </div>
+              <h4 class="item-title">
+                {edu.institution}
+              </h4>
+              <p class="detail-copy mt-1.5">
+                {edu.detail}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Collapsible Courses & Certifications Drawer -->
+      <details class="mt-6 group rounded-xl border p-4 transition-all" style="background-color: var(--th-secondary); border-color: var(--card-border);">
+        <summary class="flex cursor-pointer items-center justify-between font-normal text-[15px] select-none tracking-wide" style="color: var(--heading-color);">
+          <span class="inline-flex items-center gap-2">
+            <i class="icofont icofont-certificate-alt-1 text-gold text-lg" aria-hidden="true"></i>
+            <span>Ver Formación Continua, Cursos Especializados y Competencias (2023 - 2026)</span>
+          </span>
+          <span class="inline-flex items-center gap-1 text-xs text-gold group-open:rotate-180 transition-transform">
+            <i class="icofont icofont-rounded-down text-base" aria-hidden="true"></i>
+          </span>
+        </summary>
+
+        <div class="mt-4 pt-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-7">
+            <span class="label-c block mb-3">Formación Continua Destacada:</span>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 detail-copy">
+              {
+                coursesData.map((course) => (
+                  <li class="flex items-start gap-2 rounded-lg p-2.5" style="background-color: var(--th-primary);">
+                    <i class="icofont icofont-check-circled text-gold mt-1 shrink-0" aria-hidden="true"></i>
+                    <div>
+                      <strong class="block font-medium text-[14px]" style="color: var(--heading-color);">{course.name}</strong>
+                      <span class="opacity-80 font-light text-[13px]">{course.provider} ({course.date})</span>
+                    </div>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="lg:col-span-5">
+            <span class="label-c block mb-3">Competencias Profesionales:</span>
+            <div class="flex flex-wrap gap-2">
+              {
+                profileData.softSkills.map((skill) => (
+                  <span class="tech-pill">
+                    {skill}
+                  </span>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- Original Top-Anchored Wave (Projects UPWARD over #home via .about .wave) -->
+  <svg
+    class="wave"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 81.717"
+    xml:space="preserve"
+    aria-hidden="true"
+  >
+    <path
+      d="M1920,0c0,0-109.246,46.107-316.333,67.334C1343.5,94,1137.095,77.238,999.167,67.5C854,57.25,637.662,24.697,541.709,18.834C375.334,8.666,147,11,0,37.875V0H1920L1920,0z"
+    ></path>
+  </svg>
+</section>
+<!-- END ABOUT -->

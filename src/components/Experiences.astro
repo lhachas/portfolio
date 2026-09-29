@@ -1,0 +1,157 @@
+---
+import { experiencesData } from '../data/portfolio';
+---
+
+<!-- START EXPERIENCES -->
+<section class="section th-primary" id="experiences" aria-labelledby="experiences-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
+    <div class="text-center reveal">
+      <i class="icofont icofont-architecture-alt title-icon" aria-hidden="true"></i>
+      <h2 id="experiences-heading" class="title">
+        Mis <span class="font-medium">Experiencias</span>
+      </h2>
+      <p class="txt-primary mt-3 title-subtitle mx-auto">
+        Más de 9 años diseñando, integrando y evolucionando servicios backend transaccionales en banca digital, plataformas regionales de logística DaaS, aplicaciones móviles serverless y ecosistemas Full Stack.
+      </p>
+    </div>
+
+    <!-- Quick Recruiter View Toggle -->
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-3 reveal">
+      <button
+        type="button"
+        id="toggle-all-achievements"
+        data-expanded="true"
+        class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all cursor-pointer hover:border-[#cdb30c]"
+        style="background-color: var(--th-secondary); border: 1px solid var(--card-border); color: var(--heading-color);"
+      >
+        <i class="icofont icofont-layers text-gold text-sm" aria-hidden="true"></i>
+        <span id="toggle-all-label">Modo compacto (ocultar detalle de logros)</span>
+      </button>
+    </div>
+
+    <!-- Interconnected .main-timeline with Continuous Central Spine & Alternating Circular Rings -->
+    <div class="mt-8">
+      <div class="main-timeline" id="experiences-timeline">
+        <!-- Continuous Central Vertical Spine Connecting All 6 Circular Rings -->
+        <div class="main-timeline-track" aria-hidden="true">
+          <div id="timeline-spine-progress" class="main-timeline-progress"></div>
+        </div>
+
+        {
+          experiencesData.map((exp) => (
+            <article
+              class="timeline reveal"
+              style={`--timeline-color: ${exp.color};`}
+            >
+              <!-- Circular 200px 45deg Ring + 118px Inner Year Circle + Spine Interlock Nodes -->
+              <div class="timeline-icon" aria-hidden="true">
+                <span class="year">
+                  <span class="year-step">Etapa {exp.stepNumber}</span>
+                  <span>{exp.date}</span>
+                </span>
+              </div>
+
+              <!-- Colored Outer Frame + High-Contrast Inner Content Card -->
+              <div class="timeline-content">
+                <div class="inner-content">
+                  <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                    <span
+                      class="inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-medium uppercase tracking-wider"
+                      style={`background-color: ${exp.color}; color: #ffffff;`}
+                    >
+                      {exp.clientOrDomain}
+                    </span>
+                    <span class="text-xs txt-primary opacity-85 tracking-wide">
+                      <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i> {exp.location}
+                    </span>
+                  </div>
+
+                  <h3 class="card-title">
+                    {exp.title} - <span class="text-gold">{exp.company}</span>
+                  </h3>
+
+                  <p class="body-copy txt-primary mt-2">
+                    {exp.summary}
+                  </p>
+
+                  <!-- Audited 2026 CV Highlights -->
+                  <div class="exp-achievements mt-3.5 pt-3 border-t space-y-2.5" style="border-color: var(--card-border);">
+                    {
+                      exp.highlights.map((item) => (
+                        <div class="detail-copy flex items-start gap-2.5">
+                          <span
+                            class="mt-2 h-2 w-2 rounded-full shrink-0"
+                            style={`background-color: ${exp.color};`}
+                          />
+                          <div>
+                            <strong class="font-medium" style="color: var(--heading-color);">
+                              {item.label}:
+                            </strong>{' '}
+                            <span class="font-light">{item.text}</span>
+                          </div>
+                        </div>
+                      ))
+                    }
+                  </div>
+
+                  <!-- Stack Badges -->
+                  <div class="mt-4 pt-2 flex flex-wrap gap-1.5">
+                    {
+                      exp.technologies.map((tech) => (
+                        <span class="tech-pill">
+                          {tech}
+                        </span>
+                      ))
+                    }
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Original Top-Anchored SVG Wave Divider (.wv-primary hangs downward from #skills into #experiences) -->
+  <svg
+    class="wave wv-primary"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 81.717"
+    xml:space="preserve"
+    aria-hidden="true"
+  >
+    <path
+      d="M1920,0c0,0-109.246,46.107-316.333,67.334C1343.5,94,1137.095,77.238,999.167,67.5C854,57.25,637.662,24.697,541.709,18.834C375.334,8.666,147,11,0,37.875V0H1920L1920,0z"
+    ></path>
+  </svg>
+</section>
+<!-- END EXPERIENCES -->
+
+<script is:inline>
+  (() => {
+    const toggleBtn = document.getElementById('toggle-all-achievements');
+    const toggleLabel = document.getElementById('toggle-all-label');
+    const achievementBlocks = document.querySelectorAll('.exp-achievements');
+    const timelineEl = document.getElementById('experiences-timeline');
+    const spineProgress = document.getElementById('timeline-spine-progress');
+
+    toggleBtn?.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('data-expanded') === 'true';
+      const nextState = !isExpanded;
+      toggleBtn.setAttribute('data-expanded', nextState ? 'true' : 'false');
+
+      achievementBlocks.forEach((block) => {
+        block.classList.toggle('hidden', !nextState);
+      });
+
+      if (toggleLabel) {
+        toggleLabel.textContent = nextState
+          ? 'Modo compacto (ocultar detalle de logros)'
+          : 'Modo detallado (mostrar todos los logros)';
+      }
+    });
+  })();
+</script>

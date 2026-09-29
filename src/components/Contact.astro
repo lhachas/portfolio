@@ -1,0 +1,537 @@
+---
+import { profileData } from '../data/portfolio';
+
+const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT || '';
+const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+const emailJsServiceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID || '';
+const emailJsTemplateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID || '';
+const emailJsPublicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY || '';
+const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
+---
+
+<!-- START CONTACT -->
+<section class="section th-primary" id="contact" aria-labelledby="contact-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
+    <div class="text-center reveal">
+      <i class="icofont icofont-support title-icon" aria-hidden="true"></i>
+      <h2 id="contact-heading" class="title">
+        <span class="font-medium">Contáctame</span>
+      </h2>
+      <p class="txt-primary mt-3 title-subtitle mx-auto">
+        ¿Buscas un Senior Backend o Full Stack Developer con experiencia comprobada en banca digital, microservicios Node.js/NestJS y arquitecturas AWS? Envíame un mensaje directo o escríbeme por mis canales oficiales.
+      </p>
+    </div>
+
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start pt-2">
+      <!-- Left Column: Direct Contact Channels with Strict Official Brand Colors -->
+      <div class="lg:col-span-5 space-y-3.5 reveal">
+        <h3 class="card-title mb-3">
+          Canales Oficiales de <span class="text-gold">Contacto Directo</span>
+        </h3>
+
+        <!-- Email Official Channel (#EA4335) -->
+        <a
+          href={`mailto:${profileData.email}`}
+          class="contact-channel-card"
+          style="--channel-color: #EA4335;"
+          data-cursor-label="Email"
+        >
+          <span class="contact-channel-icon" aria-hidden="true">
+            <i class="icofont icofont-envelope"></i>
+          </span>
+          <div class="min-w-0">
+            <span class="label-c block">Correo Electrónico Directo</span>
+            <span class="detail-copy block truncate font-normal">{profileData.email}</span>
+          </div>
+        </a>
+
+        <!-- WhatsApp Official Channel (#25D366) -->
+        <a
+          href={profileData.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-channel-card"
+          style="--channel-color: #25D366;"
+          data-cursor-label="WhatsApp"
+        >
+          <span class="contact-channel-icon" aria-hidden="true">
+            <i class="icofont icofont-whatsapp"></i>
+          </span>
+          <div class="min-w-0">
+            <span class="label-c block">WhatsApp / Teléfono Directo</span>
+            <span class="detail-copy block font-normal">{profileData.phone} · Respuesta inmediata</span>
+          </div>
+        </a>
+
+        <!-- LinkedIn Official Channel (#0A66C2) -->
+        <a
+          href={profileData.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-channel-card"
+          style="--channel-color: #0A66C2;"
+          data-cursor-label="LinkedIn"
+        >
+          <span class="contact-channel-icon" aria-hidden="true">
+            <i class="icofont icofont-linkedin"></i>
+          </span>
+          <div class="min-w-0">
+            <span class="label-c block">LinkedIn Profesional</span>
+            <span class="detail-copy block truncate font-normal">linkedin.com/in/leonel-hacha-salazar</span>
+          </div>
+        </a>
+
+        <!-- GitHub Official Channel (#24292F) -->
+        <a
+          href={profileData.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-channel-card"
+          style="--channel-color: #24292F;"
+          data-cursor-label="GitHub"
+        >
+          <span class="contact-channel-icon border border-white/20" aria-hidden="true">
+            <i class="icofont icofont-github"></i>
+          </span>
+          <div class="min-w-0">
+            <span class="label-c block">GitHub & Código Abierto</span>
+            <span class="detail-copy block truncate font-normal">github.com/LHachaS</span>
+          </div>
+        </a>
+
+        <!-- Location & Modality (#cdb30c) -->
+        <div
+          class="contact-channel-card"
+          style="--channel-color: #cdb30c;"
+        >
+          <span class="contact-channel-icon" aria-hidden="true">
+            <i class="icofont icofont-location-pin"></i>
+          </span>
+          <div class="min-w-0">
+            <span class="label-c block">Ubicación & Modalidad</span>
+            <span class="detail-copy block font-normal">{profileData.location} · Remoto LATAM / Global</span>
+          </div>
+        </div>
+
+        <!-- Direct 2026 CV Download Card -->
+        <div class="spotlight-card rounded-2xl p-5 border mt-4" style="background-color: var(--th-secondary); border-color: var(--card-border);">
+          <span class="label-c block">Currículum Vitae 2026:</span>
+          <p class="detail-copy mt-1.5">
+            Descarga directa en PDF con el detalle completo de proyectos en banca digital, retail y cloud AWS.
+          </p>
+          <div class="mt-3.5 flex flex-wrap gap-2.5">
+            <a
+              href={profileData.cvBackendUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              download="CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
+              data-magnetic
+              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full bg-[#cdb30c] px-4 py-2 text-xs font-medium uppercase tracking-wider text-white transition-opacity hover:opacity-90"
+            >
+              <i class="icofont icofont-file-pdf" aria-hidden="true"></i>
+              <span>CV Senior Backend (ES)</span>
+            </a>
+            <a
+              href={profileData.cvBaufestUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              download="CV-Leonel-Hacha-Salazar-Backend-Bit-2026.pdf"
+              data-magnetic
+              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full border border-[#cdb30c]/60 px-4 py-2 text-xs font-medium uppercase tracking-wider txt-primary transition-colors hover:bg-[#cdb30c] hover:text-white"
+            >
+              <i class="icofont icofont-file-pdf text-gold" aria-hidden="true"></i>
+              <span>CV Extendido</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Real Functional Email Contact Form (Preserves Pill Inputs + Adds Visible Labels & AJAX Delivery) -->
+      <div class="lg:col-span-7 reveal">
+        <div class="spotlight-card rounded-2xl p-6 sm:p-8 border" style="background-color: var(--th-secondary); border-color: var(--card-border);">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
+            <div>
+              <h3 class="card-title">
+                Envíame un <span class="text-gold">Mensaje Directo</span>
+              </h3>
+              <p class="detail-copy mt-1">
+                Tu mensaje llega directamente a mi bandeja principal (<strong>{profileData.email}</strong>).
+              </p>
+            </div>
+            <span class="tech-pill">
+              <span class="status-pulse-dot" aria-hidden="true"></span>
+              <span>Envío Directo Activo</span>
+            </span>
+          </div>
+
+          <!-- Quick Topic Selector Chips for Recruiters -->
+          <div class="mb-5">
+            <span class="label-c block mb-2">Motivo rápido (opcional):</span>
+            <div class="flex flex-wrap gap-2" role="group" aria-label="Seleccionar asunto rápido">
+              {
+                [
+                  'Oportunidad Senior Backend (Node.js / NestJS / AWS)',
+                  'Oportunidad Full-Stack (Angular / React / Node.js)',
+                  'Arquitectura Cloud / Microservicios Java & Spring',
+                  'Consultoría Técnica / Proyecto Fintech',
+                ].map((topic) => (
+                  <button
+                    type="button"
+                    data-quick-topic={topic}
+                    class="tech-pill cursor-pointer hover:bg-[#cdb30c] hover:text-white transition-colors"
+                  >
+                    <i class="icofont icofont-plus-circle text-gold" aria-hidden="true"></i>
+                    <span>{topic.split(' (')[0]}</span>
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+
+          <form
+            id="contact-form"
+            action={formspreeEndpoint || defaultAjaxEndpoint}
+            method="POST"
+            data-formspree={formspreeEndpoint}
+            data-web3forms={web3FormsKey}
+            data-emailjs-service={emailJsServiceId}
+            data-emailjs-template={emailJsTemplateId}
+            data-emailjs-key={emailJsPublicKey}
+            data-default-endpoint={defaultAjaxEndpoint}
+            data-recipient={profileData.email}
+            novalidate
+          >
+            <!-- Anti-spam Honeypot & FormSubmit Configuration -->
+            <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+
+            <!-- Status Feedback Banner -->
+            <div
+              id="contact-feedback"
+              class="mb-5 hidden rounded-2xl border px-4 py-3.5 text-sm font-normal"
+              role="status"
+              aria-live="polite"
+            ></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label for="contact-name" class="label-c block mb-2">
+                  Nombre Completo <span class="text-gold" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="contact-name"
+                  name="name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                  minlength="2"
+                  placeholder="Ej. María Gómez · Tech Recruiter"
+                  class="form-control-pill"
+                   style="background-color: var(--th-primary);"
+                />
+                <p id="error-name" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+              </div>
+
+              <div>
+                <label for="contact-email" class="label-c block mb-2">
+                  Correo Electrónico <span class="text-gold" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="contact-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  spellcheck="false"
+                  placeholder="Ej. maria@empresa.com"
+                  class="form-control-pill"
+                  style="background-color: var(--th-primary);"
+                />
+                <p id="error-email" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <label for="contact-subject" class="label-c block mb-2">
+                Asunto / Rol o Proyecto <span class="text-gold" aria-hidden="true">*</span>
+              </label>
+              <input
+                id="contact-subject"
+                name="subject"
+                type="text"
+                required
+                minlength="3"
+                placeholder="Ej. Posición Senior Backend Developer - Banca Digital"
+                class="form-control-pill"
+                style="background-color: var(--th-primary);"
+              />
+              <p id="error-subject" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+            </div>
+
+            <div class="mt-4">
+              <label for="contact-comments" class="label-c block mb-2">
+                Tu Mensaje <span class="text-gold" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="contact-comments"
+                name="message"
+                rows="5"
+                required
+                minlength="10"
+                placeholder="Hola Leonel, revisamos tu trayectoria en Baufest (Qik & Cencosud) y nos gustaría agendar una entrevista..."
+                class="form-control-pill"
+                style="background-color: var(--th-primary);"
+              ></textarea>
+              <p id="error-comments" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+            </div>
+
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
+              <a
+                href={profileData.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-social-pill whatsapp"
+                data-magnetic
+                data-cursor-label="WhatsApp"
+              >
+                <i class="icofont icofont-whatsapp" aria-hidden="true"></i>
+                <span>Chatear por WhatsApp</span>
+              </a>
+
+              <button
+                type="submit"
+                id="contact-submit-btn"
+                class="btn-brand btn-theme-primary"
+                data-cursor-label="Enviar"
+              >
+                <span id="contact-submit-text">Enviar mensaje</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Original Top-Anchored SVG Wave Divider (.wv-primary hangs downward from #services into #contact) -->
+  <svg
+    class="wave wv-primary"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 81.717"
+    xml:space="preserve"
+    aria-hidden="true"
+  >
+    <path
+      d="M1920,0c0,0-109.246,46.107-316.333,67.334C1343.5,94,1137.095,77.238,999.167,67.5C854,57.25,637.662,24.697,541.709,18.834C375.334,8.666,147,11,0,37.875V0H1920L1920,0z"
+    ></path>
+  </svg>
+</section>
+<!-- END CONTACT -->
+
+<script is:inline>
+  (() => {
+    const form = document.getElementById('contact-form');
+    const feedback = document.getElementById('contact-feedback');
+    const submitBtn = document.getElementById('contact-submit-btn');
+    const submitText = document.getElementById('contact-submit-text');
+    const subjectInput = document.getElementById('contact-subject');
+    const quickTopicBtns = document.querySelectorAll('[data-quick-topic]');
+
+    if (!form || !feedback || !submitBtn || !submitText) return;
+
+    // 1. Quick-Topic Chips populate subject input
+    quickTopicBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const topic = btn.getAttribute('data-quick-topic');
+        if (subjectInput && topic) {
+          subjectInput.value = topic;
+          subjectInput.setAttribute('aria-invalid', 'false');
+          const errSub = document.getElementById('error-subject');
+          if (errSub) errSub.classList.add('hidden');
+          subjectInput.focus();
+        }
+      });
+    });
+
+    // 2. Helper for inline field validation
+    const setFieldError = (inputId, errorId, message) => {
+      const inputEl = document.getElementById(inputId);
+      const errorEl = document.getElementById(errorId);
+      if (!inputEl || !errorEl) return;
+      if (message) {
+        inputEl.setAttribute('aria-invalid', 'true');
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+      } else {
+        inputEl.setAttribute('aria-invalid', 'false');
+        errorEl.textContent = '';
+        errorEl.classList.add('hidden');
+      }
+    };
+
+    ['contact-name', 'contact-email', 'contact-subject', 'contact-comments'].forEach((id) => {
+      const el = document.getElementById(id);
+      const errId = id.replace('contact-', 'error-');
+      el?.addEventListener('input', () => setFieldError(id, errId, ''));
+    });
+
+    // 3. Multi-Provider Real Email Submission (Formspree / Web3Forms / EmailJS / FormSubmit AJAX)
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const honey = String(formData.get('_honey') || '').trim();
+      if (honey) return; // Silently drop bot submissions
+
+      const name = String(formData.get('name') || '').trim();
+      const email = String(formData.get('email') || '').trim();
+      const subject = String(formData.get('subject') || '').trim();
+      const message = String(formData.get('message') || '').trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      let hasError = false;
+      if (name.length < 2) {
+        setFieldError('contact-name', 'error-name', 'Por favor ingresa tu nombre completo (mínimo 2 caracteres).');
+        hasError = true;
+      }
+      if (!emailRegex.test(email)) {
+        setFieldError('contact-email', 'error-email', 'Por favor ingresa un correo electrónico corporativo o personal válido.');
+        hasError = true;
+      }
+      if (subject.length < 3) {
+        setFieldError('contact-subject', 'error-subject', 'Por favor indica el asunto, vacante o proyecto.');
+        hasError = true;
+      }
+      if (message.length < 10) {
+        setFieldError('contact-comments', 'error-comments', 'Por favor escribe un mensaje de al menos 10 caracteres.');
+        hasError = true;
+      }
+
+      if (hasError) {
+        feedback.className =
+          'mb-5 rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm font-normal text-red-500';
+        feedback.textContent = 'Por favor revisa los campos marcados antes de enviar.';
+        return;
+      }
+
+      submitBtn.setAttribute('disabled', 'true');
+      submitText.innerHTML = '<i class="icofont icofont-spinner-alt-2 icofont-spin mr-1.5"></i> Enviando correo...';
+      feedback.classList.add('hidden');
+
+      const formspreeUrl = form.getAttribute('data-formspree') || '';
+      const web3formsKey = form.getAttribute('data-web3forms') || '';
+      const emailjsService = form.getAttribute('data-emailjs-service') || '';
+      const emailjsTemplate = form.getAttribute('data-emailjs-template') || '';
+      const emailjsKey = form.getAttribute('data-emailjs-key') || '';
+      const defaultEndpoint = form.getAttribute('data-default-endpoint') || 'https://formsubmit.co/ajax/lionelsh.salazar@gmail.com';
+      const recipient = form.getAttribute('data-recipient') || 'lionelsh.salazar@gmail.com';
+
+      try {
+        let response;
+
+        if (formspreeUrl) {
+          // Option A: Formspree Endpoint
+          response = await fetch(formspreeUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ name, email, subject: `[Portafolio LHachaS] ${subject}`, message }),
+          });
+        } else if (web3formsKey) {
+          // Option B: Web3Forms API
+          response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              access_key: web3formsKey,
+              name,
+              email,
+              subject: `[Portafolio LHachaS] ${subject}`,
+              message,
+            }),
+          });
+        } else if (emailjsService && emailjsTemplate && emailjsKey) {
+          // Option C: EmailJS REST API
+          response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              service_id: emailjsService,
+              template_id: emailjsTemplate,
+              user_id: emailjsKey,
+              template_params: { from_name: name, reply_to: email, subject, message },
+            }),
+          });
+        } else {
+          // Default Out-of-the-Box Real Email Service: FormSubmit AJAX API
+          response = await fetch(defaultEndpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              name,
+              email,
+              _subject: `[Portafolio LHachaS] ${subject}`,
+              subject,
+              message,
+              _captcha: 'false',
+              _template: 'table',
+            }),
+          });
+        }
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok && data.success !== 'false' && data.success !== false) {
+          feedback.className =
+            'mb-5 rounded-2xl border border-emerald-500/45 bg-emerald-500/12 px-4 py-3.5 text-sm font-normal text-emerald-500';
+          feedback.innerHTML = `
+            <div class="flex items-start gap-2.5">
+              <i class="icofont icofont-check-circled text-lg mt-0.5 shrink-0"></i>
+              <div>
+                <strong class="block font-medium">¡Mensaje enviado exitosamente a ${recipient}!</strong>
+                <span class="font-light">Gracias por escribirme, ${name}. Te responderé a la brevedad al correo ${email}.</span>
+              </div>
+            </div>
+          `;
+          form.reset();
+        } else {
+          throw new Error(data.message || 'Requiere confirmación o envío alternativo');
+        }
+      } catch (err) {
+        // Fallback with 1-click direct mailto & WhatsApp so no recruiter message is ever lost
+        const mailtoSubject = encodeURIComponent(`[Portafolio LHachaS] ${subject}`);
+        const mailtoBody = encodeURIComponent(
+          `Hola Leonel,\n\nMi nombre es ${name} (${email}).\n\n${message}\n\nSaludos,\n${name}`
+        );
+        const waText = encodeURIComponent(
+          `Hola Leonel, soy ${name} (${email}). Te escribo desde tu portafolio web sobre: ${subject}.\n\n${message}`
+        );
+
+        feedback.className =
+          'mb-5 rounded-2xl border border-amber-500/50 bg-amber-500/12 px-4 py-3.5 text-sm font-normal text-amber-500';
+        feedback.innerHTML = `
+          <div>
+            <strong class="block font-medium mb-1">Confirmación de envío directo</strong>
+            <p class="text-xs font-light mb-3">
+              Para completar el envío de inmediato hacia <strong>${recipient}</strong>, elige tu canal directo con tu mensaje ya precargado:
+            </p>
+            <div class="flex flex-wrap gap-2.5">
+              <a href="mailto:${recipient}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn-social-pill email !min-h-[36px] !py-1.5 !px-3.5 !text-xs">
+                <i class="icofont icofont-envelope"></i>
+                <span>Enviar por Correo Directo</span>
+              </a>
+              <a href="https://wa.me/51959034122?text=${waText}" target="_blank" rel="noopener noreferrer" class="btn-social-pill whatsapp !min-h-[36px] !py-1.5 !px-3.5 !text-xs">
+                <i class="icofont icofont-whatsapp"></i>
+                <span>Enviar por WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        `;
+      } finally {
+        submitBtn.removeAttribute('disabled');
+        submitText.textContent = 'Enviar mensaje';
+      }
+    });
+  })();
+</script>

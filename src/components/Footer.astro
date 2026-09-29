@@ -1,0 +1,58 @@
+---
+import { profileData, socialLinks } from '../data/portfolio';
+const currentYear = new Date().getFullYear();
+---
+
+<!-- START FOOTER -->
+<footer class="footer-section text-white">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <!-- Left Brand & Copyright -->
+      <div class="text-center md:text-left">
+        <div class="text-lg font-semibold uppercase tracking-wider text-white mb-1">
+          {profileData.brandPrefix}<span class="text-gold">{profileData.brandHighlight}</span>{profileData.brandSuffix}
+          <span class="text-xs font-light text-gray-400 ml-2 normal-case tracking-normal">
+            · {profileData.roleHeadline}
+          </span>
+        </div>
+        <p class="mb-0 detail-copy text-gray-300">
+          {currentYear} © {profileData.name} - Todos los derechos reservados.
+        </p>
+      </div>
+
+      <!-- Right Social Buttons with Strict Official Brand Colors & 45deg Sweep Animation -->
+      <div class="social-list" aria-label="Redes sociales oficiales">
+        {
+          socialLinks.map((social) => (
+            <a
+              class={`social-icon-btn ${social.id}`}
+              href={social.url}
+              target={social.id === 'email' ? undefined : '_blank'}
+              rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
+              aria-label={`${social.name} oficial de ${profileData.name}`}
+              title={`${social.name}: ${social.handle}`}
+              data-cursor-label={social.name}
+            >
+              <i class={`icofont ${social.icon}`} aria-hidden="true"></i>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Original Top-Anchored SVG Wave Divider (Hangs downward from #contact into footer) -->
+  <svg
+    class="wave"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 81.717"
+    xml:space="preserve"
+    aria-hidden="true"
+  >
+    <path
+      d="M1920,0c0,0-109.246,46.107-316.333,67.334C1343.5,94,1137.095,77.238,999.167,67.5C854,57.25,637.662,24.697,541.709,18.834C375.334,8.666,147,11,0,37.875V0H1920L1920,0z"
+    ></path>
+  </svg>
+</footer>
+<!-- END FOOTER -->

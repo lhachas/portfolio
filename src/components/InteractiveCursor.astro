@@ -1,0 +1,183 @@
+---
+/**
+ * InteractiveCursor.astro
+ * Elite dual-layer spring cursor, top scroll progress bar, magnetic button physics,
+ * and radial card spotlight controller.
+ * Automatically disabled on touch devices (pointer: coarse) and prefers-reduced-motion.
+ */
+---
+
+<!-- Top Scroll Progress Bar -->
+<div
+  id="scroll-progress-bar"
+  class="fixed top-0 left-0 z-[10000] h-[3px] w-full origin-left scale-x-0 pointer-events-none"
+  style="background: linear-gradient(90deg, var(--brand-gold) 0%, var(--brand-primary) 100%); box-shadow: 0 0 12px rgba(205, 179, 12, 0.55);"
+  aria-hidden="true"
+></div>
+
+<!-- Custom Dual-Layer Interactive Cursor (Desktop Fine Pointer Only) -->
+<div id="custom-cursor-layer" class="pointer-events-none fixed inset-0 z-[9998] hidden overflow-hidden" aria-hidden="true">
+  <div id="cursor-dot" class="cursor-dot"></div>
+  <div id="cursor-ring" class="cursor-ring">
+    <span id="cursor-label" class="cursor-label"></span>
+  </div>
+</div>
+
+<script>
+  function initInteractiveUX() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+
+    // 1. Top Scroll Progress Bar
+    const progressBar = document.getElementById('scroll-progress-bar');
+    if (progressBar) {
+      let ticking = false;
+      const updateProgress = () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
+        progressBar.style.transform = `scaleX(${progress})`;
+        ticking = false;
+      };
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(updateProgress);
+            ticking = true;
+          }
+        },
+        { passive: true }
+      );
+      updateProgress();
+    }
+
+    if (prefersReducedMotion || !isFinePointer) return;
+
+    // 2. Dual-Layer Custom Cursor with Spring Lerp
+    const cursorLayer = document.getElementById('custom-cursor-layer');
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorRing = document.getElementById('cursor-ring');
+    const cursorLabel = document.getElementById('cursor-label');
+
+    if (cursorLayer && cursorDot && cursorRing) {
+      cursorLayer.classList.remove('hidden');
+
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let ringX = mouseX;
+      let ringY = mouseY;
+      let isVisible = false;
+
+      window.addEventListener(
+        'mousemove',
+        (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+          if (!isVisible) {
+            isVisible = true;
+            ringX = mouseX;
+            ringY = mouseY;
+            cursorLayer.classList.add('is-active');
+          }
+          cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+        },
+        { passive: true }
+      );
+
+      document.addEventListener('mouseleave', () => {
+        isVisible = false;
+        cursorLayer.classList.remove('is-active');
+      });
+
+      window.addEventListener('mousedown', () => {
+        cursorRing.classList.add('is-pressed');
+        cursorDot.classList.add('is-pressed');
+      });
+
+      window.addEventListener('mouseup', () => {
+        cursorRing.classList.remove('is-pressed');
+        cursorDot.classList.remove('is-pressed');
+      });
+
+      const renderLoop = () => {
+        ringX += (mouseX - ringX) * 0.18;
+        ringY += (mouseY - ringY) * 0.18;
+        cursorRing.style.transform = `translate3d(${ringX.toFixed(2)}px, ${ringY.toFixed(2)}px, 0) translate(-50%, -50%)`;
+        requestAnimationFrame(renderLoop);
+      };
+      requestAnimationFrame(renderLoop);
+
+      // Hover state delegation for interactive elements
+      const interactiveSelector = 'a, button, summary, input, textarea, [data-cursor]';
+      document.addEventListener(
+        'mouseover',
+        (e) => {
+          const target = (e.target as HTMLElement | null)?.closest(interactiveSelector) as HTMLElement | null;
+          if (target) {
+            cursorRing.classList.add('is-hovering');
+            cursorDot.classList.add('is-hovering');
+            const customLabel = target.getAttribute('data-cursor-label');
+            if (cursorLabel && customLabel) {
+              cursorLabel.textContent = customLabel;
+              cursorRing.classList.add('has-label');
+            }
+          }
+        },
+        { passive: true }
+      );
+
+      document.addEventListener(
+        'mouseout',
+        (e) => {
+          const target = (e.target as HTMLElement | null)?.closest(interactiveSelector);
+          if (target) {
+            cursorRing.classList.remove('is-hovering', 'has-label');
+            cursorDot.classList.remove('is-hovering');
+            if (cursorLabel) cursorLabel.textContent = '';
+          }
+        },
+        { passive: true }
+      );
+    }
+
+    // 3. Radial Spotlight on Cards (.card-box, .inner-content, .spotlight-card)
+    const spotlightCards = document.querySelectorAll<HTMLElement>(
+      '.card-box, .main-timeline .inner-content, .spotlight-card'
+    );
+    spotlightCards.forEach((card) => {
+      card.addEventListener(
+        'mousemove',
+        (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        },
+        { passive: true }
+      );
+    });
+
+    // 4. Magnetic Pull Micro-Interaction on CTAs & Social Buttons
+    const magneticElements = document.querySelectorAll<HTMLElement>(
+      '.btn-brand, .social-icon-btn, [data-magnetic]'
+    );
+    magneticElements.forEach((el) => {
+      el.addEventListener('mousemove', (e) => {
+        const rect = el.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const deltaX = (e.clientX - centerX) * 0.24;
+        const deltaY = (e.clientY - centerY) * 0.24;
+        el.style.transform = `translate3d(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px, 0)`;
+      });
+
+      el.addEventListener('mouseleave', () => {
+        el.style.transform = '';
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initInteractiveUX);
+</script>
