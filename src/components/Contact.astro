@@ -14,6 +14,7 @@ const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
 const emailJsServiceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID || '';
 const emailJsTemplateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID || '';
 const emailJsPublicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY || '';
+const webhookEndpoint = import.meta.env.PUBLIC_CONTACT_WEBHOOK_URL || '';
 const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
 ---
 
@@ -79,7 +80,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
           })
         }
 
-        <!-- Direct Official 2026 CV Download Card (100% Solid Surface - All 4 Official Formats: ES/EN PDF & DOCX) -->
+        <!-- Direct Official 2026 CV Download Card (100% Solid Surface - PDF Only: ES & EN) -->
         <div class="spotlight-card rounded-2xl p-5 mt-4" style="background-color: var(--th-secondary); border-color: var(--card-border);">
           <span class="label-c block">{cvCard.title}</span>
           <p class="detail-copy mt-1.5">
@@ -151,30 +152,35 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
 
           <form
             id="contact-form"
-            action={formspreeEndpoint || defaultAjaxEndpoint}
+            action={formspreeEndpoint || 'https://api.web3forms.com/submit'}
             method="POST"
             data-formspree={formspreeEndpoint}
             data-web3forms={web3FormsKey}
             data-emailjs-service={emailJsServiceId}
             data-emailjs-template={emailJsTemplateId}
             data-emailjs-key={emailJsPublicKey}
+            data-webhook={webhookEndpoint}
             data-default-endpoint={defaultAjaxEndpoint}
             data-recipient={profile.email}
             data-whatsapp-base={profile.whatsappDirectBase}
             data-i18n={JSON.stringify(form)}
             novalidate
           >
-            <!-- Anti-spam Honeypot & FormSubmit Configuration -->
-            <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" />
+            <!-- Multi-provider Anti-spam Honeypots (Web3Forms, Formspree, FormSubmit) -->
+            <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <input type="checkbox" name="botcheck" class="hidden" style="display:none;" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_template" value="table" />
 
-            <!-- Status Feedback Banner (100% Solid Surface) -->
+            <!-- Status Feedback Banner (100% Solid Theme-Adaptive Surface) -->
             <div
               id="contact-feedback"
               class="mb-5 hidden rounded-2xl border-2 px-4 py-3.5 text-sm font-normal"
+              style="background-color: var(--th-primary); color: var(--txt-primary);"
               role="status"
               aria-live="polite"
+              tabindex="-1"
             ></div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -190,11 +196,13 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                   required
                   minlength="2"
                   maxlength="100"
+                  aria-invalid="false"
+                  aria-describedby="error-name"
                   placeholder={form.fields.namePlaceholder}
                   class="form-control-pill"
                   style="background-color: var(--th-primary);"
                 />
-                <p id="error-name" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
+                <p id="error-name" class="mt-1.5 hidden text-xs text-[#dc2626] font-medium" role="alert"></p>
               </div>
 
               <div>
@@ -209,11 +217,13 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                   required
                   maxlength="120"
                   spellcheck="false"
+                  aria-invalid="false"
+                  aria-describedby="error-email"
                   placeholder={form.fields.emailPlaceholder}
                   class="form-control-pill"
                   style="background-color: var(--th-primary);"
                 />
-                <p id="error-email" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
+                <p id="error-email" class="mt-1.5 hidden text-xs text-[#dc2626] font-medium" role="alert"></p>
               </div>
             </div>
 
@@ -228,11 +238,13 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 required
                 minlength="3"
                 maxlength="160"
+                aria-invalid="false"
+                aria-describedby="error-subject"
                 placeholder={form.fields.subjectPlaceholder}
                 class="form-control-pill"
                 style="background-color: var(--th-primary);"
               />
-              <p id="error-subject" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
+              <p id="error-subject" class="mt-1.5 hidden text-xs text-[#dc2626] font-medium" role="alert"></p>
             </div>
 
             <div class="mt-4">
@@ -246,11 +258,13 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 required
                 minlength="10"
                 maxlength="2500"
+                aria-invalid="false"
+                aria-describedby="error-comments"
                 placeholder={form.fields.messagePlaceholder}
                 class="form-control-pill"
                 style="background-color: var(--th-primary);"
               ></textarea>
-              <p id="error-comments" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
+              <p id="error-comments" class="mt-1.5 hidden text-xs text-[#dc2626] font-medium" role="alert"></p>
             </div>
 
             <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
@@ -306,6 +320,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
     const submitText = document.getElementById('contact-submit-text');
     const subjectInput = document.getElementById('contact-subject');
     const quickTopicBtns = document.querySelectorAll('[data-quick-topic]');
+    const formLoadedAt = Date.now();
 
     if (!form || !feedback || !submitBtn || !submitText) return;
 
@@ -358,22 +373,39 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
       el?.addEventListener('input', () => setFieldError(id, errId, ''));
     });
 
+    const fetchWithTimeout = async (url, options, timeoutMs = 8000) => {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, { ...options, signal: controller.signal });
+      } finally {
+        clearTimeout(timer);
+      }
+    };
+
     // 3. Multi-Provider Real Email Submission with Anti-Automation Rate Limiting & XSS Sanitization
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
       const honey = String(formData.get('_honey') || '').trim();
-      if (honey) return; // Silently drop bot submissions
+      const gotcha = String(formData.get('_gotcha') || '').trim();
+      const botcheck = formData.get('botcheck');
+      if (honey || gotcha || botcheck) return; // Silently drop bot submissions
+
+      const now = Date.now();
+      if (now - formLoadedAt < 800) return; // Block instant automated script posts
 
       // Client-side rate limiting (45s cooldown per session)
-      const now = Date.now();
       try {
         const lastSent = Number(sessionStorage.getItem('portfolio_last_contact_ts') || '0');
         if (lastSent && now - lastSent < 45000) {
           const waitSec = Math.ceil((45000 - (now - lastSent)) / 1000);
           feedback.className =
-            'mb-5 rounded-2xl border-2 border-[#d97706] bg-[#1f1f1f] px-4 py-3 text-sm font-normal text-[#fbbf24]';
+            'mb-5 rounded-2xl border-2 border-[#d97706] px-4 py-3 text-sm font-medium';
+          feedback.style.backgroundColor = 'var(--th-primary)';
+          feedback.style.color = 'var(--txt-primary)';
           feedback.textContent = `${i18n.rateLimitMessagePrefix || ''} ${waitSec} ${i18n.rateLimitMessageSuffix || ''}`.trim();
+          feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           return;
         }
       } catch (err) {}
@@ -384,28 +416,30 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
       const message = String(formData.get('message') || '').trim().slice(0, 2500);
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-      let hasError = false;
+      let firstInvalidId = '';
       if (name.length < 2) {
         setFieldError('contact-name', 'error-name', fieldsI18n.nameError || '');
-        hasError = true;
+        if (!firstInvalidId) firstInvalidId = 'contact-name';
       }
       if (!emailRegex.test(email)) {
         setFieldError('contact-email', 'error-email', fieldsI18n.emailError || '');
-        hasError = true;
+        if (!firstInvalidId) firstInvalidId = 'contact-email';
       }
       if (subject.length < 3) {
         setFieldError('contact-subject', 'error-subject', fieldsI18n.subjectError || '');
-        hasError = true;
+        if (!firstInvalidId) firstInvalidId = 'contact-subject';
       }
       if (message.length < 10) {
         setFieldError('contact-comments', 'error-comments', fieldsI18n.messageError || '');
-        hasError = true;
+        if (!firstInvalidId) firstInvalidId = 'contact-comments';
       }
 
-      if (hasError) {
+      if (firstInvalidId) {
         feedback.className =
-          'mb-5 rounded-2xl border-2 border-[#dc2626] bg-[#1f1f1f] px-4 py-3 text-sm font-normal text-[#f87171]';
+          'mb-5 rounded-2xl border-2 border-[#dc2626] px-4 py-3 text-sm font-medium text-[#dc2626]';
+        feedback.style.backgroundColor = 'var(--th-primary)';
         feedback.textContent = i18n.validationBannerError || '';
+        document.getElementById(firstInvalidId)?.focus();
         return;
       }
 
@@ -418,6 +452,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
       const emailjsService = form.getAttribute('data-emailjs-service') || '';
       const emailjsTemplate = form.getAttribute('data-emailjs-template') || '';
       const emailjsKey = form.getAttribute('data-emailjs-key') || '';
+      const webhookUrl = form.getAttribute('data-webhook') || '';
       const defaultEndpoint = form.getAttribute('data-default-endpoint') || '';
       const recipient = form.getAttribute('data-recipient') || '';
       const whatsappBase = form.getAttribute('data-whatsapp-base') || '';
@@ -425,102 +460,153 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
       const safeName = escapeHtml(name);
       const safeEmail = escapeHtml(email);
       const safeRecipient = escapeHtml(recipient);
+      const formattedSubject = `[Portafolio LHachaS] ${subject}`;
 
       try {
-        let response;
+        let delivered = false;
 
-        if (formspreeUrl && formspreeUrl.startsWith('https://formspree.io/')) {
-          response = await fetch(formspreeUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ name, email, subject: `[Portafolio LHachaS] ${subject}`, message }),
-          });
-        } else if (web3formsKey) {
-          response = await fetch('https://api.web3forms.com/submit', {
+        if (web3formsKey) {
+          const response = await fetchWithTimeout('https://api.web3forms.com/submit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({
               access_key: web3formsKey,
               name,
+              from_name: name,
               email,
-              subject: `[Portafolio LHachaS] ${subject}`,
+              replyto: email,
+              subject: formattedSubject,
               message,
             }),
           });
+          const data = await response.json().catch(() => ({}));
+          delivered = Boolean(response.ok && data.success !== false);
+        } else if (formspreeUrl && formspreeUrl.startsWith('https://formspree.io/')) {
+          const response = await fetchWithTimeout(formspreeUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              name,
+              email,
+              _replyto: email,
+              subject: formattedSubject,
+              message,
+            }),
+          });
+          const data = await response.json().catch(() => ({}));
+          delivered = Boolean(response.ok && !data.error);
         } else if (emailjsService && emailjsTemplate && emailjsKey) {
-          response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          const response = await fetchWithTimeout('https://api.emailjs.com/api/v1.0/email/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               service_id: emailjsService,
               template_id: emailjsTemplate,
               user_id: emailjsKey,
-              template_params: { from_name: name, reply_to: email, subject, message },
+              template_params: {
+                from_name: name,
+                reply_to: email,
+                to_email: recipient,
+                subject: formattedSubject,
+                message,
+              },
             }),
           });
-        } else {
-          response = await fetch(defaultEndpoint, {
+          delivered = Boolean(response.ok);
+        } else if (webhookUrl && webhookUrl.startsWith('https://')) {
+          const response = await fetchWithTimeout(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              name,
+              email,
+              recipient,
+              subject: formattedSubject,
+              message,
+              sourceUrl: window.location.href,
+            }),
+          });
+          delivered = Boolean(response.ok);
+        } else if (defaultEndpoint) {
+          const response = await fetchWithTimeout(defaultEndpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({
               name,
               email,
-              _subject: `[Portafolio LHachaS] ${subject}`,
+              _replyto: email,
+              _subject: formattedSubject,
               subject,
               message,
+              _url: window.location.href,
               _captcha: 'false',
               _template: 'table',
             }),
           });
+          const data = await response.json().catch(() => ({}));
+          delivered = Boolean(
+            response.ok &&
+              data.success !== 'false' &&
+              data.success !== false &&
+              !String(data.message || '').toLowerCase().includes('activation')
+          );
         }
 
-        const data = await response.json().catch(() => ({}));
-
-        if (response.ok && data.success !== 'false' && data.success !== false) {
+        if (delivered) {
           try {
             sessionStorage.setItem('portfolio_last_contact_ts', String(Date.now()));
           } catch (err) {}
 
           feedback.className =
-            'mb-5 rounded-2xl border-2 border-[#059669] bg-[#1a1a1a] px-4 py-3.5 text-sm font-normal text-[#34d399]';
+            'mb-5 rounded-2xl border-2 border-[#059669] px-4 py-3.5 text-sm font-normal';
+          feedback.style.backgroundColor = 'var(--th-primary)';
+          feedback.style.color = 'var(--txt-primary)';
           feedback.innerHTML = `
             <div class="flex items-start gap-2.5">
-              <i class="icofont icofont-check-circled text-lg mt-0.5 shrink-0"></i>
+              <i class="icofont icofont-check-circled text-lg mt-0.5 shrink-0 text-[#059669]" aria-hidden="true"></i>
               <div>
-                <strong class="block font-medium text-white">${escapeHtml(i18n.successTitlePrefix)} ${safeRecipient}!</strong>
-                <span class="font-light text-[#d4d4d4]">${escapeHtml(i18n.successBodyPrefix)} ${safeName}. ${escapeHtml(i18n.successBodyMiddle)} ${safeEmail}.</span>
+                <strong class="block font-medium" style="color: var(--txt-primary);">${escapeHtml(i18n.successTitlePrefix)} ${safeRecipient}!</strong>
+                <span class="detail-copy">${escapeHtml(i18n.successBodyPrefix)} ${safeName}. ${escapeHtml(i18n.successBodyMiddle)} ${safeEmail}.</span>
               </div>
             </div>
           `;
           form.reset();
+          feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         } else {
-          throw new Error('Fallback channel required');
+          throw new Error('Direct delivery channel activated');
         }
       } catch (err) {
-        const mailtoSubject = encodeURIComponent(`[Portafolio LHachaS] ${subject}`);
+        const mailtoSubject = encodeURIComponent(formattedSubject);
         const mailtoBody = encodeURIComponent(`${name} (${email})\n\n${message}`);
+        const mailtoHref = `mailto:${recipient}?subject=${mailtoSubject}&body=${mailtoBody}`;
         const waText = encodeURIComponent(`${name} (${email}) - ${subject}:\n\n${message}`);
 
         feedback.className =
-          'mb-5 rounded-2xl border-2 border-gold bg-[#1a1a1a] px-4 py-3.5 text-sm font-normal text-white';
+          'mb-5 rounded-2xl border-2 border-gold px-4 py-3.5 text-sm font-normal';
+        feedback.style.backgroundColor = 'var(--th-primary)';
+        feedback.style.color = 'var(--txt-primary)';
         feedback.innerHTML = `
           <div>
             <strong class="block font-medium text-gold mb-1">${escapeHtml(i18n.fallbackTitle)}</strong>
-            <p class="text-xs font-light text-[#d4d4d4] mb-3">
+            <p class="detail-copy mb-3">
               ${escapeHtml(i18n.fallbackDescriptionPrefix)} <strong>${safeRecipient}</strong>, ${escapeHtml(i18n.fallbackDescriptionSuffix)}
             </p>
             <div class="flex flex-wrap gap-2.5">
-              <a href="mailto:${safeRecipient}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn-social-pill email !min-h-[36px] !py-1.5 !px-3.5 !text-xs">
-                <i class="icofont icofont-envelope"></i>
+              <a id="direct-mailto-trigger" href="mailto:${safeRecipient}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn-social-pill email !min-h-[36px] !py-1.5 !px-3.5 !text-xs">
+                <i class="icofont icofont-envelope" aria-hidden="true"></i>
                 <span>${escapeHtml(i18n.fallbackEmailButtonLabel)}</span>
               </a>
               <a href="${escapeHtml(whatsappBase)}?text=${waText}" target="_blank" rel="noopener noreferrer" class="btn-social-pill whatsapp !min-h-[36px] !py-1.5 !px-3.5 !text-xs">
-                <i class="icofont icofont-whatsapp"></i>
+                <i class="icofont icofont-whatsapp" aria-hidden="true"></i>
                 <span>${escapeHtml(i18n.fallbackWhatsappButtonLabel)}</span>
               </a>
             </div>
           </div>
         `;
+        feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        try {
+          window.location.href = mailtoHref;
+        } catch (openErr) {}
       } finally {
         submitBtn.removeAttribute('disabled');
         submitText.textContent = i18n.submitLabel || '';

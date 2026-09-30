@@ -12,15 +12,15 @@ const solidHexColor = z
 const officialCvPath = z
   .string()
   .regex(
-    /^\/assets\/cv\/CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN)\.(pdf|docx)$/,
-    'Solo se permiten los 4 CV oficiales válidos: CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN).(pdf|docx).',
+    /^\/assets\/cv\/CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN)\.pdf$/,
+    'Solo se permiten públicamente los 2 CV oficiales en formato PDF: CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN).pdf. Los archivos .docx deben permanecer privados en src/assets/cv-source/.',
   );
 
 const officialCvFilename = z
   .string()
   .regex(
-    /^CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN)\.(pdf|docx)$/,
-    'El nombre de archivo debe corresponder exclusivamente a uno de los 4 CV oficiales válidos.',
+    /^CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN)\.pdf$/,
+    'El nombre de archivo público debe corresponder exclusivamente a uno de los 2 CV oficiales en PDF.',
   );
 
 export const portfolioSchema = z.object({
@@ -111,7 +111,7 @@ export const portfolioSchema = z.object({
           icon: z.string().min(1),
         }),
       )
-      .length(4),
+      .length(2),
     languages: z
       .array(
         z.object({

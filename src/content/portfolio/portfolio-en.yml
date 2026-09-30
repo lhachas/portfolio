@@ -94,18 +94,6 @@ profile:
       label: "CV Español (PDF)"
       badge: "ES · PDF"
       icon: "icofont-file-pdf"
-    - id: "cv-en-docx"
-      url: "/assets/cv/CV-Leonel-Hacha-Salazar-Backend-2026-EN.docx"
-      filename: "CV-Leonel-Hacha-Salazar-Backend-2026-EN.docx"
-      label: "CV English (DOCX)"
-      badge: "EN · DOCX"
-      icon: "icofont-file-word"
-    - id: "cv-es-docx"
-      url: "/assets/cv/CV-Leonel-Hacha-Salazar-Backend-2026-ES.docx"
-      filename: "CV-Leonel-Hacha-Salazar-Backend-2026-ES.docx"
-      label: "CV Español (DOCX)"
-      badge: "ES · DOCX"
-      icon: "icofont-file-word"
   languages:
     - name: "Spanish"
       level: "Native"
@@ -934,7 +922,7 @@ contactSection:
       external: false
   cvCard:
     title: "Download Curriculum Vitae (English & Spanish):"
-    description: "Available for direct download in PDF format and editable Word (DOCX) format."
+    description: "Available for direct download in PDF format in English and Spanish."
   form:
     titlePrefix: "Send a"
     titleHighlight: "Direct Message"

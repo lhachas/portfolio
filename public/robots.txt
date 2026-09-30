@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /*.docx$
+Disallow: /*.doc$
 
 Sitemap: https://lhachas.github.io/portfolio/sitemap.xml

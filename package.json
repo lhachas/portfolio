@@ -7,8 +7,9 @@
     "dev": "astro dev",
     "start": "astro dev",
     "sync": "astro sync",
-    "validate:content": "astro sync && tsc --noEmit",
-    "build": "astro sync && astro build",
+    "verify:security": "node scripts/verify-build-security.mjs",
+    "validate:content": "astro sync && tsc --noEmit && node scripts/verify-build-security.mjs",
+    "build": "astro sync && astro build && node scripts/verify-build-security.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
