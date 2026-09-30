@@ -1,12 +1,14 @@
 {
   "name": "portfolio-lhachas",
   "type": "module",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "sync": "astro sync",
+    "validate:content": "astro sync && tsc --noEmit",
+    "build": "astro sync && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

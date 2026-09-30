@@ -1,5 +1,8 @@
 ---
-import { experiencesData } from '../data/portfolio';
+import { getPortfolioContent } from '../data/portfolio';
+
+const { experiencesSection } = await getPortfolioContent();
+const experiencesData = experiencesSection.items;
 ---
 
 <!-- START EXPERIENCES -->
@@ -7,12 +10,12 @@ import { experiencesData } from '../data/portfolio';
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
     <div class="text-center reveal">
-      <i class="icofont icofont-architecture-alt title-icon" aria-hidden="true"></i>
+      <i class={`icofont ${experiencesSection.sectionIcon} title-icon`} aria-hidden="true"></i>
       <h2 id="experiences-heading" class="title">
-        Mis <span class="font-medium">Experiencias</span>
+        {experiencesSection.titlePrefix} <span class="font-medium">{experiencesSection.titleHighlight}</span>
       </h2>
       <p class="txt-primary mt-3 title-subtitle mx-auto">
-        Más de 9 años diseñando, integrando y evolucionando servicios backend transaccionales en banca digital, plataformas regionales de logística DaaS, aplicaciones móviles serverless y ecosistemas Full Stack.
+        {experiencesSection.subtitle}
       </p>
     </div>
 
@@ -22,11 +25,13 @@ import { experiencesData } from '../data/portfolio';
         type="button"
         id="toggle-all-achievements"
         data-expanded="true"
+        data-compact-label={experiencesSection.toggleCompactLabel}
+        data-detailed-label={experiencesSection.toggleDetailedLabel}
         class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer hover:border-[#cdb30c]"
         style="background-color: var(--th-secondary); border: 2px solid var(--card-border); color: var(--heading-color);"
       >
         <i class="icofont icofont-layers text-gold text-sm" aria-hidden="true"></i>
-        <span id="toggle-all-label">Modo compacto (ocultar detalle de logros)</span>
+        <span id="toggle-all-label">{experiencesSection.toggleCompactLabel}</span>
       </button>
     </div>
 
@@ -169,9 +174,9 @@ import { experiencesData } from '../data/portfolio';
       });
 
       if (toggleLabel) {
-        toggleLabel.textContent = nextState
-          ? 'Modo compacto (ocultar detalle de logros)'
-          : 'Modo detallado (mostrar todos los logros)';
+        const compactLabel = toggleBtn.getAttribute('data-compact-label') || '';
+        const detailedLabel = toggleBtn.getAttribute('data-detailed-label') || '';
+        toggleLabel.textContent = nextState ? compactLabel : detailedLabel;
       }
     });
   })();

@@ -1,5 +1,8 @@
 ---
-import { servicesData } from '../data/portfolio';
+import { getPortfolioContent } from '../data/portfolio';
+
+const { servicesSection } = await getPortfolioContent();
+const servicesData = servicesSection.items;
 ---
 
 <!-- START SERVICES -->
@@ -7,12 +10,12 @@ import { servicesData } from '../data/portfolio';
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
-      <i class="icofont icofont-responsive title-icon" aria-hidden="true"></i>
+      <i class={`icofont ${servicesSection.sectionIcon} title-icon`} aria-hidden="true"></i>
       <h2 id="services-heading" class="title">
-        Mis <span class="font-medium">Servicios</span>
+        {servicesSection.titlePrefix} <span class="font-medium">{servicesSection.titleHighlight}</span>
       </h2>
       <p class="txt-primary mt-3 title-subtitle mx-auto">
-        Construyo plataformas backend resilientes, arquitecturas cloud-native orientadas a eventos y aplicaciones full-stack diseñadas para soportar alta concurrencia y estándares bancarios.
+        {servicesSection.subtitle}
       </p>
     </div>
 
@@ -54,7 +57,7 @@ import { servicesData } from '../data/portfolio';
 
             <div class="mt-6 pt-4 border-t-2 text-left" style="border-color: var(--card-border);">
               <span class="label-c block mb-2.5" style={`color: ${service.accentColor};`}>
-                Entregables Clave:
+                {servicesSection.deliverablesHeading}
               </span>
               <ul class="space-y-2">
                 {

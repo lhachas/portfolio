@@ -1,9 +1,12 @@
 ---
-import { profileData } from '../data/portfolio';
+import { getPortfolioContent, withBase } from '../data/portfolio';
+
+const { hero, profile, socialLinks } = await getPortfolioContent();
+const heroSocials = socialLinks.filter((s) => s.showInHero);
 ---
 
 <!-- START HOME -->
-<section class="section bg-home" id="home" aria-label="Presentación principal">
+<section class="section bg-home" id="home" aria-label={hero.sectionAriaLabel}>
   <!-- Interactive Particle Constellation Canvas (100% Solid Geometric Network) -->
   <canvas
     id="hero-particles"
@@ -16,19 +19,19 @@ import { profileData } from '../data/portfolio';
       <!-- Live Recruiter Availability Status Pill (100% Solid Minimalist Badge) -->
       <div class="mb-4 inline-flex justify-center" data-hero-anim>
         <a
-          href="#contact"
+          href={hero.secondaryCta.href}
           class="hero-status-pill"
-          data-cursor-label="Disponible"
+          data-cursor-label={hero.availabilityCursorLabel}
         >
           <span class="status-pulse-dot" aria-hidden="true"></span>
-          <span>{profileData.availabilityBadge}</span>
+          <span>{hero.availabilityBadge}</span>
           <i class="icofont icofont-verification-check text-gold text-sm" aria-hidden="true"></i>
         </a>
       </div>
 
       <!-- Greeting & Role Eyebrow -->
       <p class="hero-greeting text-[#cbd5e1] mb-1.5" data-hero-anim>
-        {profileData.heroGreeting} · <span class="text-gold font-medium">Cusco, Perú</span>
+        {hero.greeting} · <span class="text-gold font-medium">{profile.locationShort}</span>
       </p>
 
       <!-- Single-Line Typed Headline (Preserves Soy + Victor Mono Italic Gold Typed Text without 2-line jump) -->
@@ -36,14 +39,14 @@ import { profileData } from '../data/portfolio';
         class="home-title text-gold mb-0 flex flex-wrap sm:flex-nowrap items-center justify-center gap-x-3 pb-1 min-h-[3.2rem] sm:min-h-[3.6rem]"
         data-hero-anim
       >
-        <span class="text-white font-light shrink-0">Soy</span>
+        <span class="text-white font-light shrink-0">{hero.titlePrefix}</span>
         <span class="inline-flex items-center pb-0.5 sm:whitespace-nowrap">
           <em
             id="typed-output"
             class="typing italic font-semibold text-gold"
-            data-strings={JSON.stringify(profileData.typedStrings)}
+            data-strings={JSON.stringify(hero.typedStrings)}
           >
-            {profileData.typedStrings[0]}
+            {hero.typedStrings[0]}
           </em>
           <span class="typed-cursor" aria-hidden="true">|</span>
         </span>
@@ -51,17 +54,17 @@ import { profileData } from '../data/portfolio';
 
       <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid crisp text) -->
       <p class="title-subtitle mt-3 mb-0 mx-auto text-[#e2e8f0]" data-hero-anim>
-        {profileData.heroSubtitle}
+        {hero.subtitle}
       </p>
 
       <!-- Core Architecture Stack Strip (100% Solid Pills with Official Technology Brand Icon Badges) -->
       <div
         class="mt-5 flex flex-wrap items-center justify-center gap-2.5"
-        aria-label="Pilares tecnológicos principales"
+        aria-label={hero.architecturePillsAriaLabel}
         data-hero-anim
       >
         {
-          profileData.heroArchitecturePills.map((arch) => (
+          hero.architecturePills.map((arch) => (
             <span class="hero-arch-pill" style={`--arch-brand: ${arch.brandColor};`}>
               <span class="hero-arch-icon-badge" aria-hidden="true">
                 <i class={arch.icon}></i>
@@ -74,69 +77,58 @@ import { profileData } from '../data/portfolio';
 
       <!-- Unified Product-Designer Action & Official Social Dock (100% Solid Colors - Zero Glassmorphism) -->
       <div class="mt-7 flex flex-wrap items-center justify-center gap-3" data-hero-anim>
-        <a href="#about" class="btn-brand btn-gold" data-cursor-label="Explorar">
-          <span>Sobre Mí</span>
-        </a>
-        <a href="#contact" class="btn-brand btn-theme-primary" data-cursor-label="Hablemos">
-          <span>Contáctame</span>
+        <a
+          href={hero.primaryCta.href}
+          class="btn-brand btn-gold"
+          data-cursor-label={hero.primaryCta.cursorLabel}
+        >
+          <span>{hero.primaryCta.label}</span>
         </a>
         <a
-          href={profileData.cvBackendUrl}
+          href={hero.secondaryCta.href}
+          class="btn-brand btn-theme-primary"
+          data-cursor-label={hero.secondaryCta.cursorLabel}
+        >
+          <span>{hero.secondaryCta.label}</span>
+        </a>
+        <a
+          href={withBase(profile.cvPrimary.url)}
           target="_blank"
           rel="noopener noreferrer"
-          download="CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
+          download={profile.cvPrimary.filename}
           data-magnetic
-          data-cursor-label="CV 2026"
+          data-cursor-label={hero.cvCtaCursorLabel}
           class="btn-outline-gold"
         >
           <i class="icofont icofont-file-pdf text-gold text-base" aria-hidden="true"></i>
-          <span>Descargar CV 2026</span>
+          <span>{profile.cvPrimary.labelHero}</span>
         </a>
 
         <span class="hidden lg:inline-block h-6 w-[2px] bg-[#2e3545] mx-1" aria-hidden="true"></span>
 
-        <a
-          href={profileData.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-magnetic
-          data-cursor-label="LinkedIn"
-          class="btn-social-pill linkedin"
-          aria-label="Perfil oficial de LinkedIn de Leonel Hacha Salazar"
-        >
-          <i class="icofont icofont-linkedin" aria-hidden="true"></i>
-          <span>LinkedIn</span>
-        </a>
-        <a
-          href={profileData.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-magnetic
-          data-cursor-label="GitHub"
-          class="btn-social-pill github"
-          aria-label="Perfil oficial de GitHub de Leonel Hacha Salazar"
-        >
-          <i class="icofont icofont-github" aria-hidden="true"></i>
-          <span>GitHub</span>
-        </a>
-        <a
-          href={profileData.whatsapp}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-magnetic
-          data-cursor-label="WhatsApp"
-          class="btn-social-pill whatsapp"
-          aria-label="Contacto directo por WhatsApp de Leonel Hacha Salazar"
-        >
-          <i class="icofont icofont-whatsapp" aria-hidden="true"></i>
-          <span>WhatsApp</span>
-        </a>
+        {
+          heroSocials.map((social) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-magnetic
+              data-cursor-label={social.name}
+              class={`btn-social-pill ${social.id}`}
+              aria-label={`${social.name} - ${profile.name}`}
+              style={`background-color: ${social.brandColor}; border-color: ${social.brandColor};`}
+            >
+              <i class={`icofont ${social.icon}`} aria-hidden="true"></i>
+              <span>{social.name}</span>
+            </a>
+          ))
+        }
       </div>
 
       <!-- Recruiter Impact Metrics Strip (100% Solid Non-Monotonous Architectural Cards) -->
       <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
         {
-          profileData.heroMetrics.map((metric) => {
+          hero.metrics.map((metric) => {
             const iconTextColor = metric.accentColor === '#cdb30c' ? '#14171f' : '#ffffff';
             return (
               <div
@@ -172,14 +164,14 @@ import { profileData } from '../data/portfolio';
       <!-- Animated Scroll-Down Indicator -->
       <div class="mt-6 flex justify-center" data-hero-anim>
         <a
-          href="#about"
+          href={hero.scrollIndicator.href}
           class="hero-scroll-indicator"
-          aria-label="Desplazarse a la sección Sobre Mí"
+          aria-label={hero.scrollIndicator.ariaLabel}
         >
           <span class="scroll-mouse" aria-hidden="true">
             <span class="scroll-wheel"></span>
           </span>
-          <span>Explorar Trayectoria</span>
+          <span>{hero.scrollIndicator.label}</span>
         </a>
       </div>
     </div>
@@ -234,36 +226,38 @@ import { profileData } from '../data/portfolio';
     // 2. Lightweight Single-Line Typewriter Effect
     if (typedEl && !prefersReducedMotion) {
       const raw = typedEl.getAttribute('data-strings');
-      const strings: string[] = raw ? JSON.parse(raw) : ['Leonel Hacha Salazar'];
-      let strIndex = 0;
-      let charIndex = strings[0].length;
-      let isDeleting = true;
+      const strings: string[] = raw ? JSON.parse(raw) : [];
+      if (strings.length > 0) {
+        let strIndex = 0;
+        let charIndex = strings[0].length;
+        let isDeleting = true;
 
-      const tick = () => {
-        const currentFull = strings[strIndex];
-        if (isDeleting) {
-          charIndex--;
-          typedEl.textContent = currentFull.substring(0, charIndex);
-          if (charIndex === 0) {
-            isDeleting = false;
-            strIndex = (strIndex + 1) % strings.length;
-            setTimeout(tick, 260);
-            return;
+        const tick = () => {
+          const currentFull = strings[strIndex];
+          if (isDeleting) {
+            charIndex--;
+            typedEl.textContent = currentFull.substring(0, charIndex);
+            if (charIndex === 0) {
+              isDeleting = false;
+              strIndex = (strIndex + 1) % strings.length;
+              setTimeout(tick, 260);
+              return;
+            }
+            setTimeout(tick, 38);
+          } else {
+            charIndex++;
+            typedEl.textContent = currentFull.substring(0, charIndex);
+            if (charIndex === currentFull.length) {
+              isDeleting = true;
+              setTimeout(tick, 2200);
+              return;
+            }
+            setTimeout(tick, 76);
           }
-          setTimeout(tick, 38);
-        } else {
-          charIndex++;
-          typedEl.textContent = currentFull.substring(0, charIndex);
-          if (charIndex === currentFull.length) {
-            isDeleting = true;
-            setTimeout(tick, 2200);
-            return;
-          }
-          setTimeout(tick, 76);
-        }
-      };
+        };
 
-      setTimeout(tick, 1900);
+        setTimeout(tick, 1900);
+      }
     }
 
     // 3. Solid 3D Perspective Tilt on Metric Cards

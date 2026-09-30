@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { profileData, withBase } from '../data/portfolio';
+import { getPortfolioContent, withBase } from '../data/portfolio';
 import InteractiveCursor from '../components/InteractiveCursor.astro';
 
 interface Props {
@@ -8,12 +8,15 @@ interface Props {
   description?: string;
 }
 
-const canonicalUrl = 'https://lhachas.github.io/portfolio/';
-const ogImageUrl = 'https://lhachas.github.io/portfolio/assets/images/iam-4.jpg';
+const content = await getPortfolioContent();
+const { seo, profile, about } = content;
+
+const canonicalUrl = seo.siteUrl;
+const ogImageUrl = new URL(seo.ogImage.replace(/^\//, ''), canonicalUrl).toString();
 
 const {
-  title = `${profileData.name} | Senior Backend & Full-Stack Developer (Node.js, NestJS, Java, AWS)`,
-  description = profileData.heroSubtitle,
+  title = seo.title,
+  description = seo.description,
 } = Astro.props;
 
 const jsonLd = {
@@ -25,8 +28,8 @@ const jsonLd = {
       url: canonicalUrl,
       name: title,
       description,
-      inLanguage: 'es-PE',
-      dateModified: '2026-09-29',
+      inLanguage: seo.language,
+      dateModified: seo.dateModified,
       mainEntity: {
         '@id': `${canonicalUrl}#person`,
       },
@@ -34,49 +37,43 @@ const jsonLd = {
     {
       '@type': 'Person',
       '@id': `${canonicalUrl}#person`,
-      name: profileData.name,
-      givenName: 'Leonel',
-      familyName: 'Hacha Salazar',
-      jobTitle: 'Senior Backend Developer & Full Stack Developer',
-      description: profileData.aboutLead,
+      name: profile.name,
+      givenName: seo.schemaOrg.givenName,
+      familyName: seo.schemaOrg.familyName,
+      jobTitle: seo.schemaOrg.jobTitle,
+      description: about.lead,
       url: canonicalUrl,
       image: ogImageUrl,
-      email: `mailto:${profileData.email}`,
-      telephone: profileData.phone,
+      email: `mailto:${profile.email}`,
+      telephone: profile.phone,
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Espinar, Cusco',
-        addressCountry: 'PE',
+        addressLocality: seo.schemaOrg.addressLocality,
+        addressCountry: seo.schemaOrg.addressCountry,
       },
       worksFor: {
         '@type': 'Organization',
-        name: 'Baufest',
+        name: seo.schemaOrg.worksFor,
       },
-      alumniOf: [
-        {
-          '@type': 'CollegeOrUniversity',
-          name: 'Universidad Nacional de San Antonio Abad del Cusco (UNSAAC)',
-        },
-        {
-          '@type': 'EducationalOrganization',
-          name: 'SENATI',
-        },
-      ],
-      knowsLanguage: ['es', 'qu', 'en'],
+      alumniOf: seo.schemaOrg.alumniOf.map((inst) => ({
+        '@type': inst.type,
+        name: inst.name,
+      })),
+      knowsLanguage: seo.schemaOrg.knowsLanguageCodes,
       sameAs: [
-        profileData.linkedin,
-        profileData.github,
-        profileData.facebook,
-        profileData.instagram,
+        profile.linkedin,
+        profile.github,
+        profile.facebook,
+        profile.instagram,
       ],
-      knowsAbout: profileData.coreStackPills,
+      knowsAbout: about.coreStackPills,
     },
     {
       '@type': 'WebSite',
       '@id': `${canonicalUrl}#website`,
       url: canonicalUrl,
-      name: `${profileData.name} · Portafolio Profesional`,
-      inLanguage: 'es-PE',
+      name: seo.siteName,
+      inLanguage: seo.language,
       publisher: {
         '@id': `${canonicalUrl}#person`,
       },
@@ -92,21 +89,18 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content={profileData.name} />
-    <meta
-      name="keywords"
-      content="Leonel Hacha Salazar, Senior Backend Developer, Full Stack Developer, Node.js, TypeScript, NestJS, Java, Spring Boot, WebFlux, AWS, Serverless, Microservices, Angular, React, Cusco, Perú"
-    />
+    <meta name="author" content={profile.name} />
+    <meta name="keywords" content={seo.keywords} />
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
-    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="theme-color" content={seo.themeColor} />
 
     <!-- Security Meta Headers (CSP, Referrer-Policy, X-Content-Type-Options) -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self' https://formsubmit.co https://formspree.io https://api.web3forms.com https://api.emailjs.com; base-uri 'self'; form-action 'self' https://formsubmit.co https://formspree.io; object-src 'none'; upgrade-insecure-requests;"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self' https://formsubmit.co https://formspree.io https://api.web3forms.com https://api.emailjs.com https://cdn.jsdelivr.net; base-uri 'self'; form-action 'self' https://formsubmit.co https://formspree.io; object-src 'none'; upgrade-insecure-requests;"
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
@@ -118,12 +112,12 @@ const jsonLd = {
     <!-- Open Graph / LinkedIn & Recruiter Preview -->
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:site_name" content="Leonel Hacha Salazar · Portafolio Senior Backend & Full-Stack" />
-    <meta property="og:locale" content="es_PE" />
+    <meta property="og:site_name" content={seo.siteName} />
+    <meta property="og:locale" content={seo.locale} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
-    <meta property="og:image:alt" content="Leonel Hacha Salazar - Senior Backend & Full-Stack Developer" />
+    <meta property="og:image:alt" content={seo.ogImageAlt} />
     <meta property="og:image:width" content="600" />
     <meta property="og:image:height" content="600" />
 
@@ -132,25 +126,20 @@ const jsonLd = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content="Leonel Hacha Salazar - Senior Backend & Full-Stack Developer" />
+    <meta name="twitter:image:alt" content={seo.ogImageAlt} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />
+    <link rel="icon" type="image/x-icon" href={withBase(seo.favicon)} />
 
     <!-- Preload Critical Above-the-Fold Assets -->
-    <link rel="preload" as="image" href={withBase('/assets/images/iam-4.jpg')} />
+    <link rel="preload" as="image" href={withBase(profile.profilePhoto)} />
 
-    <!-- Original Typography (Oswald + Victor Mono for Hero Typewriter) -->
+    <!-- Unified Typography via Google Fonts (Oswald + Victor Mono, zero source-map CSP overhead) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Victor+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap"
       rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css"
     />
 
     <!-- Original Icon Fonts (Icofont & Technology Icons) -->
@@ -188,7 +177,7 @@ const jsonLd = {
       href="#home"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10001] focus:rounded-full focus:bg-[#cdb30c] focus:px-5 focus:py-2.5 focus:font-medium focus:text-[#1a1a1a]"
     >
-      Saltar al contenido principal
+      {seo.skipToContentLabel}
     </a>
 
     <InteractiveCursor />

@@ -1,23 +1,25 @@
 ---
-import { colorThemes } from '../data/portfolio';
+import { getPortfolioContent } from '../data/portfolio';
+
+const { styleSwitcher } = await getPortfolioContent();
 ---
 
 <!-- START SWITCHER -->
-<div id="style-switcher" aria-label="Selector de color de tema">
+<div id="style-switcher" aria-label={styleSwitcher.ariaLabel}>
   <div>
     <h3 class="text-white text-center text-sm font-bold uppercase tracking-wider mb-2">
-      Selecciona tu color
+      {styleSwitcher.title}
     </h3>
     <ul class="grid grid-cols-3 gap-2.5 p-2 justify-items-center" role="list">
       {
-        colorThemes.map((theme) => (
+        styleSwitcher.themes.map((theme) => (
           <li>
             <button
               type="button"
               data-accent-color={theme.hex}
               data-accent-hover={theme.hoverHex}
               title={theme.name}
-              aria-label={`Cambiar color de acento a ${theme.name}`}
+              aria-label={theme.name}
               class="h-9 w-9 rounded-full border-2 border-[#4a4a4a] transition-transform hover:scale-110 hover:border-white cursor-pointer"
               style={`background-color: ${theme.hex};`}
             />
@@ -31,7 +33,7 @@ import { colorThemes } from '../data/portfolio';
       type="button"
       id="style-switcher-toggle"
       class="settings-btn"
-      aria-label="Alternar selector de colores"
+      aria-label={styleSwitcher.toggleAriaLabel}
       aria-expanded="false"
     >
       <i class="icofont icofont-color-bucket text-2xl ti-spin-slow" aria-hidden="true"></i>
@@ -45,7 +47,7 @@ import { colorThemes } from '../data/portfolio';
   href="#home"
   id="back-to-top"
   class="back-to-top-btn"
-  aria-label="Volver arriba"
+  aria-label={styleSwitcher.backToTopAriaLabel}
 >
   <i class="icofont icofont-caret-up text-lg" aria-hidden="true"></i>
 </a>

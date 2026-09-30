@@ -1,5 +1,9 @@
 ---
-import { profileData, educationData, coursesData, withBase } from '../data/portfolio';
+import { getPortfolioContent, withBase } from '../data/portfolio';
+
+const { about, profile, socialLinks } = await getPortfolioContent();
+const aboutSocials = socialLinks.filter((s) => s.showInAbout);
+const { trainingShowcase } = about;
 ---
 
 <!-- START ABOUT -->
@@ -7,12 +11,12 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
-      <i class="icofont icofont-man-in-glasses title-icon" aria-hidden="true"></i>
+      <i class={`icofont ${about.sectionIcon} title-icon`} aria-hidden="true"></i>
       <h2 id="about-heading" class="title">
-        Sobre <span class="font-medium">Mí</span>
+        {about.titlePrefix} <span class="font-medium">{about.titleHighlight}</span>
       </h2>
       <p class="txt-primary mt-3 title-subtitle mx-auto">
-        {profileData.aboutLead}
+        {about.lead}
       </p>
     </div>
 
@@ -24,8 +28,8 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
           <div class="iam-orbit-ring" aria-hidden="true"></div>
           <img
             class="iam-photo"
-            src={withBase('/assets/images/iam-4.jpg')}
-            alt="Fotografía profesional de Leonel Hacha Salazar - Senior Backend & Full-Stack Developer"
+            src={withBase(profile.profilePhoto)}
+            alt={profile.profilePhotoAlt}
             width="345"
             height="345"
             loading="eager"
@@ -39,7 +43,7 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
           >
             <i class="icofont icofont-code-alt text-gold text-base" aria-hidden="true"></i>
             <span class="text-xs font-medium uppercase tracking-wider">
-              {profileData.yearsExperience} Años Exp.
+              {profile.yearsExperience} {profile.yearsExperienceBadgeSuffix}
             </span>
           </div>
         </div>
@@ -48,10 +52,10 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
         <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
           <span class="tech-pill" style="--card-accent: #0e3d65;">
             <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i>
-            <span>{profileData.location}</span>
+            <span>{profile.location}</span>
           </span>
           {
-            profileData.languages.map((lang) => (
+            profile.languages.map((lang) => (
               <span class="tech-pill" style="--card-accent: #0d9488;">
                 <strong>{lang.name}:</strong> <span>{lang.level}</span>
               </span>
@@ -64,11 +68,11 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
       <div class="lg:col-span-7 reveal">
         <div class="features-desc">
           <h3 class="subsection-title">
-            {profileData.aboutRoleTitle} <span class="font-medium">{profileData.aboutRoleHighlight}</span>
+            {about.roleTitle} <span class="font-medium">{about.roleHighlight}</span>
           </h3>
 
           {
-            profileData.aboutParagraphs.map((paragraph) => (
+            about.paragraphs.map((paragraph) => (
               <p class="body-copy txt-primary mt-4 text-justify sm:text-left">
                 {paragraph}
               </p>
@@ -77,10 +81,10 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
 
           <!-- Core Stack Pills -->
           <div class="mt-5">
-            <span class="label-c block mb-2.5">Especialización Principal:</span>
+            <span class="label-c block mb-2.5">{about.coreStackLabel}</span>
             <div class="flex flex-wrap gap-2">
               {
-                profileData.coreStackPills.map((tech, idx) => {
+                about.coreStackPills.map((tech, idx) => {
                   const accents = ['#2563eb', '#ea6a15', '#0d9488', '#7c3aed'];
                   const accent = accents[idx % accents.length];
                   return (
@@ -96,45 +100,40 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
           <!-- Action Buttons (Preserves Descargar CV + Contáctame + Official Social Brand Buttons) -->
           <div class="mt-7 flex flex-wrap items-center gap-3.5">
             <a
-              href={profileData.cvBackendUrl}
+              href={withBase(profile.cvPrimary.url)}
               target="_blank"
               rel="noopener noreferrer"
-              download="CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
+              download={profile.cvPrimary.filename}
               class="btn-brand btn-gold"
-              data-cursor-label="PDF 2026"
+              data-cursor-label={about.cvButtonCursorLabel}
             >
-              <span>Descargar CV</span>
+              <span>{profile.cvPrimary.labelAbout}</span>
             </a>
 
-            <a href="#contact" class="btn-brand btn-theme-primary" data-cursor-label="Contacto">
-              <span>Contáctame</span>
-            </a>
-
-            <!-- Official LinkedIn Brand Button (#0A66C2) -->
             <a
-              href={profileData.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-magnetic
-              data-cursor-label="LinkedIn"
-              class="btn-social-pill linkedin"
+              href="#contact"
+              class="btn-brand btn-theme-primary"
+              data-cursor-label={about.contactButtonCursorLabel}
             >
-              <i class="icofont icofont-linkedin" aria-hidden="true"></i>
-              <span>LinkedIn</span>
+              <span>{about.contactButtonLabel}</span>
             </a>
 
-            <!-- Official GitHub Brand Button (#24292F) -->
-            <a
-              href={profileData.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-magnetic
-              data-cursor-label="GitHub"
-              class="btn-social-pill github"
-            >
-              <i class="icofont icofont-github" aria-hidden="true"></i>
-              <span>GitHub</span>
-            </a>
+            {
+              aboutSocials.map((social) => (
+                <a
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-magnetic
+                  data-cursor-label={social.name}
+                  class={`btn-social-pill ${social.id}`}
+                  style={`background-color: ${social.brandColor}; border-color: ${social.brandColor};`}
+                >
+                  <i class={`icofont ${social.icon}`} aria-hidden="true"></i>
+                  <span>{social.name}</span>
+                </a>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -144,7 +143,7 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
     <div class="mt-14 reveal">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {
-          educationData.map((edu, idx) => (
+          about.education.map((edu, idx) => (
             <article
               class="edu-card"
               style={`--edu-accent: ${edu.accentColor}; --reveal-delay: ${idx * 90}ms;`}
@@ -189,7 +188,7 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
               <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs font-medium" style="border-color: var(--card-border);">
                 <span class="txt-primary inline-flex items-center gap-1.5">
                   <i class="icofont icofont-verification-check" style={`color: ${edu.accentColor};`} aria-hidden="true"></i>
-                  <span>Credencial Verificada CV 2026</span>
+                  <span>{about.educationVerifiedLabel}</span>
                 </span>
                 <span class="font-semibold uppercase tracking-wider" style={`color: ${edu.accentColor};`}>
                   0{idx + 1}
@@ -213,23 +212,23 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
             </span>
             <div>
               <span class="block text-base sm:text-lg font-medium uppercase tracking-wider" style="color: var(--heading-color);">
-                Formación Continua, Cursos Especializados y Competencias (2023 - 2026)
+                {trainingShowcase.title}
               </span>
               <span class="block text-xs font-normal" style="color: var(--txt-muted);">
-                10 especializaciones técnicas en Udemy & Platzi · 8 competencias ejecutivas de ingeniería
+                {trainingShowcase.subtitle}
               </span>
             </div>
           </div>
 
           <div class="flex items-center gap-2.5">
-            <span class="provider-badge" style="--provider-color: #A435F0;">
-              <i class="icofont icofont-hat-alt" aria-hidden="true"></i>
-              <span>Udemy (7)</span>
-            </span>
-            <span class="provider-badge" style="--provider-color: #079146;">
-              <i class="icofont icofont-badge" aria-hidden="true"></i>
-              <span>Platzi (3)</span>
-            </span>
+            {
+              trainingShowcase.providerSummaryBadges.map((badge) => (
+                <span class="provider-badge" style={`--provider-color: ${badge.color};`}>
+                  <i class={`icofont ${badge.icon}`} aria-hidden="true"></i>
+                  <span>{badge.label}</span>
+                </span>
+              ))
+            }
             <span
               class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#14171f] text-gold border-2 border-[#cdb30c] group-open:rotate-180 transition-transform"
               aria-hidden="true"
@@ -243,15 +242,15 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
           <!-- Left 8 Columns: 10 Specialized Courses with Solid Official Provider Badges -->
           <div class="lg:col-span-8">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
-              <span class="label-c">Cursos y Especializaciones Recientes:</span>
+              <span class="label-c">{trainingShowcase.coursesHeading}</span>
               <span class="text-xs font-medium uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#0e3d65] text-white">
-                Actualización 2023 – 2025
+                {trainingShowcase.coursesPeriodBadge}
               </span>
             </div>
 
             <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
               {
-                coursesData.map((course) => (
+                trainingShowcase.courses.map((course) => (
                   <li
                     class="course-card"
                     style={`--provider-color: ${course.providerColor};`}
@@ -276,7 +275,7 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
 
                     <div class="flex items-center justify-between pt-1 border-t" style="border-color: var(--card-border);">
                       <span class="text-[12px] font-normal" style="color: var(--txt-muted);">
-                        Área: <strong class="font-medium txt-primary">{course.domain}</strong>
+                        {trainingShowcase.courseDomainPrefix} <strong class="font-medium txt-primary">{course.domain}</strong>
                       </span>
                       <i class="icofont icofont-check-circled text-sm" style={`color: ${course.providerColor};`} aria-hidden="true"></i>
                     </div>
@@ -289,10 +288,10 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
           <!-- Right 4 Columns: Executive Soft Skills & Leadership Competencies -->
           <div class="lg:col-span-4 flex flex-col justify-between gap-5">
             <div>
-              <span class="label-c block mb-3.5">Competencias Profesionales:</span>
+              <span class="label-c block mb-3.5">{trainingShowcase.competenciesHeading}</span>
               <div class="grid grid-cols-1 gap-2.5">
                 {
-                  profileData.softSkills.map((skill, idx) => {
+                  trainingShowcase.softSkills.map((skill, idx) => {
                     const badgeColor = idx % 2 === 0 ? '#0d9488' : '#2563eb';
                     return (
                       <div
@@ -324,11 +323,11 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
               <div class="flex items-center gap-2.5 mb-1.5">
                 <i class="icofont icofont-award text-gold text-xl" aria-hidden="true"></i>
                 <span class="text-xs font-semibold uppercase tracking-widest text-gold">
-                  Enfoque de Ingeniería
+                  {trainingShowcase.engineeringFocusCallout.title}
                 </span>
               </div>
               <p class="text-[13px] font-light text-[#e2e8f0] leading-relaxed">
-                Arquitectura limpia (DDD & Hexagonal), seguridad desde el diseño (OWASP Top 10) y entrega continua en equipos ágiles distribuidos.
+                {trainingShowcase.engineeringFocusCallout.description}
               </p>
             </div>
           </div>

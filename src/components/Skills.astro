@@ -1,5 +1,8 @@
 ---
-import { skillCategories } from '../data/portfolio';
+import { getPortfolioContent } from '../data/portfolio';
+
+const { skillsSection } = await getPortfolioContent();
+const skillCategories = skillsSection.categories;
 ---
 
 <!-- START SKILLS -->
@@ -7,12 +10,12 @@ import { skillCategories } from '../data/portfolio';
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
-      <i class="icofont icofont-certificate-alt-1 title-icon" aria-hidden="true"></i>
+      <i class={`icofont ${skillsSection.sectionIcon} title-icon`} aria-hidden="true"></i>
       <h2 id="skills-heading" class="title">
-        Mis <span class="font-medium">Habilidades</span>
+        {skillsSection.titlePrefix} <span class="font-medium">{skillsSection.titleHighlight}</span>
       </h2>
       <p class="txt-primary mt-3 title-subtitle mx-auto">
-        Especialización técnica estructurada en los 4 pilares de ingeniería de mi CV 2026: Lenguajes y Frameworks, Cloud y Sistemas Distribuidos, Base de Datos/Calidad/Observabilidad y Desarrollo Asistido por IA.
+        {skillsSection.subtitle}
       </p>
     </div>
 
@@ -20,7 +23,7 @@ import { skillCategories } from '../data/portfolio';
     <div
       class="mt-8 flex flex-wrap items-center justify-center gap-2.5 reveal"
       role="tablist"
-      aria-label="Filtrar categorías de habilidades"
+      aria-label={skillsSection.filterAriaLabel}
     >
       <button
         type="button"
@@ -30,7 +33,7 @@ import { skillCategories } from '../data/portfolio';
         style="--tab-accent: #cdb30c; --tab-text: #14171f;"
         class="skill-filter-btn active min-h-[42px] rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer"
       >
-        Todas las áreas (4)
+        {skillsSection.filterAllLabel}
       </button>
       {
         skillCategories.map((category) => (
@@ -69,13 +72,13 @@ import { skillCategories } from '../data/portfolio';
                   class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white"
                   style={`background-color: ${category.accentColor};`}
                 >
-                  <span>Pilar 0{idx + 1}</span>
+                  <span>{skillsSection.pillarPrefixLabel} 0{idx + 1}</span>
                 </span>
                 <span
                   class="text-xs font-semibold uppercase tracking-wider"
                   style={`color: ${category.accentColor};`}
                 >
-                  {category.items.length} Dominios Clave
+                  {category.items.length} {skillsSection.domainsCountSuffix}
                 </span>
               </div>
 
@@ -124,7 +127,7 @@ import { skillCategories } from '../data/portfolio';
             <!-- Granular Tech Pills from 2026 CV (Solid Category-Accented Pills) -->
             <div class="mt-6 pt-4 border-t-2" style="border-color: var(--card-border);">
               <span class="label-c block mb-2.5 text-center" style={`color: ${category.accentColor};`}>
-                Stack & Herramientas Verificadas:
+                {skillsSection.verifiedStackHeading}
               </span>
               <div class="flex flex-wrap justify-center gap-1.5">
                 {
