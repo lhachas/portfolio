@@ -87,7 +87,7 @@ const currentYear = new Date().getFullYear();
                     aria-label={navigation.languageSwitcher.ariaLabel}
                   >
                     <i class="icofont icofont-globe text-gold" aria-hidden="true"></i>
-                    <span>{navigation.languageSwitcher.currentCode} / {navigation.languageSwitcher.targetLabel}</span>
+                    <span>{navigation.languageSwitcher.currentCode} / {navigation.languageSwitcher.targetCode}</span>
                   </a>
                 </li>
               </ul>
@@ -102,7 +102,6 @@ const currentYear = new Date().getFullYear();
               {
                 profile.cvFormats.map((cv, idx) => {
                   const isPrimaryFormat = idx === 0;
-                  const iconClass = cv.format === 'PDF' ? 'icofont-file-pdf' : 'icofont-file-word';
                   return (
                     <a
                       href={withBase(cv.url)}
@@ -111,12 +110,12 @@ const currentYear = new Date().getFullYear();
                       download={cv.filename}
                       class={
                         isPrimaryFormat
-                          ? 'btn-cv-solid !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center'
-                          : 'btn-cv-outline !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center !bg-[#14171f] !text-white'
+                          ? 'btn-cv-solid !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center whitespace-nowrap'
+                          : 'btn-cv-outline !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center whitespace-nowrap !bg-[#14171f] !text-white'
                       }
                     >
-                      <i class={`icofont ${iconClass} ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
-                      <span>{cv.lang} · {cv.format}</span>
+                      <i class={`icofont ${cv.icon} ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
+                      <span>{cv.badge}</span>
                     </a>
                   );
                 })

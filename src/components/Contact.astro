@@ -89,7 +89,6 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
             {
               profile.cvFormats.map((cv, idx) => {
                 const isPrimaryFormat = idx === 0;
-                const iconClass = cv.format === 'PDF' ? 'icofont-file-pdf' : 'icofont-file-word';
                 return (
                   <a
                     href={withBase(cv.url)}
@@ -97,9 +96,13 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                     rel="noopener noreferrer"
                     download={cv.filename}
                     data-magnetic
-                    class={isPrimaryFormat ? 'btn-cv-solid justify-center' : 'btn-cv-outline justify-center'}
+                    class={
+                      isPrimaryFormat
+                        ? 'btn-cv-solid justify-center whitespace-nowrap'
+                        : 'btn-cv-outline justify-center whitespace-nowrap'
+                    }
                   >
-                    <i class={`icofont ${iconClass} ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
+                    <i class={`icofont ${cv.icon} text-base ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
                     <span>{cv.label}</span>
                   </a>
                 );
