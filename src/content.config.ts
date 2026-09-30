@@ -4,17 +4,37 @@ import { z } from 'astro/zod';
 
 const solidHexColor = z
   .string()
-  .regex(/^#[0-9a-fA-F]{6}$/, 'El color debe ser un hexadecimal sólido de 6 dígitos (ej. #cdb30c). Prohibido usar rgba() o transparencias.');
+  .regex(
+    /^#[0-9a-fA-F]{6}$/,
+    'El color debe ser un hexadecimal sólido de 6 dígitos (ej. #cdb30c). Prohibido usar rgba() o transparencias.',
+  );
+
+const officialCvPath = z
+  .string()
+  .regex(
+    /^\/assets\/cv\/CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN)\.(pdf|docx)$/,
+    'Solo se permiten los 4 CV oficiales válidos: CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN).(pdf|docx).',
+  );
+
+const officialCvFilename = z
+  .string()
+  .regex(
+    /^CV-Leonel-Hacha-Salazar-Backend-2026-(ES|EN)\.(pdf|docx)$/,
+    'El nombre de archivo debe corresponder exclusivamente a uno de los 4 CV oficiales válidos.',
+  );
 
 export const portfolioSchema = z.object({
   seo: z.object({
     siteUrl: z.string().url(),
+    alternateUrl: z.string().url(),
     siteName: z.string().min(1),
     title: z.string().min(1),
     description: z.string().min(10),
     keywords: z.string().min(1),
     locale: z.string().min(2),
+    alternateLocale: z.string().min(2),
     language: z.string().min(2),
+    alternateLanguage: z.string().min(2),
     themeColor: solidHexColor,
     dateModified: z.string().min(1),
     ogImage: z.string().min(1),
@@ -65,19 +85,33 @@ export const portfolioSchema = z.object({
     facebook: z.string().url(),
     instagram: z.string().url(),
     cvPrimary: z.object({
-      url: z.string().min(1),
-      filename: z.string().min(1),
+      url: officialCvPath,
+      filename: officialCvFilename,
       labelHero: z.string().min(1),
       labelAbout: z.string().min(1),
       labelContact: z.string().min(1),
       labelFooter: z.string().min(1),
     }),
     cvExtended: z.object({
-      url: z.string().min(1),
-      filename: z.string().min(1),
+      url: officialCvPath,
+      filename: officialCvFilename,
+      labelHero: z.string().min(1),
+      labelAbout: z.string().min(1),
       labelContact: z.string().min(1),
       labelFooter: z.string().min(1),
     }),
+    cvFormats: z
+      .array(
+        z.object({
+          id: z.string().min(1),
+          url: officialCvPath,
+          filename: officialCvFilename,
+          label: z.string().min(1),
+          badge: z.string().min(1),
+          icon: z.string().min(1),
+        }),
+      )
+      .length(4),
     languages: z
       .array(
         z.object({
@@ -94,6 +128,14 @@ export const portfolioSchema = z.object({
     themeToggleAriaLabel: z.string().min(1),
     themeToggleTitle: z.string().min(1),
     mobileMenuAriaLabel: z.string().min(1),
+    languageSwitcher: z.object({
+      currentCode: z.string().min(2),
+      targetCode: z.string().min(2),
+      targetHref: z.string().min(1),
+      ariaLabel: z.string().min(1),
+      title: z.string().min(1),
+      cursorLabel: z.string().min(1),
+    }),
     items: z
       .array(
         z.object({
@@ -338,6 +380,7 @@ export const portfolioSchema = z.object({
 
   contactSection: z.object({
     sectionIcon: z.string().min(1),
+    titlePrefix: z.string().min(1),
     titleHighlight: z.string().min(1),
     subtitle: z.string().min(1),
     channelsTitlePrefix: z.string().min(1),

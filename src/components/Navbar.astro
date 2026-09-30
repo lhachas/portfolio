@@ -1,8 +1,14 @@
 ---
-import { getPortfolioContent, withBase } from '../data/portfolio';
+import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 
-const { navigation, profile } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { navigation, profile } = await getPortfolioContent(locale);
 const navItems = navigation.items;
+const { languageSwitcher } = navigation;
 ---
 
 <!-- START NAVBAR -->
@@ -14,7 +20,7 @@ const navItems = navigation.items;
   >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex min-h-[72px] items-center justify-between">
-        <!-- Brand Logo (Preserves boy.png + LHachaS with gold Hacha) -->
+        <!-- Brand Logo (Preserves boy.png + LHachaS with dynamic accent Hacha) -->
         <a class="navbar-brand-logo" href={`#${navItems[0]?.id || 'home'}`} aria-label={navigation.brandAriaLabel}>
           <img
             class="navbar-brand-img"
@@ -28,7 +34,7 @@ const navItems = navigation.items;
           </div>
         </a>
 
-        <!-- Desktop Navigation Links (Preserves icon above uppercase text + #cdb30c active block) -->
+        <!-- Desktop Navigation Links (Preserves icon above uppercase text + dynamic accent active block) -->
         <ul class="hidden lg:flex items-stretch mx-auto" id="navbar-navlist">
           {
             navItems.map((item, index) => (
@@ -46,15 +52,30 @@ const navItems = navigation.items;
           }
         </ul>
 
-        <!-- Right Controls: Phone + Theme Switcher + Mobile Hamburger -->
-        <div class="flex items-center gap-4">
+        <!-- Right Controls: Phone + Language Switcher (ES/EN) + Theme Switcher + Mobile Hamburger -->
+        <div class="flex items-center gap-2.5 sm:gap-3.5">
           <a
             href={`tel:${profile.phoneClean}`}
-            class="hidden sm:inline-flex items-center gap-1.5 text-white hover:text-[#cdb30c] transition-colors text-sm font-semibold tracking-wide"
+            class="hidden xl:inline-flex items-center gap-1.5 text-white hover:text-gold transition-colors text-sm font-semibold tracking-wide"
             aria-label={profile.phone}
           >
             <i class="icofont icofont-ui-cell-phone text-gold text-lg" aria-hidden="true"></i>
             <span class="text-sm font-normal tracking-wider">{profile.phone}</span>
+          </a>
+
+          <!-- Bilingual Language Switcher (100% Solid Pill) -->
+          <a
+            href={withBase(languageSwitcher.targetHref)}
+            data-lang-switch
+            data-magnetic
+            class="nav-control-btn inline-flex h-11 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-semibold uppercase tracking-widest cursor-pointer"
+            aria-label={languageSwitcher.ariaLabel}
+            title={languageSwitcher.title}
+          >
+            <i class="icofont icofont-globe text-gold text-base" aria-hidden="true"></i>
+            <span>{languageSwitcher.currentCode}</span>
+            <span class="opacity-60" aria-hidden="true">/</span>
+            <span class="text-gold">{languageSwitcher.targetLabel}</span>
           </a>
 
           <!-- Light / Dark Mode Switcher (Preserves icofont-night / icofont-sun-alt - 100% Solid) -->
@@ -62,7 +83,7 @@ const navItems = navigation.items;
             type="button"
             id="theme-toggle-btn"
             data-magnetic
-            class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#282828] border-2 border-[#3d3d3d] text-white hover:bg-[#cdb30c] hover:border-[#cdb30c] hover:text-[#1a1a1a] transition-colors cursor-pointer"
+            class="nav-control-btn inline-flex h-11 w-11 items-center justify-center rounded-full cursor-pointer"
             aria-label={navigation.themeToggleAriaLabel}
             title={navigation.themeToggleTitle}
           >
@@ -73,7 +94,7 @@ const navItems = navigation.items;
           <button
             type="button"
             id="mobile-menu-btn"
-            class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[#282828] border-2 border-[#3d3d3d] text-white hover:bg-[#cdb30c] hover:border-[#cdb30c] hover:text-[#1a1a1a] transition-colors cursor-pointer"
+            class="nav-control-btn lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg cursor-pointer"
             aria-controls="navbarCollapse"
             aria-expanded="false"
             aria-label={navigation.mobileMenuAriaLabel}
@@ -104,7 +125,7 @@ const navItems = navigation.items;
             ))
           }
         </ul>
-        <div class="mt-3 pt-3 border-t-2 border-[#2d2d2d] flex items-center justify-center sm:hidden">
+        <div class="mt-3 pt-3 border-t-2 border-[#2d2d2d] flex flex-wrap items-center justify-center gap-4 sm:hidden">
           <a
             href={`tel:${profile.phoneClean}`}
             class="inline-flex items-center gap-2 text-white text-sm font-semibold"
@@ -127,12 +148,25 @@ const navItems = navigation.items;
     const themeBtn = document.getElementById('theme-toggle-btn');
     const themeIcon = document.getElementById('theme-toggle-icon');
     const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+    const langLinks = document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch]');
+
+    // Preserve active section hash when switching ES <-> EN
+    langLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        if (window.location.hash) {
+          const baseHref = link.getAttribute('href')?.split('#')[0] || '';
+          if (baseHref) {
+            link.setAttribute('href', `${baseHref}${window.location.hash}`);
+          }
+        }
+      });
+    });
 
     // Sync theme icon with current data-theme
     function syncThemeIcon() {
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       if (themeIcon) {
-        themeIcon.className = current === 'dark' ? 'icofont icofont-sun-alt text-lg text-[#cdb30c]' : 'icofont icofont-night text-lg';
+        themeIcon.className = current === 'dark' ? 'icofont icofont-sun-alt text-lg text-gold' : 'icofont icofont-night text-lg';
       }
     }
     syncThemeIcon();
@@ -165,7 +199,7 @@ const navItems = navigation.items;
       });
     });
 
-    // Sticky Navbar state using IntersectionObserver on a top sentinel or passive scroll
+    // Sticky Navbar state using passive scroll
     const updateSticky = () => {
       if (!navbar) return;
       if (window.scrollY > 40) {
@@ -200,3 +234,4 @@ const navItems = navigation.items;
 
   document.addEventListener('DOMContentLoaded', setupNavbar);
 </script>
+

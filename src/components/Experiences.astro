@@ -1,7 +1,12 @@
 ---
-import { getPortfolioContent } from '../data/portfolio';
+import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
 
-const { experiencesSection } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { experiencesSection } = await getPortfolioContent(locale);
 const experiencesData = experiencesSection.items;
 ---
 
@@ -27,7 +32,7 @@ const experiencesData = experiencesSection.items;
         data-expanded="true"
         data-compact-label={experiencesSection.toggleCompactLabel}
         data-detailed-label={experiencesSection.toggleDetailedLabel}
-        class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer hover:border-[#cdb30c]"
+        class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer hover:border-gold"
         style="background-color: var(--th-secondary); border: 2px solid var(--card-border); color: var(--heading-color);"
       >
         <i class="icofont icofont-layers text-gold text-sm" aria-hidden="true"></i>
@@ -45,20 +50,22 @@ const experiencesData = experiencesSection.items;
 
         {
           experiencesData.map((exp) => {
-            const headerTextColor = exp.color === '#cdb30c' ? '#1a1a1a' : '#ffffff';
-            const pillBgOnHeader = exp.color === '#cdb30c' ? '#1a1a1a' : '#141414';
-            const pillTextOnHeader = exp.color === '#cdb30c' ? '#cdb30c' : '#ffffff';
+            const isBrandAccent = exp.color.toLowerCase() === '#cdb30c';
+            const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : exp.color;
+            const headerTextColor = isBrandAccent ? 'var(--brand-on-gold)' : '#ffffff';
+            const pillBgOnHeader = isBrandAccent ? '#14171f' : '#141414';
+            const pillTextOnHeader = isBrandAccent ? 'var(--brand-gold)' : '#ffffff';
             return (
               <article
                 class="timeline reveal"
-                style={`--timeline-color: ${exp.color}; --year-step-text: ${headerTextColor};`}
+                style={`--timeline-color: ${resolvedColor}; --year-step-text: ${headerTextColor};`}
               >
                 <!-- 100% Solid Minimalist Stage Card Connected to Central Spine -->
                 <div class="timeline-content">
                   <!-- Solid Stage Header Bar with Circular Stage Number Medallion -->
                   <header
                     class="exp-card-header"
-                    style={`background-color: ${exp.color}; color: ${headerTextColor};`}
+                    style={`background-color: ${resolvedColor}; color: ${headerTextColor};`}
                   >
                     <div class="flex flex-wrap items-center justify-between gap-2.5">
                       <div class="inline-flex items-center gap-2.5">
@@ -94,7 +101,7 @@ const experiencesData = experiencesSection.items;
                         class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs txt-primary font-normal"
                         style="background-color: var(--th-primary); border: 1.5px solid var(--card-border);"
                       >
-                        <i class="icofont icofont-location-pin" style={`color: ${exp.color};`} aria-hidden="true"></i>
+                        <i class="icofont icofont-location-pin" style={`color: ${resolvedColor};`} aria-hidden="true"></i>
                         <span>{exp.location}</span>
                       </span>
                     </div>

@@ -1,7 +1,12 @@
 ---
-import { getPortfolioContent, withBase } from '../data/portfolio';
+import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 
-const { contactSection, profile } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { contactSection, profile } = await getPortfolioContent(locale);
 const { form, cvCard } = contactSection;
 
 const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT || '';
@@ -19,7 +24,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
     <div class="text-center reveal">
       <i class={`icofont ${contactSection.sectionIcon} title-icon`} aria-hidden="true"></i>
       <h2 id="contact-heading" class="title">
-        <span class="font-medium">{contactSection.titleHighlight}</span>
+        {contactSection.titlePrefix} <span class="font-medium">{contactSection.titleHighlight}</span>
       </h2>
       <p class="txt-primary mt-3 title-subtitle mx-auto">
         {contactSection.subtitle}
@@ -35,7 +40,9 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
 
         {
           contactSection.channels.map((channel) => {
-            const iconTextClass = channel.color === '#cdb30c' ? '!text-[#1a1a1a]' : '';
+            const isBrandAccent = channel.color.toLowerCase() === '#cdb30c';
+            const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : channel.color;
+            const iconTextStyle = isBrandAccent ? 'color: var(--brand-on-gold);' : '';
             const extraBorderClass = channel.id === 'github' ? 'border-2 border-[#484f58]' : '';
 
             return channel.href ? (
@@ -44,10 +51,10 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 target={channel.external ? '_blank' : undefined}
                 rel={channel.external ? 'noopener noreferrer' : undefined}
                 class="contact-channel-card"
-                style={`--channel-color: ${channel.color};`}
+                style={`--channel-color: ${resolvedColor};`}
                 data-cursor-label={channel.cursorLabel}
               >
-                <span class={`contact-channel-icon ${iconTextClass} ${extraBorderClass}`} aria-hidden="true">
+                <span class={`contact-channel-icon ${extraBorderClass}`} style={iconTextStyle} aria-hidden="true">
                   <i class={`icofont ${channel.icon}`}></i>
                 </span>
                 <div class="min-w-0">
@@ -58,9 +65,9 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
             ) : (
               <div
                 class="contact-channel-card"
-                style={`--channel-color: ${channel.color};`}
+                style={`--channel-color: ${resolvedColor};`}
               >
-                <span class={`contact-channel-icon ${iconTextClass}`} aria-hidden="true">
+                <span class="contact-channel-icon" style={iconTextStyle} aria-hidden="true">
                   <i class={`icofont ${channel.icon}`}></i>
                 </span>
                 <div class="min-w-0">
@@ -72,36 +79,32 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
           })
         }
 
-        <!-- Direct 2026 CV Download Card (100% Solid Surface) -->
+        <!-- Direct Official 2026 CV Download Card (100% Solid Surface - All 4 Official Formats: ES/EN PDF & DOCX) -->
         <div class="spotlight-card rounded-2xl p-5 mt-4" style="background-color: var(--th-secondary); border-color: var(--card-border);">
           <span class="label-c block">{cvCard.title}</span>
           <p class="detail-copy mt-1.5">
             {cvCard.description}
           </p>
-          <div class="mt-3.5 flex flex-wrap gap-2.5">
-            <a
-              href={withBase(profile.cvPrimary.url)}
-              target="_blank"
-              rel="noopener noreferrer"
-              download={profile.cvPrimary.filename}
-              data-magnetic
-              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full bg-[#cdb30c] border-2 border-[#cdb30c] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#1a1a1a] transition-colors hover:bg-[#b39b09] hover:border-[#b39b09]"
-            >
-              <i class="icofont icofont-file-pdf" aria-hidden="true"></i>
-              <span>{profile.cvPrimary.labelContact}</span>
-            </a>
-            <a
-              href={withBase(profile.cvExtended.url)}
-              target="_blank"
-              rel="noopener noreferrer"
-              download={profile.cvExtended.filename}
-              data-magnetic
-              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full border-2 border-[#cdb30c] px-4 py-2 text-xs font-medium uppercase tracking-wider txt-primary transition-colors hover:bg-[#cdb30c] hover:text-[#1a1a1a]"
-              style="background-color: var(--th-primary);"
-            >
-              <i class="icofont icofont-file-pdf text-gold" aria-hidden="true"></i>
-              <span>{profile.cvExtended.labelContact}</span>
-            </a>
+          <div class="mt-3.5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {
+              profile.cvFormats.map((cv, idx) => {
+                const isPrimaryFormat = idx === 0;
+                const iconClass = cv.format === 'PDF' ? 'icofont-file-pdf' : 'icofont-file-word';
+                return (
+                  <a
+                    href={withBase(cv.url)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download={cv.filename}
+                    data-magnetic
+                    class={isPrimaryFormat ? 'btn-cv-solid justify-center' : 'btn-cv-outline justify-center'}
+                  >
+                    <i class={`icofont ${iconClass} ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
+                    <span>{cv.label}</span>
+                  </a>
+                );
+              })
+            }
           </div>
         </div>
       </div>
@@ -496,7 +499,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
         const waText = encodeURIComponent(`${name} (${email}) - ${subject}:\n\n${message}`);
 
         feedback.className =
-          'mb-5 rounded-2xl border-2 border-[#cdb30c] bg-[#1a1a1a] px-4 py-3.5 text-sm font-normal text-white';
+          'mb-5 rounded-2xl border-2 border-gold bg-[#1a1a1a] px-4 py-3.5 text-sm font-normal text-white';
         feedback.innerHTML = `
           <div>
             <strong class="block font-medium text-gold mb-1">${escapeHtml(i18n.fallbackTitle)}</strong>

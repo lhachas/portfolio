@@ -5,11 +5,13 @@
    ZERO GLASSMORPHISM POLICY: 100% Solid Colors, Flat Architectural Surfaces
    ========================================================================== */
 :root {
-  /* Core Brand Accent (Default: colors/default.css + green.css gold accent) */
-  --brand-primary: #3f87f5;
-  --brand-primary-hover: #2563eb;
+  /* Core Dynamic Brand Accent Tokens (Propagated globally by StyleSwitcher) */
   --brand-gold: #cdb30c;
   --brand-gold-hover: #b39b09;
+  --brand-on-gold: #14171f;
+  --brand-primary: #3f87f5;
+  --brand-primary-hover: #2563eb;
+  --brand-on-primary: #ffffff;
   --brand-purple: #8060cf;
   --brand-dark: #1a1a1a;
 
@@ -36,7 +38,7 @@
   --heading-color: #0e3d65;
   --label-color: #0e3d65;
   --title-icon-bg: #0e3d65;
-  --title-icon-color: #cdb30c;
+  --title-icon-color: var(--brand-gold);
   --wave-fill: #ffffff;
   --wave-primary-fill: #f1f5f9;
   --card-border: #cbd5e1;
@@ -60,10 +62,10 @@
   --th-secondary: #161922;
   --txt-primary: #f8fafc;
   --txt-muted: #cbd5e1;
-  --heading-color: #cdb30c;
-  --label-color: #cdb30c;
+  --heading-color: var(--brand-gold);
+  --label-color: var(--brand-gold);
   --title-icon-bg: #14171f;
-  --title-icon-color: #cdb30c;
+  --title-icon-color: var(--brand-gold);
   --wave-fill: #1e222d;
   --wave-primary-fill: #161922;
   --card-border: #333a48;
@@ -164,6 +166,10 @@ p,
   color: var(--heading-color);
 }
 
+.title span.font-medium {
+  color: var(--brand-gold);
+}
+
 /* Unified Section Lead Subtitle */
 .title-subtitle {
   max-width: 680px;
@@ -181,6 +187,10 @@ p,
   letter-spacing: 0.035em;
   line-height: 1.28;
   color: var(--heading-color);
+}
+
+.subsection-title span.font-medium {
+  color: var(--brand-gold);
 }
 
 /* Unified Card H3 Heading (Skills, Experiences, Services, Contact) */
@@ -271,7 +281,7 @@ p,
 
 ::selection {
   background-color: var(--brand-gold);
-  color: #14171f;
+  color: var(--brand-on-gold);
 }
 
 /* Accessible Focus Rings */
@@ -310,7 +320,7 @@ summary:focus-visible,
   color: var(--txt-primary);
 }
 
-/* Solid Architectural Section Medallion Badge (Replaces bare opaque black icon) */
+/* Solid Architectural Section Medallion Badge */
 .title-icon {
   width: 64px;
   height: 64px;
@@ -324,13 +334,13 @@ summary:focus-visible,
   color: var(--title-icon-color);
   border: 2px solid var(--brand-gold);
   box-shadow: 0 4px 0 #092238;
-  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 .title-icon:hover {
   transform: translateY(-2px) rotate(-4deg);
   background-color: var(--brand-gold);
-  color: #14171f;
+  color: var(--brand-on-gold);
 }
 
 /* Top-anchored SVG wave dividers with controlled proportional height and -1px seam overlap */
@@ -356,8 +366,6 @@ summary:focus-visible,
   transition: fill 0.25s ease;
 }
 
-/* About wave hangs downward from Hero (#home: #14171f) into the top of #about
-   using the exact same top-anchored geometry as all other sections — ZERO straight line or gap! */
 .about .wave {
   top: 0;
   bottom: auto;
@@ -368,8 +376,6 @@ summary:focus-visible,
   fill: var(--hero-bg);
 }
 
-/* Footer wave hangs downward from #contact (.th-primary) into Footer (#14171f).
-   Height is strictly capped and z-index is 1 so it NEVER overlaps social icons */
 .footer-section .wave {
   top: 0;
   bottom: auto;
@@ -421,7 +427,7 @@ summary:focus-visible,
   padding: 2px;
   margin-right: 10px;
   background-color: #1e222d;
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .navbar-brand-logo:hover .navbar-brand-img {
@@ -461,9 +467,34 @@ summary:focus-visible,
 }
 
 .nav-item-link.active {
-  color: #14171f !important;
+  color: var(--brand-on-gold) !important;
   background-color: var(--brand-gold);
   font-weight: 600;
+}
+
+.nav-control-btn {
+  display: inline-flex;
+  height: 44px;
+  min-width: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #222734;
+  border: 2px solid #333a48;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.nav-control-btn:hover {
+  background-color: var(--brand-gold);
+  border-color: var(--brand-gold);
+  color: var(--brand-on-gold);
+}
+
+.nav-control-btn:hover i,
+.nav-control-btn:hover span {
+  color: var(--brand-on-gold) !important;
 }
 
 /* ==========================================================================
@@ -496,17 +527,17 @@ summary:focus-visible,
   text-transform: uppercase;
   font-weight: 500;
   box-shadow: 0 3px 0 #0a0c10;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .hero-status-pill:hover {
   transform: translateY(-2px);
   background-color: var(--brand-gold);
-  color: #14171f;
+  color: var(--brand-on-gold);
 }
 
 .hero-status-pill:hover i {
-  color: #14171f !important;
+  color: var(--brand-on-gold) !important;
 }
 
 .status-pulse-dot {
@@ -669,7 +700,7 @@ summary:focus-visible,
   font-size: 13px;
   transition: all 0.25s ease;
   letter-spacing: 0.08em;
-  color: #ffffff;
+  color: var(--brand-on-gold);
   box-shadow: none !important;
   text-transform: uppercase;
   outline: none !important;
@@ -718,28 +749,28 @@ summary:focus-visible,
 .btn-gold {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: #1a1a1a;
+  color: var(--brand-on-gold);
 }
 
 .btn-gold:hover,
 .btn-gold:focus {
   background-color: var(--brand-gold-hover);
   border-color: var(--brand-gold-hover);
-  color: #1a1a1a;
+  color: var(--brand-on-gold);
   transform: translateY(-2px);
 }
 
 .btn-theme-primary {
   background-color: var(--brand-primary);
   border-color: var(--brand-primary);
-  color: #ffffff;
+  color: var(--brand-on-primary);
 }
 
 .btn-theme-primary:hover,
 .btn-theme-primary:focus {
   background-color: var(--brand-primary-hover);
   border-color: var(--brand-primary-hover);
-  color: #ffffff;
+  color: var(--brand-on-primary);
   transform: translateY(-2px);
 }
 
@@ -752,23 +783,98 @@ summary:focus-visible,
   border-radius: 9999px;
   background-color: #262626;
   border: 2px solid var(--brand-gold);
-  padding: 0.625rem 1.5rem;
+  padding: 0.625rem 1.35rem;
   font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #ffffff;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .btn-outline-gold:hover {
   background-color: var(--brand-gold);
-  color: #1a1a1a;
+  border-color: var(--brand-gold);
+  color: var(--brand-on-gold);
   transform: translateY(-2px);
 }
 
 .btn-outline-gold:hover i {
-  color: #1a1a1a !important;
+  color: var(--brand-on-gold) !important;
+}
+
+/* Dynamic Theme-Aware CV Download Buttons (Contact & Footer) */
+.btn-cv-solid {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border-radius: 9999px;
+  background-color: var(--brand-gold);
+  border: 2px solid var(--brand-gold);
+  padding: 0.45rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--brand-on-gold);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-cv-solid i {
+  color: var(--brand-on-gold) !important;
+}
+
+.btn-cv-solid:hover {
+  background-color: var(--brand-gold-hover);
+  border-color: var(--brand-gold-hover);
+  color: var(--brand-on-gold);
+  transform: translateY(-2px);
+}
+
+.btn-cv-outline {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  border-radius: 9999px;
+  background-color: var(--th-primary);
+  border: 2px solid var(--brand-gold);
+  padding: 0.45rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--txt-primary);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-cv-outline i {
+  color: var(--brand-gold);
+  transition: color 0.2s ease;
+}
+
+.btn-cv-outline:hover {
+  background-color: var(--brand-gold);
+  border-color: var(--brand-gold);
+  color: var(--brand-on-gold);
+  transform: translateY(-2px);
+}
+
+.btn-cv-outline:hover i {
+  color: var(--brand-on-gold) !important;
+}
+
+.footer-section .btn-cv-outline {
+  background-color: #14171f;
+  color: #ffffff;
+}
+
+.footer-section .btn-cv-outline:hover {
+  background-color: var(--brand-gold);
+  color: var(--brand-on-gold);
 }
 
 /* Official Social Network Pill Button (100% Solid Brand Colors) */
@@ -885,7 +991,7 @@ summary:focus-visible,
   padding: 5px;
   background-color: var(--th-secondary);
   border: 3px solid var(--brand-gold);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.25s ease;
 }
 
 .iam-img-wrapper:hover .iam-photo {
@@ -901,7 +1007,6 @@ summary:focus-visible,
 
 /* ==========================================================================
    Card Box & 45deg Diamond Rotating Icon (100% Solid Non-Monotonous Surface)
-   Each card supports --card-accent for distinct solid identity (#2563eb, #ea6a15, #0d9488, #7c3aed)
    ========================================================================== */
 .card-box {
   border: 2px solid var(--card-border);
@@ -1033,14 +1138,10 @@ summary:focus-visible,
   border-radius: 18px;
   background-color: var(--th-secondary);
   border: 2px solid var(--card-border);
-  border-left: 6px solid #0e3d65;
+  border-left: 6px solid var(--brand-gold);
   box-shadow: var(--card-shadow);
   overflow: hidden;
   transition: border-color 0.25s ease;
-}
-
-[data-theme="dark"] .training-drawer {
-  border-left-color: var(--brand-gold);
 }
 
 .training-drawer[open] {
@@ -1078,13 +1179,13 @@ summary:focus-visible,
   border-radius: 12px;
   background-color: var(--th-primary);
   border: 1.5px solid var(--card-border);
-  border-left: 4px solid var(--provider-color, #A435F0);
+  border-left: 4px solid var(--provider-color, #2563eb);
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .course-card:hover {
   transform: translateY(-2px);
-  border-color: var(--provider-color, #A435F0);
+  border-color: var(--provider-color, #2563eb);
 }
 
 .provider-badge {
@@ -1093,7 +1194,7 @@ summary:focus-visible,
   gap: 0.3rem;
   padding: 0.18rem 0.6rem;
   border-radius: 9999px;
-  background-color: var(--provider-color, #A435F0);
+  background-color: var(--provider-color, #2563eb);
   color: #ffffff;
   font-size: 0.7rem;
   font-weight: 500;
@@ -1183,8 +1284,6 @@ summary:focus-visible,
 
 /* ==========================================================================
    Experiences Interconnected Timeline (100% Solid Non-Monotonous Architecture)
-   Each stage uses its own vibrant solid --timeline-color (#cdb30c, #ea6a15,
-   #0d9488, #2563eb, #7c3aed, #059669) across ring, frame, header, and sub-cards
    ========================================================================== */
 .main-timeline {
   font-family: 'Oswald', sans-serif;
@@ -1237,10 +1336,10 @@ summary:focus-visible,
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background-color: var(--timeline-color, #cdb30c);
+  background-color: var(--timeline-color, var(--brand-gold));
   border: 5px solid var(--th-primary);
   z-index: 4;
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
 /* Solid Horizontal Connector Bar from Central Spine to Card */
@@ -1251,8 +1350,9 @@ summary:focus-visible,
   right: 10px;
   width: 32px;
   height: 4px;
-  background-color: var(--timeline-color, #cdb30c);
+  background-color: var(--timeline-color, var(--brand-gold));
   z-index: 2;
+  transition: background-color 0.25s ease;
 }
 
 .main-timeline .timeline:hover::before {
@@ -1262,13 +1362,13 @@ summary:focus-visible,
 .main-timeline .timeline-content {
   color: var(--txt-primary);
   background-color: var(--th-secondary);
-  border: 3px solid var(--timeline-color, #cdb30c);
+  border: 3px solid var(--timeline-color, var(--brand-gold));
   border-radius: 18px;
   display: block;
   position: relative;
   overflow: hidden;
   box-shadow: var(--card-shadow);
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .main-timeline .timeline-content:hover {
@@ -1278,7 +1378,8 @@ summary:focus-visible,
 
 .exp-card-header {
   padding: 14px 20px;
-  border-bottom: 2px solid var(--timeline-color, #cdb30c);
+  border-bottom: 2px solid var(--timeline-color, var(--brand-gold));
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 .main-timeline .inner-content {
@@ -1289,26 +1390,26 @@ summary:focus-visible,
 
 /* Stage-Specific Solid Sub-Cards & Non-Monotonous Accents inside Experience Cards */
 .exp-company-accent {
-  color: var(--timeline-color, #cdb30c);
+  color: var(--timeline-color, var(--brand-gold));
   font-weight: 500;
 }
 
 .exp-highlight-card {
   background-color: var(--th-primary);
   border: 1.5px solid var(--card-border);
-  border-left: 4px solid var(--timeline-color, #cdb30c);
+  border-left: 4px solid var(--timeline-color, var(--brand-gold));
   border-radius: 10px;
   padding: 0.65rem 0.85rem;
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .exp-highlight-card:hover {
-  border-color: var(--timeline-color, #cdb30c);
+  border-color: var(--timeline-color, var(--brand-gold));
   transform: translateX(2px);
 }
 
 .exp-highlight-label {
-  color: var(--timeline-color, #cdb30c);
+  color: var(--timeline-color, var(--brand-gold));
   font-weight: 500;
 }
 
@@ -1320,16 +1421,16 @@ summary:focus-visible,
   border-radius: 9999px;
   padding: 0.22rem 0.75rem;
   background-color: var(--th-primary);
-  border: 1.5px solid var(--timeline-color, #cdb30c);
+  border: 1.5px solid var(--timeline-color, var(--brand-gold));
   color: var(--txt-primary);
   display: inline-flex;
   align-items: center;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.25s ease;
 }
 
 .exp-tech-pill:hover {
   transform: translateY(-1px);
-  background-color: var(--timeline-color, #cdb30c);
+  background-color: var(--timeline-color, var(--brand-gold));
   color: var(--year-step-text, #ffffff);
 }
 
@@ -1444,10 +1545,10 @@ textarea.form-control-pill {
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
-  color: #ffffff;
+  color: var(--channel-text-color, #ffffff);
   background-color: var(--channel-color, var(--brand-gold));
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.25s ease, color 0.25s ease;
 }
 
 .contact-channel-card:hover .contact-channel-icon {
@@ -1478,6 +1579,7 @@ textarea.form-control-pill {
   border-top: 4px solid var(--footer-accent, var(--brand-gold));
   box-shadow: 0 4px 0 #0a0c10;
   height: 100%;
+  transition: border-color 0.25s ease;
 }
 
 .footer-nav-pill {
@@ -1503,11 +1605,11 @@ textarea.form-control-pill {
   transform: translateY(-2px);
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: #14171f;
+  color: var(--brand-on-gold);
 }
 
 .footer-nav-pill:hover i {
-  color: #14171f;
+  color: var(--brand-on-gold);
 }
 
 .social-icon-btn {
@@ -1578,20 +1680,22 @@ textarea.form-control-pill {
    Style Switcher & Back-to-Top (100% Solid Minimalist Surface)
    ========================================================================== */
 #style-switcher {
-  transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: left 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease;
   background-color: #14171f;
   border: 2px solid #2d3546;
-  width: 189px;
+  width: 196px;
   position: fixed;
   top: 160px;
   z-index: 9999;
-  border-radius: 0 0 10px 0;
-  left: -189px;
-  padding: 12px 8px;
+  border-radius: 0 0 12px 0;
+  left: -196px;
+  padding: 12px 10px;
+  box-shadow: 0 4px 0 #07090d;
 }
 
 #style-switcher.open {
   left: 0;
+  border-color: var(--brand-gold);
 }
 
 #style-switcher .bottom {
@@ -1602,7 +1706,7 @@ textarea.form-control-pill {
 
 #style-switcher .bottom .settings-btn {
   background-color: #1e222d;
-  border: 2px solid #2d3546;
+  border: 2px solid var(--brand-gold);
   border-left: none;
   height: 44px;
   position: absolute;
@@ -1616,13 +1720,47 @@ textarea.form-control-pill {
   justify-content: center;
   color: var(--brand-gold);
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 #style-switcher .bottom .settings-btn:hover {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: #14171f;
+  color: var(--brand-on-gold);
+}
+
+.style-swatch-btn {
+  position: relative;
+  height: 36px;
+  width: 36px;
+  border-radius: 9999px;
+  border: 2px solid #475569;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.style-swatch-btn:hover {
+  transform: scale(1.12);
+  border-color: #ffffff;
+}
+
+.style-swatch-btn.is-active {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px #14171f, 0 0 0 4px #ffffff;
+  transform: scale(1.08);
+}
+
+.style-swatch-check {
+  opacity: 0;
+  font-size: 13px;
+  transition: opacity 0.15s ease;
+}
+
+.style-swatch-btn.is-active .style-swatch-check {
+  opacity: 1;
 }
 
 .ti-spin-slow {
@@ -1663,7 +1801,7 @@ textarea.form-control-pill {
 
 .back-to-top-btn:hover {
   background-color: var(--brand-gold);
-  color: #14171f;
+  color: var(--brand-on-gold);
   transform: translateY(-3px);
 }
 
@@ -1706,10 +1844,9 @@ textarea.form-control-pill {
   background-color: var(--brand-gold);
   pointer-events: none;
   will-change: transform;
-  transition: width 0.2s ease, height 0.2s ease, opacity 0.15s ease;
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.15s ease, background-color 0.2s ease;
 }
 
-/* Hide center dot when hovering interactive controls so text is NEVER covered */
 .cursor-dot.is-hovering {
   opacity: 0;
 }
@@ -1743,7 +1880,6 @@ textarea.form-control-pill {
   background-color: transparent;
 }
 
-/* Float label badge above the pointer so it never obscures button or pill text */
 .cursor-ring.has-label {
   width: auto;
   min-width: 68px;

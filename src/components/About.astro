@@ -1,7 +1,12 @@
 ---
-import { getPortfolioContent, withBase } from '../data/portfolio';
+import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 
-const { about, profile, socialLinks } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { about, profile, socialLinks } = await getPortfolioContent(locale);
 const aboutSocials = socialLinks.filter((s) => s.showInAbout);
 const { trainingShowcase } = about;
 ---
@@ -38,7 +43,7 @@ const { trainingShowcase } = about;
           />
           <!-- Experience Solid Badge (Zero Blur Shadow) -->
           <div
-            class="absolute -bottom-3 right-2 rounded-full bg-[#14171f] border-2 border-[#cdb30c] px-4 py-1.5 text-white flex items-center gap-2"
+            class="absolute -bottom-3 right-2 rounded-full bg-[#14171f] border-2 border-gold px-4 py-1.5 text-white flex items-center gap-2"
             style="box-shadow: 0 4px 0 #090b10;"
           >
             <i class="icofont icofont-code-alt text-gold text-base" aria-hidden="true"></i>
@@ -97,8 +102,8 @@ const { trainingShowcase } = about;
             </div>
           </div>
 
-          <!-- Action Buttons (Preserves Descargar CV + Contáctame + Official Social Brand Buttons) -->
-          <div class="mt-7 flex flex-wrap items-center gap-3.5">
+          <!-- Action Buttons (Official CVs + Direct Contact + Official Social Brand Buttons) -->
+          <div class="mt-7 flex flex-wrap items-center gap-3">
             <a
               href={withBase(profile.cvPrimary.url)}
               target="_blank"
@@ -108,6 +113,19 @@ const { trainingShowcase } = about;
               data-cursor-label={about.cvButtonCursorLabel}
             >
               <span>{profile.cvPrimary.labelAbout}</span>
+            </a>
+
+            <a
+              href={withBase(profile.cvExtended.url)}
+              target="_blank"
+              rel="noopener noreferrer"
+              download={profile.cvExtended.filename}
+              data-magnetic
+              data-cursor-label={about.cvButtonCursorLabel}
+              class="btn-cv-outline"
+            >
+              <i class="icofont icofont-file-pdf text-gold" aria-hidden="true"></i>
+              <span>{profile.cvExtended.labelAbout}</span>
             </a>
 
             <a
@@ -199,12 +217,12 @@ const { trainingShowcase } = about;
         }
       </div>
 
-      <!-- Redesigned Executive Continuous Training, Specializations & Competencies Showcase -->
+      <!-- Redesigned Executive Professional Development, Specializations & Competencies Showcase -->
       <details class="training-drawer mt-7 group" open>
         <summary class="training-summary">
           <div class="flex items-center gap-3.5">
             <span
-              class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0e3d65] text-gold border-2 border-[#cdb30c]"
+              class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0e3d65] text-gold border-2 border-gold"
               style="box-shadow: 0 3px 0 #08233a;"
               aria-hidden="true"
             >
@@ -230,7 +248,7 @@ const { trainingShowcase } = about;
               ))
             }
             <span
-              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#14171f] text-gold border-2 border-[#cdb30c] group-open:rotate-180 transition-transform"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#14171f] text-gold border-2 border-gold group-open:rotate-180 transition-transform"
               aria-hidden="true"
             >
               <i class="icofont icofont-rounded-down text-lg"></i>
@@ -239,7 +257,7 @@ const { trainingShowcase } = about;
         </summary>
 
         <div class="p-5 sm:p-6 border-t-2 grid grid-cols-1 lg:grid-cols-12 gap-7" style="border-color: var(--card-border); background-color: var(--th-secondary);">
-          <!-- Left 8 Columns: 10 Specialized Courses with Solid Official Provider Badges -->
+          <!-- Left 8 Columns: Professional Development Pillars from Official 2026 CVs -->
           <div class="lg:col-span-8">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
               <span class="label-c">{trainingShowcase.coursesHeading}</span>
@@ -317,7 +335,7 @@ const { trainingShowcase } = about;
 
             <!-- Executive Summary Callout Card -->
             <div
-              class="rounded-xl p-4 border-2 border-[#cdb30c] bg-[#14171f] text-white"
+              class="rounded-xl p-4 border-2 border-gold bg-[#14171f] text-white"
               style="box-shadow: 0 4px 0 #080a0f;"
             >
               <div class="flex items-center gap-2.5 mb-1.5">
@@ -352,3 +370,4 @@ const { trainingShowcase } = about;
   </svg>
 </section>
 <!-- END ABOUT -->
+

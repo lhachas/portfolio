@@ -1,16 +1,24 @@
-# Portafolio Profesional - Leonel Hacha Salazar (LHachaS)
+# Portafolio Profesional Bilingüe (ES / EN) - Leonel Hacha Salazar (LHachaS)
 
-Portafolio de ingeniería de software de **Leonel Hacha Salazar** (**Senior Backend Developer | Full Stack Developer**), construido con **Astro**, **Tailwind CSS v4**, **GSAP** y **Astro Content Collections + Zod**, respetando una identidad visual **100% Solid Minimalist** (cero glassmorphism, cero transparencias difusas) y con **100% del contenido centralizado en un único archivo YAML editable sin tocar código** (`src/content/portfolio/portfolio.yml`).
+Portafolio de ingeniería de software de **Leonel Hacha Salazar** (**Senior Backend Developer | Full Stack Developer**), construido con **Astro**, **Tailwind CSS v4**, **GSAP** y **Astro Content Collections + Zod**, respetando una identidad visual **100% Solid Minimalist** (cero glassmorphism, cero transparencias difusas) y con **100% del contenido centralizado en archivos YAML bilingües editables sin tocar código** (`src/content/portfolio/portfolio.yml` para Español y `src/content/portfolio/portfolio-en.yml` para Inglés).
 
 ---
 
 ## Guía Rápida: ¿Cómo Actualizar la Información sin Saber Programación ni HTML?
 
-Todo el texto, datos personales, experiencias laborales, habilidades, cursos, certificaciones, idiomas, enlaces a CVs, redes sociales, formulario de contacto, pie de página y metadatos SEO viven en **un único archivo**:
+Todo el texto, datos personales, experiencias laborales, habilidades, formación continua, competencias, idiomas, enlaces a los 4 CVs oficiales (`ES.pdf`, `EN.pdf`, `ES.docx`, `EN.docx`), redes sociales, formulario de contacto, pie de página y metadatos SEO viven exclusivamente en:
 
-👉 **`src/content/portfolio/portfolio.yml`**
+- 🇪🇸 **Español (`/portfolio/`):** **`src/content/portfolio/portfolio.yml`**
+- 🇺🇸 **Inglés (`/portfolio/en/`):** **`src/content/portfolio/portfolio-en.yml`**
 
-Ningún componente `.astro` ni página HTML tiene textos fijos escritos adentro. Cuando cambias cualquier texto en `src/content/portfolio/portfolio.yml`, toda la página web (incluyendo Google SEO, tarjetas de LinkedIn/WhatsApp y secciones visuales) se actualiza automáticamente.
+Ningún componente `.astro` ni página HTML tiene textos fijos escritos adentro. Cuando cambias cualquier texto en los archivos YAML, toda la página web (incluyendo Google SEO, etiquetas `hreflang`, tarjetas de LinkedIn/WhatsApp y secciones visuales) se actualiza automáticamente.
+
+### CVs Oficiales Válidos (Única Fuente de Verdad Documental)
+Los únicos 4 archivos de CV autorizados en `public/assets/cv/` (validados por expresión regular en compilación mediante `src/content.config.ts`) son:
+1. `CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf`
+2. `CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf`
+3. `CV-Leonel-Hacha-Salazar-Backend-2026-ES.docx`
+4. `CV-Leonel-Hacha-Salazar-Backend-2026-EN.docx`
 
 ### Reglas Básicas de Edición (YAML)
 1. **Edita solo lo que está entre comillas `""` después de los dos puntos `:`**
@@ -23,8 +31,8 @@ Ningún componente `.astro` ni página HTML tiene textos fijos escritos adentro.
 
 ### Ejemplos Prácticos de Actualización
 
-#### 1. Cambiar tu teléfono, correo, ubicación o enlace de CV
-Abre `src/content/portfolio/portfolio.yml` en la sección `# 2. DATOS PERSONALES E IDENTIDAD DE MARCA`:
+#### 1. Cambiar tu teléfono, correo, ubicación o enlaces de CV
+Abre `src/content/portfolio/portfolio.yml` (y su par en inglés `portfolio-en.yml`) en la sección `# 2. DATOS PERSONALES E IDENTIDAD DE MARCA`:
 ```yaml
 profile:
   name: "Leonel Hacha Salazar"
@@ -37,12 +45,11 @@ profile:
   cvPrimary:
     url: "/assets/cv/CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
     filename: "CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
-    labelHero: "Descargar CV 2026"
+    labelHero: "CV 2026 (ES · PDF)"
 ```
-*(Si tienes un nuevo archivo PDF de CV, súbelo a la carpeta `public/assets/cv/` y pon su nombre en `url` y `filename`).*
 
 #### 2. Agregar una nueva Experiencia Laboral a la Línea de Tiempo
-Ve a la sección `# 8. SECCIÓN MIS EXPERIENCIAS` (`experiencesSection.items`) y copia el primer bloque que empieza con `- id:`:
+Ve a la sección `# 8. SECCIÓN EXPERIENCIA PROFESIONAL` (`experiencesSection.items`) y copia el primer bloque que empieza con `- id:`:
 ```yaml
     - id: "nueva-empresa-2027"
       stepNumber: "01"
@@ -53,31 +60,25 @@ Ve a la sección `# 8. SECCIÓN MIS EXPERIENCIAS` (`experiencesSection.items`) y
       shortDate: "2026 - Hoy"
       location: "Remoto LATAM"
       color: "#cdb30c"
-      summary: "Resumen corto de tu rol principal en una o dos oraciones."
+      summary: "Resumen ejecutivo de tu rol principal en una o dos oraciones orientadas a impacto."
       highlights:
         - label: "Logro Principal 1"
-          text: "Descripción detallada del logro técnico y de negocio."
+          text: "Descripción detallada del logro técnico, arquitectura y valor de negocio."
       technologies:
         - "Node.js"
         - "TypeScript"
         - "AWS"
 ```
 
-#### 3. Agregar un nuevo Curso o Certificación
-Ve a la sección `# 6. SECCIÓN SOBRE MÍ` → `trainingShowcase` → `courses` y añade un bloque con guion:
+#### 3. Agregar una nueva Línea de Formación Continua o Especialización
+Ve a la sección `# 6. SECCIÓN PERFIL PROFESIONAL` → `trainingShowcase` → `courses` y añade un bloque con guion:
 ```yaml
-      - name: "Nombre del Nuevo Curso o Certificación"
-        provider: "Udemy"
-        providerColor: "#A435F0"
-        date: "10/2026"
-        domain: "Arquitectura Cloud"
+      - name: "Nombre de la Especialización Técnica"
+        provider: "Cloud & Distributed"
+        providerColor: "#2563eb"
+        date: "2026"
+        domain: "AWS, Kubernetes y Resiliencia"
 ```
-
-#### 4. Editar directamente desde el navegador en GitHub (sin instalar nada)
-1. Entra a tu repositorio en GitHub y abre `src/content/portfolio/portfolio.yml`.
-2. Haz clic en el ícono del lápiz (**Edit this file**) arriba a la derecha.
-3. Modifica los textos que desees y haz clic en el botón verde **Commit changes...**.
-4. GitHub validará automáticamente que todos los datos sean correctos y publicará la web actualizada en `https://lhachas.github.io/portfolio/` en menos de 1 minuto.
 
 ---
 
@@ -88,7 +89,7 @@ portfolio/
 ├── public/
 │   ├── assets/
 │   │   ├── css/plugins/               # icofont.css & technology-icons.css
-│   │   ├── cv/                        # CVs 2026 actualizados en PDF
+│   │   ├── cv/                        # 4 CVs Oficiales 2026 (ES/EN en PDF y DOCX)
 │   │   ├── fonts/                     # Fuentes WOFF/WOFF2 de Icofont y Technology Icons
 │   │   └── images/                    # cartographer.png, iam-4.jpg y icons/boy.png
 │   ├── favicon.ico
@@ -97,27 +98,30 @@ portfolio/
 ├── src/
 │   ├── content/
 │   │   └── portfolio/
-│   │       └── portfolio.yml          # ★ ÚNICA FUENTE DE VERDAD (100% del contenido editable)
-│   ├── content.config.ts              # Esquema Zod estricto de validación en build-time
+│   │       ├── portfolio.yml          # ★ FUENTE DE VERDAD ESPAÑOL (100% del contenido ES)
+│   │       └── portfolio-en.yml       # ★ FUENTE DE VERDAD INGLÉS (100% del contenido EN)
+│   ├── content.config.ts              # Esquema Zod estricto (valida CVs oficiales y hex sólidos)
 │   ├── data/
-│   │   └── portfolio.ts               # Cargador tipado de Content Collection (0% texto embebido)
+│   │   └── portfolio.ts               # Cargador tipado bilingüe (getPortfolioContent('es' | 'en'))
 │   ├── components/
-│   │   ├── Navbar.astro               # Navegación superior + selector claro/oscuro sólido
+│   │   ├── Navbar.astro               # Navegación + selector ES/EN + selector claro/oscuro sólido
 │   │   ├── Hero.astro                 # Hero Product Designer con GSAP + ScrollTrigger + Canvas
-│   │   ├── About.astro                # Sobre Mí + Bento Cards Educación + Drawer Cursos/Skills
-│   │   ├── Skills.astro               # 4 Pilares de Ingeniería con filtros y barras animadas
+│   │   ├── About.astro                # Perfil Profesional + Bento Educación + Desarrollo Continuo
+│   │   ├── Skills.astro               # 4 Pilares Técnicos del CV 2026 con filtros interactivos
 │   │   ├── Experiences.astro          # Línea del tiempo interconectada de 6 etapas sólidas
-│   │   ├── Services.astro             # Servicios ejecutivos y entregables clave
-│   │   ├── Contact.astro              # Canales oficiales + Formulario funcional anti-XSS
+│   │   ├── Services.astro             # Arquitectura y Soluciones con entregables verificables
+│   │   ├── Contact.astro              # Canales oficiales + 4 CVs + Formulario funcional anti-XSS
 │   │   ├── Footer.astro               # Footer ejecutivo de 3 columnas sin solapamiento de onda
-│   │   ├── StyleSwitcher.astro        # Selector de 6 colores sólidos de acento
+│   │   ├── StyleSwitcher.astro        # Selector de 6 colores sólidos con propagación total CSS
 │   │   └── InteractiveCursor.astro    # Cursor spring dual y barra de progreso superior
 │   ├── layouts/
-│   │   └── Layout.astro               # SEO, OpenGraph, JSON-LD Schema.org y CSP endurecida
+│   │   └── Layout.astro               # SEO bilingüe, hreflang, OpenGraph, JSON-LD y CSP
 │   ├── pages/
-│   │   └── index.astro                # Ensamblaje de secciones del portafolio
+│   │   ├── index.astro                # Ruta principal en Español (/portfolio/)
+│   │   └── en/
+│   │       └── index.astro            # Ruta en Inglés (/portfolio/en/)
 │   └── styles/
-│       └── global.css                 # Tokens de diseño 100% sólidos y curvas SVG (.wave)
+│       └── global.css                 # Tokens de diseño 100% sólidos y propagación de acento
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json

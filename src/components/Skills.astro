@@ -1,7 +1,12 @@
 ---
-import { getPortfolioContent } from '../data/portfolio';
+import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
 
-const { skillsSection } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { skillsSection } = await getPortfolioContent(locale);
 const skillCategories = skillsSection.categories;
 ---
 
@@ -30,7 +35,7 @@ const skillCategories = skillsSection.categories;
         role="tab"
         aria-selected="true"
         data-skill-filter="all"
-        style="--tab-accent: #cdb30c; --tab-text: #14171f;"
+        style="--tab-accent: var(--brand-gold); --tab-text: var(--brand-on-gold);"
         class="skill-filter-btn active min-h-[42px] rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer"
       >
         {skillsSection.filterAllLabel}
@@ -175,7 +180,7 @@ const skillCategories = skillsSection.categories;
   }
   .skill-filter-btn.active {
     background-color: var(--tab-accent, var(--brand-gold));
-    color: var(--tab-text, #14171f);
+    color: var(--tab-text, var(--brand-on-gold));
     border-color: var(--tab-accent, var(--brand-gold));
     box-shadow: 0 3px 0 #091526;
     font-weight: 600;

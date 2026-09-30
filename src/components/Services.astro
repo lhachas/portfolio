@@ -1,7 +1,12 @@
 ---
-import { getPortfolioContent } from '../data/portfolio';
+import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
 
-const { servicesSection } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { servicesSection } = await getPortfolioContent(locale);
 const servicesData = servicesSection.items;
 ---
 

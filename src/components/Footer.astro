@@ -1,7 +1,12 @@
 ---
-import { getPortfolioContent, withBase } from '../data/portfolio';
+import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 
-const { footer, profile, socialLinks, navigation } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { footer, profile, socialLinks, navigation } = await getPortfolioContent(locale);
 const navItems = navigation.items;
 const currentYear = new Date().getFullYear();
 ---
@@ -13,7 +18,7 @@ const currentYear = new Date().getFullYear();
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
       <!-- Column 1: Brand Identity, Value Proposition & Live Status -->
       <div class="lg:col-span-4">
-        <div class="footer-card flex flex-col justify-between" style="--footer-accent: #cdb30c;">
+        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--brand-gold);">
           <div>
             <a class="navbar-brand-logo mb-3" href="#home" aria-label={navigation.brandAriaLabel}>
               <img
@@ -50,7 +55,7 @@ const currentYear = new Date().getFullYear();
         </div>
       </div>
 
-      <!-- Column 2: Quick Section Navigation & Direct 2026 CV Downloads -->
+      <!-- Column 2: Quick Section Navigation & Official 2026 CV Downloads -->
       <div class="lg:col-span-4">
         <div class="footer-card flex flex-col justify-between" style="--footer-accent: #2563eb;">
           <div>
@@ -75,6 +80,16 @@ const currentYear = new Date().getFullYear();
                     </li>
                   ))
                 }
+                <li>
+                  <a
+                    href={withBase(navigation.languageSwitcher.targetHref)}
+                    class="footer-nav-pill"
+                    aria-label={navigation.languageSwitcher.ariaLabel}
+                  >
+                    <i class="icofont icofont-globe text-gold" aria-hidden="true"></i>
+                    <span>{navigation.languageSwitcher.currentCode} / {navigation.languageSwitcher.targetLabel}</span>
+                  </a>
+                </li>
               </ul>
             </nav>
           </div>
@@ -83,27 +98,29 @@ const currentYear = new Date().getFullYear();
             <span class="block text-[11px] font-semibold uppercase tracking-widest text-[#cbd5e1] mb-2">
               {footer.cvDownloadHeading}
             </span>
-            <div class="flex flex-wrap gap-2">
-              <a
-                href={withBase(profile.cvPrimary.url)}
-                target="_blank"
-                rel="noopener noreferrer"
-                download={profile.cvPrimary.filename}
-                class="inline-flex items-center gap-1.5 rounded-full bg-[#cdb30c] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#14171f] hover:bg-[#b39b09] transition-colors"
-              >
-                <i class="icofont icofont-file-pdf" aria-hidden="true"></i>
-                <span>{profile.cvPrimary.labelFooter}</span>
-              </a>
-              <a
-                href={withBase(profile.cvExtended.url)}
-                target="_blank"
-                rel="noopener noreferrer"
-                download={profile.cvExtended.filename}
-                class="inline-flex items-center gap-1.5 rounded-full bg-[#14171f] border border-[#cdb30c] px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-white hover:bg-[#cdb30c] hover:text-[#14171f] transition-colors"
-              >
-                <i class="icofont icofont-file-pdf text-gold" aria-hidden="true"></i>
-                <span>{profile.cvExtended.labelFooter}</span>
-              </a>
+            <div class="grid grid-cols-2 gap-2">
+              {
+                profile.cvFormats.map((cv, idx) => {
+                  const isPrimaryFormat = idx === 0;
+                  const iconClass = cv.format === 'PDF' ? 'icofont-file-pdf' : 'icofont-file-word';
+                  return (
+                    <a
+                      href={withBase(cv.url)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download={cv.filename}
+                      class={
+                        isPrimaryFormat
+                          ? 'btn-cv-solid !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center'
+                          : 'btn-cv-outline !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center !bg-[#14171f] !text-white'
+                      }
+                    >
+                      <i class={`icofont ${iconClass} ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
+                      <span>{cv.lang} · {cv.format}</span>
+                    </a>
+                  );
+                })
+              }
             </div>
           </div>
         </div>

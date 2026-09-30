@@ -1,7 +1,12 @@
 ---
-import { getPortfolioContent, withBase } from '../data/portfolio';
+import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 
-const { hero, profile, socialLinks } = await getPortfolioContent();
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { hero, profile, socialLinks } = await getPortfolioContent(locale);
 const heroSocials = socialLinks.filter((s) => s.showInHero);
 ---
 
@@ -34,7 +39,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
         {hero.greeting} · <span class="text-gold font-medium">{profile.locationShort}</span>
       </p>
 
-      <!-- Single-Line Typed Headline (Preserves Soy + Victor Mono Italic Gold Typed Text without 2-line jump) -->
+      <!-- Single-Line Typed Headline (Preserves Soy + Victor Mono Italic Dynamic Accent Typed Text without 2-line jump) -->
       <h1
         class="home-title text-gold mb-0 flex flex-wrap sm:flex-nowrap items-center justify-center gap-x-3 pb-1 min-h-[3.2rem] sm:min-h-[3.6rem]"
         data-hero-anim
@@ -103,6 +108,18 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
           <i class="icofont icofont-file-pdf text-gold text-base" aria-hidden="true"></i>
           <span>{profile.cvPrimary.labelHero}</span>
         </a>
+        <a
+          href={withBase(profile.cvExtended.url)}
+          target="_blank"
+          rel="noopener noreferrer"
+          download={profile.cvExtended.filename}
+          data-magnetic
+          data-cursor-label={hero.cvCtaCursorLabel}
+          class="btn-outline-gold"
+        >
+          <i class="icofont icofont-file-pdf text-gold text-base" aria-hidden="true"></i>
+          <span>{profile.cvExtended.labelHero}</span>
+        </a>
 
         <span class="hidden lg:inline-block h-6 w-[2px] bg-[#2e3545] mx-1" aria-hidden="true"></span>
 
@@ -129,17 +146,19 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
       <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
         {
           hero.metrics.map((metric) => {
-            const iconTextColor = metric.accentColor === '#cdb30c' ? '#14171f' : '#ffffff';
+            const isBrandAccent = metric.accentColor.toLowerCase() === '#cdb30c';
+            const resolvedAccent = isBrandAccent ? 'var(--brand-gold)' : metric.accentColor;
+            const iconTextColor = isBrandAccent ? 'var(--brand-on-gold)' : '#ffffff';
             return (
               <div
                 class="hero-metric-card"
                 data-tilt-card
                 data-hero-metric-item
-                style={`--metric-accent: ${metric.accentColor};`}
+                style={`--metric-accent: ${resolvedAccent};`}
               >
                 <div
                   class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#14171f]"
-                  style={`background-color: ${metric.accentColor}; color: ${iconTextColor}; box-shadow: 0 3px 0 #0a0c10;`}
+                  style={`background-color: ${resolvedAccent}; color: ${iconTextColor}; box-shadow: 0 3px 0 #0a0c10;`}
                 >
                   <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
                 </div>
@@ -148,7 +167,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
                 </div>
                 <div
                   class="mt-0.5 text-[13.5px] font-medium uppercase tracking-wider"
-                  style={`color: ${metric.accentColor};`}
+                  style={`color: ${resolvedAccent};`}
                 >
                   {metric.label}
                 </div>
@@ -278,7 +297,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
       });
     }
 
-    // 4. Interactive Canvas Particle Constellation (100% Solid Hex Nodes & Lines)
+    // 4. Interactive Canvas Particle Constellation (100% Solid Hex Nodes & Lines, Responsive to Accent Changes)
     const canvas = document.getElementById('hero-particles') as HTMLCanvasElement | null;
     if (!canvas || prefersReducedMotion) return;
     const ctx = canvas.getContext('2d');
@@ -288,6 +307,11 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
     let height = (canvas.height = canvas.offsetHeight);
     let pointerX = -9999;
     let pointerY = -9999;
+
+    const getActiveAccent = () =>
+      getComputedStyle(document.documentElement).getPropertyValue('--brand-gold').trim() || '#cdb30c';
+
+    let activeAccent = getActiveAccent();
 
     heroSection?.addEventListener(
       'mousemove',
@@ -309,15 +333,23 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
     );
 
     const particleCount = Math.min(36, Math.floor((width * height) / 28000));
-    const palette = ['#cdb30c', '#2563eb', '#0d9488', '#ea6a15'];
+    const secondaryPalette = ['#2563eb', '#0d9488', '#ea6a15'];
     const particles = Array.from({ length: particleCount }, (_, i) => ({
       x: Math.random() * width,
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.38,
       vy: (Math.random() - 0.5) * 0.38,
       r: i % 3 === 0 ? 2.2 : 1.8,
-      color: palette[i % palette.length],
+      isAccent: i % 4 === 0,
+      color: i % 4 === 0 ? activeAccent : secondaryPalette[i % secondaryPalette.length],
     }));
+
+    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string }>) => {
+      activeAccent = e.detail?.primary || getActiveAccent();
+      particles.forEach((p) => {
+        if (p.isAccent) p.color = activeAccent;
+      });
+    }) as EventListener);
 
     const onResize = () => {
       if (!canvas) return;
@@ -357,7 +389,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(pointerX, pointerY);
-          ctx.strokeStyle = mDist < 90 ? '#cdb30c' : '#475569';
+          ctx.strokeStyle = mDist < 90 ? activeAccent : '#475569';
           ctx.lineWidth = 1.2;
           ctx.stroke();
         }
@@ -374,3 +406,4 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
 
   document.addEventListener('DOMContentLoaded', initHeroEffects);
 </script>
+
