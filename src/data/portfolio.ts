@@ -19,12 +19,20 @@ export interface HeroMetricItem {
   label: string;
   detail: string;
   icon: string;
+  accentColor: string;
+}
+
+export interface HeroArchPillItem {
+  icon: string;
+  label: string;
+  brandColor: string;
 }
 
 export interface SkillItem {
   name: string;
   level: string;
   icon: string;
+  brandColor: string;
   detail?: string;
 }
 
@@ -33,6 +41,7 @@ export interface SkillCategory {
   icon: string;
   title: string;
   subtitle: string;
+  accentColor: string;
   items: SkillItem[];
   tags: string[];
 }
@@ -61,6 +70,8 @@ export interface ServiceItem {
   icon: string;
   title: string;
   description: string;
+  accentColor: string;
+  badgeLabel: string;
   deliverables: string[];
 }
 
@@ -70,12 +81,16 @@ export interface EducationItem {
   detail: string;
   period: string;
   icon: string;
+  accentColor: string;
+  badgeText: string;
 }
 
 export interface CourseItem {
   name: string;
-  provider: string;
+  provider: 'Udemy' | 'Platzi';
+  providerColor: string;
   date: string;
+  domain: string;
 }
 
 const rawBase = import.meta.env.BASE_URL || '/';
@@ -88,13 +103,13 @@ export const profileData = {
   brandHighlight: 'Hacha',
   brandSuffix: 'S',
   roleHeadline: 'Senior Backend Developer | Full Stack Developer',
-  availabilityBadge: 'Disponible para Roles Senior Backend & Full-Stack · Remoto LATAM / Global',
+  availabilityBadge: 'Disponible · Senior Backend & Full-Stack · Remoto LATAM / Global',
   typedStrings: [
     'Leonel Hacha Salazar',
     'Senior Backend Developer',
     'Full Stack Developer',
-    'Especialista Node.js, TypeScript & NestJS',
-    'Arquitecto Cloud AWS, Serverless & EDA',
+    'Especialista Node.js & NestJS',
+    'Arquitecto Cloud AWS & Java',
   ],
   yearsExperience: '9+',
   location: 'Espinar, Cusco, Perú',
@@ -110,37 +125,41 @@ export const profileData = {
   cvBaufestUrl: withBase('/assets/cv/CV-Leonel-Hacha-Salazar-Backend-Bit-2026.pdf'),
   heroGreeting: '¡Hola, bienvenido!',
   heroSubtitle:
-    'Desarrollador Senior con más de 9 años de experiencia construyendo soluciones de software escalables y mantenibles para la industria financiera, retail y tecnología automotriz. Experto en Node.js, TypeScript, NestJS, Java, Spring Boot/WebFlux, Angular, React y arquitecturas Cloud AWS.',
+    'Desarrollador Senior con más de 9 años construyendo plataformas financieras, retail y logística de alta concurrencia. Especialista en Node.js, TypeScript, NestJS, Java (Spring Boot/WebFlux), Angular, React y arquitecturas Serverless & Event-Driven en AWS.',
   heroArchitecturePills: [
-    { icon: 'icon-nodejs', label: 'Node.js · TypeScript · NestJS' },
-    { icon: 'icon-java', label: 'Java 15/17/21 · Spring WebFlux' },
-    { icon: 'icon-ec3', label: 'AWS Serverless · EDA · Hexagonal' },
-    { icon: 'icon-angular', label: 'Angular · React · Full-Stack' },
-  ],
+    { icon: 'icon-nodejs', label: 'Node.js · TypeScript · NestJS', brandColor: '#339933' },
+    { icon: 'icon-java', label: 'Java 15/17/21 · Spring WebFlux', brandColor: '#E76F00' },
+    { icon: 'icon-ec3', label: 'AWS Serverless · EDA · Hexagonal', brandColor: '#EA6A15' },
+    { icon: 'icon-angular', label: 'Angular · React · Full-Stack', brandColor: '#DD0031' },
+  ] as HeroArchPillItem[],
   heroMetrics: [
     {
       value: '9+ Años',
-      label: 'Experiencia Senior',
-      detail: 'Fintech, Retail & IoT',
+      label: 'Trayectoria Senior',
+      detail: 'Banca Digital, Retail & IoT',
       icon: 'icofont-badge',
+      accentColor: '#cdb30c',
     },
     {
       value: '5 Líneas',
       label: 'Productos Banca Digital',
       detail: 'Core Temenos, Onfido & LexisNexis',
       icon: 'icofont-bank-alt',
+      accentColor: '#2563eb',
     },
     {
       value: '6 Flujos Core',
       label: 'Ciclo Financiero AWS',
       detail: 'Lambda, SQS, Step Fn & DynamoDB',
       icon: 'icofont-cloud',
+      accentColor: '#ea6a15',
     },
     {
       value: 'End-to-End',
-      label: 'Backend, Cloud & Full Stack',
-      detail: 'Clean Code, DDD & Observabilidad',
+      label: 'Calidad & Observabilidad',
+      detail: 'DDD, Clean Code & CI/CD',
       icon: 'icofont-architecture-alt',
+      accentColor: '#0d9488',
     },
   ] as HeroMetricItem[],
   aboutLead:
@@ -279,12 +298,13 @@ export const skillCategories: SkillCategory[] = [
     icon: 'icofont-console',
     title: 'Lenguajes y Frameworks',
     subtitle: 'Desarrollo backend transaccional, interfaces reactivas modernas y contratos API estandarizados',
+    accentColor: '#2563eb',
     items: [
-      { name: 'Node.js, TypeScript & NestJS', level: '95%', icon: 'icon-nodejs' },
-      { name: 'Java (15/17/21) & Spring Boot/WebFlux', level: '88%', icon: 'icon-java' },
-      { name: 'Angular, React, Vue.js & RxJS', level: '90%', icon: 'icon-angular' },
-      { name: 'APIs REST, GraphQL, SOAP & OpenAPI', level: '95%', icon: 'icon-opensource' },
-      { name: 'C# / .NET Core & PHP / Laravel', level: '84%', icon: 'icon-csharp' },
+      { name: 'Node.js, TypeScript & NestJS', level: '95%', icon: 'icon-nodejs', brandColor: '#339933' },
+      { name: 'Java (15/17/21) & Spring Boot/WebFlux', level: '88%', icon: 'icon-java', brandColor: '#E76F00' },
+      { name: 'Angular, React, Vue.js & RxJS', level: '90%', icon: 'icon-angular', brandColor: '#DD0031' },
+      { name: 'APIs REST, GraphQL, SOAP & OpenAPI', level: '95%', icon: 'icon-opensource', brandColor: '#E10098' },
+      { name: 'C# / .NET Core & PHP / Laravel', level: '84%', icon: 'icon-csharp', brandColor: '#512BD4' },
     ],
     tags: [
       'Node.js',
@@ -309,12 +329,13 @@ export const skillCategories: SkillCategory[] = [
     icon: 'icofont-cloud',
     title: 'Cloud y Sistemas Distribuidos',
     subtitle: 'Arquitecturas Serverless, Event-Driven (EDA), Hexagonal y contenedores en AWS y Kubernetes',
+    accentColor: '#ea6a15',
     items: [
-      { name: 'AWS Serverless (Lambda, SQS, Step Fn)', level: '94%', icon: 'icon-ec3' },
-      { name: 'AWS Cloud (EKS, S3, API Gateway, RDS)', level: '92%', icon: 'icon-ec3' },
-      { name: 'Microservicios & Event-Driven (EDA)', level: '94%', icon: 'icon-opensource' },
-      { name: 'Arquitectura Hexagonal & Sistemas Dist.', level: '92%', icon: 'icon-opensource' },
-      { name: 'Docker, Kubernetes & CI/CD Pipelines', level: '88%', icon: 'icon-git' },
+      { name: 'AWS Serverless (Lambda, SQS, Step Fn)', level: '94%', icon: 'icon-ec3', brandColor: '#EA6A15' },
+      { name: 'AWS Cloud (EKS, S3, API Gateway, RDS)', level: '92%', icon: 'icon-ec3', brandColor: '#0284C7' },
+      { name: 'Microservicios & Event-Driven (EDA)', level: '94%', icon: 'icon-opensource', brandColor: '#0D9488' },
+      { name: 'Arquitectura Hexagonal & Sistemas Dist.', level: '92%', icon: 'icon-opensource', brandColor: '#2563EB' },
+      { name: 'Docker, Kubernetes & CI/CD Pipelines', level: '88%', icon: 'icon-git', brandColor: '#2496ED' },
     ],
     tags: [
       'AWS Lambda',
@@ -339,12 +360,13 @@ export const skillCategories: SkillCategory[] = [
     icon: 'icofont-database',
     title: 'Base de Datos, Calidad y Observabilidad',
     subtitle: 'Persistencia SQL/NoSQL, testing automatizado, telemetría distribuida y diseño limpio',
+    accentColor: '#0d9488',
     items: [
-      { name: 'PostgreSQL, MySQL, SQL Server & Redis', level: '92%', icon: 'icon-postgres' },
-      { name: 'DynamoDB, MongoDB, TypeORM & Prisma', level: '92%', icon: 'icon-database' },
-      { name: 'Testing (Jest, JUnit, TestContainers)', level: '90%', icon: 'icon-opensource' },
-      { name: 'Observabilidad (New Relic, Prometheus)', level: '88%', icon: 'icon-opensource' },
-      { name: 'Clean Code, DDD & Patrones de Diseño', level: '92%', icon: 'icon-opensource' },
+      { name: 'PostgreSQL, MySQL, SQL Server & Redis', level: '92%', icon: 'icon-postgres', brandColor: '#336791' },
+      { name: 'DynamoDB, MongoDB, TypeORM & Prisma', level: '92%', icon: 'icon-database', brandColor: '#10AA50' },
+      { name: 'Testing (Jest, JUnit, TestContainers)', level: '90%', icon: 'icon-opensource', brandColor: '#99425B' },
+      { name: 'Observabilidad (New Relic, Prometheus)', level: '88%', icon: 'icon-opensource', brandColor: '#E6522C' },
+      { name: 'Clean Code, DDD & Patrones de Diseño', level: '92%', icon: 'icon-opensource', brandColor: '#4F46E5' },
     ],
     tags: [
       'PostgreSQL',
@@ -372,12 +394,13 @@ export const skillCategories: SkillCategory[] = [
     icon: 'icofont-automation',
     title: 'Desarrollo Asistido por IA y Seguridad',
     subtitle: 'Ingeniería aumentada con IA, análisis de vulnerabilidades OWASP, documentación C4 e integraciones críticas',
+    accentColor: '#7c3aed',
     items: [
-      { name: 'IA Aplicada (Copilot, Claude, Cursor)', level: '95%', icon: 'icon-opensource' },
-      { name: 'Refactorización Legacy & Auto-Testing', level: '92%', icon: 'icon-opensource' },
-      { name: 'Seguridad Aplicativa (OWASP & Auth0)', level: '90%', icon: 'icon-opensource' },
-      { name: 'Documentación Técnica (OpenAPI & C4)', level: '94%', icon: 'icon-opensource' },
-      { name: 'Fintech Core (Temenos, Onfido, Lexis)', level: '92%', icon: 'icon-opensource' },
+      { name: 'IA Aplicada (Copilot, Claude, Cursor)', level: '95%', icon: 'icon-opensource', brandColor: '#7C3AED' },
+      { name: 'Refactorización Legacy & Auto-Testing', level: '92%', icon: 'icon-opensource', brandColor: '#059669' },
+      { name: 'Seguridad Aplicativa (OWASP & Auth0)', level: '90%', icon: 'icon-opensource', brandColor: '#EB5424' },
+      { name: 'Documentación Técnica (OpenAPI & C4)', level: '94%', icon: 'icon-opensource', brandColor: '#0284C7' },
+      { name: 'Fintech Core (Temenos, Onfido, Lexis)', level: '92%', icon: 'icon-opensource', brandColor: '#D97706' },
     ],
     tags: [
       'GitHub Copilot',
@@ -685,6 +708,8 @@ export const servicesData: ServiceItem[] = [
   {
     icon: 'icofont-code',
     title: 'Arquitectura Backend & Microservicios',
+    accentColor: '#2563eb',
+    badgeLabel: 'Core Transaccional',
     description:
       'Diseño, desarrollo y evolución de microservicios escalables y APIs REST, GraphQL y SOAP con Node.js, TypeScript, NestJS y Java (Spring Boot / WebFlux), aplicando Arquitectura Hexagonal, DDD y Clean Code para banca digital, retail y logística.',
     deliverables: [
@@ -696,6 +721,8 @@ export const servicesData: ServiceItem[] = [
   {
     icon: 'icofont-responsive',
     title: 'Desarrollo Full-Stack & Ecosistemas Web',
+    accentColor: '#0d9488',
+    badgeLabel: 'Monorepo & Persistencia',
     description:
       'Construcción integral de aplicaciones web modernas con Angular, React y Vue.js en monorepos Nx, conectadas a persistencia SQL/NoSQL optimizada (PostgreSQL, MySQL, MongoDB, DynamoDB, Redis) y motores de generación documental con Puppeteer.',
     deliverables: [
@@ -707,6 +734,8 @@ export const servicesData: ServiceItem[] = [
   {
     icon: 'icofont-automation',
     title: 'Cloud AWS, Observabilidad & IA Aplicada',
+    accentColor: '#7c3aed',
+    badgeLabel: 'Serverless & DevSecOps',
     description:
       'Implementación de arquitecturas Serverless y Event-Driven en AWS (Lambda, SQS, Step Functions, EKS), contenedores Docker/Kubernetes, pipelines CI/CD, observabilidad (New Relic, Prometheus, Grafana, CloudWatch) e ingeniería asistida por IA.',
     deliverables: [
@@ -721,37 +750,43 @@ export const educationData: EducationItem[] = [
   {
     category: 'Educación Superior',
     institution: 'Universidad Nacional de San Antonio Abad del Cusco (UNSAAC)',
-    detail: 'Instituto de Sistemas - Analista de Sistemas',
+    detail: 'Instituto de Sistemas · Formación en Análisis, Diseño de Sistemas e Ingeniería de Software.',
     period: 'Cusco, Perú',
     icon: 'icofont-graduate-alt',
+    accentColor: '#2563eb',
+    badgeText: 'Analista de Sistemas',
   },
   {
     category: 'Formación Técnica',
-    institution: 'SENATI - Servicio Nacional de Adiestramiento Industrial',
-    detail: 'Formación Profesional Técnica Industrial',
+    institution: 'SENATI · Servicio Nacional de Adiestramiento en Trabajo Industrial',
+    detail: 'Formación Profesional Técnica Industrial orientada a automatización, procesos técnicos y soporte de sistemas.',
     period: 'Cusco, Perú',
     icon: 'icofont-automation',
+    accentColor: '#ea6a15',
+    badgeText: 'Técnico Industrial',
   },
   {
-    category: 'Idiomas & Certificación Continua',
-    institution: 'Español & Quechua (Nativo) | Inglés (Intermedio)',
-    detail: 'Especialización continua en Arquitectura de Microservicios, Serverless AWS, OWASP Top 10, SOLID, DDD e IA Aplicada',
+    category: 'Idiomas & Certificación',
+    institution: 'Español & Quechua (Nativo) · Inglés Técnico (Intermedio)',
+    detail: 'Actualización ejecutiva continua en Microservicios, Serverless AWS, Seguridad OWASP Top 10, SOLID, DDD e IA Aplicada.',
     period: '2023 - 2026',
     icon: 'icofont-badge',
+    accentColor: '#0d9488',
+    badgeText: '10+ Certificaciones',
   },
 ];
 
 export const coursesData: CourseItem[] = [
-  { name: 'The OWASP Top 10 - Deep Dive', provider: 'Udemy', date: '07/2025' },
-  { name: 'Principios SOLID y Clean Code. Escribe código de calidad', provider: 'Udemy', date: '07/2025' },
-  { name: 'The Complete Microservices & Event-Driven Architecture', provider: 'Udemy', date: '07/2025' },
-  { name: 'DevOps, CI/CD (Continuous Integration/Delivery)', provider: 'Udemy', date: '07/2025' },
-  { name: 'DevOps TOTAL: Docker, Kubernetes, Jenkins, AWS & Git', provider: 'Udemy', date: '06/2024' },
-  { name: 'GitHub Copilot & IA Aplicada al Desarrollo', provider: 'Udemy', date: '06/2024' },
-  { name: 'The Complete Automation PyTest Course', provider: 'Udemy', date: '06/2024' },
-  { name: 'Curso de Backend con NestJS (Certificado)', provider: 'Platzi', date: '06/2023' },
-  { name: 'Curso de Serverless Framework en AWS', provider: 'Platzi', date: '06/2023' },
-  { name: 'Curso de Java SE Orientado a Objetos', provider: 'Platzi', date: '06/2023' },
+  { name: 'The OWASP Top 10 - Deep Dive', provider: 'Udemy', providerColor: '#A435F0', date: '07/2025', domain: 'Seguridad Aplicativa' },
+  { name: 'Principios SOLID y Clean Code. Escribe código de calidad', provider: 'Udemy', providerColor: '#A435F0', date: '07/2025', domain: 'Arquitectura & Calidad' },
+  { name: 'The Complete Microservices & Event-Driven Architecture', provider: 'Udemy', providerColor: '#A435F0', date: '07/2025', domain: 'Sistemas Distribuidos' },
+  { name: 'DevOps, CI/CD (Continuous Integration/Delivery)', provider: 'Udemy', providerColor: '#A435F0', date: '07/2025', domain: 'DevOps & Automatización' },
+  { name: 'DevOps TOTAL: Docker, Kubernetes, Jenkins, AWS & Git', provider: 'Udemy', providerColor: '#A435F0', date: '06/2024', domain: 'Cloud & Contenedores' },
+  { name: 'GitHub Copilot & IA Aplicada al Desarrollo', provider: 'Udemy', providerColor: '#A435F0', date: '06/2024', domain: 'Ingeniería con IA' },
+  { name: 'The Complete Automation PyTest Course', provider: 'Udemy', providerColor: '#A435F0', date: '06/2024', domain: 'Testing Automatizado' },
+  { name: 'Curso de Backend con NestJS (Certificado)', provider: 'Platzi', providerColor: '#079146', date: '06/2023', domain: 'Backend Node.js' },
+  { name: 'Curso de Serverless Framework en AWS', provider: 'Platzi', providerColor: '#079146', date: '06/2023', domain: 'AWS Serverless' },
+  { name: 'Curso de Java SE Orientado a Objetos', provider: 'Platzi', providerColor: '#079146', date: '06/2023', domain: 'Backend Java' },
 ];
 
 export const colorThemes = [

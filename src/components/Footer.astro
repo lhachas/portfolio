@@ -1,47 +1,193 @@
 ---
-import { profileData, socialLinks } from '../data/portfolio';
+import { profileData, socialLinks, navItems, withBase } from '../data/portfolio';
 
 const currentYear = new Date().getFullYear();
 ---
 
 <!-- START FOOTER -->
-<footer class="footer-section">
+<footer class="footer-section" aria-label="Pie de página e identidad de marca">
   <div class="footer-content-wrapper mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-12 items-center gap-6">
-      <div class="md:col-span-6 text-center md:text-left">
-        <p class="body-copy text-[#d4d4d4] mb-0">
-          {currentYear} © {profileData.brandPrefix}<span class="text-gold">{profileData.brandHighlight}</span>{profileData.brandSuffix}. Diseñado por{' '}
-          <a
-            class="text-gold hover:underline font-normal"
-            href={profileData.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {profileData.name}
-          </a>
-        </p>
+    <!-- 3-Column Executive Brand Architecture (100% Solid Non-Monotonous Cards) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <!-- Column 1: Brand Identity, Value Proposition & Live Status -->
+      <div class="lg:col-span-4">
+        <div class="footer-card flex flex-col justify-between" style="--footer-accent: #cdb30c;">
+          <div>
+            <a class="navbar-brand-logo mb-3" href="#home" aria-label="Ir al inicio - LHachaS">
+              <img
+                class="navbar-brand-img"
+                src={withBase('/assets/images/icons/boy.png')}
+                alt="Avatar de desarrollador Leonel Hacha Salazar"
+                width="46"
+                height="46"
+              />
+              <div>
+                {profileData.brandPrefix}<span class="text-gold">{profileData.brandHighlight}</span>{profileData.brandSuffix}
+              </div>
+            </a>
+
+            <p class="text-xs font-semibold uppercase tracking-widest text-gold mb-2">
+              {profileData.roleHeadline}
+            </p>
+
+            <p class="text-[14px] font-light text-[#cbd5e1] leading-relaxed">
+              Ingeniería de software transaccional con +9 años construyendo microservicios Node.js/NestJS, Java/Spring WebFlux y arquitecturas Serverless en AWS.
+            </p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-[#2d3546] flex flex-wrap items-center justify-between gap-2">
+            <span class="inline-flex items-center gap-2 rounded-full bg-[#14171f] border border-[#22c55e] px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-white">
+              <span class="status-pulse-dot" aria-hidden="true"></span>
+              <span>Disponible · Remoto LATAM</span>
+            </span>
+            <span class="text-xs text-[#cbd5e1] inline-flex items-center gap-1">
+              <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i>
+              <span>{profileData.location}</span>
+            </span>
+          </div>
+        </div>
       </div>
 
-      <!-- Official Brand-Colored Circular Social Buttons (100% Visible - Zero Wave Overlap) -->
-      <div class="md:col-span-6">
-        <ul class="flex flex-wrap items-center justify-center md:justify-end gap-3 mb-0" role="list">
-          {
-            socialLinks.map((social) => (
-              <li>
-                <a
-                  href={social.url}
-                  target={social.id === 'email' ? undefined : '_blank'}
-                  rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
-                  class={`social-icon-btn ${social.id}`}
-                  aria-label={`${social.name} oficial de ${profileData.name} (${social.handle})`}
-                  title={`${social.name}: ${social.handle}`}
-                >
-                  <i class={`icofont ${social.icon}`} aria-hidden="true" />
-                </a>
-              </li>
-            ))
-          }
-        </ul>
+      <!-- Column 2: Quick Section Navigation & Direct 2026 CV Downloads -->
+      <div class="lg:col-span-4">
+        <div class="footer-card flex flex-col justify-between" style="--footer-accent: #2563eb;">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold uppercase tracking-widest text-white">
+                Navegación Rápida
+              </span>
+              <span class="rounded-md bg-[#2563eb] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                6 Secciones
+              </span>
+            </div>
+
+            <nav aria-label="Enlaces rápidos del portafolio">
+              <ul class="flex flex-wrap gap-2" role="list">
+                {
+                  navItems.map((item) => (
+                    <li>
+                      <a href={`#${item.id}`} class="footer-nav-pill">
+                        <i class={`icofont ${item.icon}`} aria-hidden="true"></i>
+                        <span>{item.label}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </nav>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-[#2d3546]">
+            <span class="block text-[11px] font-semibold uppercase tracking-widest text-[#cbd5e1] mb-2">
+              Descarga Directa CV 2026:
+            </span>
+            <div class="flex flex-wrap gap-2">
+              <a
+                href={profileData.cvBackendUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                download="CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
+                class="inline-flex items-center gap-1.5 rounded-full bg-[#cdb30c] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#14171f] hover:bg-[#b39b09] transition-colors"
+              >
+                <i class="icofont icofont-file-pdf" aria-hidden="true"></i>
+                <span>CV Backend 2026</span>
+              </a>
+              <a
+                href={profileData.cvBaufestUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                download="CV-Leonel-Hacha-Salazar-Backend-Bit-2026.pdf"
+                class="inline-flex items-center gap-1.5 rounded-full bg-[#14171f] border border-[#cdb30c] px-3.5 py-1.5 text-xs font-medium uppercase tracking-wider text-white hover:bg-[#cdb30c] hover:text-[#14171f] transition-colors"
+              >
+                <i class="icofont icofont-file-pdf text-gold" aria-hidden="true"></i>
+                <span>CV Extendido</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 3: Official Brand Social Network & Direct Contact -->
+      <div class="lg:col-span-4">
+        <div class="footer-card flex flex-col justify-between" style="--footer-accent: #0d9488;">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold uppercase tracking-widest text-white">
+                Canales Oficiales
+              </span>
+              <span class="rounded-md bg-[#0d9488] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                Contacto Directo
+              </span>
+            </div>
+
+            <p class="text-[13.5px] font-light text-[#cbd5e1] mb-3.5">
+              Conecta conmigo en mis perfiles verificados o escríbeme directamente para oportunidades Senior Backend y Full-Stack:
+            </p>
+
+            <!-- Official Brand-Colored Social Buttons (100% Solid + Zero Wave Overlap) -->
+            <ul class="flex flex-wrap items-center gap-2.5 mb-0" role="list">
+              {
+                socialLinks.map((social) => (
+                  <li>
+                    <a
+                      href={social.url}
+                      target={social.id === 'email' ? undefined : '_blank'}
+                      rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
+                      class={`social-icon-btn ${social.id}`}
+                      data-magnetic
+                      data-cursor-label={social.name}
+                      aria-label={`${social.name} oficial de ${profileData.name} (${social.handle})`}
+                      title={`${social.name}: ${social.handle}`}
+                    >
+                      <i class={`icofont ${social.icon}`} aria-hidden="true" />
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-[#2d3546] flex flex-wrap items-center justify-between gap-2 text-xs text-[#cbd5e1]">
+            <a
+              href={`mailto:${profileData.email}`}
+              class="inline-flex items-center gap-1.5 text-white hover:text-gold transition-colors truncate"
+            >
+              <i class="icofont icofont-envelope text-[#EA4335]" aria-hidden="true"></i>
+              <span>{profileData.email}</span>
+            </a>
+            <a
+              href={`tel:${profileData.phoneClean}`}
+              class="inline-flex items-center gap-1 text-white hover:text-gold transition-colors font-medium"
+            >
+              <i class="icofont icofont-whatsapp text-[#25D366]" aria-hidden="true"></i>
+              <span>{profileData.phone}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Attribution & Copyright Bar -->
+    <div class="mt-7 pt-5 border-t border-[#262d3d] flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <p class="text-[14px] font-light text-[#cbd5e1] mb-0">
+        {currentYear} © {profileData.brandPrefix}<span class="text-gold font-medium">{profileData.brandHighlight}</span>{profileData.brandSuffix}. Diseñado y desarrollado por{' '}
+        <a
+          class="text-gold hover:underline font-medium"
+          href={profileData.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {profileData.name}
+        </a>
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-2 text-xs text-[#cbd5e1]">
+        <span class="rounded-full bg-[#1c212c] border border-[#2d3546] px-3 py-1">
+          Stack: <strong class="text-gold font-medium">Astro 6 · Tailwind CSS 4 · GSAP</strong>
+        </span>
+        <span class="rounded-full bg-[#1c212c] border border-[#2d3546] px-3 py-1">
+          Diseño: <strong class="text-white font-medium">100% Solid Minimalist</strong>
+        </span>
       </div>
     </div>
   </div>

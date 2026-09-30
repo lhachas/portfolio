@@ -5,7 +5,7 @@ import { servicesData } from '../data/portfolio';
 <!-- START SERVICES -->
 <section class="section th-secondary" id="services" aria-labelledby="services-heading">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
+    <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
       <i class="icofont icofont-responsive title-icon" aria-hidden="true"></i>
       <h2 id="services-heading" class="title">
@@ -16,34 +16,61 @@ import { servicesData } from '../data/portfolio';
       </p>
     </div>
 
-    <!-- 3-Column Services Grid (Preserves .card-box.th-primary + 45deg diamond .card-icon .icon) -->
+    <!-- 3-Column Services Grid (100% Solid Non-Monotonous Category-Accented Cards) -->
     <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
       {
         servicesData.map((service, idx) => (
           <article
             class="card-box th-primary reveal justify-between"
-            style={`--reveal-delay: ${idx * 100}ms;`}
+            style={`--card-accent: ${service.accentColor}; --reveal-delay: ${idx * 100}ms;`}
           >
             <div>
+              <div class="flex items-center justify-between mb-2">
+                <span
+                  class="inline-flex items-center rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white"
+                  style={`background-color: ${service.accentColor};`}
+                >
+                  {service.badgeLabel}
+                </span>
+                <span
+                  class="text-xs font-bold uppercase tracking-wider"
+                  style={`color: ${service.accentColor};`}
+                >
+                  0{idx + 1}
+                </span>
+              </div>
+
               <div class="card-icon">
                 <i class={`${service.icon} icon`} aria-hidden="true"></i>
               </div>
-              <h3 class="card-title">
+
+              <h3 class="card-title text-center">
                 {service.title}
               </h3>
-              <p class="body-copy txt-primary mt-4">
+              <p class="body-copy txt-primary mt-3.5 text-center sm:text-left">
                 {service.description}
               </p>
             </div>
 
-            <div class="mt-6 pt-4 border-t text-left" style="border-color: var(--card-border);">
-              <span class="label-c block mb-2.5">Entregables Clave:</span>
-              <ul class="space-y-1.5">
+            <div class="mt-6 pt-4 border-t-2 text-left" style="border-color: var(--card-border);">
+              <span class="label-c block mb-2.5" style={`color: ${service.accentColor};`}>
+                Entregables Clave:
+              </span>
+              <ul class="space-y-2">
                 {
                   service.deliverables.map((item) => (
-                    <li class="detail-copy flex items-center gap-2">
-                      <i class="icofont icofont-check-circled text-gold text-sm shrink-0" aria-hidden="true"></i>
-                      <span>{item}</span>
+                    <li
+                      class="detail-copy flex items-center gap-2.5 rounded-lg p-2 border"
+                      style={`background-color: var(--th-secondary); border-color: var(--card-border); border-left: 3px solid ${service.accentColor};`}
+                    >
+                      <span
+                        class="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-white text-[11px]"
+                        style={`background-color: ${service.accentColor};`}
+                        aria-hidden="true"
+                      >
+                        <i class="icofont icofont-check-alt"></i>
+                      </span>
+                      <span class="font-normal">{item}</span>
                     </li>
                   ))
                 }

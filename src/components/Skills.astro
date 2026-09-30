@@ -5,7 +5,7 @@ import { skillCategories } from '../data/portfolio';
 <!-- START SKILLS -->
 <section class="section th-secondary" id="skills" aria-labelledby="skills-heading">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
+    <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
       <i class="icofont icofont-certificate-alt-1 title-icon" aria-hidden="true"></i>
       <h2 id="skills-heading" class="title">
@@ -16,7 +16,7 @@ import { skillCategories } from '../data/portfolio';
       </p>
     </div>
 
-    <!-- Interactive Pillar Filter -->
+    <!-- Interactive Pillar Filter (100% Solid Non-Monotonous Category Filter Tabs) -->
     <div
       class="mt-8 flex flex-wrap items-center justify-center gap-2.5 reveal"
       role="tablist"
@@ -27,7 +27,8 @@ import { skillCategories } from '../data/portfolio';
         role="tab"
         aria-selected="true"
         data-skill-filter="all"
-        class="skill-filter-btn active min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 cursor-pointer"
+        style="--tab-accent: #cdb30c; --tab-text: #14171f;"
+        class="skill-filter-btn active min-h-[42px] rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer"
       >
         Todas las áreas (4)
       </button>
@@ -38,47 +39,73 @@ import { skillCategories } from '../data/portfolio';
             role="tab"
             aria-selected="false"
             data-skill-filter={category.id}
-            class="skill-filter-btn min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-300 cursor-pointer"
+            style={`--tab-accent: ${category.accentColor}; --tab-text: #ffffff;`}
+            class="skill-filter-btn min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-200 cursor-pointer inline-flex items-center gap-2"
           >
-            {category.title}
+            <span
+              class="h-2.5 w-2.5 rounded-full shrink-0"
+              style={`background-color: ${category.accentColor};`}
+              aria-hidden="true"
+            ></span>
+            <span>{category.title}</span>
           </button>
         ))
       }
     </div>
 
-    <!-- 2x2 Skills Grid (Preserves .card-box.th-primary + 45deg diamond .card-icon .icon + .skill-progress .progres) -->
+    <!-- 2x2 Skills Grid (100% Solid Category-Accented Cards + Official Brand Tech Badges) -->
     <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-7" id="skills-grid">
       {
         skillCategories.map((category, idx) => (
           <article
             class="card-box th-primary reveal justify-between"
             data-skill-card={category.id}
-            style={`--reveal-delay: ${(idx % 2) * 100}ms;`}
+            style={`--card-accent: ${category.accentColor}; --reveal-delay: ${(idx % 2) * 100}ms;`}
           >
             <div>
-              <!-- 45deg Diamond Rotating Icon -->
+              <!-- Category Pillar Badge + 45deg Diamond Rotating Icon -->
+              <div class="flex items-center justify-between mb-1">
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white"
+                  style={`background-color: ${category.accentColor};`}
+                >
+                  <span>Pilar 0{idx + 1}</span>
+                </span>
+                <span
+                  class="text-xs font-semibold uppercase tracking-wider"
+                  style={`color: ${category.accentColor};`}
+                >
+                  {category.items.length} Dominios Clave
+                </span>
+              </div>
+
               <div class="card-icon">
                 <i class={`${category.icon} icon`} aria-hidden="true"></i>
               </div>
 
-              <h3 class="card-title">
+              <h3 class="card-title text-center">
                 {category.title}
               </h3>
-              <p class="detail-copy mt-1.5 opacity-90">
+              <p class="detail-copy mt-1.5 text-center" style="color: var(--txt-muted);">
                 {category.subtitle}
               </p>
 
-              <!-- Animated Skill Progress Bars (Preserves .skills-list / .skill-item / .skill-text / .skill-progress / .progres) -->
+              <!-- Animated Skill Progress Bars with Official Solid Brand Icon Badges -->
               <div class="skills-list mt-6">
                 {
                   category.items.map((skill) => (
-                    <div class="skill-item">
-                      <h4 class="skill-text">
-                        <span class="inline-flex items-center">
-                          <i class={`${skill.icon} skill-icon`} aria-hidden="true"></i>
-                          <span class="font-normal tracking-wide">{skill.name}</span>
+                    <div class="skill-item" style={`--skill-brand: ${skill.brandColor};`}>
+                      <div class="skill-text">
+                        <span class="inline-flex items-center min-w-0">
+                          <span class="skill-brand-badge" aria-hidden="true">
+                            <i class={skill.icon}></i>
+                          </span>
+                          <span class="font-medium tracking-wide truncate">{skill.name}</span>
                         </span>
-                      </h4>
+                        <span class="skill-level-pill">
+                          {skill.level}
+                        </span>
+                      </div>
                       <div class="skill-progress">
                         <div
                           class="progres"
@@ -94,8 +121,11 @@ import { skillCategories } from '../data/portfolio';
               </div>
             </div>
 
-            <!-- Granular Tech Pills from 2026 CV -->
-            <div class="mt-5 pt-4 border-t" style="border-color: var(--card-border);">
+            <!-- Granular Tech Pills from 2026 CV (Solid Category-Accented Pills) -->
+            <div class="mt-6 pt-4 border-t-2" style="border-color: var(--card-border);">
+              <span class="label-c block mb-2.5 text-center" style={`color: ${category.accentColor};`}>
+                Stack & Herramientas Verificadas:
+              </span>
               <div class="flex flex-wrap justify-center gap-1.5">
                 {
                   category.tags.map((tag) => (
@@ -134,15 +164,17 @@ import { skillCategories } from '../data/portfolio';
     background-color: var(--th-primary);
     color: var(--txt-primary);
     border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
   }
   .skill-filter-btn:hover {
-    border-color: var(--brand-gold);
-    color: var(--brand-gold);
+    border-color: var(--tab-accent, var(--brand-gold));
+    transform: translateY(-2px);
   }
   .skill-filter-btn.active {
-    background-color: var(--brand-gold);
-    color: #1a1a1a;
-    border-color: var(--brand-gold);
+    background-color: var(--tab-accent, var(--brand-gold));
+    color: var(--tab-text, #14171f);
+    border-color: var(--tab-accent, var(--brand-gold));
+    box-shadow: 0 3px 0 #091526;
     font-weight: 600;
   }
 </style>

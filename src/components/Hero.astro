@@ -11,10 +11,10 @@ import { profileData } from '../data/portfolio';
     aria-hidden="true"
   ></canvas>
 
-  <div class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-8 pb-6">
-    <div class="mx-auto max-w-4xl text-center">
+  <div id="hero-parallax-stage" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-2 pb-2">
+    <div class="mx-auto max-w-5xl text-center">
       <!-- Live Recruiter Availability Status Pill (100% Solid Minimalist Badge) -->
-      <div class="mb-5 inline-flex justify-center">
+      <div class="mb-4 inline-flex justify-center" data-hero-anim>
         <a
           href="#contact"
           class="hero-status-pill"
@@ -26,15 +26,18 @@ import { profileData } from '../data/portfolio';
         </a>
       </div>
 
-      <!-- Greeting -->
-      <p class="hero-greeting text-white mb-2">
-        {profileData.heroGreeting}
+      <!-- Greeting & Role Eyebrow -->
+      <p class="hero-greeting text-[#cbd5e1] mb-1.5" data-hero-anim>
+        {profileData.heroGreeting} · <span class="text-gold font-medium">Cusco, Perú</span>
       </p>
 
-      <!-- Typed Headline (Preserves Soy + Victor Mono Italic Gold Typed Text) -->
-      <h1 class="home-title text-gold mb-0 flex flex-wrap items-center justify-center gap-x-3 pb-1">
-        <span class="text-white font-light">Soy</span>
-        <span class="inline-flex items-center pb-1">
+      <!-- Single-Line Typed Headline (Preserves Soy + Victor Mono Italic Gold Typed Text without 2-line jump) -->
+      <h1
+        class="home-title text-gold mb-0 flex flex-wrap sm:flex-nowrap items-center justify-center gap-x-3 pb-1 min-h-[3.2rem] sm:min-h-[3.6rem]"
+        data-hero-anim
+      >
+        <span class="text-white font-light shrink-0">Soy</span>
+        <span class="inline-flex items-center pb-0.5 sm:whitespace-nowrap">
           <em
             id="typed-output"
             class="typing italic font-semibold text-gold"
@@ -46,27 +49,33 @@ import { profileData } from '../data/portfolio';
         </span>
       </h1>
 
-      <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid text) -->
-      <p class="title-subtitle mt-4 mb-0 mx-auto text-[#e5e5e5]">
+      <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid crisp text) -->
+      <p class="title-subtitle mt-3 mb-0 mx-auto text-[#e2e8f0]" data-hero-anim>
         {profileData.heroSubtitle}
       </p>
 
-      <!-- Core Architecture Stack Strip (100% Solid Minimalist Pills) -->
-      <div class="mt-6 flex flex-wrap items-center justify-center gap-2.5" aria-label="Pilares tecnológicos principales">
+      <!-- Core Architecture Stack Strip (100% Solid Pills with Official Technology Brand Icon Badges) -->
+      <div
+        class="mt-5 flex flex-wrap items-center justify-center gap-2.5"
+        aria-label="Pilares tecnológicos principales"
+        data-hero-anim
+      >
         {
           profileData.heroArchitecturePills.map((arch) => (
-            <span class="hero-arch-pill">
-              <i class={arch.icon} aria-hidden="true"></i>
+            <span class="hero-arch-pill" style={`--arch-brand: ${arch.brandColor};`}>
+              <span class="hero-arch-icon-badge" aria-hidden="true">
+                <i class={arch.icon}></i>
+              </span>
               <span>{arch.label}</span>
             </span>
           ))
         }
       </div>
 
-      <!-- Primary & Secondary Pill CTAs (100% Solid Colors - Zero Glassmorphism) -->
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+      <!-- Unified Product-Designer Action & Official Social Dock (100% Solid Colors - Zero Glassmorphism) -->
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-3" data-hero-anim>
         <a href="#about" class="btn-brand btn-gold" data-cursor-label="Explorar">
-          <span>Lee Más</span>
+          <span>Sobre Mí</span>
         </a>
         <a href="#contact" class="btn-brand btn-theme-primary" data-cursor-label="Hablemos">
           <span>Contáctame</span>
@@ -83,10 +92,9 @@ import { profileData } from '../data/portfolio';
           <i class="icofont icofont-file-pdf text-gold text-base" aria-hidden="true"></i>
           <span>Descargar CV 2026</span>
         </a>
-      </div>
 
-      <!-- Official Social Network Brand Quick-Connect Bar (100% Solid Brand Colors) -->
-      <div class="mt-5 flex flex-wrap items-center justify-center gap-3" aria-label="Perfiles profesionales verificados">
+        <span class="hidden lg:inline-block h-6 w-[2px] bg-[#2e3545] mx-1" aria-hidden="true"></span>
+
         <a
           href={profileData.linkedin}
           target="_blank"
@@ -125,34 +133,44 @@ import { profileData } from '../data/portfolio';
         </a>
       </div>
 
-      <!-- Recruiter Impact Metrics Strip (100% Solid Architectural Cards) -->
-      <div class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+      <!-- Recruiter Impact Metrics Strip (100% Solid Non-Monotonous Architectural Cards) -->
+      <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
         {
-          profileData.heroMetrics.map((metric, idx) => (
-            <div
-              class="hero-metric-card"
-              data-tilt-card
-              style={`--reveal-delay: ${idx * 80}ms;`}
-            >
-              <div class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#181818] text-gold border-2 border-[#cdb30c]">
-                <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
+          profileData.heroMetrics.map((metric) => {
+            const iconTextColor = metric.accentColor === '#cdb30c' ? '#14171f' : '#ffffff';
+            return (
+              <div
+                class="hero-metric-card"
+                data-tilt-card
+                data-hero-metric-item
+                style={`--metric-accent: ${metric.accentColor};`}
+              >
+                <div
+                  class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#14171f]"
+                  style={`background-color: ${metric.accentColor}; color: ${iconTextColor}; box-shadow: 0 3px 0 #0a0c10;`}
+                >
+                  <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
+                </div>
+                <div class="text-xl sm:text-2xl font-medium text-white tracking-wide">
+                  {metric.value}
+                </div>
+                <div
+                  class="mt-0.5 text-[13.5px] font-medium uppercase tracking-wider"
+                  style={`color: ${metric.accentColor};`}
+                >
+                  {metric.label}
+                </div>
+                <div class="mt-1 text-[12.5px] text-[#cbd5e1] font-light tracking-wide">
+                  {metric.detail}
+                </div>
               </div>
-              <div class="text-xl sm:text-2xl font-medium text-gold tracking-wide">
-                {metric.value}
-              </div>
-              <div class="mt-0.5 text-[14px] text-white font-normal tracking-wide">
-                {metric.label}
-              </div>
-              <div class="mt-1 text-[12.5px] text-[#d4d4d4] font-light tracking-wide">
-                {metric.detail}
-              </div>
-            </div>
-          ))
+            );
+          })
         }
       </div>
 
       <!-- Animated Scroll-Down Indicator -->
-      <div class="mt-8 flex justify-center">
+      <div class="mt-6 flex justify-center" data-hero-anim>
         <a
           href="#about"
           class="hero-scroll-indicator"
@@ -170,13 +188,50 @@ import { profileData } from '../data/portfolio';
 <!-- END HOME -->
 
 <script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
   function initHeroEffects() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
     const typedEl = document.getElementById('typed-output');
     const heroSection = document.getElementById('home');
+    const heroStage = document.getElementById('hero-parallax-stage');
 
-    // 1. Lightweight Typewriter Effect (Zero heavy runtime)
+    // 1. GSAP Orchestrated Entrance Timeline & Subtle Scroll Parallax
+    if (!prefersReducedMotion && heroSection) {
+      const heroAnimItems = heroSection.querySelectorAll('[data-hero-anim]');
+      const metricItems = heroSection.querySelectorAll('[data-hero-metric-item]');
+
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      tl.fromTo(
+        heroAnimItems,
+        { y: 20, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.65, stagger: 0.08, clearProps: 'transform,opacity,visibility' }
+      ).fromTo(
+        metricItems,
+        { y: 24, autoAlpha: 0, scale: 0.97 },
+        { y: 0, autoAlpha: 1, scale: 1, duration: 0.55, stagger: 0.07, clearProps: 'transform,opacity,visibility' },
+        '-=0.32'
+      );
+
+      if (heroStage) {
+        gsap.to(heroStage, {
+          yPercent: 10,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: heroSection,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+    }
+
+    // 2. Lightweight Single-Line Typewriter Effect
     if (typedEl && !prefersReducedMotion) {
       const raw = typedEl.getAttribute('data-strings');
       const strings: string[] = raw ? JSON.parse(raw) : ['Leonel Hacha Salazar'];
@@ -192,26 +247,26 @@ import { profileData } from '../data/portfolio';
           if (charIndex === 0) {
             isDeleting = false;
             strIndex = (strIndex + 1) % strings.length;
-            setTimeout(tick, 280);
+            setTimeout(tick, 260);
             return;
           }
-          setTimeout(tick, 40);
+          setTimeout(tick, 38);
         } else {
           charIndex++;
           typedEl.textContent = currentFull.substring(0, charIndex);
           if (charIndex === currentFull.length) {
             isDeleting = true;
-            setTimeout(tick, 2100);
+            setTimeout(tick, 2200);
             return;
           }
-          setTimeout(tick, 82);
+          setTimeout(tick, 76);
         }
       };
 
-      setTimeout(tick, 1800);
+      setTimeout(tick, 1900);
     }
 
-    // 2. Solid 3D Perspective Tilt on Metric Cards
+    // 3. Solid 3D Perspective Tilt on Metric Cards
     if (heroSection && isFinePointer && !prefersReducedMotion) {
       const tiltCards = heroSection.querySelectorAll<HTMLElement>('[data-tilt-card]');
       tiltCards.forEach((card) => {
@@ -219,8 +274,8 @@ import { profileData } from '../data/portfolio';
           const rect = card.getBoundingClientRect();
           const relX = (e.clientX - rect.left) / rect.width - 0.5;
           const relY = (e.clientY - rect.top) / rect.height - 0.5;
-          const rotateX = (-relY * 6).toFixed(2);
-          const rotateY = (relX * 6).toFixed(2);
+          const rotateX = (-relY * 5).toFixed(2);
+          const rotateY = (relX * 5).toFixed(2);
           card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
         });
         card.addEventListener('mouseleave', () => {
@@ -229,7 +284,7 @@ import { profileData } from '../data/portfolio';
       });
     }
 
-    // 3. Interactive Canvas Particle Constellation (100% Solid Hex Nodes & Lines)
+    // 4. Interactive Canvas Particle Constellation (100% Solid Hex Nodes & Lines)
     const canvas = document.getElementById('hero-particles') as HTMLCanvasElement | null;
     if (!canvas || prefersReducedMotion) return;
     const ctx = canvas.getContext('2d');
@@ -259,14 +314,15 @@ import { profileData } from '../data/portfolio';
       { passive: true }
     );
 
-    const particleCount = Math.min(42, Math.floor((width * height) / 25000));
+    const particleCount = Math.min(36, Math.floor((width * height) / 28000));
+    const palette = ['#cdb30c', '#2563eb', '#0d9488', '#ea6a15'];
     const particles = Array.from({ length: particleCount }, (_, i) => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.42,
-      vy: (Math.random() - 0.5) * 0.42,
+      vx: (Math.random() - 0.5) * 0.38,
+      vy: (Math.random() - 0.5) * 0.38,
       r: i % 3 === 0 ? 2.2 : 1.8,
-      isGold: i % 3 !== 0,
+      color: palette[i % palette.length],
     }));
 
     const onResize = () => {
@@ -285,39 +341,36 @@ import { profileData } from '../data/portfolio';
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        // Connect nearby particles with solid structural lines
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
           const dy = p.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 130) {
+          if (dist < 125) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = dist < 75 ? '#4a4112' : '#2d2d2d';
+            ctx.strokeStyle = dist < 70 ? '#333c4f' : '#1f2533';
             ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
 
-        // Interactive cursor connection
         const mdx = p.x - pointerX;
         const mdy = p.y - pointerY;
         const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mDist < 165) {
+        if (mDist < 160) {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(pointerX, pointerY);
-          ctx.strokeStyle = mDist < 95 ? '#cdb30c' : '#6b5e09';
+          ctx.strokeStyle = mDist < 90 ? '#cdb30c' : '#475569';
           ctx.lineWidth = 1.2;
           ctx.stroke();
         }
 
-        // Draw solid node circle
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.isGold ? '#cdb30c' : '#3f87f5';
+        ctx.fillStyle = p.color;
         ctx.fill();
       }
       requestAnimationFrame(render);

@@ -5,7 +5,7 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
 <!-- START ABOUT -->
 <section class="section th-primary about" id="about" aria-labelledby="about-heading">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <!-- Section Title Header -->
+    <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
       <i class="icofont icofont-man-in-glasses title-icon" aria-hidden="true"></i>
       <h2 id="about-heading" class="title">
@@ -32,8 +32,11 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
             fetchpriority="high"
             decoding="async"
           />
-          <!-- Experience Floating Badge -->
-          <div class="absolute -bottom-3 right-2 rounded-full bg-[#1a1a1a] border-2 border-[#cdb30c] px-4 py-1.5 text-white shadow-lg flex items-center gap-2">
+          <!-- Experience Solid Badge (Zero Blur Shadow) -->
+          <div
+            class="absolute -bottom-3 right-2 rounded-full bg-[#14171f] border-2 border-[#cdb30c] px-4 py-1.5 text-white flex items-center gap-2"
+            style="box-shadow: 0 4px 0 #090b10;"
+          >
             <i class="icofont icofont-code-alt text-gold text-base" aria-hidden="true"></i>
             <span class="text-xs font-medium uppercase tracking-wider">
               {profileData.yearsExperience} Años Exp.
@@ -41,15 +44,15 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
           </div>
         </div>
 
-        <!-- Languages & Location Quick Strip -->
+        <!-- Languages & Location Quick Strip (100% Solid Non-Monotonous Pills) -->
         <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
-          <span class="tech-pill">
+          <span class="tech-pill" style="--card-accent: #0e3d65;">
             <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i>
             <span>{profileData.location}</span>
           </span>
           {
             profileData.languages.map((lang) => (
-              <span class="tech-pill">
+              <span class="tech-pill" style="--card-accent: #0d9488;">
                 <strong>{lang.name}:</strong> <span>{lang.level}</span>
               </span>
             ))
@@ -77,11 +80,15 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
             <span class="label-c block mb-2.5">Especialización Principal:</span>
             <div class="flex flex-wrap gap-2">
               {
-                profileData.coreStackPills.map((tech) => (
-                  <span class="tech-pill">
-                    {tech}
-                  </span>
-                ))
+                profileData.coreStackPills.map((tech, idx) => {
+                  const accents = ['#2563eb', '#ea6a15', '#0d9488', '#7c3aed'];
+                  const accent = accents[idx % accents.length];
+                  return (
+                    <span class="tech-pill" style={`--card-accent: ${accent};`}>
+                      {tech}
+                    </span>
+                  );
+                })
               }
             </div>
           </div>
@@ -133,73 +140,196 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
       </div>
     </div>
 
-    <!-- Education & Continuous Training Strip (Zero full-width straight horizontal line) -->
+    <!-- Redesigned Executive Education, Technical Training & Languages Cards (100% Solid Bento Architecture) -->
     <div class="mt-14 reveal">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {
           educationData.map((edu, idx) => (
-            <div
-              class="spotlight-card rounded-xl p-5 border transition-transform duration-300 hover:-translate-y-1"
-              style={`background-color: var(--th-secondary); border-color: var(--card-border); --reveal-delay: ${idx * 90}ms;`}
+            <article
+              class="edu-card"
+              style={`--edu-accent: ${edu.accentColor}; --reveal-delay: ${idx * 90}ms;`}
             >
-              <div class="flex items-center justify-between mb-2">
-                <span class="label-c text-gold">
-                  {edu.category}
+              <div>
+                <div class="flex items-start justify-between gap-3 mb-4">
+                  <div class="inline-flex items-center gap-3">
+                    <span class="edu-icon-badge" aria-hidden="true">
+                      <i class={`icofont ${edu.icon}`}></i>
+                    </span>
+                    <div>
+                      <span
+                        class="block text-xs font-semibold uppercase tracking-widest"
+                        style={`color: ${edu.accentColor};`}
+                      >
+                        {edu.category}
+                      </span>
+                      <span
+                        class="mt-1 inline-block rounded-md px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-white"
+                        style={`background-color: ${edu.accentColor};`}
+                      >
+                        {edu.badgeText}
+                      </span>
+                    </div>
+                  </div>
+
+                  <span class="edu-period-pill">
+                    <i class="icofont icofont-calendar" style={`color: ${edu.accentColor};`} aria-hidden="true"></i>
+                    <span>{edu.period}</span>
+                  </span>
+                </div>
+
+                <h4 class="item-title !text-[1.1rem]">
+                  {edu.institution}
+                </h4>
+
+                <p class="detail-copy mt-2">
+                  {edu.detail}
+                </p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs font-medium" style="border-color: var(--card-border);">
+                <span class="txt-primary inline-flex items-center gap-1.5">
+                  <i class="icofont icofont-verification-check" style={`color: ${edu.accentColor};`} aria-hidden="true"></i>
+                  <span>Credencial Verificada CV 2026</span>
                 </span>
-                <span class="text-xs txt-primary opacity-80">
-                  {edu.period}
+                <span class="font-semibold uppercase tracking-wider" style={`color: ${edu.accentColor};`}>
+                  0{idx + 1}
                 </span>
               </div>
-              <h4 class="item-title">
-                {edu.institution}
-              </h4>
-              <p class="detail-copy mt-1.5">
-                {edu.detail}
-              </p>
-            </div>
+            </article>
           ))
         }
       </div>
 
-      <!-- Collapsible Courses & Certifications Drawer -->
-      <details class="mt-6 group rounded-xl border p-4 transition-all" style="background-color: var(--th-secondary); border-color: var(--card-border);">
-        <summary class="flex cursor-pointer items-center justify-between font-normal text-[15px] select-none tracking-wide" style="color: var(--heading-color);">
-          <span class="inline-flex items-center gap-2">
-            <i class="icofont icofont-certificate-alt-1 text-gold text-lg" aria-hidden="true"></i>
-            <span>Ver Formación Continua, Cursos Especializados y Competencias (2023 - 2026)</span>
-          </span>
-          <span class="inline-flex items-center gap-1 text-xs text-gold group-open:rotate-180 transition-transform">
-            <i class="icofont icofont-rounded-down text-base" aria-hidden="true"></i>
-          </span>
+      <!-- Redesigned Executive Continuous Training, Specializations & Competencies Showcase -->
+      <details class="training-drawer mt-7 group" open>
+        <summary class="training-summary">
+          <div class="flex items-center gap-3.5">
+            <span
+              class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0e3d65] text-gold border-2 border-[#cdb30c]"
+              style="box-shadow: 0 3px 0 #08233a;"
+              aria-hidden="true"
+            >
+              <i class="icofont icofont-certificate-alt-1 text-xl"></i>
+            </span>
+            <div>
+              <span class="block text-base sm:text-lg font-medium uppercase tracking-wider" style="color: var(--heading-color);">
+                Formación Continua, Cursos Especializados y Competencias (2023 - 2026)
+              </span>
+              <span class="block text-xs font-normal" style="color: var(--txt-muted);">
+                10 especializaciones técnicas en Udemy & Platzi · 8 competencias ejecutivas de ingeniería
+              </span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <span class="provider-badge" style="--provider-color: #A435F0;">
+              <i class="icofont icofont-hat-alt" aria-hidden="true"></i>
+              <span>Udemy (7)</span>
+            </span>
+            <span class="provider-badge" style="--provider-color: #079146;">
+              <i class="icofont icofont-badge" aria-hidden="true"></i>
+              <span>Platzi (3)</span>
+            </span>
+            <span
+              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#14171f] text-gold border-2 border-[#cdb30c] group-open:rotate-180 transition-transform"
+              aria-hidden="true"
+            >
+              <i class="icofont icofont-rounded-down text-lg"></i>
+            </span>
+          </div>
         </summary>
 
-        <div class="mt-4 pt-4 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div class="lg:col-span-7">
-            <span class="label-c block mb-3">Formación Continua Destacada:</span>
-            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 detail-copy">
+        <div class="p-5 sm:p-6 border-t-2 grid grid-cols-1 lg:grid-cols-12 gap-7" style="border-color: var(--card-border); background-color: var(--th-secondary);">
+          <!-- Left 8 Columns: 10 Specialized Courses with Solid Official Provider Badges -->
+          <div class="lg:col-span-8">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
+              <span class="label-c">Cursos y Especializaciones Recientes:</span>
+              <span class="text-xs font-medium uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#0e3d65] text-white">
+                Actualización 2023 – 2025
+              </span>
+            </div>
+
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
               {
                 coursesData.map((course) => (
-                  <li class="flex items-start gap-2 rounded-lg p-2.5" style="background-color: var(--th-primary);">
-                    <i class="icofont icofont-check-circled text-gold mt-1 shrink-0" aria-hidden="true"></i>
-                    <div>
-                      <strong class="block font-medium text-[14px]" style="color: var(--heading-color);">{course.name}</strong>
-                      <span class="opacity-80 font-light text-[13px]">{course.provider} ({course.date})</span>
+                  <li
+                    class="course-card"
+                    style={`--provider-color: ${course.providerColor};`}
+                  >
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="provider-badge" style={`--provider-color: ${course.providerColor};`}>
+                        <i class="icofont icofont-verification-check" aria-hidden="true"></i>
+                        <span>{course.provider}</span>
+                      </span>
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider"
+                        style="background-color: var(--th-secondary); border: 1px solid var(--card-border); color: var(--txt-primary);"
+                      >
+                        <i class="icofont icofont-calendar" style={`color: ${course.providerColor};`} aria-hidden="true"></i>
+                        <span>{course.date}</span>
+                      </span>
+                    </div>
+
+                    <strong class="block font-medium text-[14.5px] leading-snug" style="color: var(--heading-color);">
+                      {course.name}
+                    </strong>
+
+                    <div class="flex items-center justify-between pt-1 border-t" style="border-color: var(--card-border);">
+                      <span class="text-[12px] font-normal" style="color: var(--txt-muted);">
+                        Área: <strong class="font-medium txt-primary">{course.domain}</strong>
+                      </span>
+                      <i class="icofont icofont-check-circled text-sm" style={`color: ${course.providerColor};`} aria-hidden="true"></i>
                     </div>
                   </li>
                 ))
               }
             </ul>
           </div>
-          <div class="lg:col-span-5">
-            <span class="label-c block mb-3">Competencias Profesionales:</span>
-            <div class="flex flex-wrap gap-2">
-              {
-                profileData.softSkills.map((skill) => (
-                  <span class="tech-pill">
-                    {skill}
-                  </span>
-                ))
-              }
+
+          <!-- Right 4 Columns: Executive Soft Skills & Leadership Competencies -->
+          <div class="lg:col-span-4 flex flex-col justify-between gap-5">
+            <div>
+              <span class="label-c block mb-3.5">Competencias Profesionales:</span>
+              <div class="grid grid-cols-1 gap-2.5">
+                {
+                  profileData.softSkills.map((skill, idx) => {
+                    const badgeColor = idx % 2 === 0 ? '#0d9488' : '#2563eb';
+                    return (
+                      <div
+                        class="flex items-center gap-3 rounded-xl p-2.5 border"
+                        style={`background-color: var(--th-primary); border-color: var(--card-border); border-left: 4px solid ${badgeColor};`}
+                      >
+                        <span
+                          class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white text-xs"
+                          style={`background-color: ${badgeColor};`}
+                          aria-hidden="true"
+                        >
+                          <i class="icofont icofont-check-alt"></i>
+                        </span>
+                        <span class="text-[14px] font-normal txt-primary">
+                          {skill}
+                        </span>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+            </div>
+
+            <!-- Executive Summary Callout Card -->
+            <div
+              class="rounded-xl p-4 border-2 border-[#cdb30c] bg-[#14171f] text-white"
+              style="box-shadow: 0 4px 0 #080a0f;"
+            >
+              <div class="flex items-center gap-2.5 mb-1.5">
+                <i class="icofont icofont-award text-gold text-xl" aria-hidden="true"></i>
+                <span class="text-xs font-semibold uppercase tracking-widest text-gold">
+                  Enfoque de Ingeniería
+                </span>
+              </div>
+              <p class="text-[13px] font-light text-[#e2e8f0] leading-relaxed">
+                Arquitectura limpia (DDD & Hexagonal), seguridad desde el diseño (OWASP Top 10) y entrega continua en equipos ágiles distribuidos.
+              </p>
             </div>
           </div>
         </div>
@@ -207,7 +337,7 @@ import { profileData, educationData, coursesData, withBase } from '../data/portf
     </div>
   </div>
 
-  <!-- Original Top-Anchored Wave (Projects UPWARD over #home via .about .wave) -->
+  <!-- Top-Anchored Wave Divider (Hangs downward from #home into #about with 100% solid #14171f fill — ZERO straight line or gap!) -->
   <svg
     class="wave"
     version="1.1"
