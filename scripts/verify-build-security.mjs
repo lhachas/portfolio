@@ -81,6 +81,24 @@ for (const file of componentFiles) {
 }
 pass('Zero hardcoded CV filenames or .docx references in src/components/*.astro');
 
+// 3b. Verify README.md aligns with SSOT, PDF-only public links, and non-generic branding
+const readmePath = path.join(ROOT, 'README.md');
+if (fs.existsSync(readmePath)) {
+  const readme = fs.readFileSync(readmePath, 'utf8');
+  if (/Portafolio de ingenier[ií]a de software/i.test(readme)) {
+    fail('README.md contains generic legacy phrase "Portafolio de ingeniería de software"');
+  } else if (/\]\([^)]*\.docx\)/i.test(readme)) {
+    fail('README.md must not link to any .docx file');
+  } else if (
+    !readme.includes('src/content/portfolio/portfolio.yml') ||
+    !readme.includes('src/content/portfolio/portfolio-en.yml')
+  ) {
+    fail('README.md must reference both centralized YAML Single Source of Truth files');
+  } else {
+    pass('README.md verified: executive branding, SSOT links, and PDF-only public resume links');
+  }
+}
+
 // 4. If dist/ exists, verify the final production bundle
 if (fs.existsSync(DIST_DIR)) {
   const distFiles = walkFiles(DIST_DIR);
