@@ -8,12 +8,12 @@
   /* Core Dynamic Brand Accent Tokens (Propagated globally by StyleSwitcher) */
   --brand-gold: #cdb30c;
   --brand-gold-hover: #b39b09;
-  --brand-on-gold: #14171f;
-  --brand-primary: #3f87f5;
-  --brand-primary-hover: #2563eb;
+  --brand-on-gold: #ffffff;
+  --brand-primary: #0e3d65;
+  --brand-primary-hover: #1e40af;
   --brand-on-primary: #ffffff;
   --brand-purple: #8060cf;
-  --brand-dark: #1a1a1a;
+  --brand-dark: #14171f;
 
   /* Official Social Network Brand Colors (100% Solid) */
   --social-linkedin: #0A66C2;
@@ -33,8 +33,8 @@
   --hero-bg: #14171f;
   --th-primary: #ffffff;
   --th-secondary: #f1f5f9;
-  --txt-primary: #0f172a;
-  --txt-muted: #334155;
+  --txt-primary: #1e293b;
+  --txt-muted: #475569;
   --heading-color: #0e3d65;
   --label-color: #0e3d65;
   --title-icon-bg: #0e3d65;
@@ -44,19 +44,22 @@
   --card-border: #cbd5e1;
   --card-shadow: 0 4px 0 #cbd5e1;
   --input-bg: #f8fafc;
-  --input-text: #0f172a;
+  --input-text: #1e293b;
   --input-placeholder: #475569;
   --skill-track: #e2e8f0;
-  --skill-tec-color: #0f172a;
+  --skill-tec-color: #0e3d65;
   --pill-bg: #ffffff;
   --pill-border: #94a3b8;
-  --pill-text: #0f172a;
+  --pill-text: #0e3d65;
   --timeline-spine-bg: #cbd5e1;
   --timeline-ring-base: #e2e8f0;
 }
 
 [data-theme="dark"] {
   /* Section & Surface Tokens - Dark Mode (100% Solid Minimalist Palette) */
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #1d4ed8;
+  --brand-on-primary: #ffffff;
   --hero-bg: #14171f;
   --th-primary: #1e222d;
   --th-secondary: #161922;
@@ -696,19 +699,20 @@ summary:focus-visible,
    Original Animated Pill Buttons & Official Social Brand Buttons (100% Solid)
    ========================================================================== */
 .btn-brand {
-  padding: 12px 28px;
+  padding: 12px 26px;
   font-size: 13px;
   transition: all 0.25s ease;
   letter-spacing: 0.08em;
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
   box-shadow: none !important;
   text-transform: uppercase;
   outline: none !important;
   background-color: var(--brand-gold);
   border: 2px solid var(--brand-gold);
   border-radius: 9999px;
-  min-width: 148px;
+  min-width: 144px;
   min-height: 44px;
+  gap: 0.5rem;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -716,6 +720,11 @@ summary:focus-visible,
   font-weight: 500;
   cursor: pointer;
   overflow: hidden;
+}
+
+.btn-brand i,
+.btn-brand span {
+  color: #ffffff !important;
 }
 
 .btn-brand span {
@@ -749,29 +758,42 @@ summary:focus-visible,
 .btn-gold {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
 }
 
 .btn-gold:hover,
 .btn-gold:focus {
   background-color: var(--brand-gold-hover);
   border-color: var(--brand-gold-hover);
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
   transform: translateY(-2px);
 }
 
 .btn-theme-primary {
   background-color: var(--brand-primary);
   border-color: var(--brand-primary);
-  color: var(--brand-on-primary);
+  color: #ffffff !important;
 }
 
 .btn-theme-primary:hover,
 .btn-theme-primary:focus {
   background-color: var(--brand-primary-hover);
   border-color: var(--brand-primary-hover);
-  color: var(--brand-on-primary);
+  color: #ffffff !important;
   transform: translateY(-2px);
+}
+
+.bg-home .btn-theme-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff !important;
+}
+
+.bg-home .btn-theme-primary:hover,
+.bg-home .btn-theme-primary:focus {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #ffffff !important;
 }
 
 .btn-outline-gold {
@@ -781,7 +803,7 @@ summary:focus-visible,
   justify-content: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  background-color: #262626;
+  background-color: #1e222d;
   border: 2px solid var(--brand-gold);
   padding: 0.625rem 1.35rem;
   font-size: 13px;
@@ -795,12 +817,12 @@ summary:focus-visible,
 .btn-outline-gold:hover {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
 .btn-outline-gold:hover i {
-  color: var(--brand-on-gold) !important;
+  color: #ffffff !important;
 }
 
 /* Dynamic Theme-Aware CV Download Buttons (Contact & Footer) */
@@ -809,27 +831,28 @@ summary:focus-visible,
   min-height: 42px;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
   border-radius: 9999px;
   background-color: var(--brand-gold);
   border: 2px solid var(--brand-gold);
-  padding: 0.45rem 1rem;
-  font-size: 0.75rem;
+  padding: 0.5rem 1.15rem;
+  font-size: 0.78rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.btn-cv-solid i {
-  color: var(--brand-on-gold) !important;
+.btn-cv-solid i,
+.btn-cv-solid span {
+  color: #ffffff !important;
 }
 
 .btn-cv-solid:hover {
   background-color: var(--brand-gold-hover);
   border-color: var(--brand-gold-hover);
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
   transform: translateY(-2px);
 }
 
@@ -847,7 +870,7 @@ summary:focus-visible,
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--txt-primary);
+  color: var(--pill-text);
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
@@ -859,12 +882,12 @@ summary:focus-visible,
 .btn-cv-outline:hover {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
 .btn-cv-outline:hover i {
-  color: var(--brand-on-gold) !important;
+  color: #ffffff !important;
 }
 
 .footer-section .btn-cv-outline {
@@ -874,7 +897,7 @@ summary:focus-visible,
 
 .footer-section .btn-cv-outline:hover {
   background-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff;
 }
 
 /* Official Social Network Pill Button (100% Solid Brand Colors) */
@@ -956,6 +979,51 @@ summary:focus-visible,
 .btn-social-pill.email:hover {
   background-color: var(--social-email-hover);
   border-color: var(--social-email-hover);
+}
+
+/* Profile Section Action Bar: 2x2 Grid on Mobile (<640px), Strict Single Row on Tablet & Desktop (>=640px) */
+.about-cta-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.about-cta-row > a {
+  min-width: 0 !important;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .about-cta-row {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    width: auto;
+    gap: 0.6rem;
+  }
+
+  .about-cta-row > a {
+    width: auto;
+    flex-shrink: 0;
+    padding: 0.6rem 1.15rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-cta-row {
+    gap: 0.75rem;
+  }
+
+  .about-cta-row > a {
+    padding: 0.68rem 1.35rem;
+    font-size: 0.8125rem;
+  }
 }
 
 /* ==========================================================================
@@ -1127,7 +1195,7 @@ summary:focus-visible,
   border-radius: 9999px;
   background-color: var(--th-primary);
   border: 1.5px solid var(--edu-accent, var(--card-border));
-  color: var(--txt-primary);
+  color: var(--pill-text);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -1247,7 +1315,7 @@ summary:focus-visible,
   font-size: 1rem;
   margin-right: 0.6rem;
   flex-shrink: 0;
-  box-shadow: 0 2px 0 #0f172a;
+  box-shadow: 0 2px 0 var(--card-border);
 }
 
 .skill-level-pill {
@@ -1258,7 +1326,7 @@ summary:focus-visible,
   border-radius: 9999px;
   background-color: var(--th-primary);
   border: 1.5px solid var(--skill-brand, var(--card-accent, var(--brand-gold)));
-  color: var(--txt-primary);
+  color: var(--pill-text);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -1390,7 +1458,7 @@ summary:focus-visible,
 
 /* Stage-Specific Solid Sub-Cards & Non-Monotonous Accents inside Experience Cards */
 .exp-company-accent {
-  color: var(--timeline-color, var(--brand-gold));
+  color: var(--timeline-text-color, var(--timeline-color, var(--brand-gold)));
   font-weight: 500;
 }
 
@@ -1409,7 +1477,7 @@ summary:focus-visible,
 }
 
 .exp-highlight-label {
-  color: var(--timeline-color, var(--brand-gold));
+  color: var(--timeline-text-color, var(--timeline-color, var(--brand-gold)));
   font-weight: 500;
 }
 
@@ -1422,7 +1490,7 @@ summary:focus-visible,
   padding: 0.22rem 0.75rem;
   background-color: var(--th-primary);
   border: 1.5px solid var(--timeline-color, var(--brand-gold));
-  color: var(--txt-primary);
+  color: var(--pill-text);
   display: inline-flex;
   align-items: center;
   transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.25s ease;
@@ -1431,7 +1499,7 @@ summary:focus-visible,
 .exp-tech-pill:hover {
   transform: translateY(-1px);
   background-color: var(--timeline-color, var(--brand-gold));
-  color: var(--year-step-text, #ffffff);
+  color: #ffffff;
 }
 
 /* Even / Right-Side Alternating Timeline Items */
@@ -1476,6 +1544,35 @@ summary:focus-visible,
     left: 26px;
     right: auto;
     width: 22px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .main-timeline-track {
+    left: 12px;
+  }
+  .main-timeline .timeline,
+  .main-timeline .timeline:nth-of-type(even) {
+    padding: 0 0 0 34px;
+    margin: 0 0 24px;
+  }
+  .main-timeline .timeline::before,
+  .main-timeline .timeline:nth-of-type(even)::before {
+    left: 1px;
+    width: 22px;
+    height: 22px;
+    border-width: 4px;
+  }
+  .main-timeline .timeline::after,
+  .main-timeline .timeline:nth-of-type(even)::after {
+    left: 20px;
+    width: 14px;
+  }
+  .exp-card-header {
+    padding: 12px 14px;
+  }
+  .main-timeline .inner-content {
+    padding: 16px 15px 18px;
   }
 }
 

@@ -35,7 +35,7 @@ const skillCategories = skillsSection.categories;
         role="tab"
         aria-selected="true"
         data-skill-filter="all"
-        style="--tab-accent: var(--brand-gold); --tab-text: var(--brand-on-gold);"
+        style="--tab-accent: var(--brand-gold); --tab-text: #ffffff;"
         class="skill-filter-btn active min-h-[42px] rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer"
       >
         {skillsSection.filterAllLabel}
@@ -51,7 +51,7 @@ const skillCategories = skillsSection.categories;
             class="skill-filter-btn min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-200 cursor-pointer inline-flex items-center gap-2"
           >
             <span
-              class="h-2.5 w-2.5 rounded-full shrink-0"
+              class="skill-filter-dot h-2.5 w-2.5 rounded-full shrink-0"
               style={`background-color: ${category.accentColor};`}
               aria-hidden="true"
             ></span>
@@ -170,7 +170,7 @@ const skillCategories = skillsSection.categories;
 <style>
   .skill-filter-btn {
     background-color: var(--th-primary);
-    color: var(--txt-primary);
+    color: var(--pill-text);
     border: 2px solid var(--card-border);
     box-shadow: 0 3px 0 var(--card-border);
   }
@@ -180,10 +180,13 @@ const skillCategories = skillsSection.categories;
   }
   .skill-filter-btn.active {
     background-color: var(--tab-accent, var(--brand-gold));
-    color: var(--tab-text, var(--brand-on-gold));
+    color: #ffffff !important;
     border-color: var(--tab-accent, var(--brand-gold));
-    box-shadow: 0 3px 0 #091526;
+    box-shadow: 0 3px 0 var(--card-border);
     font-weight: 600;
+  }
+  .skill-filter-btn.active .skill-filter-dot {
+    background-color: #ffffff !important;
   }
 </style>
 

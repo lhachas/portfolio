@@ -43,7 +43,6 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
           contactSection.channels.map((channel) => {
             const isBrandAccent = channel.color.toLowerCase() === '#cdb30c';
             const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : channel.color;
-            const iconTextStyle = isBrandAccent ? 'color: var(--brand-on-gold);' : '';
             const extraBorderClass = channel.id === 'github' ? 'border-2 border-[#484f58]' : '';
 
             return channel.href ? (
@@ -55,7 +54,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 style={`--channel-color: ${resolvedColor};`}
                 data-cursor-label={channel.cursorLabel}
               >
-                <span class={`contact-channel-icon ${extraBorderClass}`} style={iconTextStyle} aria-hidden="true">
+                <span class={`contact-channel-icon ${extraBorderClass}`} aria-hidden="true">
                   <i class={`icofont ${channel.icon}`}></i>
                 </span>
                 <div class="min-w-0">
@@ -68,7 +67,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 class="contact-channel-card"
                 style={`--channel-color: ${resolvedColor};`}
               >
-                <span class="contact-channel-icon" style={iconTextStyle} aria-hidden="true">
+                <span class="contact-channel-icon" aria-hidden="true">
                   <i class={`icofont ${channel.icon}`}></i>
                 </span>
                 <div class="min-w-0">
@@ -84,7 +83,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
         <div class="spotlight-card rounded-2xl p-5 mt-4" style="background-color: var(--th-secondary); border-color: var(--card-border);">
           <div class="flex items-center justify-between gap-2">
             <span class="label-c block">{cvCard.title}</span>
-            <span class="rounded-md bg-[#0e3d65] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold border border-gold">
+            <span class="rounded-md bg-[#0e3d65] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white border border-[#0e3d65]">
               {profile.cvPrimary.badge}
             </span>
           </div>
@@ -263,12 +262,12 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
               <p id="error-comments" class="mt-1.5 hidden text-xs text-[#dc2626] font-medium" role="alert"></p>
             </div>
 
-            <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
+            <div class="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3.5">
               <a
                 href={profile.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn-social-pill whatsapp"
+                class="btn-social-pill whatsapp w-full sm:w-auto justify-center"
                 data-magnetic
                 data-cursor-label={form.whatsappCtaCursorLabel}
               >
@@ -279,9 +278,10 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
               <button
                 type="submit"
                 id="contact-submit-btn"
-                class="btn-brand btn-theme-primary"
+                class="btn-brand btn-theme-primary w-full sm:w-auto justify-center"
                 data-cursor-label={form.submitCursorLabel}
               >
+                <i class="icofont icofont-paper-plane" aria-hidden="true"></i>
                 <span id="contact-submit-text">{form.submitLabel}</span>
               </button>
             </div>

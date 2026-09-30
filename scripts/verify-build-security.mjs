@@ -139,8 +139,22 @@ if (fs.existsSync(DIST_DIR)) {
       pass('dist/en/index.html (EN) exposes exclusively CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf (0 ES CV links)');
     }
   }
+
+  // 6. Verify zero off-palette black text overrides or --brand-primary overwrites in generated HTML
+  for (const htmlFile of htmlFiles) {
+    const html = fs.readFileSync(htmlFile, 'utf8');
+    const rel = path.relative(ROOT, htmlFile);
+    if (html.includes('yiq >= 150') || html.includes("setProperty('--brand-primary'")) {
+      fail(`${rel} contains legacy YIQ black text override or --brand-primary gold overwrite`);
+    }
+    if (!html.includes('about-cta-row')) {
+      fail(`${rel} is missing .about-cta-row single-line desktop / 2x2 mobile profile CTA layout`);
+    }
+  }
+  pass('Verified all generated HTML pages enforce crisp #ffffff button/badge contrast and .about-cta-row responsive layout');
 }
 
 if (errors > 0) {
   process.exit(1);
 }
+

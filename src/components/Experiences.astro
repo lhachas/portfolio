@@ -52,13 +52,14 @@ const experiencesData = experiencesSection.items;
           experiencesData.map((exp) => {
             const isBrandAccent = exp.color.toLowerCase() === '#cdb30c';
             const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : exp.color;
-            const headerTextColor = isBrandAccent ? 'var(--brand-on-gold)' : '#ffffff';
-            const pillBgOnHeader = isBrandAccent ? '#14171f' : '#141414';
-            const pillTextOnHeader = isBrandAccent ? 'var(--brand-gold)' : '#ffffff';
+            const resolvedTextColor = isBrandAccent ? 'var(--heading-color)' : resolvedColor;
+            const headerTextColor = '#ffffff';
+            const pillBgOnHeader = '#0e3d65';
+            const pillTextOnHeader = '#ffffff';
             return (
               <article
                 class="timeline reveal"
-                style={`--timeline-color: ${resolvedColor}; --year-step-text: ${headerTextColor};`}
+                style={`--timeline-color: ${resolvedColor}; --timeline-text-color: ${resolvedTextColor}; --year-step-text: ${headerTextColor};`}
               >
                 <!-- 100% Solid Minimalist Stage Card Connected to Central Spine -->
                 <div class="timeline-content">
@@ -77,14 +78,14 @@ const experiencesData = experiencesSection.items;
                         </span>
                         <span
                           class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader};`}
+                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader}; border: 1.5px solid ${headerTextColor};`}
                         >
                           <i class="icofont icofont-briefcase-1" aria-hidden="true"></i>
                           <span>{exp.clientOrDomain}</span>
                         </span>
                       </div>
 
-                      <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                      <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white">
                         <i class="icofont icofont-calendar" aria-hidden="true"></i>
                         <span>{exp.date}</span>
                       </span>
@@ -98,8 +99,8 @@ const experiencesData = experiencesSection.items;
                         {exp.company}
                       </span>
                       <span
-                        class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs txt-primary font-normal"
-                        style="background-color: var(--th-primary); border: 1.5px solid var(--card-border);"
+                        class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
+                        style="background-color: var(--th-primary); border: 1.5px solid var(--card-border); color: var(--pill-text);"
                       >
                         <i class="icofont icofont-location-pin" style={`color: ${resolvedColor};`} aria-hidden="true"></i>
                         <span>{exp.location}</span>

@@ -43,8 +43,8 @@ const { trainingShowcase } = about;
           />
           <!-- Experience Solid Badge (Zero Blur Shadow) -->
           <div
-            class="absolute -bottom-3 right-2 rounded-full bg-[#14171f] border-2 border-gold px-4 py-1.5 text-white flex items-center gap-2"
-            style="box-shadow: 0 4px 0 #090b10;"
+            class="absolute -bottom-3 right-2 rounded-full bg-[#0e3d65] border-2 border-gold px-4 py-1.5 text-white flex items-center gap-2"
+            style="box-shadow: 0 4px 0 #08233a;"
           >
             <i class="icofont icofont-code-alt text-gold text-base" aria-hidden="true"></i>
             <span class="text-xs font-medium uppercase tracking-wider">
@@ -103,7 +103,7 @@ const { trainingShowcase } = about;
           </div>
 
           <!-- Action Buttons (Official CVs + Direct Contact + Official Social Brand Buttons) -->
-          <div class="mt-7 flex flex-wrap items-center gap-3">
+          <div class="about-cta-row mt-7">
             <a
               href={withBase(profile.cvPrimary.url)}
               target="_blank"
@@ -229,7 +229,7 @@ const { trainingShowcase } = about;
             </div>
           </div>
 
-          <div class="flex items-center gap-2.5">
+          <div class="flex flex-wrap items-center gap-2.5">
             {
               trainingShowcase.providerSummaryBadges.map((badge) => (
                 <span class="provider-badge" style={`--provider-color: ${badge.color};`}>
@@ -239,7 +239,7 @@ const { trainingShowcase } = about;
               ))
             }
             <span
-              class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#14171f] text-gold border-2 border-gold group-open:rotate-180 transition-transform"
+              class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0e3d65] text-gold border-2 border-gold group-open:rotate-180 transition-transform"
               aria-hidden="true"
             >
               <i class="icofont icofont-rounded-down text-lg"></i>
@@ -271,7 +271,7 @@ const { trainingShowcase } = about;
                       </span>
                       <span
                         class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider"
-                        style="background-color: var(--th-secondary); border: 1px solid var(--card-border); color: var(--txt-primary);"
+                        style="background-color: var(--th-secondary); border: 1px solid var(--card-border); color: var(--pill-text);"
                       >
                         <i class="icofont icofont-calendar" style={`color: ${course.providerColor};`} aria-hidden="true"></i>
                         <span>{course.date}</span>
@@ -326,8 +326,8 @@ const { trainingShowcase } = about;
 
             <!-- Executive Summary Callout Card -->
             <div
-              class="rounded-xl p-4 border-2 border-gold bg-[#14171f] text-white"
-              style="box-shadow: 0 4px 0 #080a0f;"
+              class="rounded-xl p-4 border-2 border-gold bg-[#0e3d65] text-white"
+              style="box-shadow: 0 4px 0 #08233a;"
             >
               <div class="flex items-center gap-2.5 mb-1.5">
                 <i class="icofont icofont-award text-gold text-xl" aria-hidden="true"></i>

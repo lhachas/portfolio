@@ -138,7 +138,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
           hero.metrics.map((metric) => {
             const isBrandAccent = metric.accentColor.toLowerCase() === '#cdb30c';
             const resolvedAccent = isBrandAccent ? 'var(--brand-gold)' : metric.accentColor;
-            const iconTextColor = isBrandAccent ? 'var(--brand-on-gold)' : '#ffffff';
+            const iconTextColor = '#ffffff';
             return (
               <div
                 class="hero-metric-card"
@@ -147,7 +147,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
                 style={`--metric-accent: ${resolvedAccent};`}
               >
                 <div
-                  class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#14171f]"
+                  class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#1e222d]"
                   style={`background-color: ${resolvedAccent}; color: ${iconTextColor}; box-shadow: 0 3px 0 #0a0c10;`}
                 >
                   <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
