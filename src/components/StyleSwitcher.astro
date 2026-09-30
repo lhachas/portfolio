@@ -18,7 +18,7 @@ import { colorThemes } from '../data/portfolio';
               data-accent-hover={theme.hoverHex}
               title={theme.name}
               aria-label={`Cambiar color de acento a ${theme.name}`}
-              class="h-9 w-9 rounded-full border-2 border-white/25 transition-transform hover:scale-110 cursor-pointer"
+              class="h-9 w-9 rounded-full border-2 border-[#4a4a4a] transition-transform hover:scale-110 hover:border-white cursor-pointer"
               style={`background-color: ${theme.hex};`}
             />
           </li>
@@ -56,6 +56,7 @@ import { colorThemes } from '../data/portfolio';
     const toggleBtn = document.getElementById('style-switcher-toggle');
     const swatches = document.querySelectorAll('[data-accent-color]');
     const backToTop = document.getElementById('back-to-top');
+    const validHex = /^#[0-9a-fA-F]{6}$/;
 
     toggleBtn?.addEventListener('click', (e) => {
       e.preventDefault();
@@ -66,13 +67,15 @@ import { colorThemes } from '../data/portfolio';
 
     swatches.forEach((swatch) => {
       swatch.addEventListener('click', () => {
-        const primary = swatch.getAttribute('data-accent-color');
-        const hover = swatch.getAttribute('data-accent-hover');
-        if (primary && hover) {
+        const primary = swatch.getAttribute('data-accent-color') || '';
+        const hover = swatch.getAttribute('data-accent-hover') || '';
+        if (validHex.test(primary) && validHex.test(hover)) {
           document.documentElement.style.setProperty('--brand-primary', primary);
           document.documentElement.style.setProperty('--brand-primary-hover', hover);
-          localStorage.setItem('user-accent-hex', primary);
-          localStorage.setItem('user-accent-hover', hover);
+          try {
+            localStorage.setItem('user-accent-hex', primary);
+            localStorage.setItem('user-accent-hover', hover);
+          } catch (err) {}
         }
       });
     });

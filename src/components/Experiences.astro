@@ -22,93 +22,115 @@ import { experiencesData } from '../data/portfolio';
         type="button"
         id="toggle-all-achievements"
         data-expanded="true"
-        class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all cursor-pointer hover:border-[#cdb30c]"
-        style="background-color: var(--th-secondary); border: 1px solid var(--card-border); color: var(--heading-color);"
+        class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer hover:border-[#cdb30c]"
+        style="background-color: var(--th-secondary); border: 2px solid var(--card-border); color: var(--heading-color);"
       >
         <i class="icofont icofont-layers text-gold text-sm" aria-hidden="true"></i>
         <span id="toggle-all-label">Modo compacto (ocultar detalle de logros)</span>
       </button>
     </div>
 
-    <!-- Interconnected .main-timeline with Continuous Central Spine & Alternating Circular Rings -->
-    <div class="mt-8">
+    <!-- Redesigned Solid Minimalist Interconnected Timeline (6 Distinct Non-Monotonous Stage Palettes) -->
+    <div class="mt-10">
       <div class="main-timeline" id="experiences-timeline">
-        <!-- Continuous Central Vertical Spine Connecting All 6 Circular Rings -->
+        <!-- Continuous Central Vertical Spine Connecting All 6 Stages -->
         <div class="main-timeline-track" aria-hidden="true">
           <div id="timeline-spine-progress" class="main-timeline-progress"></div>
         </div>
 
         {
-          experiencesData.map((exp) => (
-            <article
-              class="timeline reveal"
-              style={`--timeline-color: ${exp.color};`}
-            >
-              <!-- Circular 200px 45deg Ring + 118px Inner Year Circle + Spine Interlock Nodes -->
-              <div class="timeline-icon" aria-hidden="true">
-                <span class="year">
-                  <span class="year-step">Etapa {exp.stepNumber}</span>
-                  <span>{exp.date}</span>
-                </span>
-              </div>
+          experiencesData.map((exp) => {
+            const headerTextColor = exp.color === '#cdb30c' ? '#1a1a1a' : '#ffffff';
+            const pillBgOnHeader = exp.color === '#cdb30c' ? '#1a1a1a' : '#141414';
+            const pillTextOnHeader = exp.color === '#cdb30c' ? '#cdb30c' : '#ffffff';
+            return (
+              <article
+                class="timeline reveal"
+                style={`--timeline-color: ${exp.color}; --year-step-text: ${headerTextColor};`}
+              >
+                <!-- 100% Solid Minimalist Stage Card Connected to Central Spine -->
+                <div class="timeline-content">
+                  <!-- Solid Stage Header Bar with Circular Stage Number Medallion -->
+                  <header
+                    class="exp-card-header"
+                    style={`background-color: ${exp.color}; color: ${headerTextColor};`}
+                  >
+                    <div class="flex flex-wrap items-center justify-between gap-2.5">
+                      <div class="inline-flex items-center gap-2.5">
+                        <span
+                          class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold tracking-wider"
+                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader}; border: 2px solid ${headerTextColor};`}
+                        >
+                          {exp.stepNumber}
+                        </span>
+                        <span
+                          class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader};`}
+                        >
+                          <i class="icofont icofont-briefcase-1" aria-hidden="true"></i>
+                          <span>{exp.clientOrDomain}</span>
+                        </span>
+                      </div>
 
-              <!-- Colored Outer Frame + High-Contrast Inner Content Card -->
-              <div class="timeline-content">
-                <div class="inner-content">
-                  <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <span
-                      class="inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-medium uppercase tracking-wider"
-                      style={`background-color: ${exp.color}; color: #ffffff;`}
-                    >
-                      {exp.clientOrDomain}
-                    </span>
-                    <span class="text-xs txt-primary opacity-85 tracking-wide">
-                      <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i> {exp.location}
-                    </span>
-                  </div>
+                      <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider">
+                        <i class="icofont icofont-calendar" aria-hidden="true"></i>
+                        <span>{exp.date}</span>
+                      </span>
+                    </div>
+                  </header>
 
-                  <h3 class="card-title">
-                    {exp.title} - <span class="text-gold">{exp.company}</span>
-                  </h3>
+                  <!-- Solid Inner Content Body -->
+                  <div class="inner-content">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                      <span class="exp-company-accent text-sm uppercase tracking-wider font-semibold">
+                        {exp.company}
+                      </span>
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs txt-primary font-normal"
+                        style="background-color: var(--th-primary); border: 1.5px solid var(--card-border);"
+                      >
+                        <i class="icofont icofont-location-pin" style={`color: ${exp.color};`} aria-hidden="true"></i>
+                        <span>{exp.location}</span>
+                      </span>
+                    </div>
 
-                  <p class="body-copy txt-primary mt-2">
-                    {exp.summary}
-                  </p>
+                    <h3 class="card-title !text-[1.3rem]">
+                      {exp.title}
+                    </h3>
 
-                  <!-- Audited 2026 CV Highlights -->
-                  <div class="exp-achievements mt-3.5 pt-3 border-t space-y-2.5" style="border-color: var(--card-border);">
-                    {
-                      exp.highlights.map((item) => (
-                        <div class="detail-copy flex items-start gap-2.5">
-                          <span
-                            class="mt-2 h-2 w-2 rounded-full shrink-0"
-                            style={`background-color: ${exp.color};`}
-                          />
-                          <div>
-                            <strong class="font-medium" style="color: var(--heading-color);">
+                    <p class="body-copy txt-primary mt-2">
+                      {exp.summary}
+                    </p>
+
+                    <!-- Audited 2026 CV Highlights in Solid Stage-Accented Sub-Cards -->
+                    <div class="exp-achievements mt-4 pt-3.5 border-t-2 space-y-2.5" style="border-color: var(--card-border);">
+                      {
+                        exp.highlights.map((item) => (
+                          <div class="exp-highlight-card detail-copy">
+                            <strong class="exp-highlight-label">
                               {item.label}:
                             </strong>{' '}
-                            <span class="font-light">{item.text}</span>
+                            <span class="font-light txt-primary">{item.text}</span>
                           </div>
-                        </div>
-                      ))
-                    }
-                  </div>
+                        ))
+                      }
+                    </div>
 
-                  <!-- Stack Badges -->
-                  <div class="mt-4 pt-2 flex flex-wrap gap-1.5">
-                    {
-                      exp.technologies.map((tech) => (
-                        <span class="tech-pill">
-                          {tech}
-                        </span>
-                      ))
-                    }
+                    <!-- Stage-Color-Coded Solid Stack Badges -->
+                    <div class="mt-4 pt-2 flex flex-wrap gap-1.5">
+                      {
+                        exp.technologies.map((tech) => (
+                          <span class="exp-tech-pill">
+                            {tech}
+                          </span>
+                        ))
+                      }
+                    </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))
+              </article>
+            );
+          })
         }
       </div>
     </div>
@@ -120,6 +142,7 @@ import { experiencesData } from '../data/portfolio';
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1920 81.717"
+    preserveAspectRatio="none"
     xml:space="preserve"
     aria-hidden="true"
   >
@@ -135,8 +158,6 @@ import { experiencesData } from '../data/portfolio';
     const toggleBtn = document.getElementById('toggle-all-achievements');
     const toggleLabel = document.getElementById('toggle-all-label');
     const achievementBlocks = document.querySelectorAll('.exp-achievements');
-    const timelineEl = document.getElementById('experiences-timeline');
-    const spineProgress = document.getElementById('timeline-spine-progress');
 
     toggleBtn?.addEventListener('click', () => {
       const isExpanded = toggleBtn.getAttribute('data-expanded') === 'true';

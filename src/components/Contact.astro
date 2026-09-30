@@ -24,7 +24,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
     </div>
 
     <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start pt-2">
-      <!-- Left Column: Direct Contact Channels with Strict Official Brand Colors -->
+      <!-- Left Column: Direct Contact Channels with Strict 100% Solid Official Brand Colors -->
       <div class="lg:col-span-5 space-y-3.5 reveal">
         <h3 class="card-title mb-3">
           Canales Oficiales de <span class="text-gold">Contacto Directo</span>
@@ -91,7 +91,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
           style="--channel-color: #24292F;"
           data-cursor-label="GitHub"
         >
-          <span class="contact-channel-icon border border-white/20" aria-hidden="true">
+          <span class="contact-channel-icon border-2 border-[#484f58]" aria-hidden="true">
             <i class="icofont icofont-github"></i>
           </span>
           <div class="min-w-0">
@@ -105,7 +105,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
           class="contact-channel-card"
           style="--channel-color: #cdb30c;"
         >
-          <span class="contact-channel-icon" aria-hidden="true">
+          <span class="contact-channel-icon !text-[#1a1a1a]" aria-hidden="true">
             <i class="icofont icofont-location-pin"></i>
           </span>
           <div class="min-w-0">
@@ -114,8 +114,8 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
           </div>
         </div>
 
-        <!-- Direct 2026 CV Download Card -->
-        <div class="spotlight-card rounded-2xl p-5 border mt-4" style="background-color: var(--th-secondary); border-color: var(--card-border);">
+        <!-- Direct 2026 CV Download Card (100% Solid Surface) -->
+        <div class="spotlight-card rounded-2xl p-5 mt-4" style="background-color: var(--th-secondary); border-color: var(--card-border);">
           <span class="label-c block">Currículum Vitae 2026:</span>
           <p class="detail-copy mt-1.5">
             Descarga directa en PDF con el detalle completo de proyectos en banca digital, retail y cloud AWS.
@@ -127,7 +127,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
               rel="noopener noreferrer"
               download="CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
               data-magnetic
-              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full bg-[#cdb30c] px-4 py-2 text-xs font-medium uppercase tracking-wider text-white transition-opacity hover:opacity-90"
+              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full bg-[#cdb30c] border-2 border-[#cdb30c] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#1a1a1a] transition-colors hover:bg-[#b39b09] hover:border-[#b39b09]"
             >
               <i class="icofont icofont-file-pdf" aria-hidden="true"></i>
               <span>CV Senior Backend (ES)</span>
@@ -138,7 +138,8 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
               rel="noopener noreferrer"
               download="CV-Leonel-Hacha-Salazar-Backend-Bit-2026.pdf"
               data-magnetic
-              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full border border-[#cdb30c]/60 px-4 py-2 text-xs font-medium uppercase tracking-wider txt-primary transition-colors hover:bg-[#cdb30c] hover:text-white"
+              class="inline-flex min-h-[42px] items-center gap-1.5 rounded-full border-2 border-[#cdb30c] px-4 py-2 text-xs font-medium uppercase tracking-wider txt-primary transition-colors hover:bg-[#cdb30c] hover:text-[#1a1a1a]"
+              style="background-color: var(--th-primary);"
             >
               <i class="icofont icofont-file-pdf text-gold" aria-hidden="true"></i>
               <span>CV Extendido</span>
@@ -147,9 +148,9 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
         </div>
       </div>
 
-      <!-- Right Column: Real Functional Email Contact Form (Preserves Pill Inputs + Adds Visible Labels & AJAX Delivery) -->
+      <!-- Right Column: Real Functional Email Contact Form (100% Solid + XSS & Rate-Limit Hardened) -->
       <div class="lg:col-span-7 reveal">
-        <div class="spotlight-card rounded-2xl p-6 sm:p-8 border" style="background-color: var(--th-secondary); border-color: var(--card-border);">
+        <div class="spotlight-card rounded-2xl p-6 sm:p-8" style="background-color: var(--th-secondary); border-color: var(--card-border);">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-5">
             <div>
               <h3 class="card-title">
@@ -179,7 +180,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
                   <button
                     type="button"
                     data-quick-topic={topic}
-                    class="tech-pill cursor-pointer hover:bg-[#cdb30c] hover:text-white transition-colors"
+                    class="tech-pill cursor-pointer transition-colors"
                   >
                     <i class="icofont icofont-plus-circle text-gold" aria-hidden="true"></i>
                     <span>{topic.split(' (')[0]}</span>
@@ -207,10 +208,10 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
             <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_template" value="table" />
 
-            <!-- Status Feedback Banner -->
+            <!-- Status Feedback Banner (100% Solid Surface) -->
             <div
               id="contact-feedback"
-              class="mb-5 hidden rounded-2xl border px-4 py-3.5 text-sm font-normal"
+              class="mb-5 hidden rounded-2xl border-2 px-4 py-3.5 text-sm font-normal"
               role="status"
               aria-live="polite"
             ></div>
@@ -227,11 +228,12 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
                   autocomplete="name"
                   required
                   minlength="2"
+                  maxlength="100"
                   placeholder="Ej. María Gómez · Tech Recruiter"
                   class="form-control-pill"
-                   style="background-color: var(--th-primary);"
+                  style="background-color: var(--th-primary);"
                 />
-                <p id="error-name" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+                <p id="error-name" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
               </div>
 
               <div>
@@ -244,12 +246,13 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
                   type="email"
                   autocomplete="email"
                   required
+                  maxlength="120"
                   spellcheck="false"
                   placeholder="Ej. maria@empresa.com"
                   class="form-control-pill"
                   style="background-color: var(--th-primary);"
                 />
-                <p id="error-email" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+                <p id="error-email" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
               </div>
             </div>
 
@@ -263,11 +266,12 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
                 type="text"
                 required
                 minlength="3"
+                maxlength="160"
                 placeholder="Ej. Posición Senior Backend Developer - Banca Digital"
                 class="form-control-pill"
                 style="background-color: var(--th-primary);"
               />
-              <p id="error-subject" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+              <p id="error-subject" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
             </div>
 
             <div class="mt-4">
@@ -280,11 +284,12 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
                 rows="5"
                 required
                 minlength="10"
+                maxlength="2500"
                 placeholder="Hola Leonel, revisamos tu trayectoria en Baufest (Qik & Cencosud) y nos gustaría agendar una entrevista..."
                 class="form-control-pill"
                 style="background-color: var(--th-primary);"
               ></textarea>
-              <p id="error-comments" class="mt-1.5 hidden text-xs text-red-500 font-normal" role="alert"></p>
+              <p id="error-comments" class="mt-1.5 hidden text-xs text-[#dc2626] font-normal" role="alert"></p>
             </div>
 
             <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
@@ -321,6 +326,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1920 81.717"
+    preserveAspectRatio="none"
     xml:space="preserve"
     aria-hidden="true"
   >
@@ -341,6 +347,15 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
     const quickTopicBtns = document.querySelectorAll('[data-quick-topic]');
 
     if (!form || !feedback || !submitBtn || !submitText) return;
+
+    // HTML Entity Escaping to prevent DOM XSS (CWE-79)
+    const escapeHtml = (unsafe) =>
+      String(unsafe || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 
     // 1. Quick-Topic Chips populate subject input
     quickTopicBtns.forEach((btn) => {
@@ -378,18 +393,31 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
       el?.addEventListener('input', () => setFieldError(id, errId, ''));
     });
 
-    // 3. Multi-Provider Real Email Submission (Formspree / Web3Forms / EmailJS / FormSubmit AJAX)
+    // 3. Multi-Provider Real Email Submission with Anti-Automation Rate Limiting & XSS Sanitization
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
       const honey = String(formData.get('_honey') || '').trim();
       if (honey) return; // Silently drop bot submissions
 
-      const name = String(formData.get('name') || '').trim();
-      const email = String(formData.get('email') || '').trim();
-      const subject = String(formData.get('subject') || '').trim();
-      const message = String(formData.get('message') || '').trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // Client-side rate limiting (45s cooldown per session)
+      const now = Date.now();
+      try {
+        const lastSent = Number(sessionStorage.getItem('portfolio_last_contact_ts') || '0');
+        if (lastSent && now - lastSent < 45000) {
+          const waitSec = Math.ceil((45000 - (now - lastSent)) / 1000);
+          feedback.className =
+            'mb-5 rounded-2xl border-2 border-[#d97706] bg-[#1f1f1f] px-4 py-3 text-sm font-normal text-[#fbbf24]';
+          feedback.textContent = `Por seguridad anti-spam, espera ${waitSec} segundos antes de enviar otro mensaje.`;
+          return;
+        }
+      } catch (err) {}
+
+      const name = String(formData.get('name') || '').trim().slice(0, 100);
+      const email = String(formData.get('email') || '').trim().slice(0, 120);
+      const subject = String(formData.get('subject') || '').trim().slice(0, 160);
+      const message = String(formData.get('message') || '').trim().slice(0, 2500);
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
       let hasError = false;
       if (name.length < 2) {
@@ -411,13 +439,13 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
 
       if (hasError) {
         feedback.className =
-          'mb-5 rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm font-normal text-red-500';
+          'mb-5 rounded-2xl border-2 border-[#dc2626] bg-[#1f1f1f] px-4 py-3 text-sm font-normal text-[#f87171]';
         feedback.textContent = 'Por favor revisa los campos marcados antes de enviar.';
         return;
       }
 
       submitBtn.setAttribute('disabled', 'true');
-      submitText.innerHTML = '<i class="icofont icofont-spinner-alt-2 icofont-spin mr-1.5"></i> Enviando correo...';
+      submitText.textContent = 'Enviando correo...';
       feedback.classList.add('hidden');
 
       const formspreeUrl = form.getAttribute('data-formspree') || '';
@@ -428,18 +456,20 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
       const defaultEndpoint = form.getAttribute('data-default-endpoint') || 'https://formsubmit.co/ajax/lionelsh.salazar@gmail.com';
       const recipient = form.getAttribute('data-recipient') || 'lionelsh.salazar@gmail.com';
 
+      const safeName = escapeHtml(name);
+      const safeEmail = escapeHtml(email);
+      const safeRecipient = escapeHtml(recipient);
+
       try {
         let response;
 
-        if (formspreeUrl) {
-          // Option A: Formspree Endpoint
+        if (formspreeUrl && formspreeUrl.startsWith('https://formspree.io/')) {
           response = await fetch(formspreeUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({ name, email, subject: `[Portafolio LHachaS] ${subject}`, message }),
           });
         } else if (web3formsKey) {
-          // Option B: Web3Forms API
           response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -452,7 +482,6 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
             }),
           });
         } else if (emailjsService && emailjsTemplate && emailjsKey) {
-          // Option C: EmailJS REST API
           response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -464,7 +493,6 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
             }),
           });
         } else {
-          // Default Out-of-the-Box Real Email Service: FormSubmit AJAX API
           response = await fetch(defaultEndpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -483,23 +511,26 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
         const data = await response.json().catch(() => ({}));
 
         if (response.ok && data.success !== 'false' && data.success !== false) {
+          try {
+            sessionStorage.setItem('portfolio_last_contact_ts', String(Date.now()));
+          } catch (err) {}
+
           feedback.className =
-            'mb-5 rounded-2xl border border-emerald-500/45 bg-emerald-500/12 px-4 py-3.5 text-sm font-normal text-emerald-500';
+            'mb-5 rounded-2xl border-2 border-[#059669] bg-[#1a1a1a] px-4 py-3.5 text-sm font-normal text-[#34d399]';
           feedback.innerHTML = `
             <div class="flex items-start gap-2.5">
               <i class="icofont icofont-check-circled text-lg mt-0.5 shrink-0"></i>
               <div>
-                <strong class="block font-medium">¡Mensaje enviado exitosamente a ${recipient}!</strong>
-                <span class="font-light">Gracias por escribirme, ${name}. Te responderé a la brevedad al correo ${email}.</span>
+                <strong class="block font-medium text-white">¡Mensaje enviado exitosamente a ${safeRecipient}!</strong>
+                <span class="font-light text-[#d4d4d4]">Gracias por escribirme, ${safeName}. Te responderé a la brevedad al correo ${safeEmail}.</span>
               </div>
             </div>
           `;
           form.reset();
         } else {
-          throw new Error(data.message || 'Requiere confirmación o envío alternativo');
+          throw new Error('Requiere confirmación o envío alternativo');
         }
       } catch (err) {
-        // Fallback with 1-click direct mailto & WhatsApp so no recruiter message is ever lost
         const mailtoSubject = encodeURIComponent(`[Portafolio LHachaS] ${subject}`);
         const mailtoBody = encodeURIComponent(
           `Hola Leonel,\n\nMi nombre es ${name} (${email}).\n\n${message}\n\nSaludos,\n${name}`
@@ -509,15 +540,15 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profileData.email}`;
         );
 
         feedback.className =
-          'mb-5 rounded-2xl border border-amber-500/50 bg-amber-500/12 px-4 py-3.5 text-sm font-normal text-amber-500';
+          'mb-5 rounded-2xl border-2 border-[#cdb30c] bg-[#1a1a1a] px-4 py-3.5 text-sm font-normal text-white';
         feedback.innerHTML = `
           <div>
-            <strong class="block font-medium mb-1">Confirmación de envío directo</strong>
-            <p class="text-xs font-light mb-3">
-              Para completar el envío de inmediato hacia <strong>${recipient}</strong>, elige tu canal directo con tu mensaje ya precargado:
+            <strong class="block font-medium text-gold mb-1">Confirmación de envío directo</strong>
+            <p class="text-xs font-light text-[#d4d4d4] mb-3">
+              Para completar el envío de inmediato hacia <strong>${safeRecipient}</strong>, elige tu canal directo con tu mensaje ya precargado:
             </p>
             <div class="flex flex-wrap gap-2.5">
-              <a href="mailto:${recipient}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn-social-pill email !min-h-[36px] !py-1.5 !px-3.5 !text-xs">
+              <a href="mailto:${safeRecipient}?subject=${mailtoSubject}&body=${mailtoBody}" class="btn-social-pill email !min-h-[36px] !py-1.5 !px-3.5 !text-xs">
                 <i class="icofont icofont-envelope"></i>
                 <span>Enviar por Correo Directo</span>
               </a>

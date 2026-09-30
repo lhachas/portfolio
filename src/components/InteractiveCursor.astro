@@ -1,17 +1,17 @@
 ---
 /**
  * InteractiveCursor.astro
- * Elite dual-layer spring cursor, top scroll progress bar, magnetic button physics,
- * and radial card spotlight controller.
+ * Dual-layer spring cursor, top scroll progress bar, and magnetic button physics.
+ * 100% Solid Minimalist Style - Zero Glassmorphism or Radial Spotlights.
  * Automatically disabled on touch devices (pointer: coarse) and prefers-reduced-motion.
  */
 ---
 
-<!-- Top Scroll Progress Bar -->
+<!-- Top Scroll Progress Bar (100% Solid Minimalist Strip) -->
 <div
   id="scroll-progress-bar"
-  class="fixed top-0 left-0 z-[10000] h-[3px] w-full origin-left scale-x-0 pointer-events-none"
-  style="background: linear-gradient(90deg, var(--brand-gold) 0%, var(--brand-primary) 100%); box-shadow: 0 0 12px rgba(205, 179, 12, 0.55);"
+  class="fixed top-0 left-0 z-[10000] h-[4px] w-full origin-left scale-x-0 pointer-events-none"
+  style="background-color: var(--brand-gold);"
   aria-hidden="true"
 ></div>
 
@@ -141,25 +141,7 @@
       );
     }
 
-    // 3. Radial Spotlight on Cards (.card-box, .inner-content, .spotlight-card)
-    const spotlightCards = document.querySelectorAll<HTMLElement>(
-      '.card-box, .main-timeline .inner-content, .spotlight-card'
-    );
-    spotlightCards.forEach((card) => {
-      card.addEventListener(
-        'mousemove',
-        (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty('--mouse-x', `${x}px`);
-          card.style.setProperty('--mouse-y', `${y}px`);
-        },
-        { passive: true }
-      );
-    });
-
-    // 4. Magnetic Pull Micro-Interaction on CTAs & Social Buttons
+    // 3. Magnetic Pull Micro-Interaction on CTAs & Social Buttons
     const magneticElements = document.querySelectorAll<HTMLElement>(
       '.btn-brand, .social-icon-btn, [data-magnetic]'
     );

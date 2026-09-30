@@ -4,21 +4,16 @@ import { profileData } from '../data/portfolio';
 
 <!-- START HOME -->
 <section class="section bg-home" id="home" aria-label="Presentación principal">
-  <!-- Atmospheric Product-Designer Depth Layers (Over cartographer.png) -->
-  <div class="hero-grid-overlay" aria-hidden="true"></div>
-  <div class="hero-aurora-orb orb-gold" aria-hidden="true"></div>
-  <div class="hero-aurora-orb orb-purple" aria-hidden="true"></div>
-
-  <!-- Interactive Particle Constellation Canvas (Honors original tsparticles interactive network) -->
+  <!-- Interactive Particle Constellation Canvas (100% Solid Geometric Network) -->
   <canvas
     id="hero-particles"
-    class="pointer-events-none absolute inset-0 z-[2] h-full w-full opacity-65"
+    class="pointer-events-none absolute inset-0 z-[2] h-full w-full"
     aria-hidden="true"
   ></canvas>
 
   <div class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-8 pb-6">
     <div class="mx-auto max-w-4xl text-center">
-      <!-- Live Recruiter Availability Status Pill -->
+      <!-- Live Recruiter Availability Status Pill (100% Solid Minimalist Badge) -->
       <div class="mb-5 inline-flex justify-center">
         <a
           href="#contact"
@@ -32,11 +27,11 @@ import { profileData } from '../data/portfolio';
       </div>
 
       <!-- Greeting -->
-      <p class="hero-greeting text-white/90 mb-2">
+      <p class="hero-greeting text-white mb-2">
         {profileData.heroGreeting}
       </p>
 
-      <!-- Typed Headline (Preserves Soy + Victor Mono Italic Gold Typed Text with descender clearance) -->
+      <!-- Typed Headline (Preserves Soy + Victor Mono Italic Gold Typed Text) -->
       <h1 class="home-title text-gold mb-0 flex flex-wrap items-center justify-center gap-x-3 pb-1">
         <span class="text-white font-light">Soy</span>
         <span class="inline-flex items-center pb-1">
@@ -51,12 +46,12 @@ import { profileData } from '../data/portfolio';
         </span>
       </h1>
 
-      <!-- Value Proposition Subtitle (Unified .title-subtitle scale, strictly from 2026 CV) -->
-      <p class="title-subtitle mt-4 mb-0 mx-auto text-gray-200/95">
+      <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid text) -->
+      <p class="title-subtitle mt-4 mb-0 mx-auto text-[#e5e5e5]">
         {profileData.heroSubtitle}
       </p>
 
-      <!-- Core Architecture Stack Strip -->
+      <!-- Core Architecture Stack Strip (100% Solid Minimalist Pills) -->
       <div class="mt-6 flex flex-wrap items-center justify-center gap-2.5" aria-label="Pilares tecnológicos principales">
         {
           profileData.heroArchitecturePills.map((arch) => (
@@ -68,7 +63,7 @@ import { profileData } from '../data/portfolio';
         }
       </div>
 
-      <!-- Primary & Secondary Pill CTAs (Preserves btn-gold + btn-theme-primary with slide-in arrow) -->
+      <!-- Primary & Secondary Pill CTAs (100% Solid Colors - Zero Glassmorphism) -->
       <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
         <a href="#about" class="btn-brand btn-gold" data-cursor-label="Explorar">
           <span>Lee Más</span>
@@ -83,14 +78,14 @@ import { profileData } from '../data/portfolio';
           download="CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf"
           data-magnetic
           data-cursor-label="CV 2026"
-          class="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[#cdb30c]/65 bg-[#cdb30c]/15 px-6 py-2.5 text-[13px] font-medium uppercase tracking-wider text-white backdrop-blur-xs transition-all hover:bg-[#cdb30c] hover:text-white"
+          class="btn-outline-gold"
         >
           <i class="icofont icofont-file-pdf text-gold text-base" aria-hidden="true"></i>
           <span>Descargar CV 2026</span>
         </a>
       </div>
 
-      <!-- Official Social Network Brand Quick-Connect Bar -->
+      <!-- Official Social Network Brand Quick-Connect Bar (100% Solid Brand Colors) -->
       <div class="mt-5 flex flex-wrap items-center justify-center gap-3" aria-label="Perfiles profesionales verificados">
         <a
           href={profileData.linkedin}
@@ -130,16 +125,16 @@ import { profileData } from '../data/portfolio';
         </a>
       </div>
 
-      <!-- Recruiter Impact Metrics Strip (With 3D perspective tilt & radial spotlight) -->
+      <!-- Recruiter Impact Metrics Strip (100% Solid Architectural Cards) -->
       <div class="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
         {
           profileData.heroMetrics.map((metric, idx) => (
             <div
-              class="hero-metric-card spotlight-card"
+              class="hero-metric-card"
               data-tilt-card
               style={`--reveal-delay: ${idx * 80}ms;`}
             >
-              <div class="mb-1.5 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[#cdb30c]/15 text-gold border border-[#cdb30c]/30">
+              <div class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#181818] text-gold border-2 border-[#cdb30c]">
                 <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
               </div>
               <div class="text-xl sm:text-2xl font-medium text-gold tracking-wide">
@@ -148,7 +143,7 @@ import { profileData } from '../data/portfolio';
               <div class="mt-0.5 text-[14px] text-white font-normal tracking-wide">
                 {metric.label}
               </div>
-              <div class="mt-1 text-[12.5px] text-gray-300/85 font-light tracking-wide">
+              <div class="mt-1 text-[12.5px] text-[#d4d4d4] font-light tracking-wide">
                 {metric.detail}
               </div>
             </div>
@@ -181,7 +176,7 @@ import { profileData } from '../data/portfolio';
     const typedEl = document.getElementById('typed-output');
     const heroSection = document.getElementById('home');
 
-    // 1. Lightweight Typewriter Effect (Replaces ngx-typed-js with zero heavy runtime)
+    // 1. Lightweight Typewriter Effect (Zero heavy runtime)
     if (typedEl && !prefersReducedMotion) {
       const raw = typedEl.getAttribute('data-strings');
       const strings: string[] = raw ? JSON.parse(raw) : ['Leonel Hacha Salazar'];
@@ -216,28 +211,16 @@ import { profileData } from '../data/portfolio';
       setTimeout(tick, 1800);
     }
 
-    // 2. Hero Interactive Cursor Spotlight & 3D Tilt Cards
+    // 2. Solid 3D Perspective Tilt on Metric Cards
     if (heroSection && isFinePointer && !prefersReducedMotion) {
-      heroSection.addEventListener(
-        'mousemove',
-        (e) => {
-          const rect = heroSection.getBoundingClientRect();
-          const xPct = (((e.clientX - rect.left) / rect.width) * 100).toFixed(1);
-          const yPct = (((e.clientY - rect.top) / rect.height) * 100).toFixed(1);
-          heroSection.style.setProperty('--hero-mouse-x', `${xPct}%`);
-          heroSection.style.setProperty('--hero-mouse-y', `${yPct}%`);
-        },
-        { passive: true }
-      );
-
       const tiltCards = heroSection.querySelectorAll<HTMLElement>('[data-tilt-card]');
       tiltCards.forEach((card) => {
         card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
           const relX = (e.clientX - rect.left) / rect.width - 0.5;
           const relY = (e.clientY - rect.top) / rect.height - 0.5;
-          const rotateX = (-relY * 7).toFixed(2);
-          const rotateY = (relX * 7).toFixed(2);
+          const rotateX = (-relY * 6).toFixed(2);
+          const rotateY = (relX * 6).toFixed(2);
           card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
         });
         card.addEventListener('mouseleave', () => {
@@ -246,7 +229,7 @@ import { profileData } from '../data/portfolio';
       });
     }
 
-    // 3. Interactive Canvas Particle Constellation (Dual-toned Gold & Purple)
+    // 3. Interactive Canvas Particle Constellation (100% Solid Hex Nodes & Lines)
     const canvas = document.getElementById('hero-particles') as HTMLCanvasElement | null;
     if (!canvas || prefersReducedMotion) return;
     const ctx = canvas.getContext('2d');
@@ -276,13 +259,13 @@ import { profileData } from '../data/portfolio';
       { passive: true }
     );
 
-    const particleCount = Math.min(46, Math.floor((width * height) / 23000));
+    const particleCount = Math.min(42, Math.floor((width * height) / 25000));
     const particles = Array.from({ length: particleCount }, (_, i) => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45,
-      r: Math.random() * 1.8 + 1,
+      vx: (Math.random() - 0.5) * 0.42,
+      vy: (Math.random() - 0.5) * 0.42,
+      r: i % 3 === 0 ? 2.2 : 1.8,
       isGold: i % 3 !== 0,
     }));
 
@@ -302,22 +285,17 @@ import { profileData } from '../data/portfolio';
         if (p.x < 0 || p.x > width) p.vx *= -1;
         if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.isGold ? 'rgba(205, 179, 12, 0.62)' : 'rgba(167, 139, 250, 0.55)';
-        ctx.fill();
-
-        // Connect nearby particles
+        // Connect nearby particles with solid structural lines
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p.x - p2.x;
           const dy = p.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 138) {
+          if (dist < 130) {
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(205, 179, 12, ${0.16 * (1 - dist / 138)})`;
+            ctx.strokeStyle = dist < 75 ? '#4a4112' : '#2d2d2d';
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -327,14 +305,20 @@ import { profileData } from '../data/portfolio';
         const mdx = p.x - pointerX;
         const mdy = p.y - pointerY;
         const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mDist < 175) {
+        if (mDist < 165) {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(pointerX, pointerY);
-          ctx.strokeStyle = `rgba(205, 179, 12, ${0.34 * (1 - mDist / 175)})`;
-          ctx.lineWidth = 1.15;
+          ctx.strokeStyle = mDist < 95 ? '#cdb30c' : '#6b5e09';
+          ctx.lineWidth = 1.2;
           ctx.stroke();
         }
+
+        // Draw solid node circle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.isGold ? '#cdb30c' : '#3f87f5';
+        ctx.fill();
       }
       requestAnimationFrame(render);
     };

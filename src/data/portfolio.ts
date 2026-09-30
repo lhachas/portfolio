@@ -465,7 +465,7 @@ export const experiencesData: ExperienceItem[] = [
     date: 'Feb 2022 - Ago 2023',
     shortDate: '2022 - 2023',
     location: 'Latinoamérica (Remoto)',
-    color: '#e97e2e',
+    color: '#ea6a15',
     summary:
       'Desarrollo de servicios reactivos y microservicios distribuidos en AWS y Kubernetes para el core logístico e integración de operadores de última milla.',
     highlights: [
@@ -520,7 +520,7 @@ export const experiencesData: ExperienceItem[] = [
     date: 'Ago 2021 - Dic 2021',
     shortDate: 'Ago - Dic 2021',
     location: 'Estados Unidos (Remoto)',
-    color: '#13afae',
+    color: '#0d9488',
     summary:
       'Diseño e implementación de microservicios y funciones serverless para la API backend de una plataforma móvil internacional en tiempo real.',
     highlights: [
@@ -562,7 +562,7 @@ export const experiencesData: ExperienceItem[] = [
     date: 'Jun 2021 - Jul 2021',
     shortDate: 'Jun - Jul 2021',
     location: 'California, EE. UU. (Remoto)',
-    color: '#105572',
+    color: '#2563eb',
     summary:
       'Solución Full Stack end-to-end para la ingesta, procesamiento y generación automatizada de reportes de telemetría vehicular.',
     highlights: [
@@ -604,7 +604,7 @@ export const experiencesData: ExperienceItem[] = [
     date: 'Feb 2020 - Jun 2021',
     shortDate: '2020 - 2021',
     location: 'Lima, Perú',
-    color: '#cdb30c',
+    color: '#7c3aed',
     summary:
       'Diseño e implementación integral de una plataforma web de gestión académica en arquitectura monorepo Nx con Angular y NestJS.',
     highlights: [
@@ -646,7 +646,7 @@ export const experiencesData: ExperienceItem[] = [
     date: 'Ene 2016 - Ago 2019',
     shortDate: '2016 - 2019',
     location: 'Cusco, Perú',
-    color: '#e97e2e',
+    color: '#059669',
     summary:
       'Desarrollo de software empresarial a medida para facturación electrónica, POS, e-commerce y gestión de restaurantes.',
     highlights: [
