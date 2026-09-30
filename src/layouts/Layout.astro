@@ -241,6 +241,17 @@ const jsonLd = {
           { threshold: 0.2 }
         );
         progressBars.forEach((bar) => skillObserver.observe(bar));
+
+        // 3. Accessible feedback on conditional CV PDF download links
+        const cvLinks = document.querySelectorAll<HTMLAnchorElement>('a[data-cv-lang]');
+        cvLinks.forEach((link) => {
+          link.addEventListener('click', () => {
+            link.setAttribute('aria-busy', 'true');
+            setTimeout(() => {
+              link.removeAttribute('aria-busy');
+            }, 900);
+          });
+        });
       }
 
       document.addEventListener('DOMContentLoaded', initObservers);

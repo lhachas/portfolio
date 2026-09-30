@@ -85,33 +85,18 @@ export const portfolioSchema = z.object({
     facebook: z.string().url(),
     instagram: z.string().url(),
     cvPrimary: z.object({
+      id: z.string().min(1),
+      langCode: z.enum(['es', 'en']),
       url: officialCvPath,
       filename: officialCvFilename,
+      badge: z.string().min(1),
+      icon: z.string().min(1),
+      ariaLabel: z.string().min(1),
       labelHero: z.string().min(1),
       labelAbout: z.string().min(1),
       labelContact: z.string().min(1),
       labelFooter: z.string().min(1),
     }),
-    cvExtended: z.object({
-      url: officialCvPath,
-      filename: officialCvFilename,
-      labelHero: z.string().min(1),
-      labelAbout: z.string().min(1),
-      labelContact: z.string().min(1),
-      labelFooter: z.string().min(1),
-    }),
-    cvFormats: z
-      .array(
-        z.object({
-          id: z.string().min(1),
-          url: officialCvPath,
-          filename: officialCvFilename,
-          label: z.string().min(1),
-          badge: z.string().min(1),
-          icon: z.string().min(1),
-        }),
-      )
-      .length(2),
     languages: z
       .array(
         z.object({
@@ -461,6 +446,34 @@ export const portfolioSchema = z.object({
     designBadgeLabel: z.string().min(1),
     designBadgeValue: z.string().min(1),
   }),
+}).superRefine((data, ctx) => {
+  const isEnglish = data.seo.language.toLowerCase().startsWith('en');
+  const expectedSuffix = isEnglish ? 'EN.pdf' : 'ES.pdf';
+  const expectedLang = isEnglish ? 'en' : 'es';
+
+  if (data.profile.cvPrimary.langCode !== expectedLang) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `El idioma del CV (${data.profile.cvPrimary.langCode}) no coincide con el idioma activo del portafolio (${data.seo.language}).`,
+      path: ['profile', 'cvPrimary', 'langCode'],
+    });
+  }
+
+  if (!data.profile.cvPrimary.filename.endsWith(expectedSuffix)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `El archivo de CV (${data.profile.cvPrimary.filename}) debe corresponder exclusivamente al idioma activo "${data.seo.language}" (*-${expectedSuffix}).`,
+      path: ['profile', 'cvPrimary', 'filename'],
+    });
+  }
+
+  if (!data.profile.cvPrimary.url.endsWith(expectedSuffix)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `La URL del CV (${data.profile.cvPrimary.url}) debe apuntar exclusivamente al PDF del idioma activo "${data.seo.language}" (*-${expectedSuffix}).`,
+      path: ['profile', 'cvPrimary', 'url'],
+    });
+  }
 });
 
 export type PortfolioContent = z.infer<typeof portfolioSchema>;

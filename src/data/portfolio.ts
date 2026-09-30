@@ -5,7 +5,7 @@ export type { PortfolioContent };
 export type PortfolioLocale = 'es' | 'en';
 
 /**
- * Resuelve rutas relativas de archivos estáticos (imágenes, PDFs, DOCX, favicon)
+ * Resuelve rutas relativas de archivos estáticos (imágenes, PDFs, favicon)
  * respetando el `base` configurado en `astro.config.mjs` (ej. `/portfolio`).
  */
 export function withBase(path: string): string {

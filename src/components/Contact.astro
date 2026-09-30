@@ -10,7 +10,7 @@ const { contactSection, profile } = await getPortfolioContent(locale);
 const { form, cvCard } = contactSection;
 
 const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT || '';
-const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+const web3FormsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '7da1b53c-7213-4531-b543-b3cffee744e5';
 const emailJsServiceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID || '';
 const emailJsTemplateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID || '';
 const emailJsPublicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY || '';
@@ -80,35 +80,31 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
           })
         }
 
-        <!-- Direct Official 2026 CV Download Card (100% Solid Surface - PDF Only: ES & EN) -->
+        <!-- Direct Official 2026 CV Download Card (100% Solid Surface - Active Locale PDF Only) -->
         <div class="spotlight-card rounded-2xl p-5 mt-4" style="background-color: var(--th-secondary); border-color: var(--card-border);">
-          <span class="label-c block">{cvCard.title}</span>
+          <div class="flex items-center justify-between gap-2">
+            <span class="label-c block">{cvCard.title}</span>
+            <span class="rounded-md bg-[#0e3d65] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold border border-gold">
+              {profile.cvPrimary.badge}
+            </span>
+          </div>
           <p class="detail-copy mt-1.5">
             {cvCard.description}
           </p>
-          <div class="mt-3.5 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {
-              profile.cvFormats.map((cv, idx) => {
-                const isPrimaryFormat = idx === 0;
-                return (
-                  <a
-                    href={withBase(cv.url)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download={cv.filename}
-                    data-magnetic
-                    class={
-                      isPrimaryFormat
-                        ? 'btn-cv-solid justify-center whitespace-nowrap'
-                        : 'btn-cv-outline justify-center whitespace-nowrap'
-                    }
-                  >
-                    <i class={`icofont ${cv.icon} text-base ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
-                    <span>{cv.label}</span>
-                  </a>
-                );
-              })
-            }
+          <div class="mt-3.5">
+            <a
+              href={withBase(profile.cvPrimary.url)}
+              target="_blank"
+              rel="noopener noreferrer"
+              download={profile.cvPrimary.filename}
+              data-magnetic
+              data-cv-lang={profile.cvPrimary.langCode}
+              aria-label={profile.cvPrimary.ariaLabel}
+              class="btn-cv-solid w-full justify-center whitespace-nowrap"
+            >
+              <i class={`icofont ${profile.cvPrimary.icon} text-base`} aria-hidden="true"></i>
+              <span>{profile.cvPrimary.labelContact}</span>
+            </a>
           </div>
         </div>
       </div>

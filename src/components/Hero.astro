@@ -102,23 +102,13 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
           rel="noopener noreferrer"
           download={profile.cvPrimary.filename}
           data-magnetic
+          data-cv-lang={profile.cvPrimary.langCode}
           data-cursor-label={hero.cvCtaCursorLabel}
+          aria-label={profile.cvPrimary.ariaLabel}
           class="btn-outline-gold"
         >
-          <i class="icofont icofont-file-pdf text-gold text-base" aria-hidden="true"></i>
+          <i class={`icofont ${profile.cvPrimary.icon} text-gold text-base`} aria-hidden="true"></i>
           <span>{profile.cvPrimary.labelHero}</span>
-        </a>
-        <a
-          href={withBase(profile.cvExtended.url)}
-          target="_blank"
-          rel="noopener noreferrer"
-          download={profile.cvExtended.filename}
-          data-magnetic
-          data-cursor-label={hero.cvCtaCursorLabel}
-          class="btn-outline-gold"
-        >
-          <i class="icofont icofont-file-pdf text-gold text-base" aria-hidden="true"></i>
-          <span>{profile.cvExtended.labelHero}</span>
         </a>
 
         <span class="hidden lg:inline-block h-6 w-[2px] bg-[#2e3545] mx-1" aria-hidden="true"></span>

@@ -109,23 +109,14 @@ const { trainingShowcase } = about;
               target="_blank"
               rel="noopener noreferrer"
               download={profile.cvPrimary.filename}
+              data-magnetic
+              data-cv-lang={profile.cvPrimary.langCode}
               class="btn-brand btn-gold"
               data-cursor-label={about.cvButtonCursorLabel}
+              aria-label={profile.cvPrimary.ariaLabel}
             >
+              <i class={`icofont ${profile.cvPrimary.icon}`} aria-hidden="true"></i>
               <span>{profile.cvPrimary.labelAbout}</span>
-            </a>
-
-            <a
-              href={withBase(profile.cvExtended.url)}
-              target="_blank"
-              rel="noopener noreferrer"
-              download={profile.cvExtended.filename}
-              data-magnetic
-              data-cursor-label={about.cvButtonCursorLabel}
-              class="btn-cv-outline"
-            >
-              <i class="icofont icofont-file-pdf text-gold" aria-hidden="true"></i>
-              <span>{profile.cvExtended.labelAbout}</span>
             </a>
 
             <a

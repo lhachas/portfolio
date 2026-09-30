@@ -109,6 +109,36 @@ if (fs.existsSync(DIST_DIR)) {
     }
   }
   pass(`Verified ${htmlFiles.length} generated HTML pages contain zero .docx references or links`);
+
+  // 5. Verify strict single-language conditional CV download per active locale
+  const esHtmlPath = path.join(DIST_DIR, 'index.html');
+  const enHtmlPath = path.join(DIST_DIR, 'en', 'index.html');
+
+  if (fs.existsSync(esHtmlPath)) {
+    const esHtml = fs.readFileSync(esHtmlPath, 'utf8');
+    const hasEsPdf = esHtml.includes('CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf');
+    const hasEnPdf = esHtml.includes('CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf');
+    if (!hasEsPdf) {
+      fail('dist/index.html (Spanish locale) is missing CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf');
+    } else if (hasEnPdf) {
+      fail('dist/index.html (Spanish locale) must NOT expose CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf simultaneously');
+    } else {
+      pass('dist/index.html (ES) exposes exclusively CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf (0 EN CV links)');
+    }
+  }
+
+  if (fs.existsSync(enHtmlPath)) {
+    const enHtml = fs.readFileSync(enHtmlPath, 'utf8');
+    const hasEnPdf = enHtml.includes('CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf');
+    const hasEsPdf = enHtml.includes('CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf');
+    if (!hasEnPdf) {
+      fail('dist/en/index.html (English locale) is missing CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf');
+    } else if (hasEsPdf) {
+      fail('dist/en/index.html (English locale) must NOT expose CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf simultaneously');
+    } else {
+      pass('dist/en/index.html (EN) exposes exclusively CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf (0 ES CV links)');
+    }
+  }
 }
 
 if (errors > 0) {

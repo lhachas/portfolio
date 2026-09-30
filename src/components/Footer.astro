@@ -98,28 +98,19 @@ const currentYear = new Date().getFullYear();
             <span class="block text-[11px] font-semibold uppercase tracking-widest text-[#cbd5e1] mb-2">
               {footer.cvDownloadHeading}
             </span>
-            <div class="grid grid-cols-2 gap-2">
-              {
-                profile.cvFormats.map((cv, idx) => {
-                  const isPrimaryFormat = idx === 0;
-                  return (
-                    <a
-                      href={withBase(cv.url)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      download={cv.filename}
-                      class={
-                        isPrimaryFormat
-                          ? 'btn-cv-solid !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center whitespace-nowrap'
-                          : 'btn-cv-outline !min-h-[34px] !px-2.5 !py-1 !text-[11px] justify-center whitespace-nowrap !bg-[#14171f] !text-white'
-                      }
-                    >
-                      <i class={`icofont ${cv.icon} ${isPrimaryFormat ? '' : 'text-gold'}`} aria-hidden="true"></i>
-                      <span>{cv.label}</span>
-                    </a>
-                  );
-                })
-              }
+            <div class="mt-1">
+              <a
+                href={withBase(profile.cvPrimary.url)}
+                target="_blank"
+                rel="noopener noreferrer"
+                download={profile.cvPrimary.filename}
+                data-cv-lang={profile.cvPrimary.langCode}
+                aria-label={profile.cvPrimary.ariaLabel}
+                class="btn-cv-solid w-full !min-h-[36px] !px-3 !py-1.5 !text-xs justify-center whitespace-nowrap"
+              >
+                <i class={`icofont ${profile.cvPrimary.icon}`} aria-hidden="true"></i>
+                <span>{profile.cvPrimary.labelFooter}</span>
+              </a>
             </div>
           </div>
         </div>
