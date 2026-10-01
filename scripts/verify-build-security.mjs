@@ -71,6 +71,21 @@ if (JSON.stringify(actualPublicCvs) !== JSON.stringify(EXPECTED_PUBLIC_PDFS)) {
   pass(`public/assets/cv/ contains exclusively the 2 official PDF CVs: ${actualPublicCvs.join(', ')}`);
 }
 
+// 2b. Verify Remotion cinematic video and poster assets
+const videoDir = path.join(PUBLIC_DIR, 'assets', 'video');
+const expectedVideoFiles = [
+  'hero-cinematic.mp4',
+  'hero-cinematic.webm',
+  'hero-cinematic-poster.webp',
+  'hero-cinematic-poster.png',
+];
+for (const vFile of expectedVideoFiles) {
+  if (!fs.existsSync(path.join(videoDir, vFile))) {
+    fail(`Missing Remotion cinematic asset: public/assets/video/${vFile}`);
+  }
+}
+pass('Verified Remotion cinematic video (mp4, webm) and poster (webp, png) assets in public/assets/video/');
+
 // 3. Verify zero hardcoded CV filenames in Astro components
 const componentFiles = walkFiles(COMPONENTS_DIR).filter((f) => f.endsWith('.astro'));
 for (const file of componentFiles) {
@@ -182,6 +197,9 @@ if (fs.existsSync(DIST_DIR)) {
     }
     if (!html.includes('profile-portrait.webp')) {
       fail(`${rel} is not using the new optimized profile portrait (profile-portrait.webp)`);
+    }
+    if (!html.includes('hero-cinematic-video') || !html.includes('hero-cinematic-poster')) {
+      fail(`${rel} is missing Remotion cinematic video/poster layer`);
     }
     const requiredProjects = [
       'retail-platform',

@@ -11,7 +11,10 @@
     "validate:content": "astro sync && tsc --noEmit && node scripts/verify-build-security.mjs",
     "build": "astro sync && astro build && node scripts/verify-build-security.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "remotion:studio": "remotion studio remotion/index.ts",
+    "remotion:render": "remotion render remotion/index.ts HeroCinematic public/assets/video/hero-cinematic.mp4",
+    "remotion:still": "remotion still remotion/index.ts HeroCinematicPoster public/assets/video/hero-cinematic-poster.png"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.0",
@@ -20,6 +23,11 @@
     "tailwindcss": "^4.1.0"
   },
   "devDependencies": {
+    "@remotion/cli": "^4.0.531",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.531",
     "typescript": "^5.8.2"
   },
   "overrides": {

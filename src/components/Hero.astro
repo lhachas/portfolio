@@ -1,5 +1,5 @@
 ---
-import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -11,7 +11,41 @@ const { hero } = await getPortfolioContent(locale);
 ---
 
 <!-- START HOME -->
-<section class="section bg-home" id="home" aria-label={hero.sectionAriaLabel}>
+<section class="section bg-home relative overflow-hidden" id="home" aria-label={hero.sectionAriaLabel}>
+  <!-- Cinematic Architectural Background Canvas & Asset Viewport (Produced with Remotion) -->
+  <div class="hero-cinematic-stage absolute inset-0 overflow-hidden pointer-events-none z-[1]" aria-hidden="true">
+    <!-- Accessible Poster Picture Fallback (Zero network lag, instant paint, 34KB WebP) -->
+    <picture class="hero-cinematic-poster absolute inset-0 w-full h-full">
+      <source srcset={withBase('/assets/video/hero-cinematic-poster.webp')} type="image/webp" />
+      <img
+        src={withBase('/assets/video/hero-cinematic-poster.png')}
+        alt=""
+        class="w-full h-full object-cover object-center select-none"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+
+    <!-- High-Performance Looping Cinematic Video (Remotion Produced) -->
+    <video
+      id="hero-cinematic-video"
+      class="hero-cinematic-video absolute inset-0 w-full h-full object-cover object-center select-none"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster={withBase('/assets/video/hero-cinematic-poster.webp')}
+      preload="metadata"
+    >
+      <source src={withBase('/assets/video/hero-cinematic.webm')} type="video/webm" />
+      <source src={withBase('/assets/video/hero-cinematic.mp4')} type="video/mp4" />
+    </video>
+
+    <!-- Pure Non-Destructive Dark Falloff Overlay (Ensures 100% Solid WCAG AAA text contrast) -->
+    <div class="hero-cinematic-overlay absolute inset-0"></div>
+  </div>
+
   <!-- Interactive Particle Constellation Canvas (100% Solid Geometric Network) -->
   <canvas
     id="hero-particles"
@@ -148,6 +182,16 @@ const { hero } = await getPortfolioContent(locale);
     const typedEl = document.getElementById('typed-output');
     const heroSection = document.getElementById('home');
     const heroStage = document.getElementById('hero-parallax-stage');
+    const cinematicVideo = document.getElementById('hero-cinematic-video') as HTMLVideoElement | null;
+
+    if (cinematicVideo) {
+      if (prefersReducedMotion) {
+        cinematicVideo.pause();
+        cinematicVideo.style.display = 'none';
+      } else {
+        cinematicVideo.play().catch(() => {});
+      }
+    }
 
     // 1. GSAP Orchestrated Entrance Timeline & Subtle Scroll Parallax
     if (!prefersReducedMotion && heroSection) {

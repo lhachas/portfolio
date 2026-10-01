@@ -655,6 +655,57 @@ a[data-lang-switch]:hover {
   overflow: hidden;
 }
 
+/* Remotion Cinematic Architectural Background Asset & Layer System */
+.hero-cinematic-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-cinematic-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-cinematic-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.45;
+}
+
+.hero-cinematic-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.55;
+  transition: opacity 0.5s ease-out;
+}
+
+.hero-cinematic-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(20, 23, 31, 0.42) 0%, rgba(20, 23, 31, 0.88) 100%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cinematic-video {
+    display: none !important;
+  }
+  .hero-cinematic-poster img {
+    opacity: 0.35;
+  }
+}
+
 /* Live Availability Badge - 100% Solid Surface */
 .hero-status-pill {
   display: inline-flex;

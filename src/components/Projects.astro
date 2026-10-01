@@ -135,6 +135,11 @@ const {
       </div>
     </div>
 
+    <!-- Architectural Micro-Progress Bar Track (100% Solid Indicator) -->
+    <div class="carousel-progress-track mt-3 w-full h-[3px] bg-[var(--card-border)] rounded-full overflow-hidden reveal" aria-hidden="true">
+      <div id="carousel-progress-bar" class="h-full bg-[var(--brand-gold)] transition-all duration-300 ease-out" style="width: 10%;"></div>
+    </div>
+
     <!-- Carousel Viewport & Track (100% Solid Cards with Native Scroll Snap & Physics Drag) -->
     <div class="project-carousel-viewport mt-6" id="project-carousel-viewport">
       <div
@@ -486,6 +491,16 @@ const {
     box-shadow: 0 8px 0 var(--project-accent);
   }
 
+  .project-card.is-focused {
+    border-color: var(--project-accent);
+    box-shadow: 0 6px 0 var(--project-accent);
+  }
+
+  .carousel-progress-track {
+    background-color: var(--card-border);
+    position: relative;
+  }
+
   .project-category-badge {
     display: inline-flex;
     align-items: center;
@@ -713,6 +728,8 @@ const {
         if (currentIndicator) currentIndicator.textContent = '00';
         if (prevBtn) prevBtn.disabled = true;
         if (nextBtn) nextBtn.disabled = true;
+        const progressBar = document.getElementById('carousel-progress-bar');
+        if (progressBar) progressBar.style.width = '0%';
         return;
       }
 
@@ -734,6 +751,22 @@ const {
       if (currentIndicator) {
         currentIndicator.textContent = String(closestIdx + 1).padStart(2, '0');
       }
+
+      // Update architectural progress bar
+      const progressBar = document.getElementById('carousel-progress-bar');
+      if (progressBar && total > 0) {
+        const percent = Math.min(100, Math.max(10, ((closestIdx + 1) / total) * 100));
+        progressBar.style.width = `${percent}%`;
+      }
+
+      // Update focused slide styling
+      visibleCards.forEach((card, idx) => {
+        if (idx === closestIdx) {
+          card.classList.add('is-focused');
+        } else {
+          card.classList.remove('is-focused');
+        }
+      });
 
       // Update Dots
       dotButtons.forEach((dot) => {
@@ -815,6 +848,22 @@ const {
         }
       },
       { passive: true },
+    );
+
+    // Event: Smooth Wheel Horizontal Translation
+    track.addEventListener(
+      'wheel',
+      (e: WheelEvent) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && !e.shiftKey) {
+          const canScrollRight = track.scrollLeft < track.scrollWidth - track.clientWidth - 5;
+          const canScrollLeft = track.scrollLeft > 5;
+          if ((e.deltaY > 0 && canScrollRight) || (e.deltaY < 0 && canScrollLeft)) {
+            e.preventDefault();
+            track.scrollLeft += e.deltaY * 0.85;
+          }
+        }
+      },
+      { passive: false }
     );
 
     // Event: Keyboard Navigation (ArrowLeft / ArrowRight)

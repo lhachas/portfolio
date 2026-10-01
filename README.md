@@ -123,12 +123,17 @@ portfolio/
 │   │   ├── css/plugins/               # Iconografía técnica (icofont.css & technology-icons.css)
 │   │   ├── cv/                        # ÚNICAMENTE los 2 CVs oficiales públicos en PDF (ES y EN)
 │   │   ├── fonts/                     # Fuentes WOFF/WOFF2 de iconografía
-│   │   └── images/                    # Fotografía de perfil, texturas y activos estáticos
+│   │   ├── images/                    # Fotografía de perfil, texturas y activos estáticos
+│   │   └── video/                     # Video cinematográfico Remotion (webm, mp4) y poster accesible (webp, png)
 │   ├── favicon.ico
 │   ├── robots.txt                     # Reglas de indexación + bloqueo explícito de extensiones .docx/.doc
 │   └── sitemap.xml                    # Mapa del sitio bilingüe con enlaces alternos hreflang
+├── remotion/                          # Composición cinematográfica Remotion del Hero Header
+│   ├── index.ts                       # Punto de entrada de registro de Remotion
+│   ├── Root.tsx                       # Registro de composiciones (HeroCinematic, HeroCinematicPoster)
+│   └── HeroCinematic.tsx              # Pieza cinematográfica multi-capa: lattice, ondas armónicas, nodos y telemetría
 ├── scripts/
-│   └── verify-build-security.mjs      # Auditoría automatizada de seguridad, CVs por idioma y tokens UI
+│   └── verify-build-security.mjs      # Auditoría automatizada de seguridad, CVs por idioma, videos Remotion y tokens UI
 ├── src/
 │   ├── assets/
 │   │   └── cv-source/                 # Respaldo privado editable (.docx ES/EN) excluido del build público
@@ -233,6 +238,9 @@ PUBLIC_WEB3FORMS_KEY="tu_access_key_de_web3forms"
 | `npm run verify:security` | Ejecuta [`scripts/verify-build-security.mjs`](scripts/verify-build-security.mjs) verificando exclusión de `.docx`, paridad de CVs por idioma y consistencia de tokens UI. |
 | `npm run build` | Compila el sitio estático de producción en `dist/` y ejecuta automáticamente la auditoría post-build. |
 | `npm run preview` | Sirve localmente la compilación de producción generada en `dist/`. |
+| `npm run remotion:studio` | Abre **Remotion Studio** en el navegador para previsualizar y ajustar las capas cinematográficas del Hero. |
+| `npm run remotion:render` | Renderiza el video cinemático MP4 optimizado del Hero con `@remotion/cli`. |
+| `npm run remotion:still` | Renderiza el poster arquitectónico Still PNG/WebP del Hero para carga instantánea y accesibilidad. |
 
 ---
 
