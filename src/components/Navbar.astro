@@ -100,10 +100,10 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
             aria-label={navigation.themeToggleAriaLabel}
             title={navigation.themeToggleTitle}
           >
-            <span id="theme-icon-moon" class="inline-flex">
+            <span id="theme-icon-moon">
               <Icon name="moon" size={18} />
             </span>
-            <span id="theme-icon-sun" class="hidden text-gold">
+            <span id="theme-icon-sun">
               <Icon name="sun" size={18} />
             </span>
           </button>
@@ -192,22 +192,7 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
       });
     });
 
-    // Sync theme icon with current data-theme
-    function syncThemeIcon() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      if (moonIcon && sunIcon) {
-        if (current === 'dark') {
-          moonIcon.classList.add('hidden');
-          sunIcon.classList.remove('hidden');
-        } else {
-          moonIcon.classList.remove('hidden');
-          sunIcon.classList.add('hidden');
-        }
-      }
-    }
-    syncThemeIcon();
-
-    // Toggle Light/Dark Theme
+    // Toggle Light/Dark Theme (state-driven via html[data-theme])
     themeBtn?.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') || 'light';
       const next = current === 'dark' ? 'light' : 'dark';
@@ -215,7 +200,6 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
       try {
         localStorage.setItem('user-theme', next);
       } catch (e) {}
-      syncThemeIcon();
     });
 
     // Accessible Mobile Menu Toggle with Escape, click-outside, and resize cleanup
@@ -308,5 +292,10 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
     window.addEventListener('scroll', updateScrollSpy, { passive: true });
   }
 
-  document.addEventListener('DOMContentLoaded', setupNavbar);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNavbar);
+  } else {
+    setupNavbar();
+  }
+  document.addEventListener('astro:page-load', setupNavbar);
 </script>

@@ -12,7 +12,7 @@ const experiencesData = experiencesSection.items;
 ---
 
 <!-- START EXPERIENCES -->
-<section class="section th-primary" id="experiences" aria-labelledby="experiences-heading">
+<section class="section th-secondary experiences" id="experiences" aria-labelledby="experiences-heading">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
     <div class="text-center reveal">
@@ -57,8 +57,6 @@ const experiencesData = experiencesSection.items;
             const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : exp.color;
             const resolvedTextColor = isBrandAccent ? 'var(--heading-color)' : resolvedColor;
             const headerTextColor = '#ffffff';
-            const pillBgOnHeader = '#0e3d65';
-            const pillTextOnHeader = '#ffffff';
             return (
               <article
                 class="timeline reveal"
@@ -71,18 +69,11 @@ const experiencesData = experiencesSection.items;
                     class="exp-card-header"
                     style={`background-color: ${resolvedColor}; color: ${headerTextColor};`}
                   >
-                    <div class="flex flex-wrap items-center justify-between gap-2.5">
                       <div class="inline-flex items-center gap-2.5">
-                        <span
-                          class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold tracking-wider"
-                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader}; border: 2px solid ${headerTextColor};`}
-                        >
+                        <span class="exp-step-badge" style={`border-color: #ffffff;`}>
                           {exp.stepNumber}
                         </span>
-                        <span
-                          class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader}; border: 1.5px solid ${headerTextColor};`}
-                        >
+                        <span class="exp-domain-badge" style={`border-color: #ffffff;`}>
                           <Icon name="briefcase" size={13} class="shrink-0 inline-block" />
                           <span>{exp.clientOrDomain}</span>
                         </span>
@@ -92,7 +83,6 @@ const experiencesData = experiencesSection.items;
                         <Icon name="calendar" size={13} class="shrink-0 inline-block" />
                         <span>{exp.date}</span>
                       </span>
-                    </div>
                   </header>
 
                   <!-- Solid Inner Content Body -->
@@ -152,9 +142,9 @@ const experiencesData = experiencesSection.items;
     </div>
   </div>
 
-  <!-- Original Top-Anchored SVG Wave Divider (.wv-primary hangs downward from #skills into #experiences) -->
+  <!-- Original Top-Anchored SVG Wave Divider (Hangs downward from #projects into #experiences) -->
   <svg
-    class="wave wv-primary"
+    class="wave"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1920 81.717"
@@ -168,6 +158,56 @@ const experiencesData = experiencesSection.items;
   </svg>
 </section>
 <!-- END EXPERIENCES -->
+
+<style>
+  .exp-step-badge {
+    display: inline-flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background-color: var(--th-primary);
+    color: var(--txt-primary);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  .exp-domain-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: var(--th-primary);
+    color: var(--txt-primary);
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  :global([data-theme="light"]) .exp-step-badge,
+  :global([data-theme="light"]) .exp-domain-badge {
+    background-color: #ffffff;
+    color: #0e3d65;
+    border-color: #ffffff;
+  }
+
+  :global([data-theme="dark"]) .exp-step-badge,
+  :global([data-theme="dark"]) .exp-domain-badge {
+    background-color: #14171f;
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+</style>
 
 <script is:inline>
   (() => {
