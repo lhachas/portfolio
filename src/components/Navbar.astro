@@ -112,15 +112,15 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
           <button
             type="button"
             id="mobile-menu-btn"
-            class="nav-control-btn max-lg:inline-flex lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg cursor-pointer"
+            class="nav-control-btn mobile-menu-btn max-lg:inline-flex lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-full cursor-pointer relative"
             aria-controls="navbarCollapse"
             aria-expanded="false"
             aria-label={navigation.mobileMenuAriaLabel}
           >
-            <span id="mobile-icon-bars" class="inline-flex">
+            <span id="mobile-icon-bars" class="mobile-icon-layer mobile-icon-bars" aria-hidden="true">
               <Icon name="menu" size={22} />
             </span>
-            <span id="mobile-icon-close" class="hidden">
+            <span id="mobile-icon-close" class="mobile-icon-layer mobile-icon-close" aria-hidden="true">
               <Icon name="close" size={22} />
             </span>
           </button>
@@ -208,10 +208,6 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
       mobileBtn.setAttribute('aria-expanded', String(open));
       mobileMenu.classList.toggle('hidden', !open);
       mobileMenu.setAttribute('aria-hidden', String(!open));
-      if (iconBars && iconClose) {
-        iconBars.classList.toggle('hidden', open);
-        iconClose.classList.toggle('hidden', !open);
-      }
     }
 
     mobileBtn?.addEventListener('click', (e) => {

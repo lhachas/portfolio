@@ -46,17 +46,17 @@ const { hero } = await getPortfolioContent(locale);
     <div class="hero-cinematic-overlay absolute inset-0"></div>
   </div>
 
-  <!-- Interactive Particle Constellation Canvas (100% Solid Geometric Network) -->
+  <!-- Interactive Engineering Topology & Deterministic Signal Stream Canvas -->
   <canvas
-    id="hero-particles"
+    id="hero-topology-canvas"
     class="pointer-events-none absolute inset-0 z-[2] h-full w-full"
     aria-hidden="true"
   ></canvas>
 
   <div id="hero-parallax-stage" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-2 pb-2">
     <div class="mx-auto max-w-5xl text-center">
-      <!-- Live Recruiter Availability Status Pill (100% Solid Minimalist Badge) -->
-      <div class="mb-4 inline-flex justify-center" data-hero-anim>
+      <!-- Live Recruiter Availability Status Pill (100% Solid Utilitarian Badge) -->
+      <div class="mb-4 inline-flex items-center justify-center" data-hero-anim>
         <a
           href={hero.secondaryCta.href}
           class="hero-status-pill"
@@ -96,7 +96,7 @@ const { hero } = await getPortfolioContent(locale);
         {hero.subtitle}
       </p>
 
-      <!-- Core Architecture Stack Strip (100% Solid Pills with Official Technology Brand Icon Badges) -->
+      <!-- Core Architecture Stack Strip (100% Solid Pills with Official SVGL Brand Icon Badges) -->
       <div
         class="mt-5 flex flex-wrap items-center justify-center gap-2.5"
         aria-label={hero.architecturePillsAriaLabel}
@@ -106,7 +106,7 @@ const { hero } = await getPortfolioContent(locale);
           hero.architecturePills.map((arch) => (
             <span class="hero-arch-pill" style={`--arch-brand: ${arch.brandColor};`}>
               <span class="hero-arch-icon-badge" aria-hidden="true">
-                <i class={arch.icon}></i>
+                <Icon name={arch.icon} size={15} />
               </span>
               <span>{arch.label}</span>
             </span>
@@ -114,8 +114,30 @@ const { hero } = await getPortfolioContent(locale);
         }
       </div>
 
+      <!-- Hero Action CTAs (1 Primary + 1 Secondary, 100% Solid Surfaces, WCAG AAA Contrast, Tactile Micro-Interactions) -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3.5" data-hero-anim>
+        <a
+          href={hero.primaryCta.href}
+          class="hero-btn-primary"
+          data-cursor-label={hero.primaryCta.cursorLabel}
+        >
+          <Icon name="terminal" size={17} class="shrink-0" />
+          <span>{hero.primaryCta.label}</span>
+          <Icon name="chevron-right" size={14} class="shrink-0" />
+        </a>
+
+        <a
+          href={hero.secondaryCta.href}
+          class="hero-btn-secondary"
+          data-cursor-label={hero.secondaryCta.cursorLabel}
+        >
+          <Icon name="message" size={16} class="shrink-0 text-gold" />
+          <span>{hero.secondaryCta.label}</span>
+        </a>
+      </div>
+
       <!-- Recruiter Impact Metrics Strip (100% Solid Non-Monotonous Architectural Cards) -->
-      <div class="mt-9 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
+      <div class="mt-7 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
         {
           hero.metrics.map((metric) => {
             const isBrandAccent = metric.accentColor.toLowerCase() === '#cdb30c';
@@ -279,28 +301,110 @@ const { hero } = await getPortfolioContent(locale);
       });
     }
 
-    // 4. Interactive Canvas Particle Constellation (100% Solid Hex Nodes & Lines, Responsive to Accent Changes)
-    const canvas = document.getElementById('hero-particles') as HTMLCanvasElement | null;
+    // 3b. 3D Interactive Mouse Parallax across Hero Stage & Architecture Stack Pills
+    if (heroSection && isFinePointer && !prefersReducedMotion && heroStage) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+
+        // Stage perspective micro-tilt and smooth translation
+        gsap.to(heroStage, {
+          rotationY: relX * 5,
+          rotationX: -relY * 5,
+          x: relX * 14,
+          y: relY * 10,
+          duration: 0.45,
+          ease: 'power2.out',
+          transformPerspective: 1200,
+        });
+
+        // Layered micro-parallax on architecture pills
+        const archPills = heroSection.querySelectorAll('.hero-arch-pill');
+        archPills.forEach((pill, idx) => {
+          const depth = (idx % 2 === 0 ? 1 : -1) * 6;
+          gsap.to(pill, {
+            x: relX * depth,
+            y: relY * depth,
+            duration: 0.35,
+            ease: 'power1.out',
+          });
+        });
+      });
+
+      heroSection.addEventListener('mouseleave', () => {
+        gsap.to(heroStage, {
+          rotationY: 0,
+          rotationX: 0,
+          x: 0,
+          y: 0,
+          duration: 0.75,
+          ease: 'power2.out',
+        });
+        const archPills = heroSection.querySelectorAll('.hero-arch-pill');
+        gsap.to(archPills, { x: 0, y: 0, duration: 0.75, ease: 'power2.out' });
+      });
+    }
+
+    // 3c. Magnetic Physics Micro-Interactions on CTA Buttons & Badges
+    if (isFinePointer && !prefersReducedMotion) {
+      const magneticTargets = document.querySelectorAll<HTMLElement>(
+        '.hero-btn-primary, .hero-btn-secondary, .hero-status-pill'
+      );
+      magneticTargets.forEach((target) => {
+        target.addEventListener('mousemove', (e) => {
+          const rect = target.getBoundingClientRect();
+          const relX = e.clientX - (rect.left + rect.width / 2);
+          const relY = e.clientY - (rect.top + rect.height / 2);
+          gsap.to(target, {
+            x: relX * 0.24,
+            y: relY * 0.24,
+            duration: 0.25,
+            ease: 'power2.out',
+          });
+        });
+        target.addEventListener('mouseleave', () => {
+          gsap.to(target, {
+            x: 0,
+            y: 0,
+            duration: 0.55,
+            ease: 'elastic.out(1, 0.4)',
+          });
+        });
+      });
+    }
+
+    // 4. Kinetic Architectural Topology & Deterministic Signal Stream Engine
+    const canvas = document.getElementById('hero-topology-canvas') as HTMLCanvasElement | null;
     if (!canvas || prefersReducedMotion) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let width = (canvas.width = canvas.offsetWidth);
-    let height = (canvas.height = canvas.offsetHeight);
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
     let pointerX = -9999;
     let pointerY = -9999;
+    let targetPointerX = -9999;
+    let targetPointerY = -9999;
+    let isVisibleOnScreen = true;
 
     const getActiveAccent = () =>
-      getComputedStyle(document.documentElement).getPropertyValue('--brand-gold').trim() || '#cdb30c';
+      getComputedStyle(document.documentElement).getPropertyValue('--brand-gold').trim() || '#3f87f5';
 
     let activeAccent = getActiveAccent();
 
+    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string }>) => {
+      activeAccent = e.detail?.primary || getActiveAccent();
+    }) as EventListener);
+
+    // Track pointer with smooth interpolation
     heroSection?.addEventListener(
       'mousemove',
       (e) => {
         const rect = canvas.getBoundingClientRect();
-        pointerX = e.clientX - rect.left;
-        pointerY = e.clientY - rect.top;
+        targetPointerX = e.clientX - rect.left;
+        targetPointerY = e.clientY - rect.top;
       },
       { passive: true }
     );
@@ -308,82 +412,178 @@ const { hero } = await getPortfolioContent(locale);
     heroSection?.addEventListener(
       'mouseleave',
       () => {
-        pointerX = -9999;
-        pointerY = -9999;
+        targetPointerX = -9999;
+        targetPointerY = -9999;
       },
       { passive: true }
     );
 
-    const particleCount = Math.min(36, Math.floor((width * height) / 28000));
-    const secondaryPalette = ['#2563eb', '#0d9488', '#ea6a15'];
-    const particles = Array.from({ length: particleCount }, (_, i) => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.38,
-      vy: (Math.random() - 0.5) * 0.38,
-      r: i % 3 === 0 ? 2.2 : 1.8,
-      isAccent: i % 4 === 0,
-      color: i % 4 === 0 ? activeAccent : secondaryPalette[i % secondaryPalette.length],
-    }));
-
-    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string }>) => {
-      activeAccent = e.detail?.primary || getActiveAccent();
-      particles.forEach((p) => {
-        if (p.isAccent) p.color = activeAccent;
-      });
-    }) as EventListener);
-
-    const onResize = () => {
+    // Resize handling with devicePixelRatio support for crisp Retina rendering
+    const resizeCanvas = () => {
       if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    window.addEventListener('resize', onResize, { passive: true });
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    const render = () => {
+    // Grid configuration
+    const gridStep = 72;
+
+    // Deterministic Signal Rails
+    interface SignalRail {
+      y: number;
+      speed: number;
+      pulses: { x: number; length: number; speed: number; color: string }[];
+      deflection: number;
+      velocity: number;
+    }
+
+    const railsCount = 6;
+    const rails: SignalRail[] = [];
+
+    const initRails = () => {
+      rails.length = 0;
+      const spacing = height / (railsCount + 1);
+      for (let i = 0; i < railsCount; i++) {
+        const y = Math.round((i + 1) * spacing);
+        const speed = (0.6 + (i % 3) * 0.4) * (i % 2 === 0 ? 1 : -1);
+        const railPulses = [
+          {
+            x: Math.random() * width,
+            length: 36 + Math.random() * 40,
+            speed: Math.abs(speed) * 1.8 + 0.4,
+            color: i % 2 === 0 ? 'accent' : '#2563eb',
+          },
+          {
+            x: Math.random() * width,
+            length: 24 + Math.random() * 32,
+            speed: Math.abs(speed) * 1.4 + 0.3,
+            color: i === 1 ? '#10b981' : i === 3 ? '#cdb30c' : 'accent',
+          },
+        ];
+        rails.push({ y, speed, pulses: railPulses, deflection: 0, velocity: 0 });
+      }
+    };
+    initRails();
+    window.addEventListener('resize', initRails, { passive: true });
+
+    // Animation Loop with Spring Physics
+    const springK = 0.08;
+    const damping = 0.88;
+
+    const renderTopology = () => {
+      if (!isVisibleOnScreen) {
+        requestAnimationFrame(renderTopology);
+        return;
+      }
+
+      // Pointer spring interpolation
+      if (targetPointerX === -9999) {
+        pointerX = -9999;
+        pointerY = -9999;
+      } else {
+        pointerX += (targetPointerX - pointerX) * 0.2;
+        pointerY += (targetPointerY - pointerY) * 0.2;
+      }
+
       ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
 
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 125) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = dist < 70 ? '#333c4f' : '#1f2533';
-            ctx.lineWidth = 1;
-            ctx.stroke();
+      // 1. Subtle Architectural Grid Lines & Crosshairs
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#181e2b';
+      ctx.beginPath();
+      for (let x = 0; x <= width; x += gridStep) {
+        ctx.moveTo(x + 0.5, 0);
+        ctx.lineTo(x + 0.5, height);
+      }
+      ctx.stroke();
+
+      // Precision coordinate marks at intersections
+      ctx.strokeStyle = '#252f44';
+      ctx.beginPath();
+      for (let x = 0; x <= width; x += gridStep) {
+        for (let y = 0; y <= height; y += gridStep) {
+          ctx.moveTo(x - 2, y + 0.5);
+          ctx.lineTo(x + 2, y + 0.5);
+          ctx.moveTo(x + 0.5, y - 2);
+          ctx.lineTo(x + 0.5, y + 2);
+        }
+      }
+      ctx.stroke();
+
+      // 2. High-Performance Signal Rails with Elastic Cursor Deflection
+      rails.forEach((rail) => {
+        // Calculate elastic cursor interaction
+        if (pointerX !== -9999 && pointerY !== -9999) {
+          const dy = pointerY - rail.y;
+          const dist = Math.abs(dy);
+          if (dist < 120) {
+            const force = (1 - dist / 120) * (dy > 0 ? -18 : 18);
+            rail.velocity += (force - rail.deflection) * springK;
           }
         }
+        // Spring physics relaxation
+        rail.velocity += -rail.deflection * springK;
+        rail.velocity *= damping;
+        rail.deflection += rail.velocity;
 
-        const mdx = p.x - pointerX;
-        const mdy = p.y - pointerY;
-        const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mDist < 160) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(pointerX, pointerY);
-          ctx.strokeStyle = mDist < 90 ? activeAccent : '#475569';
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
-        }
+        const currentY = rail.y + rail.deflection;
 
+        // Draw base architectural track line
+        ctx.strokeStyle = '#1e283a';
+        ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-      }
-      requestAnimationFrame(render);
+        ctx.moveTo(0, currentY);
+        ctx.lineTo(width, currentY);
+        ctx.stroke();
+
+        // Draw traveling signal pulses
+        rail.pulses.forEach((pulse) => {
+          pulse.x += pulse.speed;
+          if (pulse.x > width + pulse.length) {
+            pulse.x = -pulse.length;
+          }
+
+          const pulseColor = pulse.color === 'accent' ? activeAccent : pulse.color;
+          ctx.strokeStyle = pulseColor;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          const startX = Math.max(0, pulse.x);
+          const endX = Math.min(width, pulse.x + pulse.length);
+          if (endX > startX) {
+            ctx.moveTo(startX, currentY);
+            ctx.lineTo(endX, currentY);
+            ctx.stroke();
+
+            // Leading micro-node with subtle glow
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(endX, currentY, 2, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+      });
+
+      requestAnimationFrame(renderTopology);
     };
-    render();
+
+    // Pause off-screen via IntersectionObserver for zero wasted cycles
+    if ('IntersectionObserver' in window && heroSection) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          isVisibleOnScreen = entries[0].isIntersecting;
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(heroSection);
+    }
+
+    renderTopology();
   }
 
   document.addEventListener('DOMContentLoaded', initHeroEffects);

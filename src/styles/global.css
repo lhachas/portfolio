@@ -628,6 +628,65 @@ a[data-lang-switch]:hover {
   transform: none !important;
 }
 
+/* Mobile Menu Button: State-Driven Morphing Icon Layer Architecture (Zero Overlap) */
+#mobile-menu-btn,
+.mobile-menu-btn {
+  position: relative;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+
+#mobile-menu-btn .mobile-icon-layer {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.28s;
+  will-change: transform, opacity;
+}
+
+/* Closed state (aria-expanded="false"): Hamburger bars visible, Close hidden */
+#mobile-menu-btn[aria-expanded="false"] .mobile-icon-bars {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) rotate(0deg);
+}
+
+#mobile-menu-btn[aria-expanded="false"] .mobile-icon-close {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: scale(0.4) rotate(-90deg);
+}
+
+/* Open / Active state (aria-expanded="true"): Close visible, Bars hidden */
+#mobile-menu-btn[aria-expanded="true"] {
+  background-color: var(--brand-gold);
+  border-color: var(--brand-gold);
+  color: var(--brand-on-gold);
+}
+
+#mobile-menu-btn[aria-expanded="true"] .mobile-icon-bars {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: scale(0.4) rotate(90deg);
+}
+
+#mobile-menu-btn[aria-expanded="true"] .mobile-icon-close {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) rotate(0deg);
+  color: var(--brand-on-gold) !important;
+}
+
+#mobile-menu-btn[aria-expanded="true"] .mobile-icon-close svg {
+  color: var(--brand-on-gold) !important;
+  stroke: var(--brand-on-gold);
+}
+
 /* Strict Isolation: Mobile Menu Button and Drawer are NEVER visible on Desktop (>= 1024px) */
 @media screen and (min-width: 1024px) {
   #mobile-menu-btn,
@@ -676,7 +735,9 @@ a[data-lang-switch]:hover {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.45;
+  opacity: 0.88;
+  filter: contrast(105%) brightness(102%);
+  transition: opacity 0.5s ease-out;
 }
 
 .hero-cinematic-video {
@@ -686,15 +747,27 @@ a[data-lang-switch]:hover {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.55;
+  opacity: 0.94;
+  filter: contrast(105%) brightness(102%);
   transition: opacity 0.5s ease-out;
 }
 
 .hero-cinematic-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(20, 23, 31, 0.42) 0%, rgba(20, 23, 31, 0.88) 100%);
+  /* Balanced radial mask: clear in the motion center & subtle vignette at edges for 100% WCAG AAA readability */
+  background: radial-gradient(ellipse at 50% 45%, rgba(20, 23, 31, 0.12) 0%, rgba(20, 23, 31, 0.55) 60%, rgba(20, 23, 31, 0.88) 100%);
   pointer-events: none;
+}
+
+[data-theme="light"] .hero-cinematic-video,
+[data-theme="light"] .hero-cinematic-poster img {
+  opacity: 0.35;
+  filter: invert(1) hue-rotate(180deg) contrast(110%);
+}
+
+[data-theme="light"] .hero-cinematic-overlay {
+  background: radial-gradient(ellipse at 50% 45%, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.65) 65%, rgba(248, 250, 252, 0.95) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -702,7 +775,7 @@ a[data-lang-switch]:hover {
     display: none !important;
   }
   .hero-cinematic-poster img {
-    opacity: 0.35;
+    opacity: 0.65;
   }
 }
 
@@ -743,6 +816,26 @@ a[data-lang-switch]:hover {
   display: inline-block;
 }
 
+.hero-telemetry-chip {
+  background-color: #1a1e28;
+  border: 1.5px solid #2d3546;
+  color: #94a3b8;
+  box-shadow: 0 2px 0 #0d0f14;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.hero-telemetry-chip:hover {
+  border-color: var(--brand-gold);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .hero-telemetry-chip {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #475569;
+  box-shadow: 0 2px 0 #e2e8f0;
+}
+
 /* Hero Architecture Stack Pills - 100% Solid Surface with Official Brand Icon Badges */
 .hero-arch-pill {
   display: inline-flex;
@@ -776,6 +869,71 @@ a[data-lang-switch]:hover {
   border-color: var(--arch-brand, var(--brand-gold));
   background-color: #262c3a;
   transform: translateY(-2px);
+}
+
+/* Hero Action CTAs - 100% Solid Surfaces, Tactile Feedback, Single-Line Desktop */
+.hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.6rem;
+  border-radius: 9999px;
+  background-color: var(--brand-gold);
+  border: 2px solid var(--brand-gold);
+  color: var(--brand-on-gold) !important;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-btn-primary:hover {
+  background-color: var(--brand-gold-hover);
+  border-color: var(--brand-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.hero-btn-primary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.hero-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.6rem;
+  border-radius: 9999px;
+  background-color: #1e222d;
+  border: 2px solid #333a48;
+  color: #ffffff !important;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  box-shadow: 0 3px 0 #0a0c10;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hero-btn-secondary:hover {
+  border-color: var(--brand-gold);
+  color: var(--brand-gold) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #0a0c10;
+}
+
+.hero-btn-secondary:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 1px 0 #0a0c10;
 }
 
 /* Hero Impact Metric Cards - 100% Solid Surface with Distinct Accent Colors */

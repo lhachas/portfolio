@@ -72,72 +72,75 @@ const {
     </div>
 
     <!-- Carousel Controls Bar (Status, Pagination Dots & Arrows) -->
-    <div class="mt-8 flex flex-wrap items-center justify-between gap-4 py-2 border-b border-[var(--card-border)] reveal">
-      <!-- Active Project Counter & Hint -->
-      <div class="flex items-center gap-3.5">
-        <div class="project-counter-badge" aria-live="polite">
-          <span class="text-xs font-semibold uppercase tracking-wider text-muted mr-1.5">{carouselCounterLabel}</span>
-          <span id="carousel-current" class="text-sm font-bold text-gold font-mono">01</span>
-          <span class="text-xs text-muted font-mono"> / </span>
-          <span id="carousel-total" class="text-xs font-semibold text-muted font-mono">{String(projects.length).padStart(2, '0')}</span>
+    <div class="carousel-controls-bar mt-8 relative reveal">
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-3.5">
+        <!-- Active Project Counter & Hint -->
+        <div class="flex items-center gap-3.5">
+          <div class="project-counter-badge" aria-live="polite">
+            <span class="text-xs font-semibold uppercase tracking-wider text-muted mr-1.5">{carouselCounterLabel}</span>
+            <span id="carousel-current" class="text-sm font-bold text-gold font-mono">01</span>
+            <span class="text-xs text-muted font-mono"> / </span>
+            <span id="carousel-total" class="text-xs font-semibold text-muted font-mono">{String(projects.length).padStart(2, '0')}</span>
+          </div>
+
+          <div class="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted font-mono select-none">
+            <kbd class="kbd-key" aria-label="Tecla flecha izquierda">←</kbd>
+            <kbd class="kbd-key" aria-label="Tecla flecha derecha">→</kbd>
+            <span class="ml-1 text-[11.5px] tracking-wide">{carouselDragHint}</span>
+          </div>
         </div>
 
-        <div class="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted font-mono">
-          <Icon name="chevron-right" size={13} class="text-gold shrink-0 inline-block" />
-          <span>{carouselDragHint}</span>
+        <!-- Segmented Interactive Dots & Arrow Buttons -->
+        <div class="flex items-center gap-4">
+          <!-- Interactive Pagination Dots -->
+          <div
+            class="carousel-dots-container flex items-center gap-1.5"
+            id="carousel-dots"
+            role="tablist"
+            aria-label="Diapositivas de proyectos"
+          >
+            {
+              projects.map((proj, idx) => (
+                <button
+                  type="button"
+                  role="tab"
+                  class:list={['carousel-dot-btn', { active: idx === 0 }]}
+                  data-dot-index={idx}
+                  aria-label={`${carouselCounterLabel} ${idx + 1}: ${proj.title}`}
+                  aria-selected={idx === 0 ? 'true' : 'false'}
+                />
+              ))
+            }
+          </div>
+
+          <!-- Prev / Next Navigation Arrows -->
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="carousel-prev"
+              class="carousel-nav-btn"
+              aria-label={carouselPrevLabel}
+              title={carouselPrevLabel}
+            >
+              <Icon name="chevron-left" size={18} />
+            </button>
+            <button
+              type="button"
+              id="carousel-next"
+              class="carousel-nav-btn"
+              aria-label={carouselNextLabel}
+              title={carouselNextLabel}
+            >
+              <Icon name="chevron-right" size={18} />
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Segmented Interactive Dots & Arrow Buttons -->
-      <div class="flex items-center gap-4">
-        <!-- Interactive Pagination Dots -->
-        <div
-          class="carousel-dots-container flex items-center gap-1.5"
-          id="carousel-dots"
-          role="tablist"
-          aria-label="Diapositivas de proyectos"
-        >
-          {
-            projects.map((proj, idx) => (
-              <button
-                type="button"
-                role="tab"
-                class:list={['carousel-dot-btn', { active: idx === 0 }]}
-                data-dot-index={idx}
-                aria-label={`${carouselCounterLabel} ${idx + 1}: ${proj.title}`}
-                aria-selected={idx === 0 ? 'true' : 'false'}
-              />
-            ))
-          }
-        </div>
-
-        <!-- Prev / Next Navigation Arrows -->
-        <div class="flex items-center gap-2">
-          <button
-            type="button"
-            id="carousel-prev"
-            class="carousel-nav-btn"
-            aria-label={carouselPrevLabel}
-            title={carouselPrevLabel}
-          >
-            <Icon name="chevron-left" size={18} />
-          </button>
-          <button
-            type="button"
-            id="carousel-next"
-            class="carousel-nav-btn"
-            aria-label={carouselNextLabel}
-            title={carouselNextLabel}
-          >
-            <Icon name="chevron-right" size={18} />
-          </button>
-        </div>
+      <!-- Architectural Micro-Progress Bar Track: Singular Unified Baseline (Zero Redundant Double Line) -->
+      <div class="carousel-progress-track relative w-full h-[2.5px] bg-[var(--card-border)] rounded-full overflow-hidden" aria-hidden="true">
+        <div id="carousel-progress-bar" class="h-full bg-[var(--brand-gold)] rounded-full transition-all duration-300 ease-out" style="width: 10%;"></div>
       </div>
-    </div>
-
-    <!-- Architectural Micro-Progress Bar Track (100% Solid Indicator) -->
-    <div class="carousel-progress-track mt-3 w-full h-[3px] bg-[var(--card-border)] rounded-full overflow-hidden reveal" aria-hidden="true">
-      <div id="carousel-progress-bar" class="h-full bg-[var(--brand-gold)] transition-all duration-300 ease-out" style="width: 10%;"></div>
     </div>
 
     <!-- Carousel Viewport & Track (100% Solid Cards with Native Scroll Snap & Physics Drag) -->
@@ -156,21 +159,29 @@ const {
               data-project-card
               data-category={project.category}
               data-index={idx}
-              id={`project-card-${idx}`}
+              id={`project-${project.id}`}
+              data-project-id={project.id}
               style={`--project-accent: ${project.accentColor};`}
             >
-              <!-- Card Header: Category Pill + Architecture Badge + Direct Links -->
+              <!-- Dynamic Spotlight Canvas Effect for 3D Tilt -->
+              <div class="project-card-spotlight pointer-events-none absolute inset-0 rounded-[1.25rem] transition-opacity duration-300" aria-hidden="true"></div>
+
               <div>
-                <div class="flex flex-wrap items-center justify-between gap-2.5 mb-4">
+                <!-- Terminal HUD Header: Production Status + Index + Category + Direct Links -->
+                <div class="flex flex-wrap items-center justify-between gap-2.5 mb-3.5 pb-2.5 border-b border-[var(--card-border)]">
                   <div class="flex items-center gap-2 flex-wrap">
+                    <span class="project-hud-status inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10.5px] font-mono uppercase tracking-wider bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/25">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse"></span>
+                      <span>PRODUCTION</span>
+                    </span>
+                    <span class="text-[11px] font-mono text-muted tracking-widest">
+                      [{String(idx + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}]
+                    </span>
                     <span
                       class="project-category-badge"
                       style={`border-color: ${project.accentColor}; color: ${project.accentColor};`}
                     >
                       {project.categoryLabel}
-                    </span>
-                    <span class="project-arch-badge">
-                      {project.badge}
                     </span>
                   </div>
 
@@ -200,6 +211,13 @@ const {
                   </div>
                 </div>
 
+                <!-- Architecture Pattern Badge -->
+                <div class="mb-2">
+                  <span class="project-arch-badge">
+                    {project.badge}
+                  </span>
+                </div>
+
                 <!-- Project Title & Tagline -->
                 <h3 class="project-title">
                   <a
@@ -216,9 +234,9 @@ const {
                 </p>
 
                 <!-- Bento Stats Micro-Strip -->
-                <div class="mt-5 grid grid-cols-3 gap-2.5">
+                <div class="mt-4 grid grid-cols-3 gap-2.5">
                   {project.stats.map((stat) => (
-                    <div class="project-stat-box">
+                    <div class="project-stat-box" style={`--stat-accent: ${project.accentColor};`}>
                       <span class="project-stat-label">{stat.label}</span>
                       <strong class="project-stat-value" style={`color: ${project.accentColor};`}>
                         {stat.value}
@@ -227,55 +245,78 @@ const {
                   ))}
                 </div>
 
-                <!-- Deep Architectural Breakdown (Problem / Solution / Architecture) -->
-                <div class="mt-6 space-y-4">
-                  <!-- Problem / Challenge -->
-                  <div class="project-detail-block">
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold mb-1">
-                      <Icon name="shield" size={13} class="text-gold shrink-0" />
-                      <span>{problemLabel}</span>
-                    </div>
-                    <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
-                      {project.problem}
-                    </p>
-                  </div>
-
-                  <!-- Solution & Architecture -->
-                  <div class="project-detail-block">
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--project-accent)] mb-1">
-                      <Icon name="cpu" size={13} class="shrink-0" />
+                <!-- Interactive Architectural Deep-Dive Tabs (100% Solid Inspector) -->
+                <div class="mt-5 card-tabs-wrapper">
+                  <div class="card-tab-nav flex items-center gap-1.5 p-1 rounded-lg bg-[var(--th-primary)] border border-[var(--card-border)] mb-3" role="tablist">
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="true"
+                      class="card-tab-btn active"
+                      data-tab-target={`tab-sol-${idx}`}
+                    >
+                      <Icon name="cpu" size={12} class="shrink-0" />
                       <span>{solutionLabel}</span>
-                    </div>
-                    <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
-                      {project.solution}
-                    </p>
-                  </div>
-
-                  <!-- Architecture Pattern -->
-                  <div class="project-detail-block">
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#cbd5e1] mb-1">
-                      <Icon name="git-branch" size={13} class="text-[var(--project-accent)] shrink-0" />
-                      <span>{architectureLabel}</span>
-                    </div>
-                    <p class="text-xs sm:text-[13px] text-muted leading-relaxed font-mono">
-                      {project.architecture}
-                    </p>
-                  </div>
-
-                  <!-- Measurable Impact / Highlights -->
-                  <div class="project-detail-block">
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#10b981] mb-1.5">
-                      <Icon name="award" size={13} class="text-[#10b981] shrink-0" />
+                    </button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      class="card-tab-btn"
+                      data-tab-target={`tab-prob-${idx}`}
+                    >
+                      <Icon name="shield" size={12} class="shrink-0" />
+                      <span>{problemLabel}</span>
+                    </button>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected="false"
+                      class="card-tab-btn"
+                      data-tab-target={`tab-imp-${idx}`}
+                    >
+                      <Icon name="award" size={12} class="shrink-0" />
                       <span>{impactLabel}</span>
+                    </button>
+                  </div>
+
+                  <!-- Tab Panes (All present in DOM for 100% accessibility & SEO compliance) -->
+                  <div class="card-tab-panels min-h-[148px]">
+                    <!-- Solution & Architecture Pane (Default active) -->
+                    <div id={`tab-sol-${idx}`} class="card-tab-pane active space-y-3">
+                      <div class="project-detail-block">
+                        <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
+                          {project.solution}
+                        </p>
+                      </div>
+                      <div class="project-detail-block flex items-start gap-2 pt-2 border-t border-[var(--card-border)]">
+                        <Icon name="git-branch" size={13} class="text-[var(--project-accent)] shrink-0 mt-0.5" />
+                        <span class="text-xs sm:text-[13px] text-muted font-mono leading-relaxed">
+                          {project.architecture}
+                        </span>
+                      </div>
                     </div>
-                    <ul class="space-y-1.5" role="list">
-                      {project.highlights.map((highlight) => (
-                        <li class="flex items-start gap-2 text-xs sm:text-[13px] txt-primary">
-                          <Icon name="check" size={14} class="text-[#10b981] shrink-0 mt-0.5" />
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
+
+                    <!-- Problem Pane -->
+                    <div id={`tab-prob-${idx}`} class="card-tab-pane hidden">
+                      <div class="project-detail-block">
+                        <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
+                          {project.problem}
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- Impact Pane -->
+                    <div id={`tab-imp-${idx}`} class="card-tab-pane hidden">
+                      <ul class="space-y-1.5" role="list">
+                        {project.highlights.map((highlight) => (
+                          <li class="flex items-start gap-2 text-xs sm:text-[13px] txt-primary">
+                            <Icon name="check" size={14} class="text-[#10b981] shrink-0 mt-0.5" />
+                            <span>{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -358,6 +399,24 @@ const {
 <!-- END PROJECTS -->
 
 <style>
+  .kbd-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.35rem;
+    font-size: 0.725rem;
+    font-family: monospace;
+    font-weight: 600;
+    border-radius: 4px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    color: var(--txt-primary);
+    box-shadow: 0 1.5px 0 var(--card-border);
+    line-height: 1;
+  }
+
   /* 100% Solid Minimalist Carousel Styles */
   .project-counter-badge {
     display: inline-flex;
@@ -391,7 +450,7 @@ const {
   }
 
   .carousel-nav-btn:active:not(:disabled) {
-    transform: translateY(0) scale(0.95);
+    transform: translateY(0) scale(0.94);
     box-shadow: 0 1px 0 var(--brand-gold);
   }
 
@@ -418,6 +477,10 @@ const {
     transform: scale(1.15);
   }
 
+  .carousel-dot-btn:active {
+    transform: scale(0.92);
+  }
+
   .carousel-dot-btn.active {
     width: 32px;
     background-color: var(--brand-gold);
@@ -438,10 +501,17 @@ const {
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
     scrollbar-width: none;
     padding: 0.5rem 0.25rem 1.5rem 0.25rem;
     cursor: grab;
     outline: none;
+  }
+
+  .project-carousel-track:focus-visible {
+    outline: 2px solid var(--brand-gold);
+    outline-offset: 4px;
+    border-radius: 1rem;
   }
 
   .project-carousel-track::-webkit-scrollbar {
@@ -464,8 +534,14 @@ const {
     border-radius: 1.25rem;
     padding: 1.85rem;
     position: relative;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    transform-style: preserve-3d;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease;
     box-shadow: 0 4px 0 var(--card-border);
+    opacity: 0.88;
+    transform: scale(0.985);
   }
 
   @media (max-width: 1024px) {
@@ -486,19 +562,56 @@ const {
 
   .project-card:hover,
   .project-card:focus-within {
-    transform: translateY(-3px);
+    opacity: 1;
     border-color: var(--project-accent);
     box-shadow: 0 8px 0 var(--project-accent);
+    transform: translateY(-4px) scale(1.005);
   }
 
   .project-card.is-focused {
+    opacity: 1;
+    transform: scale(1.015);
     border-color: var(--project-accent);
-    box-shadow: 0 6px 0 var(--project-accent);
+    box-shadow: 0 8px 0 var(--project-accent), 0 0 24px rgba(63, 135, 245, 0.1);
+    z-index: 2;
+  }
+
+  .project-card:active:not(:has(a:active, button:active)) {
+    transform: translateY(-2px) scale(0.995);
+  }
+
+  /* Dynamic Cursor Spotlight Beam on Card Surface */
+  .project-card-spotlight {
+    background: radial-gradient(420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(63, 135, 245, 0.08), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .project-card:hover .project-card-spotlight,
+  .project-card.is-focused .project-card-spotlight {
+    opacity: 1;
+  }
+
+  .carousel-controls-bar {
+    width: 100%;
   }
 
   .carousel-progress-track {
     background-color: var(--card-border);
     position: relative;
+    height: 2.5px;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  #carousel-progress-bar {
+    border-radius: 9999px;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: width;
+  }
+
+  .project-hud-status {
+    border: 1px solid rgba(16, 185, 129, 0.25);
   }
 
   .project-category-badge {
@@ -538,13 +651,13 @@ const {
     background-color: var(--th-primary);
     border: 1.5px solid var(--card-border);
     color: var(--heading-color);
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .project-icon-link:hover {
     border-color: var(--project-accent);
     color: var(--project-accent);
-    transform: translateY(-1px);
+    transform: translateY(-2px) scale(1.08);
   }
 
   .project-title {
@@ -565,10 +678,18 @@ const {
     align-items: center;
     justify-content: center;
     padding: 0.65rem 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: 0.6rem;
     background-color: var(--th-primary);
     border: 1.5px solid var(--card-border);
     text-align: center;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease;
+  }
+
+  .project-stat-box:hover {
+    transform: translateY(-2px);
+    border-color: var(--stat-accent, var(--brand-gold));
   }
 
   .project-stat-label {
@@ -584,6 +705,54 @@ const {
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.2;
+    font-family: monospace;
+  }
+
+  /* Interactive Technical Tabs inside Project Cards */
+  .card-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.32rem 0.75rem;
+    border-radius: 0.45rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--txt-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+  }
+
+  .card-tab-btn:hover {
+    color: var(--heading-color);
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+
+  .card-tab-btn.active {
+    background-color: var(--th-secondary);
+    color: var(--project-accent, var(--brand-gold));
+    border-color: var(--card-border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-tab-pane.active {
+    display: block;
+    animation: tabFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes tabFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .project-detail-block {
@@ -634,6 +803,10 @@ const {
     transform: translateY(-1px);
   }
 
+  .btn-project-repo:active {
+    transform: translateY(0) scale(0.97);
+  }
+
   .btn-project-demo {
     display: inline-flex;
     align-items: center;
@@ -656,6 +829,10 @@ const {
     transform: translateY(-1px);
   }
 
+  .btn-project-demo:active {
+    transform: translateY(0) scale(0.97);
+  }
+
   .project-filter-btn {
     border: 2px solid var(--card-border);
     background-color: var(--th-secondary);
@@ -665,6 +842,10 @@ const {
   .project-filter-btn:hover {
     border-color: var(--brand-gold);
     color: var(--brand-gold);
+  }
+
+  .project-filter-btn:active {
+    transform: scale(0.96);
   }
 
   .project-filter-btn.active {
@@ -693,22 +874,55 @@ const {
 </style>
 
 <script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
   function setupProjectsCarousel() {
     const track = document.getElementById('project-carousel-track') as HTMLElement | null;
     const prevBtn = document.getElementById('carousel-prev') as HTMLButtonElement | null;
     const nextBtn = document.getElementById('carousel-next') as HTMLButtonElement | null;
     const currentIndicator = document.getElementById('carousel-current') as HTMLElement | null;
     const totalIndicator = document.getElementById('carousel-total') as HTMLElement | null;
+    const progressBar = document.getElementById('carousel-progress-bar') as HTMLElement | null;
     const dotButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.carousel-dot-btn'));
     const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-project-filter]'));
     const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-project-card]'));
 
     if (!track || !cards.length) return;
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1. Initial GSAP ScrollTrigger Entrance Reveal
+    if (!prefersReducedMotion) {
+      gsap.fromTo(
+        cards,
+        { y: 24, autoAlpha: 0, scale: 0.98 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.55,
+          stagger: 0.07,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: track,
+            start: 'top 85%',
+            once: true,
+          },
+          clearProps: 'transform,opacity,visibility,scale',
+        }
+      );
+    }
+
     let isDown = false;
     let startX = 0;
     let scrollStart = 0;
     let hasDragged = false;
+    let lastX = 0;
+    let lastTime = 0;
+    let velocity = 0;
 
     // Helper: Get currently visible cards based on active filter
     function getVisibleCards(): HTMLElement[] {
@@ -728,7 +942,6 @@ const {
         if (currentIndicator) currentIndicator.textContent = '00';
         if (prevBtn) prevBtn.disabled = true;
         if (nextBtn) nextBtn.disabled = true;
-        const progressBar = document.getElementById('carousel-progress-bar');
         if (progressBar) progressBar.style.width = '0%';
         return;
       }
@@ -752,8 +965,7 @@ const {
         currentIndicator.textContent = String(closestIdx + 1).padStart(2, '0');
       }
 
-      // Update architectural progress bar
-      const progressBar = document.getElementById('carousel-progress-bar');
+      // Update architectural progress bar smoothly
       if (progressBar && total > 0) {
         const percent = Math.min(100, Math.max(10, ((closestIdx + 1) / total) * 100));
         progressBar.style.width = `${percent}%`;
@@ -763,8 +975,14 @@ const {
       visibleCards.forEach((card, idx) => {
         if (idx === closestIdx) {
           card.classList.add('is-focused');
+          if (!prefersReducedMotion) {
+            card.style.transform = 'scale(1.015)';
+          }
         } else {
           card.classList.remove('is-focused');
+          if (!prefersReducedMotion) {
+            card.style.transform = 'scale(0.985)';
+          }
         }
       });
 
@@ -808,7 +1026,10 @@ const {
       const targetCard = visibleCards[targetIdx];
       if (targetCard) {
         const targetScroll = targetCard.offsetLeft - track.offsetLeft;
-        track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+        track.scrollTo({
+          left: targetScroll,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
       }
     }
 
@@ -818,13 +1039,108 @@ const {
       const card = cards.find((c) => c.getAttribute('data-index') === String(index));
       if (card && card.style.display !== 'none') {
         const targetScroll = card.offsetLeft - track.offsetLeft;
-        track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+        track.scrollTo({
+          left: targetScroll,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
       }
     }
 
+    // Snap to closest visible card on drag release
+    function snapToNearestCard() {
+      if (!track) return;
+      const visibleCards = getVisibleCards();
+      if (!visibleCards.length) return;
+      const trackLeft = track.getBoundingClientRect().left;
+      let closestCard = visibleCards[0];
+      let minDiff = Infinity;
+      visibleCards.forEach((card) => {
+        const diff = Math.abs(card.getBoundingClientRect().left - trackLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestCard = card;
+        }
+      });
+      if (closestCard) {
+        const targetScroll = closestCard.offsetLeft - track.offsetLeft;
+        track.scrollTo({
+          left: targetScroll,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+      }
+    }
+
+    // Micro-bounce spring animation on navigation buttons
+    const triggerBtnBounce = (btn: HTMLElement | null) => {
+      if (!btn || prefersReducedMotion) return;
+      gsap.fromTo(btn, { scale: 0.88 }, { scale: 1, duration: 0.35, ease: 'back.out(2)' });
+    };
+
     // Event: Prev / Next buttons
-    prevBtn?.addEventListener('click', () => scrollByCard(-1));
-    nextBtn?.addEventListener('click', () => scrollByCard(1));
+    prevBtn?.addEventListener('click', () => {
+      triggerBtnBounce(prevBtn);
+      scrollByCard(-1);
+    });
+    nextBtn?.addEventListener('click', () => {
+      triggerBtnBounce(nextBtn);
+      scrollByCard(1);
+    });
+
+    // 3D Perspective Tilt, Dynamic Spotlight & Card Tab Switching for each Project Card
+    cards.forEach((card) => {
+      // 1. Mousemove 3D perspective & spotlight
+      card.addEventListener('mousemove', (e) => {
+        if (prefersReducedMotion) return;
+        const rect = card.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${mouseX}px`);
+        card.style.setProperty('--mouse-y', `${mouseY}px`);
+
+        const relX = mouseX / rect.width - 0.5;
+        const relY = mouseY / rect.height - 0.5;
+        const rotateX = (-relY * 5).toFixed(2);
+        const rotateY = (relX * 5).toFixed(2);
+        const isFocused = card.classList.contains('is-focused');
+        const scaleVal = isFocused ? 1.018 : 1.005;
+
+        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scaleVal}) translateY(-4px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        const isFocused = card.classList.contains('is-focused');
+        card.style.transform = isFocused ? 'scale(1.015)' : 'scale(0.985)';
+      });
+
+      // 2. Interactive Internal Tabs
+      const tabButtons = Array.from(card.querySelectorAll<HTMLButtonElement>('.card-tab-btn'));
+      const tabPanes = Array.from(card.querySelectorAll<HTMLElement>('.card-tab-pane'));
+
+      tabButtons.forEach((tabBtn) => {
+        tabBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetId = tabBtn.getAttribute('data-tab-target');
+          if (!targetId) return;
+
+          tabButtons.forEach((b) => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          tabBtn.classList.add('active');
+          tabBtn.setAttribute('aria-selected', 'true');
+
+          tabPanes.forEach((pane) => {
+            if (pane.id === targetId) {
+              pane.classList.remove('hidden');
+              pane.classList.add('active');
+            } else {
+              pane.classList.add('hidden');
+              pane.classList.remove('active');
+            }
+          });
+        });
+      });
+    });
 
     // Event: Pagination dot clicks
     dotButtons.forEach((dot) => {
@@ -866,7 +1182,7 @@ const {
       { passive: false }
     );
 
-    // Event: Keyboard Navigation (ArrowLeft / ArrowRight)
+    // Event: Full Keyboard Navigation
     track.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
@@ -874,32 +1190,66 @@ const {
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         scrollByCard(1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        scrollToCardIndex(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        const visible = getVisibleCards();
+        if (visible.length) {
+          const lastIdx = parseInt(visible[visible.length - 1].getAttribute('data-index') || '0', 10);
+          scrollToCardIndex(lastIdx);
+        }
+      } else if (e.key === 'PageUp') {
+        e.preventDefault();
+        scrollByCard(-2);
+      } else if (e.key === 'PageDown') {
+        e.preventDefault();
+        scrollByCard(2);
       }
     });
 
-    // Event: Pointer Drag-to-Scroll Physics
+    // Event: Pointer Drag-to-Scroll Physics with Velocity & Accidental Click Suppression
     track.addEventListener('pointerdown', (e: PointerEvent) => {
+      if ((e.target as HTMLElement)?.closest('button, a')) return;
       isDown = true;
       hasDragged = false;
       startX = e.pageX - track.offsetLeft;
       scrollStart = track.scrollLeft;
+      lastX = e.pageX;
+      lastTime = Date.now();
+      velocity = 0;
       track.classList.add('is-dragging');
     });
 
     window.addEventListener('pointermove', (e: PointerEvent) => {
       if (!isDown || !track) return;
       const x = e.pageX - track.offsetLeft;
-      const walk = (x - startX) * 1.25;
+      const walk = (x - startX) * 1.35;
       if (Math.abs(walk) > 6) {
         hasDragged = true;
       }
       track.scrollLeft = scrollStart - walk;
+
+      const now = Date.now();
+      const dt = now - lastTime;
+      if (dt > 0) {
+        velocity = (e.pageX - lastX) / dt;
+        lastX = e.pageX;
+        lastTime = now;
+      }
     });
 
     const stopDragging = () => {
       if (!isDown || !track) return;
       isDown = false;
       track.classList.remove('is-dragging');
+
+      if (Math.abs(velocity) > 0.35) {
+        scrollByCard(velocity > 0 ? -1 : 1);
+      } else {
+        snapToNearestCard();
+      }
       updateCarouselState();
     };
 
@@ -919,7 +1269,7 @@ const {
       true,
     );
 
-    // Category Filter Integration
+    // Category Filter Integration with Fluid Re-Entrance Transition
     filterButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const filterValue = btn.getAttribute('data-project-filter');
@@ -943,6 +1293,24 @@ const {
           }
         });
 
+        // Dynamic re-entrance cascade
+        if (!prefersReducedMotion) {
+          const visible = getVisibleCards();
+          gsap.fromTo(
+            visible,
+            { opacity: 0, scale: 0.97, y: 14 },
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.35,
+              stagger: 0.05,
+              ease: 'power2.out',
+              clearProps: 'transform,opacity,scale',
+            }
+          );
+        }
+
         // Filter dots
         dotButtons.forEach((dot) => {
           const dotIdx = dot.getAttribute('data-dot-index');
@@ -955,7 +1323,7 @@ const {
         });
 
         // Reset scroll position smoothly to first visible card
-        track.scrollTo({ left: 0, behavior: 'smooth' });
+        track.scrollTo({ left: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
         setTimeout(updateCarouselState, 150);
       });
     });
