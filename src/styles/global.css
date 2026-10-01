@@ -30,7 +30,7 @@
   --social-email-hover: #C5221F;
 
   /* Section & Surface Tokens - Light Mode (100% Solid Minimalist Palette) */
-  --hero-bg: #14171f;
+  --hero-bg: #f8fafc;
   --th-primary: #ffffff;
   --th-secondary: #f1f5f9;
   --txt-primary: #1e293b;
@@ -151,6 +151,30 @@ p,
   font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  color: #cbd5e1;
+}
+
+:root:not([data-theme="dark"]) .hero-greeting,
+[data-theme="light"] .hero-greeting {
+  color: #475569;
+}
+
+.hero-title-prefix {
+  color: #ffffff;
+}
+
+:root:not([data-theme="dark"]) .hero-title-prefix,
+[data-theme="light"] .hero-title-prefix {
+  color: #0f172a;
+}
+
+.hero-subtitle {
+  color: #e2e8f0;
+}
+
+:root:not([data-theme="dark"]) .hero-subtitle,
+[data-theme="light"] .hero-subtitle {
+  color: #334155;
 }
 
 .home-title {
@@ -755,19 +779,27 @@ a[data-lang-switch]:hover {
 .hero-cinematic-overlay {
   position: absolute;
   inset: 0;
-  /* Balanced radial mask: clear in the motion center & subtle vignette at edges for 100% WCAG AAA readability */
-  background: radial-gradient(ellipse at 50% 45%, rgba(20, 23, 31, 0.12) 0%, rgba(20, 23, 31, 0.55) 60%, rgba(20, 23, 31, 0.88) 100%);
+  /* Balanced radial mask & guaranteed solid bottom fade for seamless wave transition */
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(20, 23, 31, 0.12) 0%, rgba(20, 23, 31, 0.55) 60%, rgba(20, 23, 31, 0.95) 100%),
+    linear-gradient(to bottom, transparent 65%, var(--hero-bg) 100%);
   pointer-events: none;
 }
 
+:root:not([data-theme="dark"]) .hero-cinematic-video,
+:root:not([data-theme="dark"]) .hero-cinematic-poster img,
 [data-theme="light"] .hero-cinematic-video,
 [data-theme="light"] .hero-cinematic-poster img {
-  opacity: 0.35;
-  filter: invert(1) hue-rotate(180deg) contrast(110%);
+  opacity: 0.18;
+  filter: grayscale(1) contrast(115%);
+  mix-blend-mode: multiply;
 }
 
+:root:not([data-theme="dark"]) .hero-cinematic-overlay,
 [data-theme="light"] .hero-cinematic-overlay {
-  background: radial-gradient(ellipse at 50% 45%, rgba(248, 250, 252, 0.2) 0%, rgba(248, 250, 252, 0.65) 65%, rgba(248, 250, 252, 0.95) 100%);
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.8) 60%, #f8fafc 100%),
+    linear-gradient(to bottom, transparent 65%, #f8fafc 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -805,6 +837,21 @@ a[data-lang-switch]:hover {
 
 .hero-status-pill:hover i {
   color: var(--brand-on-gold) !important;
+}
+
+:root:not([data-theme="dark"]) .hero-status-pill,
+[data-theme="light"] .hero-status-pill {
+  background-color: #ffffff;
+  border-color: var(--brand-gold);
+  color: #0e3d65;
+  box-shadow: 0 3px 0 #cbd5e1;
+}
+
+:root:not([data-theme="dark"]) .hero-status-pill:hover,
+[data-theme="light"] .hero-status-pill:hover {
+  background-color: var(--brand-gold);
+  border-color: var(--brand-gold);
+  color: var(--brand-on-gold);
 }
 
 .status-pulse-dot {
@@ -852,6 +899,14 @@ a[data-lang-switch]:hover {
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
+:root:not([data-theme="dark"]) .hero-arch-pill,
+[data-theme="light"] .hero-arch-pill {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  color: #1e293b;
+  box-shadow: 0 2px 0 #cbd5e1;
+}
+
 .hero-arch-icon-badge {
   width: 26px;
   height: 26px;
@@ -869,6 +924,13 @@ a[data-lang-switch]:hover {
   border-color: var(--arch-brand, var(--brand-gold));
   background-color: #262c3a;
   transform: translateY(-2px);
+}
+
+:root:not([data-theme="dark"]) .hero-arch-pill:hover,
+[data-theme="light"] .hero-arch-pill:hover {
+  background-color: #f8fafc;
+  border-color: var(--arch-brand, var(--brand-gold));
+  color: #0f172a;
 }
 
 /* Hero Action CTAs - 100% Solid Surfaces, Tactile Feedback, Single-Line Desktop */
@@ -924,11 +986,27 @@ a[data-lang-switch]:hover {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+:root:not([data-theme="dark"]) .hero-btn-secondary,
+[data-theme="light"] .hero-btn-secondary {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  color: #1e293b !important;
+  box-shadow: 0 3px 0 #cbd5e1;
+}
+
 .hero-btn-secondary:hover {
   border-color: var(--brand-gold);
   color: var(--brand-gold) !important;
   transform: translateY(-2px);
   box-shadow: 0 5px 0 #0a0c10;
+}
+
+:root:not([data-theme="dark"]) .hero-btn-secondary:hover,
+[data-theme="light"] .hero-btn-secondary:hover {
+  background-color: #f1f5f9;
+  border-color: var(--brand-gold);
+  color: var(--brand-gold) !important;
+  box-shadow: 0 5px 0 #94a3b8;
 }
 
 .hero-btn-secondary:active {
@@ -949,10 +1027,53 @@ a[data-lang-switch]:hover {
   overflow: hidden;
 }
 
+:root:not([data-theme="dark"]) .hero-metric-card,
+[data-theme="light"] .hero-metric-card {
+  background-color: #ffffff;
+  border: 2px solid #cbd5e1;
+  border-top: 4px solid var(--metric-accent, var(--brand-gold));
+  box-shadow: 0 4px 0 #cbd5e1;
+}
+
 .hero-metric-card:hover {
   border-color: var(--metric-accent, var(--brand-gold));
   background-color: #252a38;
   transform: translateY(-4px);
+}
+
+:root:not([data-theme="dark"]) .hero-metric-card:hover,
+[data-theme="light"] .hero-metric-card:hover {
+  background-color: #f8fafc;
+  border-color: var(--metric-accent, var(--brand-gold));
+}
+
+.hero-metric-val {
+  color: #ffffff;
+}
+
+:root:not([data-theme="dark"]) .hero-metric-val,
+[data-theme="light"] .hero-metric-val {
+  color: #0f172a;
+}
+
+.hero-metric-desc {
+  color: #cbd5e1;
+}
+
+:root:not([data-theme="dark"]) .hero-metric-desc,
+[data-theme="light"] .hero-metric-desc {
+  color: #475569;
+}
+
+.hero-metric-badge {
+  border-color: #1e222d;
+  box-shadow: 0 3px 0 #0a0c10;
+}
+
+:root:not([data-theme="dark"]) .hero-metric-badge,
+[data-theme="light"] .hero-metric-badge {
+  border-color: #e2e8f0;
+  box-shadow: 0 3px 0 #cbd5e1;
 }
 
 /* Scroll Down Mouse Indicator - 100% Solid */
@@ -966,6 +1087,11 @@ a[data-lang-switch]:hover {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   transition: color 0.2s ease, transform 0.2s ease;
+}
+
+:root:not([data-theme="dark"]) .hero-scroll-indicator,
+[data-theme="light"] .hero-scroll-indicator {
+  color: #475569;
 }
 
 .hero-scroll-indicator:hover {
@@ -983,6 +1109,12 @@ a[data-lang-switch]:hover {
   justify-content: center;
   padding-top: 5px;
   transition: border-color 0.2s ease;
+}
+
+:root:not([data-theme="dark"]) .scroll-mouse,
+[data-theme="light"] .scroll-mouse {
+  border-color: #64748b;
+  background-color: #ffffff;
 }
 
 .hero-scroll-indicator:hover .scroll-mouse {

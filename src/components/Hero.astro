@@ -69,7 +69,7 @@ const { hero } = await getPortfolioContent(locale);
       </div>
 
       <!-- Greeting -->
-      <p class="hero-greeting text-[#cbd5e1] mb-1.5" data-hero-anim>
+      <p class="hero-greeting mb-1.5" data-hero-anim>
         {hero.greeting}
       </p>
 
@@ -78,7 +78,7 @@ const { hero } = await getPortfolioContent(locale);
         class="home-title text-gold mb-0 flex flex-wrap sm:flex-nowrap items-center justify-center gap-x-3 pb-1 min-h-[3.2rem] sm:min-h-[3.6rem]"
         data-hero-anim
       >
-        <span class="text-white font-light shrink-0">{hero.titlePrefix}</span>
+        <span class="hero-title-prefix font-light shrink-0">{hero.titlePrefix}</span>
         <span class="inline-flex items-center pb-0.5 sm:whitespace-nowrap">
           <em
             id="typed-output"
@@ -92,7 +92,7 @@ const { hero } = await getPortfolioContent(locale);
       </h1>
 
       <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid crisp text) -->
-      <p class="title-subtitle mt-3 mb-0 mx-auto text-[#e2e8f0]" data-hero-anim>
+      <p class="title-subtitle hero-subtitle mt-3 mb-0 mx-auto" data-hero-anim>
         {hero.subtitle}
       </p>
 
@@ -151,21 +151,21 @@ const { hero } = await getPortfolioContent(locale);
                 style={`--metric-accent: ${resolvedAccent};`}
               >
                 <div
-                  class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#1e222d]"
-                  style={`background-color: ${resolvedAccent}; color: ${iconTextColor}; box-shadow: 0 3px 0 #0a0c10;`}
+                  class="hero-metric-badge mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2"
+                  style={`background-color: ${resolvedAccent}; color: ${iconTextColor};`}
                 >
                   <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
                 </div>
-                <div class="text-xl sm:text-2xl font-medium text-white tracking-wide">
+                <div class="hero-metric-val text-xl sm:text-2xl font-medium tracking-wide">
                   {metric.value}
                 </div>
                 <div
-                  class="mt-0.5 text-[13.5px] font-medium uppercase tracking-wider"
+                  class="hero-metric-label mt-0.5 text-[13.5px] font-medium uppercase tracking-wider"
                   style={`color: ${resolvedAccent};`}
                 >
                   {metric.label}
                 </div>
-                <div class="mt-1 text-[12.5px] text-[#cbd5e1] font-light tracking-wide">
+                <div class="hero-metric-desc mt-1 text-[12.5px] font-light tracking-wide">
                   {metric.detail}
                 </div>
               </div>
@@ -493,9 +493,11 @@ const { hero } = await getPortfolioContent(locale);
 
       ctx.clearRect(0, 0, width, height);
 
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
       // 1. Subtle Architectural Grid Lines & Crosshairs
       ctx.lineWidth = 1;
-      ctx.strokeStyle = '#181e2b';
+      ctx.strokeStyle = isDark ? '#181e2b' : '#e2e8f0';
       ctx.beginPath();
       for (let x = 0; x <= width; x += gridStep) {
         ctx.moveTo(x + 0.5, 0);
@@ -504,7 +506,7 @@ const { hero } = await getPortfolioContent(locale);
       ctx.stroke();
 
       // Precision coordinate marks at intersections
-      ctx.strokeStyle = '#252f44';
+      ctx.strokeStyle = isDark ? '#252f44' : '#cbd5e1';
       ctx.beginPath();
       for (let x = 0; x <= width; x += gridStep) {
         for (let y = 0; y <= height; y += gridStep) {
@@ -516,26 +518,12 @@ const { hero } = await getPortfolioContent(locale);
       }
       ctx.stroke();
 
-      // 2. High-Performance Signal Rails with Elastic Cursor Deflection
+      // 2. High-Performance Signal Rails (Zero chaotic wave distortions)
       rails.forEach((rail) => {
-        // Calculate elastic cursor interaction
-        if (pointerX !== -9999 && pointerY !== -9999) {
-          const dy = pointerY - rail.y;
-          const dist = Math.abs(dy);
-          if (dist < 120) {
-            const force = (1 - dist / 120) * (dy > 0 ? -18 : 18);
-            rail.velocity += (force - rail.deflection) * springK;
-          }
-        }
-        // Spring physics relaxation
-        rail.velocity += -rail.deflection * springK;
-        rail.velocity *= damping;
-        rail.deflection += rail.velocity;
-
-        const currentY = rail.y + rail.deflection;
+        const currentY = rail.y;
 
         // Draw base architectural track line
-        ctx.strokeStyle = '#1e283a';
+        ctx.strokeStyle = isDark ? '#1e283a' : '#e2e8f0';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(0, currentY);
@@ -561,9 +549,9 @@ const { hero } = await getPortfolioContent(locale);
             ctx.stroke();
 
             // Leading micro-node with subtle glow
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = isDark ? '#ffffff' : activeAccent;
             ctx.beginPath();
-            ctx.arc(endX, currentY, 2, 0, Math.PI * 2);
+            ctx.arc(endX, currentY, 2.5, 0, Math.PI * 2);
             ctx.fill();
           }
         });
