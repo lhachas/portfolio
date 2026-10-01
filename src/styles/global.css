@@ -388,7 +388,7 @@ summary:focus-visible,
 }
 
 .footer-section .wave path {
-  fill: var(--th-primary);
+  fill: var(--th-secondary);
 }
 
 /* ==========================================================================
@@ -568,6 +568,53 @@ summary:focus-visible,
 .nav-control-btn:hover svg {
   color: var(--brand-on-gold) !important;
   stroke: var(--brand-on-gold);
+}
+
+/* Theme Toggle Button: Strict Single-Icon Isolation & Microinteraction */
+#theme-toggle-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+#theme-toggle-btn #theme-icon-moon,
+#theme-toggle-btn #theme-icon-sun {
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+/* In Light Mode: Show Moon exclusively, hide Sun completely */
+html:not([data-theme="dark"]) #theme-toggle-btn #theme-icon-moon {
+  display: inline-flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) rotate(0deg);
+}
+html:not([data-theme="dark"]) #theme-toggle-btn #theme-icon-sun {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* In Dark Mode: Show Sun exclusively, hide Moon completely */
+html[data-theme="dark"] #theme-toggle-btn #theme-icon-moon {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+html[data-theme="dark"] #theme-toggle-btn #theme-icon-sun {
+  display: inline-flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) rotate(0deg);
+  color: var(--brand-gold);
+}
+
+#theme-toggle-btn:hover #theme-icon-sun,
+#theme-toggle-btn:hover #theme-icon-moon {
+  transform: scale(1.15) rotate(15deg);
 }
 
 /* Zero-friction Language Switcher (No magnetic wobble or hover animation delays) */
@@ -1239,14 +1286,25 @@ a[data-lang-switch]:hover {
   transition: transform 0.35s ease, background-color 0.25s ease, border-color 0.25s ease;
 }
 
+.card-box .card-icon .icon svg {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+  z-index: 2;
+}
+
 .card-box:hover .card-icon .icon {
   color: #ffffff;
 }
 
+.card-box:hover .card-icon .icon svg {
+  transform: scale(1.12);
+  color: #ffffff;
+}
+
 .card-box:hover .card-icon .icon::after {
-  transform: rotate(0deg) scale(1.05);
+  transform: rotate(0deg) scale(1.08);
   background-color: var(--card-accent, var(--brand-gold));
   border-color: var(--card-accent, var(--brand-gold));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* ==========================================================================

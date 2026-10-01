@@ -90,11 +90,14 @@ const skillCategories = skillsSection.categories;
                 </span>
               </div>
 
-              <div class="card-icon" style={`background-color: ${category.accentColor}; color: #ffffff;`}>
-                {category.id === 'languages-frameworks' && <Icon name="terminal" size={26} />}
-                {category.id === 'cloud-distributed' && <Icon name="cloud" size={26} />}
-                {category.id === 'data-observability' && <Icon name="database" size={26} />}
-                {category.id === 'ai-assisted-dev' && <Icon name="shield" size={26} />}
+              <!-- Large Centered 45deg Diamond Rotating Icon Medallion -->
+              <div class="card-icon">
+                <span class="icon">
+                  {category.id === 'languages-frameworks' && <Icon name="terminal" size={36} />}
+                  {category.id === 'cloud-distributed' && <Icon name="cloud" size={36} />}
+                  {category.id === 'data-observability' && <Icon name="database" size={36} />}
+                  {category.id === 'ai-assisted-dev' && <Icon name="shield" size={36} />}
+                </span>
               </div>
 
               <h3 class="card-title text-center">
