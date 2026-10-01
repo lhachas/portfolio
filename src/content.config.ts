@@ -328,6 +328,7 @@ export const portfolioSchema = z.object({
     carouselNextLabel: z.string().optional(),
     carouselDragHint: z.string().optional(),
     carouselCounterLabel: z.string().optional(),
+    statusBadge: z.string().optional(),
     problemLabel: z.string().min(1),
     solutionLabel: z.string().min(1),
     architectureLabel: z.string().min(1),

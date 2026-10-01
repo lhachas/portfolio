@@ -18,6 +18,7 @@ const {
   carouselNextLabel = 'Siguiente proyecto',
   carouselDragHint = 'Desliza o usa las flechas ← → para explorar',
   carouselCounterLabel = 'Proyecto',
+  statusBadge = locale === 'en' ? 'PRODUCTION' : 'PRODUCCIÓN',
   problemLabel,
   solutionLabel,
   architectureLabel,
@@ -170,9 +171,9 @@ const {
                 <!-- Terminal HUD Header: Production Status + Index + Category + Direct Links -->
                 <div class="flex flex-wrap items-center justify-between gap-2.5 mb-3.5 pb-2.5 border-b border-[var(--card-border)]">
                   <div class="flex items-center gap-2 flex-wrap">
-                    <span class="project-hud-status inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10.5px] font-mono uppercase tracking-wider bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/25">
-                      <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse"></span>
-                      <span>PRODUCTION</span>
+                    <span class="project-hud-status">
+                      <span class="status-pulse-dot" aria-hidden="true"></span>
+                      <span>{statusBadge}</span>
                     </span>
                     <span class="text-[11px] font-mono text-muted tracking-widest">
                       [{String(idx + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}]
@@ -247,16 +248,17 @@ const {
 
                 <!-- Interactive Architectural Deep-Dive Tabs (100% Solid Inspector) -->
                 <div class="mt-5 card-tabs-wrapper">
-                  <div class="card-tab-nav flex items-center gap-1.5 p-1 rounded-lg bg-[var(--th-primary)] border border-[var(--card-border)] mb-3" role="tablist">
+                  <div class="card-tab-nav mb-3" role="tablist">
                     <button
                       type="button"
                       role="tab"
                       aria-selected="true"
                       class="card-tab-btn active"
                       data-tab-target={`tab-sol-${idx}`}
+                      title={solutionLabel}
                     >
                       <Icon name="cpu" size={12} class="shrink-0" />
-                      <span>{solutionLabel}</span>
+                      <span class="truncate">{solutionLabel}</span>
                     </button>
                     <button
                       type="button"
@@ -264,9 +266,10 @@ const {
                       aria-selected="false"
                       class="card-tab-btn"
                       data-tab-target={`tab-prob-${idx}`}
+                      title={problemLabel}
                     >
                       <Icon name="shield" size={12} class="shrink-0" />
-                      <span>{problemLabel}</span>
+                      <span class="truncate">{problemLabel}</span>
                     </button>
                     <button
                       type="button"
@@ -274,9 +277,10 @@ const {
                       aria-selected="false"
                       class="card-tab-btn"
                       data-tab-target={`tab-imp-${idx}`}
+                      title={impactLabel}
                     >
                       <Icon name="award" size={12} class="shrink-0" />
-                      <span>{impactLabel}</span>
+                      <span class="truncate">{impactLabel}</span>
                     </button>
                   </div>
 
@@ -534,14 +538,10 @@ const {
     border-radius: 1.25rem;
     padding: 1.85rem;
     position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.3s ease;
     box-shadow: 0 4px 0 var(--card-border);
-    opacity: 0.88;
-    transform: scale(0.985);
+    opacity: 1;
+    transform: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
 
   @media (max-width: 1024px) {
@@ -562,34 +562,24 @@ const {
 
   .project-card:hover,
   .project-card:focus-within {
-    opacity: 1;
     border-color: var(--project-accent);
-    box-shadow: 0 8px 0 var(--project-accent);
-    transform: translateY(-4px) scale(1.005);
+    box-shadow: 0 4px 0 var(--project-accent);
+    transform: translateY(-2px);
   }
 
   .project-card.is-focused {
-    opacity: 1;
-    transform: scale(1.015);
     border-color: var(--project-accent);
-    box-shadow: 0 8px 0 var(--project-accent), 0 0 24px rgba(63, 135, 245, 0.1);
+    box-shadow: 0 4px 0 var(--project-accent);
     z-index: 2;
   }
 
   .project-card:active:not(:has(a:active, button:active)) {
-    transform: translateY(-2px) scale(0.995);
+    transform: translateY(0);
   }
 
-  /* Dynamic Cursor Spotlight Beam on Card Surface */
+  /* Dynamic Cursor Spotlight Beam on Card Surface - Disabled for strict solid design */
   .project-card-spotlight {
-    background: radial-gradient(420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(63, 135, 245, 0.08), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .project-card:hover .project-card-spotlight,
-  .project-card.is-focused .project-card-spotlight {
-    opacity: 1;
+    display: none !important;
   }
 
   .carousel-controls-bar {
@@ -610,8 +600,40 @@ const {
     will-change: width;
   }
 
+  /* 100% Solid Production Status Badge - Zero Glass, Zero Opacity, Pure Solid Surface */
   .project-hud-status {
-    border: 1px solid rgba(16, 185, 129, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.22rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.65625rem;
+    font-family: monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background-color: #14171f;
+    border: 1.5px solid #10b981;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+  }
+
+  .project-hud-status span {
+    color: #ffffff !important;
+  }
+
+  :root:not([data-theme="dark"]) .project-hud-status,
+  [data-theme="light"] .project-hud-status {
+    background-color: #14171f;
+    border-color: #10b981;
+    color: #ffffff !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  :root:not([data-theme="dark"]) .project-hud-status span,
+  [data-theme="light"] .project-hud-status span {
+    color: #ffffff !important;
   }
 
   .project-category-badge {
@@ -625,6 +647,8 @@ const {
     border-radius: 9999px;
     background-color: var(--th-primary);
     border: 1.5px solid;
+    white-space: nowrap;
+    max-width: 100%;
   }
 
   .project-arch-badge {
@@ -639,6 +663,10 @@ const {
     background-color: var(--th-primary);
     border: 1px solid var(--card-border);
     color: var(--txt-muted);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .project-icon-link {
@@ -682,6 +710,8 @@ const {
     background-color: var(--th-primary);
     border: 1.5px solid var(--card-border);
     text-align: center;
+    min-width: 0;
+    overflow: hidden;
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.2s ease,
                 background-color 0.2s ease;
@@ -693,50 +723,89 @@ const {
   }
 
   .project-stat-label {
+    display: block;
     font-size: 0.65rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--txt-muted);
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
   .project-stat-value {
-    font-size: 0.875rem;
+    display: block;
+    font-size: 0.8125rem;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.25;
     font-family: monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
-  /* Interactive Technical Tabs inside Project Cards */
+  /* Interactive Technical Tabs inside Project Cards - 100% Solid Responsive Grid */
+  .card-tab-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 0.65rem;
+    background-color: var(--th-primary);
+    border: 1px solid var(--card-border);
+    width: 100%;
+  }
+
   .card-tab-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.35rem;
-    padding: 0.32rem 0.75rem;
+    padding: 0.4rem 0.35rem;
     border-radius: 0.45rem;
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.03em;
     color: var(--txt-muted);
     background: transparent;
     border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     white-space: nowrap;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .card-tab-btn span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
 
   .card-tab-btn:hover {
     color: var(--heading-color);
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: var(--th-secondary);
   }
 
   .card-tab-btn.active {
-    background-color: var(--th-secondary);
-    color: var(--project-accent, var(--brand-gold));
-    border-color: var(--card-border);
+    background-color: var(--project-accent, var(--brand-gold));
+    border-color: var(--project-accent, var(--brand-gold));
+    color: #ffffff !important;
+    font-weight: 700;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-tab-btn.active span,
+  .card-tab-btn.active i,
+  .card-tab-btn.active svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
   }
 
   .card-tab-pane.active {
@@ -979,15 +1048,10 @@ const {
       visibleCards.forEach((card, idx) => {
         if (idx === closestIdx) {
           card.classList.add('is-focused');
-          if (!prefersReducedMotion) {
-            card.style.transform = 'scale(1.015)';
-          }
         } else {
           card.classList.remove('is-focused');
-          if (!prefersReducedMotion) {
-            card.style.transform = 'scale(0.985)';
-          }
         }
+        card.style.transform = '';
       });
 
       // Update Dots
