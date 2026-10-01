@@ -58,7 +58,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 data-cursor-label={channel.cursorLabel}
               >
                 <span class={`contact-channel-icon ${extraBorderClass}`} aria-hidden="true">
-                  <i class={`icofont ${channel.icon}`}></i>
+                  <Icon name={channel.id} size={20} />
                 </span>
                 <div class="min-w-0">
                   <span class="label-c block">{channel.label}</span>
@@ -71,7 +71,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 style={`--channel-color: ${resolvedColor};`}
               >
                 <span class="contact-channel-icon" aria-hidden="true">
-                  <i class={`icofont ${channel.icon}`}></i>
+                  <Icon name={channel.id} size={20} />
                 </span>
                 <div class="min-w-0">
                   <span class="label-c block">{channel.label}</span>
@@ -274,7 +274,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 data-magnetic
                 data-cursor-label={form.whatsappCtaCursorLabel}
               >
-                <i class="icofont icofont-whatsapp" aria-hidden="true"></i>
+                <Icon name="whatsapp" size={16} class="mr-1.5 shrink-0 inline-block" />
                 <span>{form.whatsappCtaLabel}</span>
               </a>
 
