@@ -136,10 +136,10 @@ portfolio/
 │   │   └── portfolio.ts               # Helper tipado getPortfolioContent('es' | 'en') y withBase()
 │   ├── components/
 │   │   ├── Navbar.astro               # Navegación sticky, switcher ES/EN y selector de tema claro/oscuro
-│   │   ├── Hero.astro                 # Presentación principal, métricas de impacto y animaciones GSAP
+│   │   ├── Hero.astro                 # Presentación principal con CTAs enfocados, métricas de impacto y animaciones GSAP
 │   │   ├── About.astro                # Perfil profesional, fotografía optimizada WebP y educación
 │   │   ├── Skills.astro               # 4 pilares técnicos con filtrado accesible por categoría
-│   │   ├── Projects.astro             # Bento showcase de proyectos con arquitectura, desafío técnico y repositorios GitHub
+│   │   ├── Projects.astro             # Carrusel showcase de proyectos arquitecturales con scroll-snap nativo, filtrado reactivo y métricas
 │   │   ├── Experiences.astro          # Línea de tiempo interconectada de 6 etapas con vista ejecutiva/detallada
 │   │   ├── Services.astro             # Soluciones de arquitectura backend, cloud AWS y full-stack
 │   │   ├── Contact.astro              # Canales directos, descarga condicional de CV y formulario Web3Forms

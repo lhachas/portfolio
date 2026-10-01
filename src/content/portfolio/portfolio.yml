@@ -260,9 +260,9 @@ hero:
       label: "Angular · React · Full Stack"
       brandColor: "#DD0031"
   primaryCta:
-    label: "Ver Experiencia"
-    href: "#experiences"
-    cursorLabel: "Trayectoria"
+    label: "Explorar Proyectos"
+    href: "#projects"
+    cursorLabel: "Ver Proyectos"
   secondaryCta:
     label: "Contacto Directo"
     href: "#contact"
@@ -621,6 +621,10 @@ projectsSection:
       label: "Herramientas & ETL"
     - id: "web-fullstack"
       label: "Full-Stack & Web"
+  carouselPrevLabel: "Proyecto anterior"
+  carouselNextLabel: "Siguiente proyecto"
+  carouselDragHint: "Desliza o usa las flechas ← → para explorar"
+  carouselCounterLabel: "Proyecto"
   problemLabel: "Desafío Técnico"
   solutionLabel: "Solución de Ingeniería"
   architectureLabel: "Patrón Arquitectónico"

@@ -13,8 +13,11 @@ const {
   titleHighlight,
   subtitle,
   filterAriaLabel,
-  filterAllLabel,
   filters,
+  carouselPrevLabel = 'Proyecto anterior',
+  carouselNextLabel = 'Siguiente proyecto',
+  carouselDragHint = 'Desliza o usa las flechas ← → para explorar',
+  carouselCounterLabel = 'Proyecto',
   problemLabel,
   solutionLabel,
   architectureLabel,
@@ -68,177 +71,251 @@ const {
       }
     </div>
 
-    <!-- Projects Grid (Bento Architectural Cards) -->
-    <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8" id="projects-grid">
-      {
-        projects.map((project) => (
-          <article
-            class="project-card reveal flex flex-col justify-between"
-            data-project-card
-            data-category={project.category}
-            style={`--project-accent: ${project.accentColor};`}
+    <!-- Carousel Controls Bar (Status, Pagination Dots & Arrows) -->
+    <div class="mt-8 flex flex-wrap items-center justify-between gap-4 py-2 border-b border-[var(--card-border)] reveal">
+      <!-- Active Project Counter & Hint -->
+      <div class="flex items-center gap-3.5">
+        <div class="project-counter-badge" aria-live="polite">
+          <span class="text-xs font-semibold uppercase tracking-wider text-muted mr-1.5">{carouselCounterLabel}</span>
+          <span id="carousel-current" class="text-sm font-bold text-gold font-mono">01</span>
+          <span class="text-xs text-muted font-mono"> / </span>
+          <span id="carousel-total" class="text-xs font-semibold text-muted font-mono">{String(projects.length).padStart(2, '0')}</span>
+        </div>
+
+        <div class="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted font-mono">
+          <Icon name="chevron-right" size={13} class="text-gold shrink-0 inline-block" />
+          <span>{carouselDragHint}</span>
+        </div>
+      </div>
+
+      <!-- Segmented Interactive Dots & Arrow Buttons -->
+      <div class="flex items-center gap-4">
+        <!-- Interactive Pagination Dots -->
+        <div
+          class="carousel-dots-container flex items-center gap-1.5"
+          id="carousel-dots"
+          role="tablist"
+          aria-label="Diapositivas de proyectos"
+        >
+          {
+            projects.map((proj, idx) => (
+              <button
+                type="button"
+                role="tab"
+                class:list={['carousel-dot-btn', { active: idx === 0 }]}
+                data-dot-index={idx}
+                aria-label={`${carouselCounterLabel} ${idx + 1}: ${proj.title}`}
+                aria-selected={idx === 0 ? 'true' : 'false'}
+              />
+            ))
+          }
+        </div>
+
+        <!-- Prev / Next Navigation Arrows -->
+        <div class="flex items-center gap-2">
+          <button
+            type="button"
+            id="carousel-prev"
+            class="carousel-nav-btn"
+            aria-label={carouselPrevLabel}
+            title={carouselPrevLabel}
           >
-            <!-- Card Header: Category Pill + Architecture Badge + Direct Links -->
-            <div>
-              <div class="flex flex-wrap items-center justify-between gap-2.5 mb-4">
-                <div class="flex items-center gap-2 flex-wrap">
-                  <span
-                    class="project-category-badge"
-                    style={`border-color: ${project.accentColor}; color: ${project.accentColor};`}
-                  >
-                    {project.categoryLabel}
-                  </span>
-                  <span class="project-arch-badge">
-                    {project.badge}
-                  </span>
+            <Icon name="chevron-left" size={18} />
+          </button>
+          <button
+            type="button"
+            id="carousel-next"
+            class="carousel-nav-btn"
+            aria-label={carouselNextLabel}
+            title={carouselNextLabel}
+          >
+            <Icon name="chevron-right" size={18} />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carousel Viewport & Track (100% Solid Cards with Native Scroll Snap & Physics Drag) -->
+    <div class="project-carousel-viewport mt-6" id="project-carousel-viewport">
+      <div
+        class="project-carousel-track"
+        id="project-carousel-track"
+        tabindex="0"
+        role="region"
+        aria-label="Lista deslizable de proyectos de software"
+      >
+        {
+          projects.map((project, idx) => (
+            <article
+              class="project-card reveal flex flex-col justify-between"
+              data-project-card
+              data-category={project.category}
+              data-index={idx}
+              id={`project-card-${idx}`}
+              style={`--project-accent: ${project.accentColor};`}
+            >
+              <!-- Card Header: Category Pill + Architecture Badge + Direct Links -->
+              <div>
+                <div class="flex flex-wrap items-center justify-between gap-2.5 mb-4">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span
+                      class="project-category-badge"
+                      style={`border-color: ${project.accentColor}; color: ${project.accentColor};`}
+                    >
+                      {project.categoryLabel}
+                    </span>
+                    <span class="project-arch-badge">
+                      {project.badge}
+                    </span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <a
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-icon-link"
+                      aria-label={`${repoButtonLabel}: ${project.title}`}
+                      title={repoButtonLabel}
+                    >
+                      <Icon name="github" size={17} />
+                    </a>
+                    {project.demoUrl && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-icon-link"
+                        aria-label={`${demoButtonLabel}: ${project.title}`}
+                        title={demoButtonLabel}
+                      >
+                        <Icon name="external" size={16} />
+                      </a>
+                    )}
+                  </div>
                 </div>
 
-                <div class="flex items-center gap-2">
+                <!-- Project Title & Tagline -->
+                <h3 class="project-title">
                   <a
                     href={project.repoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="project-icon-link"
-                    aria-label={`${repoButtonLabel}: ${project.title}`}
-                    title={repoButtonLabel}
+                    class="hover:text-[var(--project-accent)] transition-colors inline-flex items-center gap-2"
                   >
-                    <Icon name="github" size={17} />
+                    <span>{project.title}</span>
                   </a>
+                </h3>
+                <p class="project-tagline txt-primary mt-2">
+                  {project.tagline}
+                </p>
+
+                <!-- Bento Stats Micro-Strip -->
+                <div class="mt-5 grid grid-cols-3 gap-2.5">
+                  {project.stats.map((stat) => (
+                    <div class="project-stat-box">
+                      <span class="project-stat-label">{stat.label}</span>
+                      <strong class="project-stat-value" style={`color: ${project.accentColor};`}>
+                        {stat.value}
+                      </strong>
+                    </div>
+                  ))}
+                </div>
+
+                <!-- Deep Architectural Breakdown (Problem / Solution / Architecture) -->
+                <div class="mt-6 space-y-4">
+                  <!-- Problem / Challenge -->
+                  <div class="project-detail-block">
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold mb-1">
+                      <Icon name="shield" size={13} class="text-gold shrink-0" />
+                      <span>{problemLabel}</span>
+                    </div>
+                    <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
+                      {project.problem}
+                    </p>
+                  </div>
+
+                  <!-- Solution & Architecture -->
+                  <div class="project-detail-block">
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--project-accent)] mb-1">
+                      <Icon name="cpu" size={13} class="shrink-0" />
+                      <span>{solutionLabel}</span>
+                    </div>
+                    <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
+                      {project.solution}
+                    </p>
+                  </div>
+
+                  <!-- Architecture Pattern -->
+                  <div class="project-detail-block">
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#cbd5e1] mb-1">
+                      <Icon name="git-branch" size={13} class="text-[var(--project-accent)] shrink-0" />
+                      <span>{architectureLabel}</span>
+                    </div>
+                    <p class="text-xs sm:text-[13px] text-muted leading-relaxed font-mono">
+                      {project.architecture}
+                    </p>
+                  </div>
+
+                  <!-- Measurable Impact / Highlights -->
+                  <div class="project-detail-block">
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#10b981] mb-1.5">
+                      <Icon name="award" size={13} class="text-[#10b981] shrink-0" />
+                      <span>{impactLabel}</span>
+                    </div>
+                    <ul class="space-y-1.5" role="list">
+                      {project.highlights.map((highlight) => (
+                        <li class="flex items-start gap-2 text-xs sm:text-[13px] txt-primary">
+                          <Icon name="check" size={14} class="text-[#10b981] shrink-0 mt-0.5" />
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer: Stack Pills + CTAs -->
+              <div class="mt-6 pt-5 border-t border-[var(--card-border)]">
+                <span class="text-[11px] font-semibold uppercase tracking-wider text-muted block mb-2.5">
+                  {stackLabel}
+                </span>
+                <div class="flex flex-wrap gap-1.5 mb-5">
+                  {project.stack.map((tech) => (
+                    <span class="project-tech-pill">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                  <a
+                    href={project.repoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-project-repo"
+                  >
+                    <Icon name="github" size={16} />
+                    <span>{repoButtonLabel}</span>
+                  </a>
+
                   {project.demoUrl && (
                     <a
                       href={project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="project-icon-link"
-                      aria-label={`${demoButtonLabel}: ${project.title}`}
-                      title={demoButtonLabel}
+                      class="btn-project-demo"
                     >
-                      <Icon name="external" size={16} />
+                      <Icon name="external" size={15} />
+                      <span>{demoButtonLabel}</span>
                     </a>
                   )}
                 </div>
               </div>
-
-              <!-- Project Title & Tagline -->
-              <h3 class="project-title">
-                <a
-                  href={project.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="hover:text-[var(--project-accent)] transition-colors inline-flex items-center gap-2"
-                >
-                  <span>{project.title}</span>
-                </a>
-              </h3>
-              <p class="project-tagline txt-primary mt-2">
-                {project.tagline}
-              </p>
-
-              <!-- Bento Stats Micro-Strip -->
-              <div class="mt-5 grid grid-cols-3 gap-2.5">
-                {project.stats.map((stat) => (
-                  <div class="project-stat-box">
-                    <span class="project-stat-label">{stat.label}</span>
-                    <strong class="project-stat-value" style={`color: ${project.accentColor};`}>
-                      {stat.value}
-                    </strong>
-                  </div>
-                ))}
-              </div>
-
-              <!-- Deep Architectural Breakdown (Problem / Solution / Architecture) -->
-              <div class="mt-6 space-y-4">
-                <!-- Problem / Challenge -->
-                <div class="project-detail-block">
-                  <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold mb-1">
-                    <Icon name="shield" size={13} class="text-gold shrink-0" />
-                    <span>{problemLabel}</span>
-                  </div>
-                  <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
-                    {project.problem}
-                  </p>
-                </div>
-
-                <!-- Solution & Architecture -->
-                <div class="project-detail-block">
-                  <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--project-accent)] mb-1">
-                    <Icon name="cpu" size={13} class="shrink-0" />
-                    <span>{solutionLabel}</span>
-                  </div>
-                  <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
-                    {project.solution}
-                  </p>
-                </div>
-
-                <!-- Architecture Pattern -->
-                <div class="project-detail-block">
-                  <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#cbd5e1] mb-1">
-                    <Icon name="git-branch" size={13} class="text-[var(--project-accent)] shrink-0" />
-                    <span>{architectureLabel}</span>
-                  </div>
-                  <p class="text-xs sm:text-[13px] text-muted leading-relaxed font-mono">
-                    {project.architecture}
-                  </p>
-                </div>
-
-                <!-- Measurable Impact / Highlights -->
-                <div class="project-detail-block">
-                  <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#10b981] mb-1.5">
-                    <Icon name="award" size={13} class="text-[#10b981] shrink-0" />
-                    <span>{impactLabel}</span>
-                  </div>
-                  <ul class="space-y-1.5" role="list">
-                    {project.highlights.map((highlight) => (
-                      <li class="flex items-start gap-2 text-xs sm:text-[13px] txt-primary">
-                        <Icon name="check" size={14} class="text-[#10b981] shrink-0 mt-0.5" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <!-- Footer: Stack Pills + CTAs -->
-            <div class="mt-6 pt-5 border-t border-[var(--card-border)]">
-              <span class="text-[11px] font-semibold uppercase tracking-wider text-muted block mb-2.5">
-                {stackLabel}
-              </span>
-              <div class="flex flex-wrap gap-1.5 mb-5">
-                {project.stack.map((tech) => (
-                  <span class="project-tech-pill">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <div class="flex flex-wrap items-center gap-3">
-                <a
-                  href={project.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="btn-project-repo"
-                >
-                  <Icon name="github" size={16} />
-                  <span>{repoButtonLabel}</span>
-                </a>
-
-                {project.demoUrl && (
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn-project-demo"
-                  >
-                    <Icon name="external" size={15} />
-                    <span>{demoButtonLabel}</span>
-                  </a>
-                )}
-              </div>
-            </div>
-          </article>
-        ))
-      }
+            </article>
+          ))
+        }
+      </div>
     </div>
 
     <!-- Bottom GitHub Callout (Solid Banner) -->
@@ -276,27 +353,143 @@ const {
 <!-- END PROJECTS -->
 
 <style>
-  /* 100% Solid Minimalist Project Styles */
-  .project-card {
+  /* 100% Solid Minimalist Carousel Styles */
+  .project-counter-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background-color: var(--th-secondary);
+    border: 1.5px solid var(--card-border);
+  }
+
+  .carousel-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
     background-color: var(--th-secondary);
     border: 2px solid var(--card-border);
-    border-radius: 1rem;
-    padding: 1.75rem;
+    color: var(--heading-color);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 0 var(--card-border);
+  }
+
+  .carousel-nav-btn:hover:not(:disabled) {
+    border-color: var(--brand-gold);
+    color: var(--brand-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 var(--brand-gold);
+  }
+
+  .carousel-nav-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.95);
+    box-shadow: 0 1px 0 var(--brand-gold);
+  }
+
+  .carousel-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: var(--card-border);
+    box-shadow: none;
+  }
+
+  .carousel-dot-btn {
+    width: 10px;
+    height: 8px;
+    border-radius: 9999px;
+    background-color: var(--card-border);
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+  }
+
+  .carousel-dot-btn:hover {
+    background-color: var(--brand-gold);
+    transform: scale(1.15);
+  }
+
+  .carousel-dot-btn.active {
+    width: 32px;
+    background-color: var(--brand-gold);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Carousel Track & Snap Layout */
+  .project-carousel-viewport {
     position: relative;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .project-carousel-track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.5rem 0.25rem 1.5rem 0.25rem;
+    cursor: grab;
+    outline: none;
+  }
+
+  .project-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-carousel-track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    user-select: none;
+  }
+
+  .project-card {
+    flex: 0 0 calc(50% - 0.75rem);
+    min-width: calc(50% - 0.75rem);
+    scroll-snap-align: start;
+    background-color: var(--th-secondary);
+    border: 2px solid var(--card-border);
+    border-radius: 1.25rem;
+    padding: 1.85rem;
+    position: relative;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
     box-shadow: 0 4px 0 var(--card-border);
   }
 
-  .project-card:hover {
-    transform: translateY(-2px);
+  @media (max-width: 1024px) {
+    .project-card {
+      flex: 0 0 calc(80% - 0.5rem);
+      min-width: calc(80% - 0.5rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .project-card {
+      flex: 0 0 100%;
+      min-width: 100%;
+      padding: 1.35rem;
+      border-radius: 1rem;
+    }
+  }
+
+  .project-card:hover,
+  .project-card:focus-within {
+    transform: translateY(-3px);
     border-color: var(--project-accent);
-    box-shadow: 0 6px 0 var(--project-accent);
+    box-shadow: 0 8px 0 var(--project-accent);
   }
 
   .project-category-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.2rem 0.65rem;
+    padding: 0.25rem 0.75rem;
     font-size: 0.6875rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -309,7 +502,7 @@ const {
   .project-arch-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.2rem 0.65rem;
+    padding: 0.25rem 0.75rem;
     font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -356,10 +549,10 @@ const {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0.6rem 0.5rem;
+    padding: 0.65rem 0.5rem;
     border-radius: 0.5rem;
     background-color: var(--th-primary);
-    border: 1px solid var(--card-border);
+    border: 1.5px solid var(--card-border);
     text-align: center;
   }
 
@@ -379,10 +572,11 @@ const {
   }
 
   .project-detail-block {
-    padding: 0.75rem 0.9rem;
+    padding: 0.85rem 1rem;
     border-radius: 0.5rem;
     background-color: var(--th-primary);
-    border-left: 3px solid var(--card-border);
+    border-left: 3.5px solid var(--card-border);
+    transition: border-left-color 0.2s ease;
   }
 
   .project-detail-block:hover {
@@ -392,10 +586,10 @@ const {
   .project-tech-pill {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.6rem;
+    padding: 0.25rem 0.65rem;
     border-radius: 0.375rem;
     font-size: 0.7rem;
-    font-weight: 500;
+    font-weight: 600;
     font-family: monospace;
     background-color: var(--th-primary);
     border: 1px solid var(--card-border);
@@ -406,7 +600,7 @@ const {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.55rem 1.15rem;
+    padding: 0.6rem 1.25rem;
     border-radius: 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
@@ -429,7 +623,7 @@ const {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.55rem 1.15rem;
+    padding: 0.6rem 1.25rem;
     border-radius: 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
@@ -484,18 +678,205 @@ const {
 </style>
 
 <script>
-  function setupProjectFilters() {
-    const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-project-filter]');
-    const projectCards = document.querySelectorAll<HTMLElement>('[data-project-card]');
+  function setupProjectsCarousel() {
+    const track = document.getElementById('project-carousel-track') as HTMLElement | null;
+    const prevBtn = document.getElementById('carousel-prev') as HTMLButtonElement | null;
+    const nextBtn = document.getElementById('carousel-next') as HTMLButtonElement | null;
+    const currentIndicator = document.getElementById('carousel-current') as HTMLElement | null;
+    const totalIndicator = document.getElementById('carousel-total') as HTMLElement | null;
+    const dotButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.carousel-dot-btn'));
+    const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-project-filter]'));
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-project-card]'));
 
-    if (!filterButtons.length || !projectCards.length) return;
+    if (!track || !cards.length) return;
 
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+    let hasDragged = false;
+
+    // Helper: Get currently visible cards based on active filter
+    function getVisibleCards(): HTMLElement[] {
+      return cards.filter((card) => card.style.display !== 'none');
+    }
+
+    // Helper: Update Navigation state, Counter, and Dots
+    function updateCarouselState() {
+      if (!track) return;
+      const visibleCards = getVisibleCards();
+      const total = visibleCards.length;
+      if (totalIndicator) {
+        totalIndicator.textContent = String(total).padStart(2, '0');
+      }
+
+      if (total === 0) {
+        if (currentIndicator) currentIndicator.textContent = '00';
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = true;
+        return;
+      }
+
+      // Calculate which card is closest to the left edge of track
+      const trackLeft = track.getBoundingClientRect().left;
+      let closestIdx = 0;
+      let minDiff = Infinity;
+
+      visibleCards.forEach((card, idx) => {
+        const cardLeft = card.getBoundingClientRect().left;
+        const diff = Math.abs(cardLeft - trackLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = idx;
+        }
+      });
+
+      // Update current index counter
+      if (currentIndicator) {
+        currentIndicator.textContent = String(closestIdx + 1).padStart(2, '0');
+      }
+
+      // Update Dots
+      dotButtons.forEach((dot) => {
+        const dotIdx = parseInt(dot.getAttribute('data-dot-index') || '0', 10);
+        // Map card back to original index
+        const originalIndex = parseInt(visibleCards[closestIdx]?.getAttribute('data-index') || '0', 10);
+        const isActive = dotIdx === originalIndex;
+        dot.classList.toggle('active', isActive);
+        dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      // Update Prev / Next button states
+      const maxScrollLeft = track.scrollWidth - track.clientWidth - 5;
+      if (prevBtn) prevBtn.disabled = track.scrollLeft <= 5;
+      if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScrollLeft;
+    }
+
+    // Scroll by N cards
+    function scrollByCard(direction: number) {
+      if (!track) return;
+      const visibleCards = getVisibleCards();
+      if (!visibleCards.length) return;
+
+      const trackLeft = track.getBoundingClientRect().left;
+      let closestIdx = 0;
+      let minDiff = Infinity;
+
+      visibleCards.forEach((card, idx) => {
+        const diff = Math.abs(card.getBoundingClientRect().left - trackLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = idx;
+        }
+      });
+
+      let targetIdx = closestIdx + direction;
+      targetIdx = Math.max(0, Math.min(targetIdx, visibleCards.length - 1));
+
+      const targetCard = visibleCards[targetIdx];
+      if (targetCard) {
+        const targetScroll = targetCard.offsetLeft - track.offsetLeft;
+        track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      }
+    }
+
+    // Scroll to specific slide index
+    function scrollToCardIndex(index: number) {
+      if (!track) return;
+      const card = cards.find((c) => c.getAttribute('data-index') === String(index));
+      if (card && card.style.display !== 'none') {
+        const targetScroll = card.offsetLeft - track.offsetLeft;
+        track.scrollTo({ left: targetScroll, behavior: 'smooth' });
+      }
+    }
+
+    // Event: Prev / Next buttons
+    prevBtn?.addEventListener('click', () => scrollByCard(-1));
+    nextBtn?.addEventListener('click', () => scrollByCard(1));
+
+    // Event: Pagination dot clicks
+    dotButtons.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = parseInt(dot.getAttribute('data-dot-index') || '0', 10);
+        scrollToCardIndex(idx);
+      });
+    });
+
+    // Event: Scroll listener (debounced with requestAnimationFrame)
+    let isTicking = false;
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (!isTicking) {
+          window.requestAnimationFrame(() => {
+            updateCarouselState();
+            isTicking = false;
+          });
+          isTicking = true;
+        }
+      },
+      { passive: true },
+    );
+
+    // Event: Keyboard Navigation (ArrowLeft / ArrowRight)
+    track.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        scrollByCard(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        scrollByCard(1);
+      }
+    });
+
+    // Event: Pointer Drag-to-Scroll Physics
+    track.addEventListener('pointerdown', (e: PointerEvent) => {
+      isDown = true;
+      hasDragged = false;
+      startX = e.pageX - track.offsetLeft;
+      scrollStart = track.scrollLeft;
+      track.classList.add('is-dragging');
+    });
+
+    window.addEventListener('pointermove', (e: PointerEvent) => {
+      if (!isDown || !track) return;
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 1.25;
+      if (Math.abs(walk) > 6) {
+        hasDragged = true;
+      }
+      track.scrollLeft = scrollStart - walk;
+    });
+
+    const stopDragging = () => {
+      if (!isDown || !track) return;
+      isDown = false;
+      track.classList.remove('is-dragging');
+      updateCarouselState();
+    };
+
+    window.addEventListener('pointerup', stopDragging);
+    window.addEventListener('pointercancel', stopDragging);
+
+    // Suppress accidental link click while dragging
+    track.addEventListener(
+      'click',
+      (e) => {
+        if (hasDragged) {
+          e.preventDefault();
+          e.stopPropagation();
+          hasDragged = false;
+        }
+      },
+      true,
+    );
+
+    // Category Filter Integration
     filterButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
         const filterValue = btn.getAttribute('data-project-filter');
-        if (!filterValue) return;
+        if (!filterValue || !track) return;
 
-        // Update active filter state
+        // Update tab buttons
         filterButtons.forEach((b) => {
           b.classList.remove('active');
           b.setAttribute('aria-selected', 'false');
@@ -503,8 +884,8 @@ const {
         btn.classList.add('active');
         btn.setAttribute('aria-selected', 'true');
 
-        // Filter cards smoothly
-        projectCards.forEach((card) => {
+        // Filter cards
+        cards.forEach((card) => {
           const category = card.getAttribute('data-category');
           if (filterValue === 'all' || category === filterValue) {
             card.style.display = 'flex';
@@ -512,10 +893,33 @@ const {
             card.style.display = 'none';
           }
         });
+
+        // Filter dots
+        dotButtons.forEach((dot) => {
+          const dotIdx = dot.getAttribute('data-dot-index');
+          const correspondingCard = cards.find((c) => c.getAttribute('data-index') === dotIdx);
+          if (correspondingCard && correspondingCard.style.display !== 'none') {
+            dot.style.display = 'inline-block';
+          } else {
+            dot.style.display = 'none';
+          }
+        });
+
+        // Reset scroll position smoothly to first visible card
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+        setTimeout(updateCarouselState, 150);
       });
     });
+
+    // Initial state update
+    updateCarouselState();
   }
 
-  setupProjectFilters();
-  document.addEventListener('astro:page-load', setupProjectFilters);
+  // Initialize on DOM ready and Astro page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupProjectsCarousel);
+  } else {
+    setupProjectsCarousel();
+  }
+  document.addEventListener('astro:page-load', setupProjectsCarousel);
 </script>
