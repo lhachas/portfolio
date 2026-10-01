@@ -542,7 +542,7 @@ const categoryColorMap: Record<string, string> = {
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     scrollbar-width: none;
-    padding: 0.5rem 0.25rem 1.75rem 0.25rem;
+    padding: 0.85rem 0.35rem 1.75rem 0.35rem;
     cursor: grab;
     outline: none;
   }
@@ -600,14 +600,10 @@ const categoryColorMap: Record<string, string> = {
   }
 
   .project-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     border-color: var(--brand-gold);
+    border-top-color: var(--card-accent, var(--brand-gold));
     box-shadow: 0 8px 0 var(--brand-gold);
-  }
-
-  .project-card.is-focused {
-    border-color: var(--card-border);
-    box-shadow: 0 6px 0 var(--card-border);
   }
 
   .project-card:active:not(:has(a:active, button:active)) {
@@ -1186,15 +1182,6 @@ const categoryColorMap: Record<string, string> = {
         const percent = Math.min(100, Math.max(10, ((closestIdx + 1) / total) * 100));
         progressBar.style.width = `${percent}%`;
       }
-
-      // Update focused slide styling without distorting transforms
-      visibleCards.forEach((card, idx) => {
-        if (idx === closestIdx) {
-          card.classList.add('is-focused');
-        } else {
-          card.classList.remove('is-focused');
-        }
-      });
 
       // Update Dots
       dotButtons.forEach((dot) => {
