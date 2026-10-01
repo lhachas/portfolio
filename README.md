@@ -91,6 +91,17 @@ Resumen de las **6 etapas profesionales** documentadas en `experiencesSection.it
 **Rol:** Programador de Sistemas Informáticos (`Software Empresarial / ERP & POS` · Cusco, Perú)
 - Desarrollo e implementación de soluciones empresariales para **4 dominios de negocio** (facturación electrónica, punto de venta POS, e-commerce y gestión de restaurantes) con `C#`, `.NET Core`, `PHP (Laravel)`, `SQL Server` y `MySQL`, además de evolución de sistemas heredados en `Visual FoxPro` y `Delphi`.
 
+### Proyectos Destacados de Código Abierto (GitHub `@LHachaS`)
+
+Documentados de forma centralizada en `projectsSection.items` ([`portfolio.yml`](src/content/portfolio/portfolio.yml) / [`portfolio-en.yml`](src/content/portfolio/portfolio-en.yml)) y exhibidos en la sección interactiva `#projects`:
+
+| Proyecto | Categoría & Stack | Desafío Técnico & Solución de Ingeniería | Repositorio |
+| :--- | :--- | :--- | :--- |
+| **Taxi24** | `Backend & APIs`<br>`NestJS` · `TypeScript` · `PostgreSQL` · `PostGIS` · `Docker` | **Core Dispatch & Mobility Engine:** Asignación no bloqueante de viajes en tiempo real, consultas geoespaciales indexadas con GiST, locking transaccional y máquina de estados finitos (p95 < 50ms, 100% ACID). | [`github.com/LHachaS/taxi24`](https://github.com/LHachaS/taxi24) |
+| **Control-SEE** | `Microservicios & Cloud`<br>`Node.js` · `NestJS` · `XML UBL 2.1` · `XMLDSig` · `SOAP` | **Facturación Electrónica UBL 2.1:** Generación canónica de comprobantes, firma digital criptográfica X.509 SHA-256 e integración SOAP resiliente con reintentos para SUNAT/OSE. | [`github.com/LHachaS/control-see`](https://github.com/LHachaS/control-see) |
+| **Padrón SUNAT** | `Herramientas & ETL`<br>`Nx Monorepo` · `Node.js` · `TypeScript` · `Angular` · `Streams` | **High-Throughput Fiscal Search:** Ingesta masiva por streaming con bajo consumo de memoria RAM (< 250MB) sobre 4M+ registros RUC y búsquedas indexadas sub-10ms. | [`github.com/LHachaS/padron-sunat`](https://github.com/LHachaS/padron-sunat) |
+| **Portfolio** | `Full-Stack & Web`<br>`Astro 5` · `TypeScript` · `Tailwind CSS v4` · `Zod` · `GSAP` | **Solid Minimalist Engineering:** Portafolio bilingüe ultraveloz (100/100 Lighthouse), cero glassmorphism, SSOT estricto validado en Zod y CI/CD con GitHub Actions. | [`github.com/LHachaS/portfolio`](https://github.com/LHachaS/portfolio) |
+
 ---
 
 ## 4. Arquitectura del Repositorio y Fuente Única de Verdad (SSOT)
@@ -125,8 +136,9 @@ portfolio/
 │   ├── components/
 │   │   ├── Navbar.astro               # Navegación sticky, switcher ES/EN y selector de tema claro/oscuro
 │   │   ├── Hero.astro                 # Presentación principal, métricas de impacto y animaciones GSAP
-│   │   ├── About.astro                # Perfil profesional, botonera en 1 línea (.about-cta-row) y educación
+│   │   ├── About.astro                # Perfil profesional, fotografía optimizada WebP y educación
 │   │   ├── Skills.astro               # 4 pilares técnicos con filtrado accesible por categoría
+│   │   ├── Projects.astro             # Bento showcase de proyectos con arquitectura, desafío técnico y repositorios GitHub
 │   │   ├── Experiences.astro          # Línea de tiempo interconectada de 6 etapas con vista ejecutiva/detallada
 │   │   ├── Services.astro             # Soluciones de arquitectura backend, cloud AWS y full-stack
 │   │   ├── Contact.astro              # Canales directos, descarga condicional de CV y formulario Web3Forms

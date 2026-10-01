@@ -34,16 +34,20 @@ const { trainingShowcase } = about;
       <div class="lg:col-span-5 flex flex-col items-center reveal">
         <div class="iam-img-wrapper">
           <div class="iam-orbit-ring" aria-hidden="true"></div>
-          <img
-            class="iam-photo"
-            src={withBase(profile.profilePhoto)}
-            alt={profile.profilePhotoAlt}
-            width="345"
-            height="345"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
+          <picture class="w-full h-full flex items-center justify-center">
+            <source srcset={withBase('/assets/images/profile-portrait.webp')} type="image/webp" />
+            <source srcset={withBase('/assets/images/profile-portrait.jpg')} type="image/jpeg" />
+            <img
+              class="iam-photo"
+              src={withBase(profile.profilePhoto)}
+              alt={profile.profilePhotoAlt}
+              width="345"
+              height="345"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
           <!-- Experience Solid Badge (Zero Blur Shadow) -->
           <div
             class="absolute -bottom-3 right-2 rounded-full bg-[#0e3d65] border-2 border-gold px-4 py-1.5 text-white flex items-center gap-2"

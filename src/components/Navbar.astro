@@ -12,10 +12,11 @@ const { navigation, profile } = await getPortfolioContent(locale);
 const navItems = navigation.items;
 const { languageSwitcher } = navigation;
 
-const navIconMap: Record<string, 'home' | 'user' | 'code' | 'briefcase' | 'layers' | 'message'> = {
+const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefcase' | 'layers' | 'message'> = {
   home: 'home',
   about: 'user',
   skills: 'code',
+  projects: 'terminal',
   experiences: 'briefcase',
   services: 'layers',
   contact: 'message',
