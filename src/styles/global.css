@@ -5,9 +5,9 @@
    ZERO GLASSMORPHISM POLICY: 100% Solid Colors, Flat Architectural Surfaces
    ========================================================================== */
 :root {
-  /* Core Dynamic Brand Accent Tokens (Propagated globally by StyleSwitcher) */
-  --brand-gold: #cdb30c;
-  --brand-gold-hover: #b39b09;
+  /* Core Dynamic Brand Accent Tokens (Default: Azul Clásico #3f87f5, Propagated by StyleSwitcher) */
+  --brand-gold: #3f87f5;
+  --brand-gold-hover: #2563eb;
   --brand-on-gold: #ffffff;
   --brand-primary: #0e3d65;
   --brand-primary-hover: #1e40af;
@@ -417,14 +417,16 @@ summary:focus-visible,
   align-items: center;
   color: #ffffff;
   font-weight: 700;
-  font-size: 24px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+.navbar-brand-logo:hover {
+  text-decoration: none;
 }
 
 .navbar-brand-img {
-  height: 46px;
-  width: 46px;
+  height: 44px;
+  width: 44px;
   border-radius: 50%;
   border: 2px solid var(--brand-gold);
   padding: 2px;
@@ -435,6 +437,71 @@ summary:focus-visible,
 
 .navbar-brand-logo:hover .navbar-brand-img {
   transform: rotate(-6deg) scale(1.05);
+}
+
+/* ==========================================================================
+   Bespoke Personal Signature & Rubric Brand Identity (LHachaS)
+   ========================================================================== */
+.brand-signature-wrap {
+  text-decoration: none;
+}
+
+.brand-signature-text {
+  font-family: 'Caveat', cursive, sans-serif;
+  font-size: 1.95rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  transform: rotate(-1.5deg);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar-brand-logo:hover .brand-signature-text,
+.brand-signature-wrap:hover .brand-signature-text {
+  color: var(--brand-gold);
+  transform: rotate(-3deg) scale(1.03);
+}
+
+.brand-signature-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--brand-gold);
+  margin-left: 3px;
+  margin-top: -12px;
+  display: inline-block;
+  box-shadow: 0 0 8px var(--brand-gold);
+}
+
+.brand-rubric-flourish {
+  width: 124px;
+  height: 11px;
+  margin-top: -3px;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.brand-rubric-flourish path {
+  stroke: var(--brand-gold);
+  transition: stroke 0.2s ease;
+}
+
+.brand-signature-sub {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.navbar-brand-logo:hover .brand-signature-sub,
+.brand-signature-wrap:hover .brand-signature-sub {
+  color: #cbd5e1;
 }
 
 .nav-item-link {
@@ -465,7 +532,8 @@ summary:focus-visible,
   background-color: #1e222d;
 }
 
-.nav-item-link:hover .nav-icon {
+.nav-item-link:hover .nav-icon,
+.nav-item-link:hover svg {
   transform: translateY(-2px);
 }
 
@@ -486,7 +554,7 @@ summary:focus-visible,
   border: 2px solid #333a48;
   color: #ffffff;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .nav-control-btn:hover {
@@ -496,8 +564,33 @@ summary:focus-visible,
 }
 
 .nav-control-btn:hover i,
-.nav-control-btn:hover span {
+.nav-control-btn:hover span,
+.nav-control-btn:hover svg {
   color: var(--brand-on-gold) !important;
+  stroke: var(--brand-on-gold);
+}
+
+/* Zero-friction Language Switcher (No magnetic wobble or hover animation delays) */
+a[data-lang-switch] {
+  transform: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
+  will-change: auto !important;
+}
+
+a[data-lang-switch]:hover {
+  transform: none !important;
+}
+
+/* Strict Isolation: Mobile Menu Button and Drawer are NEVER visible on Desktop (>= 1024px) */
+@media screen and (min-width: 1024px) {
+  #mobile-menu-btn,
+  button[aria-controls="navbarCollapse"],
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+  #navbarCollapse {
+    display: none !important;
+  }
 }
 
 /* ==========================================================================
@@ -1088,6 +1181,11 @@ summary:focus-visible,
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.card-box.is-hidden,
+[data-skill-card].is-hidden {
+  display: none !important;
 }
 
 .spotlight-card {

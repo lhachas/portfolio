@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -30,7 +31,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
         >
           <span class="status-pulse-dot" aria-hidden="true"></span>
           <span>{hero.availabilityBadge}</span>
-          <i class="icofont icofont-verification-check text-gold text-sm" aria-hidden="true"></i>
+          <Icon name="check" size={14} class="text-gold shrink-0 inline-block" />
         </a>
       </div>
 
@@ -107,7 +108,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
           aria-label={profile.cvPrimary.ariaLabel}
           class="btn-outline-gold"
         >
-          <i class={`icofont ${profile.cvPrimary.icon} text-gold text-base`} aria-hidden="true"></i>
+          <Icon name="file-pdf" size={16} class="text-gold mr-1.5 shrink-0 inline-block" />
           <span>{profile.cvPrimary.labelHero}</span>
         </a>
 

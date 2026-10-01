@@ -129,16 +129,16 @@ styleSwitcher:
   toggleAriaLabel: "Toggle accent color selector"
   backToTopAriaLabel: "Back to top"
   themes:
-    - id: "gold"
-      name: "LHachaS Gold"
-      hex: "#cdb30c"
-      hoverHex: "#b39b09"
-      className: "color4"
     - id: "default"
       name: "Classic Blue"
       hex: "#3f87f5"
       hoverHex: "#2563eb"
       className: "color1"
+    - id: "gold"
+      name: "LHachaS Gold"
+      hex: "#cdb30c"
+      hoverHex: "#b39b09"
+      className: "color4"
     - id: "pink"
       name: "Vibrant Rose"
       hex: "#ff546c"
@@ -262,7 +262,7 @@ hero:
       label: "Industry Experience"
       detail: "Digital Banking, Retail & Automotive"
       icon: "icofont-badge"
-      accentColor: "#cdb30c"
+      accentColor: "#3f87f5"
     - value: "5 Product Lines"
       label: "Digital Banking Fintech"
       detail: "Hexagonal Architecture & DDD"
@@ -294,7 +294,7 @@ about:
   roleTitle: "Senior Backend Developer"
   roleHighlight: "| Full Stack Developer"
   paragraphs:
-    - "I build backend services using Node.js, TypeScript, NestJS, Java (15/17/21), and Spring Boot/WebFlux, complemented by modern frontend interfaces with Angular, React, and Vue.js. Throughout my career, I have worked on Serverless, Event-Driven (EDA), and Hexagonal architectures on AWS, REST/GraphQL/SOAP API integrations, SQL/NoSQL databases, and container deployments with Docker and Kubernetes."
+    - "I build resilient and scalable backend services with Node.js, TypeScript, NestJS, Java (15/17/21), and Spring Boot/WebFlux, alongside modern frontend interfaces in Angular, React, and Vue.js. My experience centers on implementing Serverless, Event-Driven (EDA), and Hexagonal architectures on AWS, REST/GraphQL/SOAP API integrations, SQL/NoSQL databases, and containerized deployments with Docker and Kubernetes."
     - "I focus on writing clean, maintainable code by applying Clean Code, Domain-Driven Design (DDD), design patterns, automated testing, distributed observability, and CI/CD pipelines across international teams. I also integrate AI-assisted development tools into my daily workflow to streamline legacy code refactoring, security reviews (OWASP), and technical documentation (OpenAPI, C4)."
   coreStackLabel: "Core Technologies:"
   coreStackPills:
@@ -608,7 +608,7 @@ experiencesSection:
       date: "Mar 2024 - Aug 2026"
       shortDate: "2024 - 2026"
       location: "Dominican Republic (Remote)"
-      color: "#cdb30c"
+      color: "#3f87f5"
       summary: "Designed and evolved backend services for 5 financial product lines, core banking integrations, and 6 financial lifecycle operations over an AWS Serverless and Event-Driven architecture."
       highlights:
         - label: "Financial Products Architecture"
@@ -903,7 +903,7 @@ contactSection:
       label: "Location & Modality"
       value: "Espinar, Cusco, Peru · International Remote"
       icon: "icofont-location-pin"
-      color: "#cdb30c"
+      color: "#3f87f5"
       external: false
   cvCard:
     title: "Download Curriculum Vitae (PDF):"
@@ -968,4 +968,4 @@ footer:
   stackBadgeLabel: "Stack:"
   stackBadgeValue: "Astro · TypeScript · Tailwind CSS · GSAP"
   designBadgeLabel: "Architecture:"
-  designBadgeValue: "100% Solid Minimalist · Content Collections"
+  designBadgeValue: "Cloud Architecture & Software Engineering"

@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -15,7 +16,9 @@ const skillCategories = skillsSection.categories;
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
-      <i class={`icofont ${skillsSection.sectionIcon} title-icon`} aria-hidden="true"></i>
+      <div class="title-icon inline-flex items-center justify-center">
+        <Icon name="code" size={30} />
+      </div>
       <h2 id="skills-heading" class="title">
         {skillsSection.titlePrefix} <span class="font-medium">{skillsSection.titleHighlight}</span>
       </h2>
@@ -87,8 +90,11 @@ const skillCategories = skillsSection.categories;
                 </span>
               </div>
 
-              <div class="card-icon">
-                <i class={`${category.icon} icon`} aria-hidden="true"></i>
+              <div class="card-icon" style={`background-color: ${category.accentColor}; color: #ffffff;`}>
+                {category.id === 'languages-frameworks' && <Icon name="terminal" size={26} />}
+                {category.id === 'cloud-distributed' && <Icon name="cloud" size={26} />}
+                {category.id === 'data-observability' && <Icon name="database" size={26} />}
+                {category.id === 'ai-assisted-dev' && <Icon name="shield" size={26} />}
               </div>
 
               <h3 class="card-title text-center">
@@ -192,45 +198,80 @@ const skillCategories = skillsSection.categories;
 
 <script is:inline>
   (() => {
-    const filterBtns = document.querySelectorAll('[data-skill-filter]');
-    const skillCards = document.querySelectorAll('[data-skill-card]');
+    const filterBtns = Array.from(document.querySelectorAll('[data-skill-filter]'));
+    const skillCards = Array.from(document.querySelectorAll('[data-skill-card]'));
     const skillsGrid = document.getElementById('skills-grid');
 
-    filterBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const filter = btn.getAttribute('data-skill-filter');
+    const activateFilter = (btn) => {
+      if (!btn) return;
+      const filter = btn.getAttribute('data-skill-filter');
 
-        filterBtns.forEach((b) => {
-          const isActive = b === btn;
-          b.classList.toggle('active', isActive);
-          b.setAttribute('aria-selected', isActive ? 'true' : 'false');
-        });
+      filterBtns.forEach((b) => {
+        const isActive = b === btn;
+        b.classList.toggle('active', isActive);
+        b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        b.tabIndex = isActive ? 0 : -1;
+      });
 
-        if (skillsGrid) {
-          skillsGrid.classList.toggle('lg:grid-cols-1', filter !== 'all');
-          skillsGrid.classList.toggle('lg:grid-cols-2', filter === 'all');
-          skillsGrid.classList.toggle('max-w-3xl', filter !== 'all');
-          skillsGrid.classList.toggle('mx-auto', filter !== 'all');
+      if (skillsGrid) {
+        if (filter === 'all') {
+          skillsGrid.classList.remove('max-w-3xl', 'mx-auto', 'lg:grid-cols-1');
+          skillsGrid.classList.add('lg:grid-cols-2');
+        } else {
+          skillsGrid.classList.add('max-w-3xl', 'mx-auto', 'lg:grid-cols-1');
+          skillsGrid.classList.remove('lg:grid-cols-2');
         }
+      }
 
-        skillCards.forEach((card) => {
-          const cardId = card.getAttribute('data-skill-card');
-          const shouldShow = filter === 'all' || cardId === filter;
-          if (shouldShow) {
-            card.classList.remove('hidden');
-            const bars = card.querySelectorAll('.progres[data-value]');
-            bars.forEach((bar) => {
-              bar.style.width = '0%';
+      skillCards.forEach((card) => {
+        const cardId = card.getAttribute('data-skill-card');
+        const shouldShow = filter === 'all' || cardId === filter;
+
+        card.classList.toggle('is-hidden', !shouldShow);
+        card.classList.toggle('hidden', !shouldShow);
+        card.hidden = !shouldShow;
+        card.setAttribute('aria-hidden', String(!shouldShow));
+
+        if (shouldShow) {
+          const bars = card.querySelectorAll('.progres[data-value]');
+          bars.forEach((bar) => {
+            const val = bar.getAttribute('data-value') || '90%';
+            bar.style.width = '0%';
+            requestAnimationFrame(() => {
               requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                  bar.style.width = bar.getAttribute('data-value') || '90%';
-                });
+                bar.style.width = val;
               });
             });
-          } else {
-            card.classList.add('hidden');
-          }
-        });
+          });
+        }
+      });
+    };
+
+    filterBtns.forEach((btn, index) => {
+      btn.tabIndex = btn.classList.contains('active') ? 0 : -1;
+
+      btn.addEventListener('click', () => {
+        activateFilter(btn);
+      });
+
+      btn.addEventListener('keydown', (e) => {
+        let targetIndex = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          targetIndex = (index + 1) % filterBtns.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          targetIndex = (index - 1 + filterBtns.length) % filterBtns.length;
+        } else if (e.key === 'Home') {
+          targetIndex = 0;
+        } else if (e.key === 'End') {
+          targetIndex = filterBtns.length - 1;
+        }
+
+        if (targetIndex >= 0) {
+          e.preventDefault();
+          const targetBtn = filterBtns[targetIndex];
+          targetBtn.focus();
+          activateFilter(targetBtn);
+        }
       });
     });
   })();

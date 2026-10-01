@@ -1,0 +1,58 @@
+---
+import { withBase } from '../data/portfolio';
+
+interface Props {
+  avatarImage?: string;
+  avatarAlt?: string;
+  showAvatar?: boolean;
+  subtitle?: string;
+  class?: string;
+}
+
+const {
+  avatarImage = '/assets/images/icons/boy.png',
+  avatarAlt = 'Avatar profesional de Leonel Hacha Salazar',
+  showAvatar = true,
+  subtitle = 'Backend & Full Stack',
+  class: className = '',
+} = Astro.props;
+---
+
+<div class:list={['brand-signature-wrap inline-flex items-center gap-2.5 sm:gap-3', className]}>
+  {
+    showAvatar && (
+      <img
+        class="navbar-brand-img shrink-0"
+        src={withBase(avatarImage)}
+        alt={avatarAlt}
+        width="44"
+        height="44"
+        loading="eager"
+        decoding="async"
+      />
+    )
+  }
+  <div class="brand-signature-block flex flex-col justify-center select-none">
+    <div class="brand-signature-row flex items-center leading-none">
+      <span class="brand-signature-text">LHachaS</span>
+      <span class="brand-signature-dot" aria-hidden="true"></span>
+    </div>
+    <!-- Elegant Natural Cursive Rubric Flourish -->
+    <svg
+      class="brand-rubric-flourish"
+      viewBox="0 0 140 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M2 3C28 11 72 13 136 3.5C114 13 82 11.5 60 9C38 6.5 16 11.5 8 8"
+        stroke="var(--brand-gold)"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span class="brand-signature-sub">{subtitle}</span>
+  </div>
+</div>

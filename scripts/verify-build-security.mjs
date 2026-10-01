@@ -168,8 +168,17 @@ if (fs.existsSync(DIST_DIR)) {
     if (!html.includes('about-cta-row')) {
       fail(`${rel} is missing .about-cta-row single-line desktop / 2x2 mobile profile CTA layout`);
     }
+    if (html.includes('100% Solid Minimalist · Content Collections')) {
+      fail(`${rel} contains obsolete badge text '100% Solid Minimalist · Content Collections'`);
+    }
+    if (html.includes('junto con interfaces frontend')) {
+      fail(`${rel} contains obsolete phrasing 'junto con interfaces frontend'`);
+    }
+    if (!html.includes('brand-signature')) {
+      fail(`${rel} is missing personal BrandSignature`);
+    }
   }
-  pass('Verified all generated HTML pages enforce crisp #ffffff button/badge contrast and .about-cta-row responsive layout');
+  pass('Verified all generated HTML pages enforce crisp #ffffff contrast, BrandSignature, and updated badge copy');
 }
 
 if (errors > 0) {

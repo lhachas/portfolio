@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -16,7 +17,9 @@ const { trainingShowcase } = about;
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
-      <i class={`icofont ${about.sectionIcon} title-icon`} aria-hidden="true"></i>
+      <div class="title-icon inline-flex items-center justify-center">
+        <Icon name="user" size={30} />
+      </div>
       <h2 id="about-heading" class="title">
         {about.titlePrefix} <span class="font-medium">{about.titleHighlight}</span>
       </h2>
@@ -46,7 +49,7 @@ const { trainingShowcase } = about;
             class="absolute -bottom-3 right-2 rounded-full bg-[#0e3d65] border-2 border-gold px-4 py-1.5 text-white flex items-center gap-2"
             style="box-shadow: 0 4px 0 #08233a;"
           >
-            <i class="icofont icofont-code-alt text-gold text-base" aria-hidden="true"></i>
+            <Icon name="code" size={15} class="text-gold shrink-0 inline-block" />
             <span class="text-xs font-medium uppercase tracking-wider">
               {profile.yearsExperience} {profile.yearsExperienceBadgeSuffix}
             </span>
@@ -56,7 +59,7 @@ const { trainingShowcase } = about;
         <!-- Languages & Location Quick Strip (100% Solid Non-Monotonous Pills) -->
         <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
           <span class="tech-pill" style="--card-accent: #0e3d65;">
-            <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i>
+            <Icon name="map-pin" size={14} class="text-gold shrink-0 inline-block" />
             <span>{profile.location}</span>
           </span>
           {
@@ -115,7 +118,7 @@ const { trainingShowcase } = about;
               data-cursor-label={about.cvButtonCursorLabel}
               aria-label={profile.cvPrimary.ariaLabel}
             >
-              <i class={`icofont ${profile.cvPrimary.icon}`} aria-hidden="true"></i>
+              <Icon name="file-pdf" size={16} class="mr-1.5 shrink-0 inline-block" />
               <span>{profile.cvPrimary.labelAbout}</span>
             </a>
 

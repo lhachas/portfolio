@@ -1,5 +1,7 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import BrandSignature from './BrandSignature.astro';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -9,6 +11,15 @@ const { locale = 'es' } = Astro.props;
 const { navigation, profile } = await getPortfolioContent(locale);
 const navItems = navigation.items;
 const { languageSwitcher } = navigation;
+
+const navIconMap: Record<string, 'home' | 'user' | 'code' | 'briefcase' | 'layers' | 'message'> = {
+  home: 'home',
+  about: 'user',
+  skills: 'code',
+  experiences: 'briefcase',
+  services: 'layers',
+  contact: 'message',
+};
 ---
 
 <!-- START NAVBAR -->
@@ -20,65 +31,66 @@ const { languageSwitcher } = navigation;
   >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex min-h-[72px] items-center justify-between">
-        <!-- Brand Logo (Preserves boy.png + LHachaS with dynamic accent Hacha) -->
-        <a class="navbar-brand-logo" href={`#${navItems[0]?.id || 'home'}`} aria-label={navigation.brandAriaLabel}>
-          <img
-            class="navbar-brand-img"
-            src={withBase(profile.avatarImage)}
-            alt={profile.avatarAlt}
-            width="46"
-            height="46"
+        <!-- Brand Signature Logo (Natural Cursive Rubric + Avatar) -->
+        <a
+          class="navbar-brand-logo flex items-center"
+          href={`#${navItems[0]?.id || 'home'}`}
+          aria-label={navigation.brandAriaLabel}
+        >
+          <BrandSignature
+            avatarImage={profile.avatarImage}
+            avatarAlt={profile.avatarAlt}
+            subtitle={locale === 'en' ? 'Backend & Full Stack' : 'Backend & Full Stack'}
           />
-          <div>
-            {profile.brandPrefix}<span class="text-gold">{profile.brandHighlight}</span>{profile.brandSuffix}
-          </div>
         </a>
 
-        <!-- Desktop Navigation Links (Preserves icon above uppercase text + dynamic accent active block) -->
+        <!-- Desktop Navigation Links (Clean SVG Icons + Uppercase Labels + Active Block) -->
         <ul class="hidden lg:flex items-stretch mx-auto" id="navbar-navlist">
           {
-            navItems.map((item, index) => (
-              <li class="flex">
-                <a
-                  href={`#${item.id}`}
-                  data-nav-link={item.id}
-                  class:list={['nav-item-link', { active: index === 0 }]}
-                >
-                  <i class={`nav-icon icofont ${item.icon}`} aria-hidden="true" />
-                  <span class="nav-label">{item.label}</span>
-                </a>
-              </li>
-            ))
+            navItems.map((item, index) => {
+              const iconName = navIconMap[item.id] || 'home';
+              return (
+                <li class="flex">
+                  <a
+                    href={`#${item.id}`}
+                    data-nav-link={item.id}
+                    class:list={['nav-item-link', { active: index === 0 }]}
+                  >
+                    <Icon name={iconName} size={18} class="nav-icon mb-1" />
+                    <span class="nav-label">{item.label}</span>
+                  </a>
+                </li>
+              );
+            })
           }
         </ul>
 
         <!-- Right Controls: Phone + Language Switcher (ES/EN) + Theme Switcher + Mobile Hamburger -->
-        <div class="flex items-center gap-2.5 sm:gap-3.5">
+        <div class="flex items-center gap-2 sm:gap-3">
           <a
             href={`tel:${profile.phoneClean}`}
             class="hidden xl:inline-flex items-center gap-1.5 text-white hover:text-gold transition-colors text-sm font-semibold tracking-wide"
             aria-label={profile.phone}
           >
-            <i class="icofont icofont-ui-cell-phone text-gold text-lg" aria-hidden="true"></i>
+            <Icon name="phone" size={15} class="text-gold" />
             <span class="text-sm font-normal tracking-wider">{profile.phone}</span>
           </a>
 
-          <!-- Bilingual Language Switcher (100% Solid Pill) -->
+          <!-- Zero-friction Language Switcher (100% Solid Pill - No Magnetic Delay) -->
           <a
             href={withBase(languageSwitcher.targetHref)}
             data-lang-switch
-            data-magnetic
-            class="nav-control-btn inline-flex h-11 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-semibold uppercase tracking-widest cursor-pointer"
+            class="nav-control-btn inline-flex h-11 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-semibold uppercase tracking-widest cursor-pointer select-none"
             aria-label={languageSwitcher.ariaLabel}
             title={languageSwitcher.title}
           >
-            <i class="icofont icofont-globe text-gold text-base" aria-hidden="true"></i>
+            <Icon name="globe" size={16} class="text-gold shrink-0" />
             <span>{languageSwitcher.currentCode}</span>
             <span class="opacity-60" aria-hidden="true">/</span>
             <span class="text-gold">{languageSwitcher.targetCode}</span>
           </a>
 
-          <!-- Light / Dark Mode Switcher (Preserves icofont-night / icofont-sun-alt - 100% Solid) -->
+          <!-- Light / Dark Mode Switcher (SVG Icons - 100% Solid) -->
           <button
             type="button"
             id="theme-toggle-btn"
@@ -87,42 +99,56 @@ const { languageSwitcher } = navigation;
             aria-label={navigation.themeToggleAriaLabel}
             title={navigation.themeToggleTitle}
           >
-            <i id="theme-toggle-icon" class="icofont icofont-night text-lg" aria-hidden="true"></i>
+            <span id="theme-icon-moon" class="inline-flex">
+              <Icon name="moon" size={18} />
+            </span>
+            <span id="theme-icon-sun" class="hidden text-gold">
+              <Icon name="sun" size={18} />
+            </span>
           </button>
 
-          <!-- Mobile Menu Button -->
+          <!-- Mobile Menu Button (Strictly hidden on desktop: max-lg:inline-flex lg:hidden) -->
           <button
             type="button"
             id="mobile-menu-btn"
-            class="nav-control-btn lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg cursor-pointer"
+            class="nav-control-btn max-lg:inline-flex lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg cursor-pointer"
             aria-controls="navbarCollapse"
             aria-expanded="false"
             aria-label={navigation.mobileMenuAriaLabel}
           >
-            <i id="mobile-menu-icon" class="icofont icofont-navigation-menu text-xl" aria-hidden="true"></i>
+            <span id="mobile-icon-bars" class="inline-flex">
+              <Icon name="menu" size={22} />
+            </span>
+            <span id="mobile-icon-close" class="hidden">
+              <Icon name="close" size={22} />
+            </span>
           </button>
         </div>
       </div>
 
-      <!-- Mobile Collapsible Navigation -->
+      <!-- Mobile Collapsible Navigation (Strictly hidden on desktop) -->
       <div
         id="navbarCollapse"
         class="hidden lg:hidden border-t-2 border-[#252a37] bg-[#14171f] pb-4 pt-2"
+        aria-hidden="true"
       >
         <ul class="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {
-            navItems.map((item, index) => (
-              <li>
-                <a
-                  href={`#${item.id}`}
-                  data-nav-link={item.id}
-                  class:list={['nav-item-link rounded-lg py-3', { active: index === 0 }]}
-                >
-                  <i class={`nav-icon icofont ${item.icon}`} aria-hidden="true" />
-                  <span class="nav-label">{item.label}</span>
-                </a>
-              </li>
-            ))
+            navItems.map((item, index) => {
+              const iconName = navIconMap[item.id] || 'home';
+              return (
+                <li>
+                  <a
+                    href={`#${item.id}`}
+                    data-nav-link={item.id}
+                    class:list={['nav-item-link rounded-lg py-3', { active: index === 0 }]}
+                  >
+                    <Icon name={iconName} size={18} class="nav-icon mb-1" />
+                    <span class="nav-label">{item.label}</span>
+                  </a>
+                </li>
+              );
+            })
           }
         </ul>
         <div class="mt-3 pt-3 border-t-2 border-[#252a37] flex flex-wrap items-center justify-center gap-4 sm:hidden">
@@ -130,7 +156,7 @@ const { languageSwitcher } = navigation;
             href={`tel:${profile.phoneClean}`}
             class="inline-flex items-center gap-2 text-white text-sm font-semibold"
           >
-            <i class="icofont icofont-ui-cell-phone text-gold text-lg" aria-hidden="true"></i>
+            <Icon name="phone" size={16} class="text-gold" />
             <span>{profile.phone}</span>
           </a>
         </div>
@@ -145,8 +171,11 @@ const { languageSwitcher } = navigation;
     const navbar = document.getElementById('navbar');
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('navbarCollapse');
+    const iconBars = document.getElementById('mobile-icon-bars');
+    const iconClose = document.getElementById('mobile-icon-close');
     const themeBtn = document.getElementById('theme-toggle-btn');
-    const themeIcon = document.getElementById('theme-toggle-icon');
+    const moonIcon = document.getElementById('theme-icon-moon');
+    const sunIcon = document.getElementById('theme-icon-sun');
     const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
     const langLinks = document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch]');
 
@@ -165,8 +194,14 @@ const { languageSwitcher } = navigation;
     // Sync theme icon with current data-theme
     function syncThemeIcon() {
       const current = document.documentElement.getAttribute('data-theme') || 'light';
-      if (themeIcon) {
-        themeIcon.className = current === 'dark' ? 'icofont icofont-sun-alt text-lg text-gold' : 'icofont icofont-night text-lg';
+      if (moonIcon && sunIcon) {
+        if (current === 'dark') {
+          moonIcon.classList.add('hidden');
+          sunIcon.classList.remove('hidden');
+        } else {
+          moonIcon.classList.remove('hidden');
+          sunIcon.classList.add('hidden');
+        }
       }
     }
     syncThemeIcon();
@@ -182,22 +217,62 @@ const { languageSwitcher } = navigation;
       syncThemeIcon();
     });
 
-    // Mobile Menu Toggle
-    mobileBtn?.addEventListener('click', () => {
+    // Accessible Mobile Menu Toggle with Escape, click-outside, and resize cleanup
+    function setMobileMenuOpen(open: boolean) {
+      if (!mobileBtn || !mobileMenu) return;
+      mobileBtn.setAttribute('aria-expanded', String(open));
+      mobileMenu.classList.toggle('hidden', !open);
+      mobileMenu.setAttribute('aria-hidden', String(!open));
+      if (iconBars && iconClose) {
+        iconBars.classList.toggle('hidden', open);
+        iconClose.classList.toggle('hidden', !open);
+      }
+    }
+
+    mobileBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
       const isExpanded = mobileBtn.getAttribute('aria-expanded') === 'true';
-      mobileBtn.setAttribute('aria-expanded', String(!isExpanded));
-      mobileMenu?.classList.toggle('hidden');
+      setMobileMenuOpen(!isExpanded);
     });
 
-    // Close mobile menu when clicking a link
+    // Close on link click
     navLinks.forEach((link) => {
       link.addEventListener('click', () => {
-        if (window.innerWidth < 1024 && mobileMenu && !mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-          mobileBtn?.setAttribute('aria-expanded', 'false');
+        if (window.innerWidth < 1024) {
+          setMobileMenuOpen(false);
         }
       });
     });
+
+    // Close on Escape key press and refocus button
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileBtn?.getAttribute('aria-expanded') === 'true') {
+        setMobileMenuOpen(false);
+        mobileBtn.focus();
+      }
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (
+        mobileBtn?.getAttribute('aria-expanded') === 'true' &&
+        navbar &&
+        !navbar.contains(e.target as Node)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    });
+
+    // Auto-close on viewport resize to desktop
+    window.addEventListener(
+      'resize',
+      () => {
+        if (window.innerWidth >= 1024 && mobileBtn?.getAttribute('aria-expanded') === 'true') {
+          setMobileMenuOpen(false);
+        }
+      },
+      { passive: true }
+    );
 
     // Sticky Navbar state using passive scroll
     const updateSticky = () => {
@@ -234,4 +309,3 @@ const { languageSwitcher } = navigation;
 
   document.addEventListener('DOMContentLoaded', setupNavbar);
 </script>
-

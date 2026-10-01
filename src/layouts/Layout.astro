@@ -140,11 +140,11 @@ const jsonLd = {
     <!-- Preload Critical Above-the-Fold Assets -->
     <link rel="preload" as="image" href={withBase(profile.profilePhoto)} />
 
-    <!-- Unified Typography via Google Fonts (Oswald + Victor Mono, zero source-map CSP overhead) -->
+    <!-- Unified Typography via Google Fonts (Caveat Signature + Oswald + Victor Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Victor+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Oswald:wght@300;400;500;600;700&family=Victor+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap"
       rel="stylesheet"
     />
 
@@ -155,7 +155,7 @@ const jsonLd = {
     <!-- Structured Data (Schema.org ProfilePage + Person + WebSite) -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Flash-Free Theme & Strictly Validated Accent Propagation -->
+    <!-- Flash-Free Theme & Strictly Validated Accent Propagation (Default: Azul Clásico #3f87f5) -->
     <script is:inline>
       (function () {
         try {
@@ -166,8 +166,8 @@ const jsonLd = {
           document.documentElement.setAttribute('data-theme', theme);
 
           var validHex = /^#[0-9a-fA-F]{6}$/;
-          var savedAccent = localStorage.getItem('user-accent-hex') || '';
-          var savedAccentHover = localStorage.getItem('user-accent-hover') || '';
+          var savedAccent = localStorage.getItem('user-accent-hex') || '#3f87f5';
+          var savedAccentHover = localStorage.getItem('user-accent-hover') || '#2563eb';
           if (validHex.test(savedAccent) && validHex.test(savedAccentHover)) {
             var onAccent = '#ffffff';
             var root = document.documentElement.style;

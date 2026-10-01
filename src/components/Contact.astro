@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -23,7 +24,9 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
     <div class="text-center reveal">
-      <i class={`icofont ${contactSection.sectionIcon} title-icon`} aria-hidden="true"></i>
+      <div class="title-icon inline-flex items-center justify-center">
+        <Icon name="mail" size={30} />
+      </div>
       <h2 id="contact-heading" class="title">
         {contactSection.titlePrefix} <span class="font-medium">{contactSection.titleHighlight}</span>
       </h2>
@@ -41,7 +44,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
 
         {
           contactSection.channels.map((channel) => {
-            const isBrandAccent = channel.color.toLowerCase() === '#cdb30c';
+            const isBrandAccent = channel.color.toLowerCase() === '#cdb30c' || channel.color.toLowerCase() === '#3f87f5';
             const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : channel.color;
             const extraBorderClass = channel.id === 'github' ? 'border-2 border-[#484f58]' : '';
 
@@ -101,7 +104,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
               aria-label={profile.cvPrimary.ariaLabel}
               class="btn-cv-solid w-full justify-center whitespace-nowrap"
             >
-              <i class={`icofont ${profile.cvPrimary.icon} text-base`} aria-hidden="true"></i>
+              <Icon name="file-pdf" size={16} class="mr-1.5 shrink-0 inline-block" />
               <span>{profile.cvPrimary.labelContact}</span>
             </a>
           </div>
@@ -281,7 +284,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
                 class="btn-brand btn-theme-primary w-full sm:w-auto justify-center"
                 data-cursor-label={form.submitCursorLabel}
               >
-                <i class="icofont icofont-paper-plane" aria-hidden="true"></i>
+                <Icon name="send" size={16} class="mr-1.5 shrink-0 inline-block" />
                 <span id="contact-submit-text">{form.submitLabel}</span>
               </button>
             </div>

@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -15,7 +16,9 @@ const experiencesData = experiencesSection.items;
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
     <div class="text-center reveal">
-      <i class={`icofont ${experiencesSection.sectionIcon} title-icon`} aria-hidden="true"></i>
+      <div class="title-icon inline-flex items-center justify-center">
+        <Icon name="briefcase" size={30} />
+      </div>
       <h2 id="experiences-heading" class="title">
         {experiencesSection.titlePrefix} <span class="font-medium">{experiencesSection.titleHighlight}</span>
       </h2>
@@ -35,7 +38,7 @@ const experiencesData = experiencesSection.items;
         class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer hover:border-gold"
         style="background-color: var(--th-secondary); border: 2px solid var(--card-border); color: var(--heading-color);"
       >
-        <i class="icofont icofont-layers text-gold text-sm" aria-hidden="true"></i>
+        <Icon name="layers" size={15} class="text-gold shrink-0 inline-block" />
         <span id="toggle-all-label">{experiencesSection.toggleCompactLabel}</span>
       </button>
     </div>
@@ -50,7 +53,7 @@ const experiencesData = experiencesSection.items;
 
         {
           experiencesData.map((exp) => {
-            const isBrandAccent = exp.color.toLowerCase() === '#cdb30c';
+            const isBrandAccent = exp.color.toLowerCase() === '#cdb30c' || exp.color.toLowerCase() === '#3f87f5';
             const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : exp.color;
             const resolvedTextColor = isBrandAccent ? 'var(--heading-color)' : resolvedColor;
             const headerTextColor = '#ffffff';
@@ -80,13 +83,13 @@ const experiencesData = experiencesSection.items;
                           class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
                           style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader}; border: 1.5px solid ${headerTextColor};`}
                         >
-                          <i class="icofont icofont-briefcase-1" aria-hidden="true"></i>
+                          <Icon name="briefcase" size={13} class="shrink-0 inline-block" />
                           <span>{exp.clientOrDomain}</span>
                         </span>
                       </div>
 
                       <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white">
-                        <i class="icofont icofont-calendar" aria-hidden="true"></i>
+                        <Icon name="calendar" size={13} class="shrink-0 inline-block" />
                         <span>{exp.date}</span>
                       </span>
                     </div>
