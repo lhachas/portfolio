@@ -30,12 +30,20 @@ const {
   viewAllGithubUrl,
   items: projects,
 } = projectsSection;
+
+// Semantic category colors mapped deterministically to eradicate chromatic disorder
+const categoryColorMap: Record<string, string> = {
+  'backend-api': '#3f87f5',
+  'cloud-microservices': '#2563eb',
+  'enterprise-tools': '#0d9488',
+  'web-fullstack': '#ea6a15',
+};
 ---
 
 <!-- START PROJECTS -->
 <section class="section th-primary projects" id="projects" aria-labelledby="projects-heading">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
+    <!-- Section Title Header (Solid Architectural Medallion .title-icon + Oswald Typography) -->
     <div class="text-center reveal">
       <div class="title-icon inline-flex items-center justify-center">
         <Icon name="terminal" size={30} />
@@ -48,7 +56,7 @@ const {
       </p>
     </div>
 
-    <!-- Category Filter Tabs (100% Solid Interactive Filter) -->
+    <!-- Category Filter Tabs (100% Solid Architectural Filters - Zero Pastels, Accessible & Fluid) -->
     <div
       class="mt-8 flex flex-wrap items-center justify-center gap-2.5 reveal"
       role="tablist"
@@ -62,7 +70,7 @@ const {
             aria-selected={filter.id === 'all' ? 'true' : 'false'}
             data-project-filter={filter.id}
             class:list={[
-              'project-filter-btn min-h-[42px] rounded-full px-4 sm:px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer',
+              'project-filter-btn min-h-[42px] rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-200 cursor-pointer',
               { active: filter.id === 'all' },
             ]}
           >
@@ -72,16 +80,16 @@ const {
       }
     </div>
 
-    <!-- Carousel Controls Bar (Status, Pagination Dots & Arrows) -->
+    <!-- Carousel Controls Bar (Status, Active Slide Indicator, Pagination Dots, Arrows & Progress Rail) -->
     <div class="carousel-controls-bar mt-8 relative reveal">
       <div class="flex flex-wrap items-center justify-between gap-4 pb-3.5">
-        <!-- Active Project Counter & Hint -->
+        <!-- Active Project Counter & Keyboard Navigation Hint -->
         <div class="flex items-center gap-3.5">
           <div class="project-counter-badge" aria-live="polite">
-            <span class="text-xs font-semibold uppercase tracking-wider text-muted mr-1.5">{carouselCounterLabel}</span>
+            <span class="text-xs font-medium uppercase tracking-wider text-muted mr-1.5">{carouselCounterLabel}</span>
             <span id="carousel-current" class="text-sm font-bold text-gold font-mono">01</span>
             <span class="text-xs text-muted font-mono"> / </span>
-            <span id="carousel-total" class="text-xs font-semibold text-muted font-mono">{String(projects.length).padStart(2, '0')}</span>
+            <span id="carousel-total" class="text-xs font-medium text-muted font-mono">{String(projects.length).padStart(2, '0')}</span>
           </div>
 
           <div class="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted font-mono select-none">
@@ -91,7 +99,7 @@ const {
           </div>
         </div>
 
-        <!-- Segmented Interactive Dots & Arrow Buttons -->
+        <!-- Segmented Interactive Dots & Spring-Enabled Navigation Arrow Controls -->
         <div class="flex items-center gap-4">
           <!-- Interactive Pagination Dots -->
           <div
@@ -114,7 +122,7 @@ const {
             }
           </div>
 
-          <!-- Prev / Next Navigation Arrows -->
+          <!-- Prev / Next Navigation Arrows with Physical Spring Feedback -->
           <div class="flex items-center gap-2">
             <button
               type="button"
@@ -138,13 +146,13 @@ const {
         </div>
       </div>
 
-      <!-- Architectural Micro-Progress Bar Track: Singular Unified Baseline (Zero Redundant Double Line) -->
-      <div class="carousel-progress-track relative w-full h-[2.5px] bg-[var(--card-border)] rounded-full overflow-hidden" aria-hidden="true">
+      <!-- Architectural Micro-Progress Bar Rail: Singular Unified Solid Baseline -->
+      <div class="carousel-progress-track relative w-full h-[3px] bg-[var(--card-border)] rounded-full overflow-hidden" aria-hidden="true">
         <div id="carousel-progress-bar" class="h-full bg-[var(--brand-gold)] rounded-full transition-all duration-300 ease-out" style="width: 10%;"></div>
       </div>
     </div>
 
-    <!-- Carousel Viewport & Track (100% Solid Cards with Native Scroll Snap & Physics Drag) -->
+    <!-- Carousel Viewport & Track (100% Solid Cards with Native Scroll Snap & GSAP Enhancement) -->
     <div class="project-carousel-viewport mt-6" id="project-carousel-viewport">
       <div
         class="project-carousel-track"
@@ -154,221 +162,233 @@ const {
         aria-label="Lista deslizable de proyectos de software"
       >
         {
-          projects.map((project, idx) => (
-            <article
-              class="project-card reveal flex flex-col justify-between"
-              data-project-card
-              data-category={project.category}
-              data-index={idx}
-              id={`project-${project.id}`}
-              data-project-id={project.id}
-              style={`--project-accent: ${project.accentColor};`}
-            >
-              <!-- Dynamic Spotlight Canvas Effect for 3D Tilt -->
-              <div class="project-card-spotlight pointer-events-none absolute inset-0 rounded-[1.25rem] transition-opacity duration-300" aria-hidden="true"></div>
+          projects.map((project, idx) => {
+            const categoryAccent = categoryColorMap[project.category] || 'var(--brand-gold)';
+            return (
+              <article
+                class="project-card reveal flex flex-col justify-between"
+                data-project-card
+                data-category={project.category}
+                data-index={idx}
+                id={`project-${project.id}`}
+                data-project-id={project.id}
+                style={`--card-accent: ${categoryAccent};`}
+              >
+                <div>
+                  <!-- Top Architectural Header: Domain Icon Medallion + Solid HUD Status + Semantic Category + Actions -->
+                  <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3.5 border-b border-[var(--card-border)]">
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                      <!-- Official Domain Icon Medallion (Physical Depth & Micro-Rotation) -->
+                      <div class="project-domain-icon shrink-0" aria-hidden="true">
+                        <Icon name={project.icon} size={20} />
+                      </div>
 
-              <div>
-                <!-- Terminal HUD Header: Production Status + Index + Category + Direct Links -->
-                <div class="flex flex-wrap items-center justify-between gap-2.5 mb-3.5 pb-2.5 border-b border-[var(--card-border)]">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span class="project-hud-status">
-                      <span class="status-pulse-dot" aria-hidden="true"></span>
-                      <span>{statusBadge}</span>
-                    </span>
-                    <span class="text-[11px] font-mono text-muted tracking-widest">
-                      [{String(idx + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}]
-                    </span>
-                    <span
-                      class="project-category-badge"
-                      style={`border-color: ${project.accentColor}; color: ${project.accentColor};`}
-                    >
-                      {project.categoryLabel}
+                      <!-- Production Status Badge (100% Solid Engineering HUD - Zero Pastel Mint) -->
+                      <span class="project-hud-status">
+                        <span class="status-pulse-dot" aria-hidden="true"></span>
+                        <span>{statusBadge}</span>
+                      </span>
+
+                      <!-- Harmonized Category Badge (Bound to Semantic Category - No Clashing Accents) -->
+                      <span
+                        class="project-category-badge"
+                        data-category={project.category}
+                      >
+                        {project.categoryLabel}
+                      </span>
+                    </div>
+
+                    <!-- Direct Repository/Demo Links & Slide Index -->
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11.5px] font-mono text-muted tracking-widest mr-1">
+                        [{String(idx + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}]
+                      </span>
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-icon-link"
+                        aria-label={`${repoButtonLabel}: ${project.title}`}
+                        title={repoButtonLabel}
+                      >
+                        <Icon name="github" size={17} />
+                      </a>
+                      {project.demoUrl && (
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="project-icon-link"
+                          aria-label={`${demoButtonLabel}: ${project.title}`}
+                          title={demoButtonLabel}
+                        >
+                          <Icon name="external" size={16} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <!-- Architecture Pattern Sub-Badge -->
+                  <div class="mb-2.5 flex items-center gap-1.5">
+                    <span class="project-arch-badge">
+                      <Icon name="git-branch" size={13} class="shrink-0 text-gold" />
+                      <span>{project.badge}</span>
                     </span>
                   </div>
 
-                  <div class="flex items-center gap-2">
+                  <!-- Project Title & Tagline (Consistent Typographic Hierarchy) -->
+                  <h3 class="card-title project-title">
                     <a
                       href={project.repoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="project-icon-link"
-                      aria-label={`${repoButtonLabel}: ${project.title}`}
-                      title={repoButtonLabel}
+                      class="project-title-link inline-flex items-center gap-2"
                     >
-                      <Icon name="github" size={17} />
+                      <span>{project.title}</span>
                     </a>
+                  </h3>
+                  <p class="detail-copy mt-2 text-muted">
+                    {project.tagline}
+                  </p>
+
+                  <!-- Architectural Bento Specs Strip (Responsive Grid - Zero Ellipsis Truncation) -->
+                  <div class="mt-4.5 project-specs-strip">
+                    {project.stats.map((stat, sIdx) => (
+                      <div class:list={['project-spec-item', { 'has-divider': sIdx < project.stats.length - 1 }]}>
+                        <span class="project-spec-label">{stat.label}</span>
+                        <strong class="project-spec-val font-mono">
+                          {stat.value}
+                        </strong>
+                      </div>
+                    ))}
+                  </div>
+
+                  <!-- Interactive Architectural Deep-Dive Dossier Tabs (100% Solid Segmented Inspector) -->
+                  <div class="mt-5 card-tabs-wrapper">
+                    <div class="card-tab-nav mb-3" role="tablist">
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected="true"
+                        class="card-tab-btn active"
+                        data-tab-target={`tab-sol-${idx}`}
+                        title={solutionLabel}
+                      >
+                        <Icon name="cpu" size={13} class="shrink-0" />
+                        <span class="truncate">{solutionLabel}</span>
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        class="card-tab-btn"
+                        data-tab-target={`tab-prob-${idx}`}
+                        title={problemLabel}
+                      >
+                        <Icon name="shield" size={13} class="shrink-0" />
+                        <span class="truncate">{problemLabel}</span>
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        class="card-tab-btn"
+                        data-tab-target={`tab-imp-${idx}`}
+                        title={impactLabel}
+                      >
+                        <Icon name="award" size={13} class="shrink-0" />
+                        <span class="truncate">{impactLabel}</span>
+                      </button>
+                    </div>
+
+                    <!-- Tab Panels (Accessible, SEO-Ready & Fluidly Animated) -->
+                    <div class="card-tab-panels min-h-[148px]">
+                      <!-- Solution & Architecture Pane (Default active) -->
+                      <div id={`tab-sol-${idx}`} class="card-tab-pane active space-y-3">
+                        <div class="project-detail-block">
+                          <p class="detail-copy">
+                            {project.solution}
+                          </p>
+                        </div>
+                        <div class="project-arch-block flex items-start gap-2 pt-2 border-t border-[var(--card-border)]">
+                          <Icon name="cpu" size={14} class="text-gold shrink-0 mt-0.5" />
+                          <span class="project-arch-text text-xs sm:text-[13px] text-muted leading-relaxed">
+                            {project.architecture}
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Problem Pane -->
+                      <div id={`tab-prob-${idx}`} class="card-tab-pane hidden">
+                        <div class="project-detail-block">
+                          <p class="detail-copy">
+                            {project.problem}
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Impact Pane -->
+                      <div id={`tab-imp-${idx}`} class="card-tab-pane hidden">
+                        <ul class="space-y-2" role="list">
+                          {project.highlights.map((highlight) => (
+                            <li class="flex items-start gap-2.5 detail-copy">
+                              <span class="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#059669] text-white mt-0.5" aria-hidden="true">
+                                <Icon name="check" size={10} />
+                              </span>
+                              <span>{highlight}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Footer: Unified Portfolio Tech Pills (.tech-pill System) + Executive Action Buttons -->
+                <div class="mt-6 pt-5 border-t border-[var(--card-border)]">
+                  <span class="label-c block mb-2.5">
+                    {stackLabel}
+                  </span>
+                  <div class="flex flex-wrap gap-1.5 mb-5">
+                    {project.stack.map((tech) => (
+                      <span class="tech-pill">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div class="card-actions-wrapper flex flex-wrap items-center justify-center gap-3 w-full">
+                    <a
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-project-repo"
+                    >
+                      <Icon name="github" size={16} />
+                      <span>{repoButtonLabel}</span>
+                    </a>
+
                     {project.demoUrl && (
                       <a
                         href={project.demoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="project-icon-link"
-                        aria-label={`${demoButtonLabel}: ${project.title}`}
-                        title={demoButtonLabel}
+                        class="btn-project-demo"
                       >
-                        <Icon name="external" size={16} />
+                        <Icon name="external" size={15} />
+                        <span>{demoButtonLabel}</span>
                       </a>
                     )}
                   </div>
                 </div>
-
-                <!-- Architecture Pattern Badge -->
-                <div class="mb-2">
-                  <span class="project-arch-badge">
-                    {project.badge}
-                  </span>
-                </div>
-
-                <!-- Project Title & Tagline -->
-                <h3 class="project-title">
-                  <a
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="hover:text-[var(--project-accent)] transition-colors inline-flex items-center gap-2"
-                  >
-                    <span>{project.title}</span>
-                  </a>
-                </h3>
-                <p class="project-tagline txt-primary mt-2">
-                  {project.tagline}
-                </p>
-
-                <!-- Bento Stats Micro-Strip -->
-                <div class="mt-4 grid grid-cols-3 gap-2.5">
-                  {project.stats.map((stat) => (
-                    <div class="project-stat-box" style={`--stat-accent: ${project.accentColor};`}>
-                      <span class="project-stat-label">{stat.label}</span>
-                      <strong class="project-stat-value" style={`color: ${project.accentColor};`}>
-                        {stat.value}
-                      </strong>
-                    </div>
-                  ))}
-                </div>
-
-                <!-- Interactive Architectural Deep-Dive Tabs (100% Solid Inspector) -->
-                <div class="mt-5 card-tabs-wrapper">
-                  <div class="card-tab-nav mb-3" role="tablist">
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected="true"
-                      class="card-tab-btn active"
-                      data-tab-target={`tab-sol-${idx}`}
-                      title={solutionLabel}
-                    >
-                      <Icon name="cpu" size={12} class="shrink-0" />
-                      <span class="truncate">{solutionLabel}</span>
-                    </button>
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected="false"
-                      class="card-tab-btn"
-                      data-tab-target={`tab-prob-${idx}`}
-                      title={problemLabel}
-                    >
-                      <Icon name="shield" size={12} class="shrink-0" />
-                      <span class="truncate">{problemLabel}</span>
-                    </button>
-                    <button
-                      type="button"
-                      role="tab"
-                      aria-selected="false"
-                      class="card-tab-btn"
-                      data-tab-target={`tab-imp-${idx}`}
-                      title={impactLabel}
-                    >
-                      <Icon name="award" size={12} class="shrink-0" />
-                      <span class="truncate">{impactLabel}</span>
-                    </button>
-                  </div>
-
-                  <!-- Tab Panes (All present in DOM for 100% accessibility & SEO compliance) -->
-                  <div class="card-tab-panels min-h-[148px]">
-                    <!-- Solution & Architecture Pane (Default active) -->
-                    <div id={`tab-sol-${idx}`} class="card-tab-pane active space-y-3">
-                      <div class="project-detail-block">
-                        <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
-                          {project.solution}
-                        </p>
-                      </div>
-                      <div class="project-detail-block flex items-start gap-2 pt-2 border-t border-[var(--card-border)]">
-                        <Icon name="git-branch" size={13} class="text-[var(--project-accent)] shrink-0 mt-0.5" />
-                        <span class="text-xs sm:text-[13px] text-muted font-mono leading-relaxed">
-                          {project.architecture}
-                        </span>
-                      </div>
-                    </div>
-
-                    <!-- Problem Pane -->
-                    <div id={`tab-prob-${idx}`} class="card-tab-pane hidden">
-                      <div class="project-detail-block">
-                        <p class="text-xs sm:text-[13px] txt-primary leading-relaxed">
-                          {project.problem}
-                        </p>
-                      </div>
-                    </div>
-
-                    <!-- Impact Pane -->
-                    <div id={`tab-imp-${idx}`} class="card-tab-pane hidden">
-                      <ul class="space-y-1.5" role="list">
-                        {project.highlights.map((highlight) => (
-                          <li class="flex items-start gap-2 text-xs sm:text-[13px] txt-primary">
-                            <Icon name="check" size={14} class="text-[#10b981] shrink-0 mt-0.5" />
-                            <span>{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Footer: Stack Pills + CTAs -->
-              <div class="mt-6 pt-5 border-t border-[var(--card-border)]">
-                <span class="text-[11px] font-semibold uppercase tracking-wider text-muted block mb-2.5">
-                  {stackLabel}
-                </span>
-                <div class="flex flex-wrap gap-1.5 mb-5">
-                  {project.stack.map((tech) => (
-                    <span class="project-tech-pill">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <div class="card-actions-wrapper flex flex-wrap items-center justify-center gap-3 w-full">
-                  <a
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="btn-project-repo"
-                  >
-                    <Icon name="github" size={16} />
-                    <span>{repoButtonLabel}</span>
-                  </a>
-
-                  {project.demoUrl && (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="btn-project-demo"
-                    >
-                      <Icon name="external" size={15} />
-                      <span>{demoButtonLabel}</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </article>
-          ))
+              </article>
+            );
+          })
         }
       </div>
     </div>
 
-    <!-- Bottom GitHub Callout (Solid Banner) -->
+    <!-- Bottom GitHub Callout Banner (100% Solid Architectural Medallion) -->
     <div class="mt-12 text-center reveal">
       <a
         href={viewAllGithubUrl}
@@ -385,7 +405,7 @@ const {
     </div>
   </div>
 
-  <!-- Top-Anchored SVG Wave Divider (.wv-primary hangs downward from #skills into #projects) -->
+  <!-- Top-Anchored SVG Wave Divider (.wv-primary hangs downward from #skills (th-secondary) into #projects (th-primary)) -->
   <svg
     class="wave wv-primary"
     version="1.1"
@@ -403,6 +423,9 @@ const {
 <!-- END PROJECTS -->
 
 <style>
+  /* ==========================================================================
+     Keyboard Keys & Control Badge Elements
+     ========================================================================== */
   .kbd-key {
     display: inline-flex;
     align-items: center;
@@ -421,7 +444,6 @@ const {
     line-height: 1;
   }
 
-  /* 100% Solid Minimalist Carousel Styles */
   .project-counter-badge {
     display: inline-flex;
     align-items: center;
@@ -429,8 +451,12 @@ const {
     border-radius: 9999px;
     background-color: var(--th-secondary);
     border: 1.5px solid var(--card-border);
+    box-shadow: 0 2px 0 var(--card-border);
   }
 
+  /* ==========================================================================
+     Carousel Navigation Buttons (Spring Physics & Accessible States)
+     ========================================================================== */
   .carousel-nav-btn {
     display: inline-flex;
     align-items: center;
@@ -442,7 +468,11 @@ const {
     border: 2px solid var(--card-border);
     color: var(--heading-color);
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
     box-shadow: 0 2px 0 var(--card-border);
   }
 
@@ -465,33 +495,38 @@ const {
     box-shadow: none;
   }
 
+  /* Segmented Pagination Dots with Animated Expansion */
   .carousel-dot-btn {
-    width: 10px;
+    width: 8px;
     height: 8px;
     border-radius: 9999px;
     background-color: var(--card-border);
     border: none;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.25s ease,
+                transform 0.2s ease;
     padding: 0;
   }
 
   .carousel-dot-btn:hover {
     background-color: var(--brand-gold);
-    transform: scale(1.15);
+    transform: scale(1.2);
   }
 
   .carousel-dot-btn:active {
-    transform: scale(0.92);
+    transform: scale(0.9);
   }
 
   .carousel-dot-btn.active {
-    width: 32px;
+    width: 28px;
     background-color: var(--brand-gold);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
-  /* Carousel Track & Snap Layout */
+  /* ==========================================================================
+     Carousel Viewport & Native CSS Scroll Snap Track
+     ========================================================================== */
   .project-carousel-viewport {
     position: relative;
     width: 100%;
@@ -500,14 +535,14 @@ const {
 
   .project-carousel-track {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.75rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     scrollbar-width: none;
-    padding: 0.5rem 0.25rem 1.5rem 0.25rem;
+    padding: 0.5rem 0.25rem 1.75rem 0.25rem;
     cursor: grab;
     outline: none;
   }
@@ -529,19 +564,23 @@ const {
     user-select: none;
   }
 
+  /* ==========================================================================
+     Project Card (100% Solid Architectural Surface - Zero Glassmorphism)
+     ========================================================================== */
   .project-card {
-    flex: 0 0 calc(50% - 0.75rem);
-    min-width: calc(50% - 0.75rem);
+    flex: 0 0 calc(50% - 0.875rem);
+    min-width: calc(50% - 0.875rem);
     scroll-snap-align: start;
     background-color: var(--th-secondary);
     border: 2px solid var(--card-border);
-    border-radius: 1.25rem;
-    padding: 1.85rem;
+    border-top: 4px solid var(--card-accent, var(--brand-gold));
+    border-radius: 18px;
+    padding: 1.85rem 1.75rem;
     position: relative;
-    box-shadow: 0 4px 0 var(--card-border);
-    opacity: 1;
-    transform: none;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
   }
 
   @media (max-width: 1024px) {
@@ -555,134 +594,149 @@ const {
     .project-card {
       flex: 0 0 100%;
       min-width: 100%;
-      padding: 1.35rem;
-      border-radius: 1rem;
+      padding: 1.4rem 1.25rem;
+      border-radius: 16px;
     }
   }
 
-  .project-card:hover,
-  .project-card:focus-within {
+  .project-card:hover {
+    transform: translateY(-5px);
     border-color: var(--brand-gold);
-    box-shadow: 0 4px 0 var(--brand-gold);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 0 var(--brand-gold);
   }
 
   .project-card.is-focused {
-    border-color: var(--brand-gold);
-    box-shadow: 0 4px 0 var(--brand-gold);
-    z-index: 2;
+    border-color: var(--card-border);
+    box-shadow: 0 6px 0 var(--card-border);
   }
 
   .project-card:active:not(:has(a:active, button:active)) {
-    transform: translateY(0);
+    transform: translateY(-1px);
   }
 
-  /* Dynamic Cursor Spotlight Beam on Card Surface - Disabled for strict solid design */
-  .project-card-spotlight {
-    display: none !important;
+  /* ==========================================================================
+     Top Architectural Zone (Official Domain Icon + HUD + Semantic Category)
+     ========================================================================== */
+  .project-domain-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--th-primary);
+    border: 2px solid var(--card-border);
+    color: var(--heading-color);
+    font-size: 1.25rem;
+    box-shadow: 0 2px 0 var(--card-border);
+    transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
-  .carousel-controls-bar {
-    width: 100%;
+  .project-card:hover .project-domain-icon {
+    transform: scale(1.08) rotate(-4deg);
+    border-color: var(--brand-gold);
+    color: var(--brand-gold);
   }
 
-  .carousel-progress-track {
-    background-color: var(--card-border);
-    position: relative;
-    height: 2.5px;
-    border-radius: 9999px;
-    overflow: hidden;
+  .project-domain-icon :global(i),
+  .project-domain-icon :global(svg) {
+    color: inherit !important;
   }
 
-  #carousel-progress-bar {
-    border-radius: 9999px;
-    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: width;
-  }
-
-  /* 100% Solid Semantic Production Status Badge - Zero Black Box, Zero Glass, Elegant */
+  /* 100% Solid High-Contrast HUD Status Badge (Zero Pastels, Authoritative Engineering) */
   .project-hud-status {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.25rem 0.75rem;
+    gap: 0.45rem;
+    padding: 0.26rem 0.8rem;
     border-radius: 9999px;
     font-size: 0.65625rem;
     font-family: monospace;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    background-color: #064e3b;
-    border: 1.5px solid #10b981;
-    color: #d1fae5 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.08em;
+    background-color: #0f172a;
+    border: 1.5px solid #1e293b;
+    color: #ffffff !important;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
     white-space: nowrap;
-    transition: all 0.2s ease;
+  }
+
+  [data-theme="dark"] .project-hud-status {
+    background-color: #064e3b;
+    border-color: #047857;
+    color: #ffffff !important;
   }
 
   .project-hud-status span {
-    color: #d1fae5 !important;
+    color: #ffffff !important;
   }
 
   .project-hud-status .status-pulse-dot {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background-color: #34d399;
-    border: 1.5px solid #064e3b;
-    display: inline-block;
-  }
-
-  :root:not([data-theme="dark"]) .project-hud-status,
-  [data-theme="light"] .project-hud-status {
-    background-color: #ecfdf5;
-    border-color: #10b981;
-    color: #065f46 !important;
-    box-shadow: 0 1px 2px rgba(16, 185, 129, 0.15);
-  }
-
-  :root:not([data-theme="dark"]) .project-hud-status span,
-  [data-theme="light"] .project-hud-status span {
-    color: #065f46 !important;
-  }
-
-  :root:not([data-theme="dark"]) .project-hud-status .status-pulse-dot,
-  [data-theme="light"] .project-hud-status .status-pulse-dot {
     background-color: #10b981;
-    border-color: #a7f3d0;
+    border: 1px solid #ffffff;
+    display: inline-block;
+    animation: statusPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  /* Semantic Coherent Category Badges (Standardized across portfolio) */
   .project-category-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
+    padding: 0.24rem 0.8rem;
     font-size: 0.6875rem;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     border-radius: 9999px;
-    background-color: #191e2b;
-    border: 1.5px solid;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    color: var(--txt-primary);
     white-space: nowrap;
     max-width: 100%;
+    transition: all 0.2s ease;
   }
 
-  :root:not([data-theme="dark"]) .project-category-badge,
-  [data-theme="light"] .project-category-badge {
-    background-color: #ffffff;
+  .project-category-badge[data-category="backend-api"] {
+    border-color: #3f87f5;
+    color: #3f87f5;
+  }
+
+  .project-category-badge[data-category="cloud-microservices"] {
+    border-color: #2563eb;
+    color: #2563eb;
+  }
+
+  .project-category-badge[data-category="enterprise-tools"] {
+    border-color: #0d9488;
+    color: #0d9488;
+  }
+
+  .project-category-badge[data-category="web-fullstack"] {
+    border-color: #ea6a15;
+    color: #ea6a15;
   }
 
   .project-arch-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
+    gap: 0.35rem;
+    padding: 0.22rem 0.75rem;
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border-radius: 9999px;
     background-color: var(--th-primary);
-    border: 1px solid var(--card-border);
+    border: 1.5px solid var(--card-border);
     color: var(--txt-muted);
     max-width: 100%;
     overflow: hidden;
@@ -696,132 +750,105 @@ const {
     justify-content: center;
     width: 2.25rem;
     height: 2.25rem;
-    border-radius: 0.5rem;
+    border-radius: 10px;
     background-color: var(--th-primary);
     border: 1.5px solid var(--card-border);
     color: var(--heading-color);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                color 0.2s ease;
   }
 
   .project-icon-link:hover {
     border-color: var(--brand-gold);
-    color: var(--brand-gold);
-    transform: translateY(-2px) scale(1.08);
+    background-color: var(--brand-gold);
+    color: #ffffff !important;
+    transform: translateY(-2px);
   }
 
-  .project-title {
-    font-size: 1.35rem;
-    font-weight: 700;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    color: #ffffff;
+  .project-icon-link:hover i,
+  .project-icon-link:hover svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+
+  /* Harmonized Typography: Neutral Contrast in Dark & Light */
+  .project-card .card-title,
+  .project-card .project-title-link {
+    color: var(--txt-primary) !important;
+    font-size: clamp(1.2rem, 1.8vw, 1.38rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    text-decoration: none;
     transition: color 0.2s ease;
   }
 
-  :root:not([data-theme="dark"]) .project-title,
-  [data-theme="light"] .project-title {
-    color: #0f172a;
-  }
-
-  .project-title a:hover {
+  .project-card .project-title-link:hover {
     color: var(--brand-gold) !important;
   }
 
-  .project-tagline {
-    font-size: 0.875rem;
-    line-height: 1.55;
-    color: #94a3b8;
+  /* ==========================================================================
+     Architectural Bento Specs Strip (Responsive Grid - Zero Truncation)
+     ========================================================================== */
+  .project-specs-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-radius: 12px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    box-shadow: 0 2px 0 var(--card-border);
+    overflow: hidden;
   }
 
-  :root:not([data-theme="dark"]) .project-tagline,
-  [data-theme="light"] .project-tagline {
-    color: #475569;
-  }
-
-  .project-stat-box {
+  .project-spec-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0.65rem 0.5rem;
-    border-radius: 0.6rem;
-    background-color: #191e2b;
-    border: 1.5px solid #283344;
-    border-top: 3px solid var(--stat-accent, var(--brand-gold));
-    box-shadow: 0 2px 0 #0d1017;
+    padding: 0.65rem 0.4rem;
     text-align: center;
     min-width: 0;
-    overflow: hidden;
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.2s ease,
-                background-color 0.2s ease;
   }
 
-  :root:not([data-theme="dark"]) .project-stat-box,
-  [data-theme="light"] .project-stat-box {
-    background-color: #ffffff;
-    border-color: #e2e8f0;
-    box-shadow: 0 2px 0 #e2e8f0;
+  .project-spec-item.has-divider {
+    border-right: 1.5px solid var(--card-border);
   }
 
-  .project-stat-box:hover {
-    transform: translateY(-2px);
-    border-color: var(--stat-accent, var(--brand-gold));
-  }
-
-  .project-stat-label {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 600;
+  .project-spec-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #94a3b8;
-    margin-bottom: 0.2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
-
-  :root:not([data-theme="dark"]) .project-stat-label,
-  [data-theme="light"] .project-stat-label {
-    color: #64748b;
-  }
-
-  .project-stat-value {
-    display: block;
-    font-size: 0.8125rem;
-    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--txt-muted);
     line-height: 1.25;
-    font-family: monospace;
-    color: #ffffff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
   }
 
-  :root:not([data-theme="dark"]) .project-stat-value,
-  [data-theme="light"] .project-stat-value {
-    color: #0f172a;
+  .project-spec-val {
+    display: block;
+    font-size: 0.78125rem;
+    color: var(--heading-color);
+    line-height: 1.3;
+    margin-top: 0.25rem;
+    text-align: center;
+    word-break: normal;
+    text-wrap: balance;
   }
 
-  /* Interactive Technical Tabs inside Project Cards - 100% Solid Responsive Grid */
+  /* ==========================================================================
+     Interactive Technical Tabs (100% Solid Segmented Inspector)
+     ========================================================================== */
   .card-tab-nav {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.25rem;
+    gap: 0.3rem;
     padding: 0.3rem;
-    border-radius: 0.65rem;
-    background-color: #12151d;
-    border: 1.5px solid #232a38;
+    border-radius: 10px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
     width: 100%;
-  }
-
-  :root:not([data-theme="dark"]) .card-tab-nav,
-  [data-theme="light"] .card-tab-nav {
-    background-color: #f1f5f9;
-    border-color: #e2e8f0;
   }
 
   .card-tab-btn {
@@ -829,13 +856,13 @@ const {
     align-items: center;
     justify-content: center;
     gap: 0.35rem;
-    padding: 0.45rem 0.35rem;
-    border-radius: 0.45rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
+    padding: 0.5rem 0.4rem;
+    border-radius: 8px;
+    font-size: 0.71875rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: #94a3b8;
+    letter-spacing: 0.04em;
+    color: var(--txt-muted);
     background: transparent;
     border: 1px solid transparent;
     cursor: pointer;
@@ -843,11 +870,6 @@ const {
     white-space: nowrap;
     width: 100%;
     min-width: 0;
-  }
-
-  :root:not([data-theme="dark"]) .card-tab-btn,
-  [data-theme="light"] .card-tab-btn {
-    color: #64748b;
   }
 
   .card-tab-btn span {
@@ -858,34 +880,16 @@ const {
   }
 
   .card-tab-btn:hover {
-    color: #ffffff;
-    background-color: #1a1f2b;
-  }
-
-  :root:not([data-theme="dark"]) .card-tab-btn:hover,
-  [data-theme="light"] .card-tab-btn:hover {
-    color: #0f172a;
-    background-color: #ffffff;
+    color: var(--heading-color);
+    background-color: var(--th-secondary);
   }
 
   .card-tab-btn.active {
-    background-color: #1e2536;
-    border-color: #3b465d;
-    color: #ffffff !important;
-    font-weight: 700;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  }
-
-  :root:not([data-theme="dark"]) .card-tab-btn.active,
-  [data-theme="light"] .card-tab-btn.active {
-    background-color: #ffffff;
-    border-color: #cbd5e1;
-    color: #0f172a !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  }
-
-  .card-tab-btn.active span {
-    color: inherit !important;
+    background-color: var(--th-secondary);
+    border-color: var(--card-border);
+    color: var(--heading-color) !important;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   }
 
   .card-tab-btn.active i,
@@ -911,48 +915,25 @@ const {
   }
 
   .project-detail-block {
-    padding: 0.85rem 1rem;
-    border-radius: 0.5rem;
-    background-color: #161a24;
-    border: 1px solid #283144;
-    border-left: 3.5px solid var(--brand-gold);
-    transition: border-left-color 0.2s ease;
+    padding: 0.95rem 1.15rem;
+    border-radius: 10px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    border-left: 4px solid var(--brand-gold);
   }
 
-  :root:not([data-theme="dark"]) .project-detail-block,
-  [data-theme="light"] .project-detail-block {
-    background-color: #f8fafc;
-    border-color: #e2e8f0;
-    border-left-color: var(--brand-gold);
+  .project-arch-block {
+    padding-top: 0.5rem;
   }
 
-  .project-tech-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.65rem;
-    border-radius: 0.375rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-    font-family: monospace;
-    background-color: #181c26;
-    border: 1px solid #2b3548;
-    color: #cbd5e1;
-    transition: border-color 0.2s ease, color 0.2s ease;
+  .project-arch-text {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
   }
 
-  :root:not([data-theme="dark"]) .project-tech-pill,
-  [data-theme="light"] .project-tech-pill {
-    background-color: #ffffff;
-    border-color: #cbd5e1;
-    color: #334155;
-  }
-
-  .project-tech-pill:hover {
-    border-color: var(--brand-gold);
-    color: var(--brand-gold);
-  }
-
-  /* Centered Action Buttons in Card Footer */
+  /* ==========================================================================
+     Card Action Buttons (Executive Solid Styling Aligned with .btn-cv-solid)
+     ========================================================================== */
   .card-actions-wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -966,20 +947,25 @@ const {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.65rem 1.4rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
+    gap: 0.55rem;
+    padding: 0.65rem 1.6rem;
+    border-radius: 9999px;
+    font-size: 0.78125rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background-color: #1e2430;
+    letter-spacing: 0.06em;
+    background-color: #14171f;
     color: #ffffff !important;
-    border: 1.5px solid #354052;
+    border: 2px solid #2d3546;
     box-shadow: 0 3px 0 #0d1017;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    min-width: 210px;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+    min-width: 220px;
     text-align: center;
+    text-decoration: none;
   }
 
   .btn-project-repo span,
@@ -989,43 +975,30 @@ const {
   }
 
   .btn-project-repo:hover {
-    background-color: #11151c;
+    background-color: var(--brand-gold);
     border-color: var(--brand-gold);
-    color: var(--brand-gold) !important;
+    color: #ffffff !important;
     transform: translateY(-2px);
-    box-shadow: 0 5px 0 #0d1017;
-  }
-
-  .btn-project-repo:hover span,
-  .btn-project-repo:hover i,
-  .btn-project-repo:hover svg {
-    color: var(--brand-gold) !important;
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
   }
 
   .btn-project-repo:active {
     transform: translateY(1px);
-    box-shadow: 0 1px 0 #0d1017;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
   }
 
   :root:not([data-theme="dark"]) .btn-project-repo,
   [data-theme="light"] .btn-project-repo {
-    background-color: #0f172a;
-    border-color: #0f172a;
-    color: #ffffff !important;
-    box-shadow: 0 3px 0 #94a3b8;
-  }
-
-  :root:not([data-theme="dark"]) .btn-project-repo span,
-  [data-theme="light"] .btn-project-repo span {
-    color: #ffffff !important;
+    background-color: #0e3d65;
+    border-color: #0e3d65;
+    box-shadow: 0 3px 0 #092238;
   }
 
   :root:not([data-theme="dark"]) .btn-project-repo:hover,
   [data-theme="light"] .btn-project-repo:hover {
-    background-color: #1e293b;
+    background-color: var(--brand-gold);
     border-color: var(--brand-gold);
-    color: var(--brand-gold) !important;
-    box-shadow: 0 5px 0 #94a3b8;
+    color: #ffffff !important;
   }
 
   .btn-project-demo {
@@ -1034,47 +1007,51 @@ const {
     justify-content: center;
     gap: 0.45rem;
     padding: 0.65rem 1.25rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 600;
+    border-radius: 9999px;
+    font-size: 0.78125rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background-color: #181c26;
-    color: #ffffff !important;
-    border: 1.5px solid #2d3748;
-    box-shadow: 0 3px 0 #0d1017;
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0.06em;
+    background-color: var(--th-primary);
+    color: var(--heading-color) !important;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
     text-align: center;
-  }
-
-  :root:not([data-theme="dark"]) .btn-project-demo,
-  [data-theme="light"] .btn-project-demo {
-    background-color: #ffffff;
-    color: #0f172a !important;
-    border-color: #cbd5e1;
-    box-shadow: 0 3px 0 #cbd5e1;
+    text-decoration: none;
   }
 
   .btn-project-demo:hover {
     border-color: var(--brand-gold);
     color: var(--brand-gold) !important;
     transform: translateY(-2px);
+    box-shadow: 0 5px 0 var(--brand-gold);
   }
 
   .btn-project-demo:active {
     transform: translateY(1px);
-    box-shadow: 0 1px 0 #0d1017;
+    box-shadow: 0 1px 0 var(--brand-gold);
   }
 
+  /* ==========================================================================
+     Filter Buttons & GitHub Callout Banner
+     ========================================================================== */
   .project-filter-btn {
     border: 2px solid var(--card-border);
     background-color: var(--th-secondary);
     color: var(--txt-primary);
+    box-shadow: 0 2px 0 var(--card-border);
   }
 
   .project-filter-btn:hover {
     border-color: var(--brand-gold);
     color: var(--brand-gold);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 var(--brand-gold);
   }
 
   .project-filter-btn:active {
@@ -1096,6 +1073,7 @@ const {
     background-color: #14171f;
     border: 2px solid #2d3546;
     box-shadow: 0 4px 0 #0d0f14;
+    text-decoration: none;
   }
 
   .github-callout-banner:hover {
@@ -1107,6 +1085,7 @@ const {
   [data-theme="light"] .github-callout-banner {
     background-color: #0e3d65;
     border-color: #0e3d65;
+    box-shadow: 0 4px 0 #092238;
   }
 </style>
 
@@ -1135,13 +1114,13 @@ const {
     if (!prefersReducedMotion) {
       gsap.fromTo(
         cards,
-        { y: 24, autoAlpha: 0, scale: 0.98 },
+        { y: 28, autoAlpha: 0, scale: 0.98 },
         {
           y: 0,
           autoAlpha: 1,
           scale: 1,
           duration: 0.55,
-          stagger: 0.07,
+          stagger: 0.08,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: track,
@@ -1208,20 +1187,18 @@ const {
         progressBar.style.width = `${percent}%`;
       }
 
-      // Update focused slide styling
+      // Update focused slide styling without distorting transforms
       visibleCards.forEach((card, idx) => {
         if (idx === closestIdx) {
           card.classList.add('is-focused');
         } else {
           card.classList.remove('is-focused');
         }
-        card.style.transform = '';
       });
 
       // Update Dots
       dotButtons.forEach((dot) => {
         const dotIdx = parseInt(dot.getAttribute('data-dot-index') || '0', 10);
-        // Map card back to original index
         const originalIndex = parseInt(visibleCards[closestIdx]?.getAttribute('data-index') || '0', 10);
         const isActive = dotIdx === originalIndex;
         dot.classList.toggle('active', isActive);
@@ -1318,33 +1295,8 @@ const {
       scrollByCard(1);
     });
 
-    // 3D Perspective Tilt, Dynamic Spotlight & Card Tab Switching for each Project Card
+    // Interactive Internal Tabs on each Project Card
     cards.forEach((card) => {
-      // 1. Mousemove 3D perspective & spotlight
-      card.addEventListener('mousemove', (e) => {
-        if (prefersReducedMotion) return;
-        const rect = card.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${mouseX}px`);
-        card.style.setProperty('--mouse-y', `${mouseY}px`);
-
-        const relX = mouseX / rect.width - 0.5;
-        const relY = mouseY / rect.height - 0.5;
-        const rotateX = (-relY * 5).toFixed(2);
-        const rotateY = (relX * 5).toFixed(2);
-        const isFocused = card.classList.contains('is-focused');
-        const scaleVal = isFocused ? 1.018 : 1.005;
-
-        card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scaleVal}) translateY(-4px)`;
-      });
-
-      card.addEventListener('mouseleave', () => {
-        const isFocused = card.classList.contains('is-focused');
-        card.style.transform = isFocused ? 'scale(1.015)' : 'scale(0.985)';
-      });
-
-      // 2. Interactive Internal Tabs
       const tabButtons = Array.from(card.querySelectorAll<HTMLButtonElement>('.card-tab-btn'));
       const tabPanes = Array.from(card.querySelectorAll<HTMLElement>('.card-tab-pane'));
 
@@ -1365,6 +1317,9 @@ const {
             if (pane.id === targetId) {
               pane.classList.remove('hidden');
               pane.classList.add('active');
+              if (!prefersReducedMotion) {
+                gsap.fromTo(pane, { opacity: 0, y: 4 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' });
+              }
             } else {
               pane.classList.add('hidden');
               pane.classList.remove('active');
@@ -1398,22 +1353,6 @@ const {
       { passive: true },
     );
 
-    // Event: Smooth Wheel Horizontal Translation
-    track.addEventListener(
-      'wheel',
-      (e: WheelEvent) => {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && !e.shiftKey) {
-          const canScrollRight = track.scrollLeft < track.scrollWidth - track.clientWidth - 5;
-          const canScrollLeft = track.scrollLeft > 5;
-          if ((e.deltaY > 0 && canScrollRight) || (e.deltaY < 0 && canScrollLeft)) {
-            e.preventDefault();
-            track.scrollLeft += e.deltaY * 0.85;
-          }
-        }
-      },
-      { passive: false }
-    );
-
     // Event: Full Keyboard Navigation
     track.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
@@ -1441,7 +1380,7 @@ const {
       }
     });
 
-    // Event: Pointer Drag-to-Scroll Physics with Velocity & Accidental Click Suppression
+    // Event: Pointer Drag-to-Scroll Physics
     track.addEventListener('pointerdown', (e: PointerEvent) => {
       if ((e.target as HTMLElement)?.closest('button, a')) return;
       isDown = true;
@@ -1502,7 +1441,7 @@ const {
     );
 
     // Category Filter Integration with Fluid Re-Entrance Transition
-    filterButtons.forEach((btn) => {
+    filterButtons.forEach((btn, bIdx) => {
       btn.addEventListener('click', () => {
         const filterValue = btn.getAttribute('data-project-filter');
         if (!filterValue || !track) return;
@@ -1530,7 +1469,7 @@ const {
           const visible = getVisibleCards();
           gsap.fromTo(
             visible,
-            { opacity: 0, scale: 0.97, y: 14 },
+            { opacity: 0, scale: 0.97, y: 16 },
             {
               opacity: 1,
               scale: 1,
@@ -1557,6 +1496,27 @@ const {
         // Reset scroll position smoothly to first visible card
         track.scrollTo({ left: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
         setTimeout(updateCarouselState, 150);
+      });
+
+      // Filter arrow key navigation
+      btn.addEventListener('keydown', (e) => {
+        let targetIndex = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          targetIndex = (bIdx + 1) % filterButtons.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          targetIndex = (bIdx - 1 + filterButtons.length) % filterButtons.length;
+        } else if (e.key === 'Home') {
+          targetIndex = 0;
+        } else if (e.key === 'End') {
+          targetIndex = filterButtons.length - 1;
+        }
+
+        if (targetIndex >= 0) {
+          e.preventDefault();
+          const targetBtn = filterButtons[targetIndex];
+          targetBtn.focus();
+          targetBtn.click();
+        }
       });
     });
 
