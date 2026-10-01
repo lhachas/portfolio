@@ -293,6 +293,14 @@ p,
   font-family: 'Victor Mono', monospace;
 }
 
+:root:not([data-theme="dark"]) .typing {
+  filter: brightness(0.72) saturate(1.25);
+}
+
+[data-theme="dark"] .typing {
+  filter: none;
+}
+
 [class^="icofont-"],
 [class*=" icofont-"] {
   font-family: "IcoFont" !important;
@@ -738,6 +746,12 @@ a[data-lang-switch]:hover {
   overflow: hidden;
 }
 
+:root:not([data-theme="dark"]) .bg-home,
+[data-theme="light"] .bg-home {
+  background-color: #f8fafc;
+  background-image: radial-gradient(ellipse at 50% 25%, #ffffff 0%, #f8fafc 65%, #f1f5f9 100%);
+}
+
 /* Remotion Cinematic Architectural Background Asset & Layer System */
 .hero-cinematic-stage {
   position: absolute;
@@ -745,6 +759,16 @@ a[data-lang-switch]:hover {
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
+}
+
+:root:not([data-theme="dark"]) .hero-cinematic-stage,
+[data-theme="light"] .hero-cinematic-stage {
+  display: none !important;
+}
+
+[data-theme="dark"] .hero-cinematic-stage {
+  display: block !important;
+  opacity: 1;
 }
 
 .hero-cinematic-poster {
@@ -784,22 +808,6 @@ a[data-lang-switch]:hover {
     radial-gradient(ellipse at 50% 45%, rgba(20, 23, 31, 0.12) 0%, rgba(20, 23, 31, 0.55) 60%, rgba(20, 23, 31, 0.95) 100%),
     linear-gradient(to bottom, transparent 65%, var(--hero-bg) 100%);
   pointer-events: none;
-}
-
-:root:not([data-theme="dark"]) .hero-cinematic-video,
-:root:not([data-theme="dark"]) .hero-cinematic-poster img,
-[data-theme="light"] .hero-cinematic-video,
-[data-theme="light"] .hero-cinematic-poster img {
-  opacity: 0.18;
-  filter: grayscale(1) contrast(115%);
-  mix-blend-mode: multiply;
-}
-
-:root:not([data-theme="dark"]) .hero-cinematic-overlay,
-[data-theme="light"] .hero-cinematic-overlay {
-  background:
-    radial-gradient(ellipse at 50% 45%, rgba(248, 250, 252, 0.45) 0%, rgba(248, 250, 252, 0.8) 60%, #f8fafc 100%),
-    linear-gradient(to bottom, transparent 65%, #f8fafc 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

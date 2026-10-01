@@ -432,7 +432,7 @@ const { hero } = await getPortfolioContent(locale);
     window.addEventListener('resize', resizeCanvas, { passive: true });
 
     // Grid configuration
-    const gridStep = 72;
+    const gridStep = 64;
 
     // Deterministic Signal Rails
     interface SignalRail {
@@ -497,7 +497,7 @@ const { hero } = await getPortfolioContent(locale);
 
       // 1. Subtle Architectural Grid Lines & Crosshairs
       ctx.lineWidth = 1;
-      ctx.strokeStyle = isDark ? '#181e2b' : '#e2e8f0';
+      ctx.strokeStyle = isDark ? '#181e2b' : 'rgba(203, 213, 225, 0.45)';
       ctx.beginPath();
       for (let x = 0; x <= width; x += gridStep) {
         ctx.moveTo(x + 0.5, 0);
@@ -506,14 +506,14 @@ const { hero } = await getPortfolioContent(locale);
       ctx.stroke();
 
       // Precision coordinate marks at intersections
-      ctx.strokeStyle = isDark ? '#252f44' : '#cbd5e1';
+      ctx.strokeStyle = isDark ? '#252f44' : '#94a3b8';
       ctx.beginPath();
       for (let x = 0; x <= width; x += gridStep) {
         for (let y = 0; y <= height; y += gridStep) {
-          ctx.moveTo(x - 2, y + 0.5);
-          ctx.lineTo(x + 2, y + 0.5);
-          ctx.moveTo(x + 0.5, y - 2);
-          ctx.lineTo(x + 0.5, y + 2);
+          ctx.moveTo(x - 2.5, y + 0.5);
+          ctx.lineTo(x + 2.5, y + 0.5);
+          ctx.moveTo(x + 0.5, y - 2.5);
+          ctx.lineTo(x + 0.5, y + 2.5);
         }
       }
       ctx.stroke();
@@ -523,7 +523,7 @@ const { hero } = await getPortfolioContent(locale);
         const currentY = rail.y;
 
         // Draw base architectural track line
-        ctx.strokeStyle = isDark ? '#1e283a' : '#e2e8f0';
+        ctx.strokeStyle = isDark ? '#1e283a' : 'rgba(203, 213, 225, 0.65)';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(0, currentY);
@@ -537,7 +537,10 @@ const { hero } = await getPortfolioContent(locale);
             pulse.x = -pulse.length;
           }
 
-          const pulseColor = pulse.color === 'accent' ? activeAccent : pulse.color;
+          let pulseColor = pulse.color === 'accent' ? activeAccent : pulse.color;
+          if (!isDark && pulseColor.toLowerCase() === '#cdb30c') {
+            pulseColor = '#a16207'; // High-contrast amber-gold on light canvas
+          }
           ctx.strokeStyle = pulseColor;
           ctx.lineWidth = 2;
           ctx.beginPath();
@@ -549,7 +552,7 @@ const { hero } = await getPortfolioContent(locale);
             ctx.stroke();
 
             // Leading micro-node with subtle glow
-            ctx.fillStyle = isDark ? '#ffffff' : activeAccent;
+            ctx.fillStyle = isDark ? '#ffffff' : pulseColor;
             ctx.beginPath();
             ctx.arc(endX, currentY, 2.5, 0, Math.PI * 2);
             ctx.fill();
