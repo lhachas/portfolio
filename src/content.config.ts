@@ -324,6 +324,10 @@ export const portfolioSchema = z.object({
         }),
       )
       .min(1),
+    carouselPrevLabel: z.string().optional(),
+    carouselNextLabel: z.string().optional(),
+    carouselDragHint: z.string().optional(),
+    carouselCounterLabel: z.string().optional(),
     problemLabel: z.string().min(1),
     solutionLabel: z.string().min(1),
     architectureLabel: z.string().min(1),

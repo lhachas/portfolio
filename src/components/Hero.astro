@@ -1,5 +1,5 @@
 ---
-import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -7,8 +7,7 @@ interface Props {
 }
 
 const { locale = 'es' } = Astro.props;
-const { hero, profile, socialLinks } = await getPortfolioContent(locale);
-const heroSocials = socialLinks.filter((s) => s.showInHero);
+const { hero } = await getPortfolioContent(locale);
 ---
 
 <!-- START HOME -->
@@ -81,13 +80,14 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
         }
       </div>
 
-      <!-- Unified Product-Designer Action & Official Social Dock (100% Solid Colors - Zero Glassmorphism) -->
-      <div class="mt-7 flex flex-wrap items-center justify-center gap-3" data-hero-anim>
+      <!-- Focused High-Impact CTA Row (Cleaned of redundant CV & Social dock, which reside in #about & #contact) -->
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-3.5" data-hero-anim>
         <a
           href={hero.primaryCta.href}
           class="btn-brand btn-gold"
           data-cursor-label={hero.primaryCta.cursorLabel}
         >
+          <Icon name="terminal" size={17} class="mr-2 shrink-0 inline-block text-white" />
           <span>{hero.primaryCta.label}</span>
         </a>
         <a
@@ -95,42 +95,9 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
           class="btn-brand btn-theme-primary"
           data-cursor-label={hero.secondaryCta.cursorLabel}
         >
+          <Icon name="mail" size={16} class="mr-2 shrink-0 inline-block text-gold" />
           <span>{hero.secondaryCta.label}</span>
         </a>
-        <a
-          href={withBase(profile.cvPrimary.url)}
-          target="_blank"
-          rel="noopener noreferrer"
-          download={profile.cvPrimary.filename}
-          data-magnetic
-          data-cv-lang={profile.cvPrimary.langCode}
-          data-cursor-label={hero.cvCtaCursorLabel}
-          aria-label={profile.cvPrimary.ariaLabel}
-          class="btn-outline-gold"
-        >
-          <Icon name="file-pdf" size={16} class="text-gold mr-1.5 shrink-0 inline-block" />
-          <span>{profile.cvPrimary.labelHero}</span>
-        </a>
-
-        <span class="hidden lg:inline-block h-6 w-[2px] bg-[#2e3545] mx-1" aria-hidden="true"></span>
-
-        {
-          heroSocials.map((social) => (
-            <a
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-magnetic
-              data-cursor-label={social.name}
-              class={`btn-social-pill ${social.id}`}
-              aria-label={`${social.name} - ${profile.name}`}
-              style={`background-color: ${social.brandColor}; border-color: ${social.brandColor};`}
-            >
-              <i class={`icofont ${social.icon}`} aria-hidden="true"></i>
-              <span>{social.name}</span>
-            </a>
-          ))
-        }
       </div>
 
       <!-- Recruiter Impact Metrics Strip (100% Solid Non-Monotonous Architectural Cards) -->
