@@ -375,7 +375,14 @@ summary:focus-visible,
 .title-icon:hover {
   transform: translateY(-2px) rotate(-4deg);
   background-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  border-color: var(--brand-gold);
+  color: #ffffff !important;
+}
+
+.title-icon:hover i,
+.title-icon:hover svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* Top-anchored SVG wave dividers with controlled proportional height and -1px seam overlap */
@@ -570,9 +577,16 @@ summary:focus-visible,
 }
 
 .nav-item-link.active {
-  color: var(--brand-on-gold) !important;
+  color: #ffffff !important;
   background-color: var(--brand-gold);
   font-weight: 600;
+}
+
+.nav-item-link.active span,
+.nav-item-link.active i,
+.nav-item-link.active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 .nav-control-btn {
@@ -592,14 +606,14 @@ summary:focus-visible,
 .nav-control-btn:hover {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
 }
 
 .nav-control-btn:hover i,
 .nav-control-btn:hover span,
 .nav-control-btn:hover svg {
-  color: var(--brand-on-gold) !important;
-  stroke: var(--brand-on-gold);
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* Theme Toggle Button: Strict Single-Icon Isolation & Microinteraction */
@@ -698,7 +712,7 @@ a[data-lang-switch]:hover {
 #mobile-menu-btn[aria-expanded="true"] {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
 }
 
 #mobile-menu-btn[aria-expanded="true"] .mobile-icon-bars {
@@ -711,12 +725,12 @@ a[data-lang-switch]:hover {
   opacity: 1 !important;
   visibility: visible !important;
   transform: scale(1) rotate(0deg);
-  color: var(--brand-on-gold) !important;
+  color: #ffffff !important;
 }
 
 #mobile-menu-btn[aria-expanded="true"] .mobile-icon-close svg {
-  color: var(--brand-on-gold) !important;
-  stroke: var(--brand-on-gold);
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* Strict Isolation: Mobile Menu Button and Drawer are NEVER visible on Desktop (>= 1024px) */
@@ -828,7 +842,7 @@ a[data-lang-switch]:hover {
   border-radius: 9999px;
   background-color: #1e222d;
   border: 2px solid var(--brand-gold);
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -837,29 +851,47 @@ a[data-lang-switch]:hover {
   transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
+.hero-status-pill span {
+  color: #ffffff !important;
+}
+
 .hero-status-pill:hover {
   transform: translateY(-2px);
   background-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  border-color: var(--brand-gold);
+  color: #ffffff !important;
 }
 
-.hero-status-pill:hover i {
-  color: var(--brand-on-gold) !important;
+.hero-status-pill:hover i,
+.hero-status-pill:hover span,
+.hero-status-pill:hover svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 :root:not([data-theme="dark"]) .hero-status-pill,
 [data-theme="light"] .hero-status-pill {
-  background-color: #ffffff;
+  background-color: #1e222d;
   border-color: var(--brand-gold);
-  color: #0e3d65;
-  box-shadow: 0 3px 0 #cbd5e1;
+  color: #ffffff !important;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+:root:not([data-theme="dark"]) .hero-status-pill span,
+[data-theme="light"] .hero-status-pill span {
+  color: #ffffff !important;
 }
 
 :root:not([data-theme="dark"]) .hero-status-pill:hover,
 [data-theme="light"] .hero-status-pill:hover {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
+}
+
+:root:not([data-theme="dark"]) .hero-status-pill:hover span,
+[data-theme="light"] .hero-status-pill:hover span {
+  color: #ffffff !important;
 }
 
 .status-pulse-dot {
@@ -951,7 +983,7 @@ a[data-lang-switch]:hover {
   border-radius: 9999px;
   background-color: var(--brand-gold);
   border: 2px solid var(--brand-gold);
-  color: var(--brand-on-gold) !important;
+  color: #ffffff !important;
   font-size: 0.8125rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -962,16 +994,39 @@ a[data-lang-switch]:hover {
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.hero-btn-primary span,
+.hero-btn-primary svg,
+.hero-btn-primary i {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 .hero-btn-primary:hover {
   background-color: var(--brand-gold-hover);
   border-color: var(--brand-gold-hover);
+  color: #ffffff !important;
   transform: translateY(-2px);
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.hero-btn-primary:hover span,
+.hero-btn-primary:hover svg,
+.hero-btn-primary:hover i {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 .hero-btn-primary:active {
   transform: translateY(0) scale(0.98);
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  color: #ffffff !important;
+}
+
+.hero-btn-primary:active span,
+.hero-btn-primary:active svg,
+.hero-btn-primary:active i {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 .hero-btn-secondary {
@@ -2207,11 +2262,14 @@ textarea.form-control-pill {
   transform: translateY(-2px);
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  color: #ffffff !important;
 }
 
-.footer-nav-pill:hover i {
-  color: var(--brand-on-gold);
+.footer-nav-pill:hover i,
+.footer-nav-pill:hover span,
+.footer-nav-pill:hover svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 .social-icon-btn {
@@ -2403,8 +2461,15 @@ textarea.form-control-pill {
 
 .back-to-top-btn:hover {
   background-color: var(--brand-gold);
-  color: var(--brand-on-gold);
+  border-color: var(--brand-gold);
+  color: #ffffff !important;
   transform: translateY(-3px);
+}
+
+.back-to-top-btn:hover i,
+.back-to-top-btn:hover svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 /* ==========================================================================

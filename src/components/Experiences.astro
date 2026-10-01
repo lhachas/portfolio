@@ -195,17 +195,18 @@ const experiencesData = experiencesSection.items;
   }
 
   :global([data-theme="light"]) .exp-step-badge,
-  :global([data-theme="light"]) .exp-domain-badge {
-    background-color: #ffffff;
-    color: #0e3d65;
-    border-color: #ffffff;
-  }
-
+  :global([data-theme="light"]) .exp-domain-badge,
   :global([data-theme="dark"]) .exp-step-badge,
   :global([data-theme="dark"]) .exp-domain-badge {
-    background-color: #14171f;
-    color: #ffffff;
-    border-color: #ffffff;
+    background-color: #14171f !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+  }
+
+  .exp-domain-badge span,
+  .exp-domain-badge i,
+  .exp-domain-badge svg {
+    color: #ffffff !important;
   }
 </style>
 

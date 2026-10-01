@@ -81,11 +81,7 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     };
 
     const applyAccentPalette = (primary, hover, persist) => {
-      const isGoldOrYellow = (hex) => {
-        const h = (hex || '').toLowerCase();
-        return h === '#cdb30c' || h === '#eab308' || h === '#facc15' || h === '#eab305';
-      };
-      const onAccent = isGoldOrYellow(primary) ? '#0f172a' : '#ffffff';
+      const onAccent = '#ffffff';
 
       const root = document.documentElement.style;
       root.setProperty('--brand-gold', primary);
