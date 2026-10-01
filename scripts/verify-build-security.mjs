@@ -177,8 +177,17 @@ if (fs.existsSync(DIST_DIR)) {
     if (!html.includes('brand-signature')) {
       fail(`${rel} is missing personal BrandSignature`);
     }
+    if (!html.includes('id="projects"') && !html.includes('id=\"projects\"')) {
+      fail(`${rel} is missing required #projects showcase section`);
+    }
+    if (!html.includes('profile-portrait.webp')) {
+      fail(`${rel} is not using the new optimized profile portrait (profile-portrait.webp)`);
+    }
+    if (!html.includes('taxi24') || !html.includes('control-see') || !html.includes('padron-sunat')) {
+      fail(`${rel} is missing required core GitHub projects (taxi24, control-see, padron-sunat)`);
+    }
   }
-  pass('Verified all generated HTML pages enforce crisp #ffffff contrast, BrandSignature, and updated badge copy');
+  pass('Verified all generated HTML pages enforce crisp #ffffff contrast, BrandSignature, #projects section, and profile-portrait.webp');
 }
 
 if (errors > 0) {

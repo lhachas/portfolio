@@ -309,6 +309,67 @@ export const portfolioSchema = z.object({
       .min(1),
   }),
 
+  projectsSection: z.object({
+    sectionIcon: z.string().min(1),
+    titlePrefix: z.string().min(1),
+    titleHighlight: z.string().min(1),
+    subtitle: z.string().min(1),
+    filterAriaLabel: z.string().min(1),
+    filterAllLabel: z.string().min(1),
+    filters: z
+      .array(
+        z.object({
+          id: z.string().min(1),
+          label: z.string().min(1),
+        }),
+      )
+      .min(1),
+    problemLabel: z.string().min(1),
+    solutionLabel: z.string().min(1),
+    architectureLabel: z.string().min(1),
+    impactLabel: z.string().min(1),
+    stackLabel: z.string().min(1),
+    repoButtonLabel: z.string().min(1),
+    demoButtonLabel: z.string().min(1),
+    viewAllGithubLabel: z.string().min(1),
+    viewAllGithubUrl: z.string().url(),
+    items: z
+      .array(
+        z.object({
+          id: z.string().min(1),
+          title: z.string().min(1),
+          tagline: z.string().min(1),
+          category: z.enum([
+            'backend-api',
+            'cloud-microservices',
+            'enterprise-tools',
+            'web-fullstack',
+          ]),
+          categoryLabel: z.string().min(1),
+          badge: z.string().min(1),
+          accentColor: solidHexColor,
+          icon: z.string().min(1),
+          repoUrl: z.string().url(),
+          demoUrl: z.string().url().optional(),
+          architecture: z.string().min(1),
+          problem: z.string().min(1),
+          solution: z.string().min(1),
+          impact: z.string().min(1),
+          stack: z.array(z.string().min(1)).min(1),
+          highlights: z.array(z.string().min(1)).min(1),
+          stats: z
+            .array(
+              z.object({
+                label: z.string().min(1),
+                value: z.string().min(1),
+              }),
+            )
+            .min(1),
+        }),
+      )
+      .min(1),
+  }),
+
   experiencesSection: z.object({
     sectionIcon: z.string().min(1),
     titlePrefix: z.string().min(1),
