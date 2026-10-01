@@ -30,14 +30,6 @@ const {
   viewAllGithubUrl,
   items: projects,
 } = projectsSection;
-
-// Semantic category colors mapped deterministically to eradicate chromatic disorder
-const categoryColorMap: Record<string, string> = {
-  'backend-api': '#3f87f5',
-  'cloud-microservices': '#2563eb',
-  'enterprise-tools': '#0d9488',
-  'web-fullstack': '#ea6a15',
-};
 ---
 
 <!-- START PROJECTS -->
@@ -162,18 +154,15 @@ const categoryColorMap: Record<string, string> = {
         aria-label="Lista deslizable de proyectos de software"
       >
         {
-          projects.map((project, idx) => {
-            const categoryAccent = categoryColorMap[project.category] || 'var(--brand-gold)';
-            return (
-              <article
-                class="project-card reveal flex flex-col justify-between"
-                data-project-card
-                data-category={project.category}
-                data-index={idx}
-                id={`project-${project.id}`}
-                data-project-id={project.id}
-                style={`--card-accent: ${categoryAccent};`}
-              >
+          projects.map((project, idx) => (
+            <article
+              class="project-card reveal flex flex-col justify-between"
+              data-project-card
+              data-category={project.category}
+              data-index={idx}
+              id={`project-${project.id}`}
+              data-project-id={project.id}
+            >
                 <div>
                   <!-- Top Architectural Header: Domain Icon Medallion + Solid HUD Status + Semantic Category + Actions -->
                   <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3.5 border-b border-[var(--card-border)]">
@@ -382,8 +371,7 @@ const categoryColorMap: Record<string, string> = {
                   </div>
                 </div>
               </article>
-            );
-          })
+            ))
         }
       </div>
     </div>
@@ -573,7 +561,7 @@ const categoryColorMap: Record<string, string> = {
     scroll-snap-align: start;
     background-color: var(--th-secondary);
     border: 2px solid var(--card-border);
-    border-top: 4px solid var(--card-accent, var(--brand-gold));
+    border-top: 4px solid var(--brand-gold);
     border-radius: 18px;
     padding: 1.85rem 1.75rem;
     position: relative;
@@ -602,7 +590,7 @@ const categoryColorMap: Record<string, string> = {
   .project-card:hover {
     transform: translateY(-6px);
     border-color: var(--brand-gold);
-    border-top-color: var(--card-accent, var(--brand-gold));
+    border-top-color: var(--brand-gold);
     box-shadow: 0 8px 0 var(--brand-gold);
   }
 
@@ -621,8 +609,8 @@ const categoryColorMap: Record<string, string> = {
     align-items: center;
     justify-content: center;
     background-color: var(--th-primary);
-    border: 2px solid var(--card-border);
-    color: var(--heading-color);
+    border: 2px solid var(--brand-gold);
+    color: var(--brand-gold);
     font-size: 1.25rem;
     box-shadow: 0 2px 0 var(--card-border);
     transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -630,8 +618,9 @@ const categoryColorMap: Record<string, string> = {
 
   .project-card:hover .project-domain-icon {
     transform: scale(1.08) rotate(-4deg);
+    background-color: var(--brand-gold);
     border-color: var(--brand-gold);
-    color: var(--brand-gold);
+    color: #ffffff !important;
   }
 
   .project-domain-icon :global(i),
@@ -683,7 +672,7 @@ const categoryColorMap: Record<string, string> = {
     50% { opacity: 0.6; transform: scale(0.85); }
   }
 
-  /* Semantic Coherent Category Badges (Standardized across portfolio) */
+  /* Category Badges (Dynamically propagate active brand accent) */
   .project-category-badge {
     display: inline-flex;
     align-items: center;
@@ -694,31 +683,11 @@ const categoryColorMap: Record<string, string> = {
     letter-spacing: 0.08em;
     border-radius: 9999px;
     background-color: var(--th-primary);
-    border: 1.5px solid var(--card-border);
-    color: var(--txt-primary);
+    border: 1.5px solid var(--brand-gold);
+    color: var(--brand-gold);
     white-space: nowrap;
     max-width: 100%;
     transition: all 0.2s ease;
-  }
-
-  .project-category-badge[data-category="backend-api"] {
-    border-color: #3f87f5;
-    color: #3f87f5;
-  }
-
-  .project-category-badge[data-category="cloud-microservices"] {
-    border-color: #2563eb;
-    color: #2563eb;
-  }
-
-  .project-category-badge[data-category="enterprise-tools"] {
-    border-color: #0d9488;
-    color: #0d9488;
-  }
-
-  .project-category-badge[data-category="web-fullstack"] {
-    border-color: #ea6a15;
-    color: #ea6a15;
   }
 
   .project-arch-badge {
