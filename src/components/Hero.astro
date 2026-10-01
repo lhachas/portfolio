@@ -80,28 +80,8 @@ const { hero } = await getPortfolioContent(locale);
         }
       </div>
 
-      <!-- Focused High-Impact CTA Row (Cleaned of redundant CV & Social dock, which reside in #about & #contact) -->
-      <div class="mt-7 flex flex-wrap items-center justify-center gap-3.5" data-hero-anim>
-        <a
-          href={hero.primaryCta.href}
-          class="btn-brand btn-gold"
-          data-cursor-label={hero.primaryCta.cursorLabel}
-        >
-          <Icon name="terminal" size={17} class="mr-2 shrink-0 inline-block text-white" />
-          <span>{hero.primaryCta.label}</span>
-        </a>
-        <a
-          href={hero.secondaryCta.href}
-          class="btn-brand btn-theme-primary"
-          data-cursor-label={hero.secondaryCta.cursorLabel}
-        >
-          <Icon name="mail" size={16} class="mr-2 shrink-0 inline-block text-gold" />
-          <span>{hero.secondaryCta.label}</span>
-        </a>
-      </div>
-
       <!-- Recruiter Impact Metrics Strip (100% Solid Non-Monotonous Architectural Cards) -->
-      <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
+      <div class="mt-9 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
         {
           hero.metrics.map((metric) => {
             const isBrandAccent = metric.accentColor.toLowerCase() === '#cdb30c';

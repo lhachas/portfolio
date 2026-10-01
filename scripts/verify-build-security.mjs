@@ -183,11 +183,24 @@ if (fs.existsSync(DIST_DIR)) {
     if (!html.includes('profile-portrait.webp')) {
       fail(`${rel} is not using the new optimized profile portrait (profile-portrait.webp)`);
     }
-    if (!html.includes('taxi24') || !html.includes('control-see') || !html.includes('padron-sunat')) {
-      fail(`${rel} is missing required core GitHub projects (taxi24, control-see, padron-sunat)`);
+    const requiredProjects = [
+      'retail-platform',
+      'veltiq-forge',
+      'vehicular-360-pe',
+      'rimachiq-platform',
+      'control',
+      'control-api',
+      'gestion',
+      'control-colegio',
+      'control-see',
+      'gtcv-mpc',
+    ];
+    const missing = requiredProjects.filter((p) => !html.includes(p));
+    if (missing.length > 0) {
+      fail(`${rel} is missing curated projects: ${missing.join(', ')}`);
     }
   }
-  pass('Verified all generated HTML pages enforce crisp #ffffff contrast, BrandSignature, #projects section, and profile-portrait.webp');
+  pass('Verified all generated HTML pages enforce crisp #ffffff contrast, BrandSignature, #projects section with 10 curated projects, and profile-portrait.webp');
 }
 
 if (errors > 0) {
