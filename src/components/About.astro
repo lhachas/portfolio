@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -16,7 +17,9 @@ const { trainingShowcase } = about;
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Solid Architectural Medallion .title-icon) -->
     <div class="text-center reveal">
-      <i class={`icofont ${about.sectionIcon} title-icon`} aria-hidden="true"></i>
+      <div class="title-icon inline-flex items-center justify-center">
+        <Icon name="user" size={30} />
+      </div>
       <h2 id="about-heading" class="title">
         {about.titlePrefix} <span class="font-medium">{about.titleHighlight}</span>
       </h2>
@@ -31,22 +34,26 @@ const { trainingShowcase } = about;
       <div class="lg:col-span-5 flex flex-col items-center reveal">
         <div class="iam-img-wrapper">
           <div class="iam-orbit-ring" aria-hidden="true"></div>
-          <img
-            class="iam-photo"
-            src={withBase(profile.profilePhoto)}
-            alt={profile.profilePhotoAlt}
-            width="345"
-            height="345"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
+          <picture class="w-full h-full flex items-center justify-center">
+            <source srcset={withBase('/assets/images/profile-portrait.webp')} type="image/webp" />
+            <source srcset={withBase('/assets/images/profile-portrait.jpg')} type="image/jpeg" />
+            <img
+              class="iam-photo"
+              src={withBase(profile.profilePhoto)}
+              alt={profile.profilePhotoAlt}
+              width="345"
+              height="345"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
           <!-- Experience Solid Badge (Zero Blur Shadow) -->
           <div
             class="absolute -bottom-3 right-2 rounded-full bg-[#0e3d65] border-2 border-gold px-4 py-1.5 text-white flex items-center gap-2"
             style="box-shadow: 0 4px 0 #08233a;"
           >
-            <i class="icofont icofont-code-alt text-gold text-base" aria-hidden="true"></i>
+            <Icon name="code" size={15} class="text-gold shrink-0 inline-block" />
             <span class="text-xs font-medium uppercase tracking-wider">
               {profile.yearsExperience} {profile.yearsExperienceBadgeSuffix}
             </span>
@@ -56,7 +63,7 @@ const { trainingShowcase } = about;
         <!-- Languages & Location Quick Strip (100% Solid Non-Monotonous Pills) -->
         <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
           <span class="tech-pill" style="--card-accent: #0e3d65;">
-            <i class="icofont icofont-location-pin text-gold" aria-hidden="true"></i>
+            <Icon name="map-pin" size={14} class="text-gold shrink-0 inline-block" />
             <span>{profile.location}</span>
           </span>
           {
@@ -115,7 +122,7 @@ const { trainingShowcase } = about;
               data-cursor-label={about.cvButtonCursorLabel}
               aria-label={profile.cvPrimary.ariaLabel}
             >
-              <i class={`icofont ${profile.cvPrimary.icon}`} aria-hidden="true"></i>
+              <Icon name="file-pdf" size={16} class="mr-1.5 shrink-0 inline-block" />
               <span>{profile.cvPrimary.labelAbout}</span>
             </a>
 
@@ -138,7 +145,7 @@ const { trainingShowcase } = about;
                   class={`btn-social-pill ${social.id}`}
                   style={`background-color: ${social.brandColor}; border-color: ${social.brandColor};`}
                 >
-                  <i class={`icofont ${social.icon}`} aria-hidden="true"></i>
+                  <Icon name={social.id} size={16} />
                   <span>{social.name}</span>
                 </a>
               ))
@@ -180,7 +187,7 @@ const { trainingShowcase } = about;
                   </div>
 
                   <span class="edu-period-pill">
-                    <i class="icofont icofont-calendar" style={`color: ${edu.accentColor};`} aria-hidden="true"></i>
+                    <Icon name="calendar" size={13} style={`color: ${edu.accentColor};`} class="inline-block shrink-0" />
                     <span>{edu.period}</span>
                   </span>
                 </div>
@@ -196,7 +203,7 @@ const { trainingShowcase } = about;
 
               <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs font-medium" style="border-color: var(--card-border);">
                 <span class="txt-primary inline-flex items-center gap-1.5">
-                  <i class="icofont icofont-verification-check" style={`color: ${edu.accentColor};`} aria-hidden="true"></i>
+                  <Icon name="check" size={13} style={`color: ${edu.accentColor};`} class="inline-block shrink-0" />
                   <span>{about.educationVerifiedLabel}</span>
                 </span>
                 <span class="font-semibold uppercase tracking-wider" style={`color: ${edu.accentColor};`}>
@@ -266,14 +273,14 @@ const { trainingShowcase } = about;
                   >
                     <div class="flex items-center justify-between gap-2">
                       <span class="provider-badge" style={`--provider-color: ${course.providerColor};`}>
-                        <i class="icofont icofont-verification-check" aria-hidden="true"></i>
+                        <Icon name="check" size={12} class="inline-block shrink-0" />
                         <span>{course.provider}</span>
                       </span>
                       <span
                         class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider"
                         style="background-color: var(--th-secondary); border: 1px solid var(--card-border); color: var(--pill-text);"
                       >
-                        <i class="icofont icofont-calendar" style={`color: ${course.providerColor};`} aria-hidden="true"></i>
+                        <Icon name="calendar" size={12} style={`color: ${course.providerColor};`} class="inline-block shrink-0" />
                         <span>{course.date}</span>
                       </span>
                     </div>
@@ -286,7 +293,7 @@ const { trainingShowcase } = about;
                       <span class="text-[12px] font-normal" style="color: var(--txt-muted);">
                         {trainingShowcase.courseDomainPrefix} <strong class="font-medium txt-primary">{course.domain}</strong>
                       </span>
-                      <i class="icofont icofont-check-circled text-sm" style={`color: ${course.providerColor};`} aria-hidden="true"></i>
+                      <Icon name="check" size={13} style={`color: ${course.providerColor};`} class="inline-block shrink-0" />
                     </div>
                   </li>
                 ))

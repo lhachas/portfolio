@@ -91,6 +91,23 @@ Resumen de las **6 etapas profesionales** documentadas en `experiencesSection.it
 **Rol:** Programador de Sistemas Informáticos (`Software Empresarial / ERP & POS` · Cusco, Perú)
 - Desarrollo e implementación de soluciones empresariales para **4 dominios de negocio** (facturación electrónica, punto de venta POS, e-commerce y gestión de restaurantes) con `C#`, `.NET Core`, `PHP (Laravel)`, `SQL Server` y `MySQL`, además de evolución de sistemas heredados en `Visual FoxPro` y `Delphi`.
 
+### Proyectos Destacados de Código Abierto (GitHub `@LHachaS`)
+
+Documentados de forma centralizada en `projectsSection.items` ([`portfolio.yml`](src/content/portfolio/portfolio.yml) / [`portfolio-en.yml`](src/content/portfolio/portfolio-en.yml)) y exhibidos en la sección interactiva `#projects`:
+
+| Proyecto | Categoría & Stack | Desafío Técnico & Solución de Ingeniería | Repositorio |
+| :--- | :--- | :--- | :--- |
+| **Vendra** (`retail-platform`) | `Microservicios & Cloud`<br>`Spring Boot 3.5` · `Java 21` · `Flutter` · `Dart` · `Nx Monorepo` | **Retail Platform & POS Ecosystem:** Sistema operativo retail con sincronización offline-first resiliente, contratos OpenAPI tipados y desacoplamiento total entre cajas físicas y backoffice. | [`github.com/LHachaS/retail-platform`](https://github.com/LHachaS/retail-platform) |
+| **Veltiq Forge** (`veltiq-forge`) | `Microservicios & Cloud`<br>`FastAPI` · `Python` · `FFmpeg` · `n8n` · `AWS S3` · `Telegram API` | **AI Multimedia Production Engine:** Pipeline de orquestación multimedia desatendido con renderizado FFmpeg, subtítulos cinéticos, mitigación OOM en streaming y supervisión Human-in-the-Loop vía Telegram. | [`github.com/LHachaS/veltiq-forge`](https://github.com/LHachaS/veltiq-forge) |
+| **Vehicular 360° PE** (`vehicular-360-pe`) | `Backend & APIs`<br>`Node.js` · `TypeScript` · `MCP Protocol` · `Redis` · `Docker` · `K8s` | **Multi-tenant Registry & MCP API:** Backend multi-tenant con servidor Model Context Protocol (MCP) para agentes IA, flujo asíncrono 202 Accepted, scraping tolerante a fallos y consultas < 300ms. | [`github.com/LHachaS/vehicular-360-pe`](https://github.com/LHachaS/vehicular-360-pe) |
+| **RimachiQ** (`rimachiq-platform`) | `Microservicios & Cloud`<br>`Node.js` · `TypeScript` · `Agent Protocol` · `Meta Graph API` · `Chatwoot` | **Omnichannel Agentic AI Platform:** Monorepo pnpm para agentes conversacionales con estándar Agent Protocol, webhooks Meta (WhatsApp/Instagram) y handoff transparente a ejecutivos humanos. | [`github.com/LHachaS/rimachiq-platform`](https://github.com/LHachaS/rimachiq-platform) |
+| **Control** (`control`) | `Backend & APIs`<br>`NestJS` · `TypeScript` · `XML UBL 2.1` · `XMLDSig` · `SOAP` · `PostgreSQL` | **Facturación Electrónica UBL 2.1:** Microservicio de misión crítica para generación canónica UBL 2.1, firma criptográfica X.509 SHA-256 (< 40ms) y despacho resiliente a SUNAT/OSE. | [`github.com/LHachaS/control`](https://github.com/LHachaS/control) |
+| **Control API** (`control-api`) | `Backend & APIs`<br>`Node.js` · `TypeScript` · `XMLDSig` · `SOAP` · `Fastify` · `Docker` | **Advanced E-Invoicing & E-Waybills:** Emisión masiva de comprobantes y Guías de Remisión Electrónica Remitente (09) y Transportista (31), resúmenes diarios y trazabilidad 100% de CDRs. | [`github.com/LHachaS/control-api`](https://github.com/LHachaS/control-api) |
+| **Gestión** (`gestion`) | `Herramientas & ERP`<br>`TypeScript` · `Node.js` · `PostgreSQL` · `TypeORM` · `Express` | **Enterprise ERP, Inventory & POS:** Sistema comercial integral con transaccionalidad 100% ACID, kardex permanente valorizado multialmacén y módulo POS con cierre de caja automatizado. | [`github.com/LHachaS/gestion`](https://github.com/LHachaS/gestion) |
+| **Control Colegio** (`control-colegio`) | `Full-Stack & Web`<br>`Angular` · `TypeScript` · `NestJS` · `Nx Monorepo` · `Puppeteer` | **Academic & EdTech Management:** Plataforma escolar full-stack con roles jerárquicos, control de asistencia, cálculo de notas y emisión automatizada de libretas PDF con Puppeteer. | [`github.com/LHachaS/control-colegio`](https://github.com/LHachaS/control-colegio) |
+| **Control-SEE** (`control-see`) | `Herramientas & Librerías`<br>`TypeScript` · `Node.js` · `XMLDSig` · `SOAP` · `Jest` · `NPM` | **Fiscal XMLDSig & SOAP Utilities:** Librería modular en TypeScript con suite de pruebas unitarias Jest para firma enveloped X.509, serialización canónica y consumo de web services fiscales. | [`github.com/LHachaS/control-see`](https://github.com/LHachaS/control-see) |
+| **GTCV-MPC** (`gtcv-mpc`) | `Herramientas & Municipal`<br>`TypeScript` · `Node.js` · `PostgreSQL` · `TypeORM` · `Express` | **Municipal Transit & Fleet Enforcement:** Sistema de fiscalización municipal para verificación vehicular en operativos de campo (< 1s), registro de papeletas y control de flotas. | [`github.com/LHachaS/gtcv-mpc`](https://github.com/LHachaS/gtcv-mpc) |
+
 ---
 
 ## 4. Arquitectura del Repositorio y Fuente Única de Verdad (SSOT)
@@ -106,12 +123,17 @@ portfolio/
 │   │   ├── css/plugins/               # Iconografía técnica (icofont.css & technology-icons.css)
 │   │   ├── cv/                        # ÚNICAMENTE los 2 CVs oficiales públicos en PDF (ES y EN)
 │   │   ├── fonts/                     # Fuentes WOFF/WOFF2 de iconografía
-│   │   └── images/                    # Fotografía de perfil, texturas y activos estáticos
+│   │   ├── images/                    # Fotografía de perfil, texturas y activos estáticos
+│   │   └── video/                     # Video cinematográfico Remotion (webm, mp4) y poster accesible (webp, png)
 │   ├── favicon.ico
 │   ├── robots.txt                     # Reglas de indexación + bloqueo explícito de extensiones .docx/.doc
 │   └── sitemap.xml                    # Mapa del sitio bilingüe con enlaces alternos hreflang
+├── remotion/                          # Composición cinematográfica Remotion del Hero Header
+│   ├── index.ts                       # Punto de entrada de registro de Remotion
+│   ├── Root.tsx                       # Registro de composiciones (HeroCinematic, HeroCinematicPoster)
+│   └── HeroCinematic.tsx              # Pieza cinematográfica multi-capa: lattice, ondas armónicas, nodos y telemetría
 ├── scripts/
-│   └── verify-build-security.mjs      # Auditoría automatizada de seguridad, CVs por idioma y tokens UI
+│   └── verify-build-security.mjs      # Auditoría automatizada de seguridad, CVs por idioma, videos Remotion y tokens UI
 ├── src/
 │   ├── assets/
 │   │   └── cv-source/                 # Respaldo privado editable (.docx ES/EN) excluido del build público
@@ -124,9 +146,10 @@ portfolio/
 │   │   └── portfolio.ts               # Helper tipado getPortfolioContent('es' | 'en') y withBase()
 │   ├── components/
 │   │   ├── Navbar.astro               # Navegación sticky, switcher ES/EN y selector de tema claro/oscuro
-│   │   ├── Hero.astro                 # Presentación principal, métricas de impacto y animaciones GSAP
-│   │   ├── About.astro                # Perfil profesional, botonera en 1 línea (.about-cta-row) y educación
+│   │   ├── Hero.astro                 # Presentación principal con CTAs enfocados, métricas de impacto y animaciones GSAP
+│   │   ├── About.astro                # Perfil profesional, fotografía optimizada WebP y educación
 │   │   ├── Skills.astro               # 4 pilares técnicos con filtrado accesible por categoría
+│   │   ├── Projects.astro             # Carrusel showcase de proyectos arquitecturales con scroll-snap nativo, filtrado reactivo y métricas
 │   │   ├── Experiences.astro          # Línea de tiempo interconectada de 6 etapas con vista ejecutiva/detallada
 │   │   ├── Services.astro             # Soluciones de arquitectura backend, cloud AWS y full-stack
 │   │   ├── Contact.astro              # Canales directos, descarga condicional de CV y formulario Web3Forms
@@ -215,6 +238,9 @@ PUBLIC_WEB3FORMS_KEY="tu_access_key_de_web3forms"
 | `npm run verify:security` | Ejecuta [`scripts/verify-build-security.mjs`](scripts/verify-build-security.mjs) verificando exclusión de `.docx`, paridad de CVs por idioma y consistencia de tokens UI. |
 | `npm run build` | Compila el sitio estático de producción en `dist/` y ejecuta automáticamente la auditoría post-build. |
 | `npm run preview` | Sirve localmente la compilación de producción generada en `dist/`. |
+| `npm run remotion:studio` | Abre **Remotion Studio** en el navegador para previsualizar y ajustar las capas cinematográficas del Hero. |
+| `npm run remotion:render` | Renderiza el video cinemático MP4 optimizado del Hero con `@remotion/cli`. |
+| `npm run remotion:still` | Renderiza el poster arquitectónico Still PNG/WebP del Hero para carga instantánea y accesibilidad. |
 
 ---
 

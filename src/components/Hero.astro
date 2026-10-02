@@ -1,28 +1,62 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
 }
 
 const { locale = 'es' } = Astro.props;
-const { hero, profile, socialLinks } = await getPortfolioContent(locale);
-const heroSocials = socialLinks.filter((s) => s.showInHero);
+const { hero } = await getPortfolioContent(locale);
 ---
 
 <!-- START HOME -->
-<section class="section bg-home" id="home" aria-label={hero.sectionAriaLabel}>
-  <!-- Interactive Particle Constellation Canvas (100% Solid Geometric Network) -->
+<section class="section bg-home relative overflow-hidden" id="home" aria-label={hero.sectionAriaLabel}>
+  <!-- Cinematic Architectural Background Canvas & Asset Viewport (Produced with Remotion) -->
+  <div class="hero-cinematic-stage absolute inset-0 overflow-hidden pointer-events-none z-[1]" aria-hidden="true">
+    <!-- Accessible Poster Picture Fallback (Zero network lag, instant paint, 34KB WebP) -->
+    <picture class="hero-cinematic-poster absolute inset-0 w-full h-full">
+      <source srcset={withBase('/assets/video/hero-cinematic-poster.webp')} type="image/webp" />
+      <img
+        src={withBase('/assets/video/hero-cinematic-poster.png')}
+        alt=""
+        class="w-full h-full object-cover object-center select-none"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+
+    <!-- High-Performance Looping Cinematic Video (Remotion Produced) -->
+    <video
+      id="hero-cinematic-video"
+      class="hero-cinematic-video absolute inset-0 w-full h-full object-cover object-center select-none"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster={withBase('/assets/video/hero-cinematic-poster.webp')}
+      preload="metadata"
+    >
+      <source src={withBase('/assets/video/hero-cinematic.webm')} type="video/webm" />
+      <source src={withBase('/assets/video/hero-cinematic.mp4')} type="video/mp4" />
+    </video>
+
+    <!-- Pure Non-Destructive Dark Falloff Overlay (Ensures 100% Solid WCAG AAA text contrast) -->
+    <div class="hero-cinematic-overlay absolute inset-0"></div>
+  </div>
+
+  <!-- Interactive Engineering Topology & Deterministic Signal Stream Canvas -->
   <canvas
-    id="hero-particles"
+    id="hero-topology-canvas"
     class="pointer-events-none absolute inset-0 z-[2] h-full w-full"
     aria-hidden="true"
   ></canvas>
 
   <div id="hero-parallax-stage" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-2 pb-2">
     <div class="mx-auto max-w-5xl text-center">
-      <!-- Live Recruiter Availability Status Pill (100% Solid Minimalist Badge) -->
-      <div class="mb-4 inline-flex justify-center" data-hero-anim>
+      <!-- Live Recruiter Availability Status Pill (100% Solid Utilitarian Badge) -->
+      <div class="mb-4 inline-flex items-center justify-center" data-hero-anim>
         <a
           href={hero.secondaryCta.href}
           class="hero-status-pill"
@@ -30,12 +64,12 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
         >
           <span class="status-pulse-dot" aria-hidden="true"></span>
           <span>{hero.availabilityBadge}</span>
-          <i class="icofont icofont-verification-check text-gold text-sm" aria-hidden="true"></i>
+          <Icon name="check" size={14} class="text-gold shrink-0 inline-block" />
         </a>
       </div>
 
       <!-- Greeting -->
-      <p class="hero-greeting text-[#cbd5e1] mb-1.5" data-hero-anim>
+      <p class="hero-greeting mb-1.5" data-hero-anim>
         {hero.greeting}
       </p>
 
@@ -44,7 +78,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
         class="home-title text-gold mb-0 flex flex-wrap sm:flex-nowrap items-center justify-center gap-x-3 pb-1 min-h-[3.2rem] sm:min-h-[3.6rem]"
         data-hero-anim
       >
-        <span class="text-white font-light shrink-0">{hero.titlePrefix}</span>
+        <span class="hero-title-prefix font-light shrink-0">{hero.titlePrefix}</span>
         <span class="inline-flex items-center pb-0.5 sm:whitespace-nowrap">
           <em
             id="typed-output"
@@ -58,11 +92,11 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
       </h1>
 
       <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid crisp text) -->
-      <p class="title-subtitle mt-3 mb-0 mx-auto text-[#e2e8f0]" data-hero-anim>
+      <p class="title-subtitle hero-subtitle mt-3 mb-0 mx-auto" data-hero-anim>
         {hero.subtitle}
       </p>
 
-      <!-- Core Architecture Stack Strip (100% Solid Pills with Official Technology Brand Icon Badges) -->
+      <!-- Core Architecture Stack Strip (100% Solid Pills with Official SVGL Brand Icon Badges) -->
       <div
         class="mt-5 flex flex-wrap items-center justify-center gap-2.5"
         aria-label={hero.architecturePillsAriaLabel}
@@ -72,7 +106,7 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
           hero.architecturePills.map((arch) => (
             <span class="hero-arch-pill" style={`--arch-brand: ${arch.brandColor};`}>
               <span class="hero-arch-icon-badge" aria-hidden="true">
-                <i class={arch.icon}></i>
+                <Icon name={arch.icon} size={15} />
               </span>
               <span>{arch.label}</span>
             </span>
@@ -80,60 +114,30 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
         }
       </div>
 
-      <!-- Unified Product-Designer Action & Official Social Dock (100% Solid Colors - Zero Glassmorphism) -->
-      <div class="mt-7 flex flex-wrap items-center justify-center gap-3" data-hero-anim>
+      <!-- Hero Action CTAs (1 Primary + 1 Secondary, 100% Solid Surfaces, WCAG AAA Contrast, Tactile Micro-Interactions) -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-3.5" data-hero-anim>
         <a
           href={hero.primaryCta.href}
-          class="btn-brand btn-gold"
+          class="hero-btn-primary"
           data-cursor-label={hero.primaryCta.cursorLabel}
         >
+          <Icon name="terminal" size={17} class="shrink-0" />
           <span>{hero.primaryCta.label}</span>
+          <Icon name="chevron-right" size={14} class="shrink-0" />
         </a>
+
         <a
           href={hero.secondaryCta.href}
-          class="btn-brand btn-theme-primary"
+          class="hero-btn-secondary"
           data-cursor-label={hero.secondaryCta.cursorLabel}
         >
+          <Icon name="message" size={16} class="shrink-0 text-gold" />
           <span>{hero.secondaryCta.label}</span>
         </a>
-        <a
-          href={withBase(profile.cvPrimary.url)}
-          target="_blank"
-          rel="noopener noreferrer"
-          download={profile.cvPrimary.filename}
-          data-magnetic
-          data-cv-lang={profile.cvPrimary.langCode}
-          data-cursor-label={hero.cvCtaCursorLabel}
-          aria-label={profile.cvPrimary.ariaLabel}
-          class="btn-outline-gold"
-        >
-          <i class={`icofont ${profile.cvPrimary.icon} text-gold text-base`} aria-hidden="true"></i>
-          <span>{profile.cvPrimary.labelHero}</span>
-        </a>
-
-        <span class="hidden lg:inline-block h-6 w-[2px] bg-[#2e3545] mx-1" aria-hidden="true"></span>
-
-        {
-          heroSocials.map((social) => (
-            <a
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-magnetic
-              data-cursor-label={social.name}
-              class={`btn-social-pill ${social.id}`}
-              aria-label={`${social.name} - ${profile.name}`}
-              style={`background-color: ${social.brandColor}; border-color: ${social.brandColor};`}
-            >
-              <i class={`icofont ${social.icon}`} aria-hidden="true"></i>
-              <span>{social.name}</span>
-            </a>
-          ))
-        }
       </div>
 
       <!-- Recruiter Impact Metrics Strip (100% Solid Non-Monotonous Architectural Cards) -->
-      <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
+      <div class="mt-7 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
         {
           hero.metrics.map((metric) => {
             const isBrandAccent = metric.accentColor.toLowerCase() === '#cdb30c';
@@ -147,21 +151,21 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
                 style={`--metric-accent: ${resolvedAccent};`}
               >
                 <div
-                  class="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2 border-[#1e222d]"
-                  style={`background-color: ${resolvedAccent}; color: ${iconTextColor}; box-shadow: 0 3px 0 #0a0c10;`}
+                  class="hero-metric-badge mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2"
+                  style={`background-color: ${resolvedAccent}; color: ${iconTextColor};`}
                 >
                   <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
                 </div>
-                <div class="text-xl sm:text-2xl font-medium text-white tracking-wide">
+                <div class="hero-metric-val text-xl sm:text-2xl font-medium tracking-wide">
                   {metric.value}
                 </div>
                 <div
-                  class="mt-0.5 text-[13.5px] font-medium uppercase tracking-wider"
+                  class="hero-metric-label mt-0.5 text-[13.5px] font-medium uppercase tracking-wider"
                   style={`color: ${resolvedAccent};`}
                 >
                   {metric.label}
                 </div>
-                <div class="mt-1 text-[12.5px] text-[#cbd5e1] font-light tracking-wide">
+                <div class="hero-metric-desc mt-1 text-[12.5px] font-light tracking-wide">
                   {metric.detail}
                 </div>
               </div>
@@ -200,6 +204,16 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
     const typedEl = document.getElementById('typed-output');
     const heroSection = document.getElementById('home');
     const heroStage = document.getElementById('hero-parallax-stage');
+    const cinematicVideo = document.getElementById('hero-cinematic-video') as HTMLVideoElement | null;
+
+    if (cinematicVideo) {
+      if (prefersReducedMotion) {
+        cinematicVideo.pause();
+        cinematicVideo.style.display = 'none';
+      } else {
+        cinematicVideo.play().catch(() => {});
+      }
+    }
 
     // 1. GSAP Orchestrated Entrance Timeline & Subtle Scroll Parallax
     if (!prefersReducedMotion && heroSection) {
@@ -287,28 +301,110 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
       });
     }
 
-    // 4. Interactive Canvas Particle Constellation (100% Solid Hex Nodes & Lines, Responsive to Accent Changes)
-    const canvas = document.getElementById('hero-particles') as HTMLCanvasElement | null;
+    // 3b. 3D Interactive Mouse Parallax across Hero Stage & Architecture Stack Pills
+    if (heroSection && isFinePointer && !prefersReducedMotion && heroStage) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5;
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;
+
+        // Stage perspective micro-tilt and smooth translation
+        gsap.to(heroStage, {
+          rotationY: relX * 5,
+          rotationX: -relY * 5,
+          x: relX * 14,
+          y: relY * 10,
+          duration: 0.45,
+          ease: 'power2.out',
+          transformPerspective: 1200,
+        });
+
+        // Layered micro-parallax on architecture pills
+        const archPills = heroSection.querySelectorAll('.hero-arch-pill');
+        archPills.forEach((pill, idx) => {
+          const depth = (idx % 2 === 0 ? 1 : -1) * 6;
+          gsap.to(pill, {
+            x: relX * depth,
+            y: relY * depth,
+            duration: 0.35,
+            ease: 'power1.out',
+          });
+        });
+      });
+
+      heroSection.addEventListener('mouseleave', () => {
+        gsap.to(heroStage, {
+          rotationY: 0,
+          rotationX: 0,
+          x: 0,
+          y: 0,
+          duration: 0.75,
+          ease: 'power2.out',
+        });
+        const archPills = heroSection.querySelectorAll('.hero-arch-pill');
+        gsap.to(archPills, { x: 0, y: 0, duration: 0.75, ease: 'power2.out' });
+      });
+    }
+
+    // 3c. Magnetic Physics Micro-Interactions on CTA Buttons & Badges
+    if (isFinePointer && !prefersReducedMotion) {
+      const magneticTargets = document.querySelectorAll<HTMLElement>(
+        '.hero-btn-primary, .hero-btn-secondary, .hero-status-pill'
+      );
+      magneticTargets.forEach((target) => {
+        target.addEventListener('mousemove', (e) => {
+          const rect = target.getBoundingClientRect();
+          const relX = e.clientX - (rect.left + rect.width / 2);
+          const relY = e.clientY - (rect.top + rect.height / 2);
+          gsap.to(target, {
+            x: relX * 0.24,
+            y: relY * 0.24,
+            duration: 0.25,
+            ease: 'power2.out',
+          });
+        });
+        target.addEventListener('mouseleave', () => {
+          gsap.to(target, {
+            x: 0,
+            y: 0,
+            duration: 0.55,
+            ease: 'elastic.out(1, 0.4)',
+          });
+        });
+      });
+    }
+
+    // 4. Kinetic Architectural Topology & Deterministic Signal Stream Engine
+    const canvas = document.getElementById('hero-topology-canvas') as HTMLCanvasElement | null;
     if (!canvas || prefersReducedMotion) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let width = (canvas.width = canvas.offsetWidth);
-    let height = (canvas.height = canvas.offsetHeight);
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
     let pointerX = -9999;
     let pointerY = -9999;
+    let targetPointerX = -9999;
+    let targetPointerY = -9999;
+    let isVisibleOnScreen = true;
 
     const getActiveAccent = () =>
-      getComputedStyle(document.documentElement).getPropertyValue('--brand-gold').trim() || '#cdb30c';
+      getComputedStyle(document.documentElement).getPropertyValue('--brand-gold').trim() || '#3f87f5';
 
     let activeAccent = getActiveAccent();
 
+    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string }>) => {
+      activeAccent = e.detail?.primary || getActiveAccent();
+    }) as EventListener);
+
+    // Track pointer with smooth interpolation
     heroSection?.addEventListener(
       'mousemove',
       (e) => {
         const rect = canvas.getBoundingClientRect();
-        pointerX = e.clientX - rect.left;
-        pointerY = e.clientY - rect.top;
+        targetPointerX = e.clientX - rect.left;
+        targetPointerY = e.clientY - rect.top;
       },
       { passive: true }
     );
@@ -316,82 +412,169 @@ const heroSocials = socialLinks.filter((s) => s.showInHero);
     heroSection?.addEventListener(
       'mouseleave',
       () => {
-        pointerX = -9999;
-        pointerY = -9999;
+        targetPointerX = -9999;
+        targetPointerY = -9999;
       },
       { passive: true }
     );
 
-    const particleCount = Math.min(36, Math.floor((width * height) / 28000));
-    const secondaryPalette = ['#2563eb', '#0d9488', '#ea6a15'];
-    const particles = Array.from({ length: particleCount }, (_, i) => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.38,
-      vy: (Math.random() - 0.5) * 0.38,
-      r: i % 3 === 0 ? 2.2 : 1.8,
-      isAccent: i % 4 === 0,
-      color: i % 4 === 0 ? activeAccent : secondaryPalette[i % secondaryPalette.length],
-    }));
-
-    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string }>) => {
-      activeAccent = e.detail?.primary || getActiveAccent();
-      particles.forEach((p) => {
-        if (p.isAccent) p.color = activeAccent;
-      });
-    }) as EventListener);
-
-    const onResize = () => {
+    // Resize handling with devicePixelRatio support for crisp Retina rendering
+    const resizeCanvas = () => {
       if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    window.addEventListener('resize', onResize, { passive: true });
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+    // Grid configuration
+    const gridStep = 64;
 
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 125) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = dist < 70 ? '#333c4f' : '#1f2533';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
+    // Deterministic Signal Rails
+    interface SignalRail {
+      y: number;
+      speed: number;
+      pulses: { x: number; length: number; speed: number; color: string }[];
+      deflection: number;
+      velocity: number;
+    }
 
-        const mdx = p.x - pointerX;
-        const mdy = p.y - pointerY;
-        const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mDist < 160) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(pointerX, pointerY);
-          ctx.strokeStyle = mDist < 90 ? activeAccent : '#475569';
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
-        }
+    const railsCount = 6;
+    const rails: SignalRail[] = [];
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
+    const initRails = () => {
+      rails.length = 0;
+      const spacing = height / (railsCount + 1);
+      for (let i = 0; i < railsCount; i++) {
+        const y = Math.round((i + 1) * spacing);
+        const speed = (0.6 + (i % 3) * 0.4) * (i % 2 === 0 ? 1 : -1);
+        const railPulses = [
+          {
+            x: Math.random() * width,
+            length: 36 + Math.random() * 40,
+            speed: Math.abs(speed) * 1.8 + 0.4,
+            color: i % 2 === 0 ? 'accent' : '#2563eb',
+          },
+          {
+            x: Math.random() * width,
+            length: 24 + Math.random() * 32,
+            speed: Math.abs(speed) * 1.4 + 0.3,
+            color: i === 1 ? '#10b981' : i === 3 ? '#cdb30c' : 'accent',
+          },
+        ];
+        rails.push({ y, speed, pulses: railPulses, deflection: 0, velocity: 0 });
       }
-      requestAnimationFrame(render);
     };
-    render();
+    initRails();
+    window.addEventListener('resize', initRails, { passive: true });
+
+    // Animation Loop with Spring Physics
+    const springK = 0.08;
+    const damping = 0.88;
+
+    const renderTopology = () => {
+      if (!isVisibleOnScreen) {
+        requestAnimationFrame(renderTopology);
+        return;
+      }
+
+      // Pointer spring interpolation
+      if (targetPointerX === -9999) {
+        pointerX = -9999;
+        pointerY = -9999;
+      } else {
+        pointerX += (targetPointerX - pointerX) * 0.2;
+        pointerY += (targetPointerY - pointerY) * 0.2;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+      // 1. Subtle Architectural Grid Lines & Crosshairs
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = isDark ? '#181e2b' : 'rgba(203, 213, 225, 0.45)';
+      ctx.beginPath();
+      for (let x = 0; x <= width; x += gridStep) {
+        ctx.moveTo(x + 0.5, 0);
+        ctx.lineTo(x + 0.5, height);
+      }
+      ctx.stroke();
+
+      // Precision coordinate marks at intersections
+      ctx.strokeStyle = isDark ? '#252f44' : '#94a3b8';
+      ctx.beginPath();
+      for (let x = 0; x <= width; x += gridStep) {
+        for (let y = 0; y <= height; y += gridStep) {
+          ctx.moveTo(x - 2.5, y + 0.5);
+          ctx.lineTo(x + 2.5, y + 0.5);
+          ctx.moveTo(x + 0.5, y - 2.5);
+          ctx.lineTo(x + 0.5, y + 2.5);
+        }
+      }
+      ctx.stroke();
+
+      // 2. High-Performance Signal Rails (Zero chaotic wave distortions)
+      rails.forEach((rail) => {
+        const currentY = rail.y;
+
+        // Draw base architectural track line
+        ctx.strokeStyle = isDark ? '#1e283a' : 'rgba(203, 213, 225, 0.65)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, currentY);
+        ctx.lineTo(width, currentY);
+        ctx.stroke();
+
+        // Draw traveling signal pulses
+        rail.pulses.forEach((pulse) => {
+          pulse.x += pulse.speed;
+          if (pulse.x > width + pulse.length) {
+            pulse.x = -pulse.length;
+          }
+
+          let pulseColor = pulse.color === 'accent' ? activeAccent : pulse.color;
+          if (!isDark && pulseColor.toLowerCase() === '#cdb30c') {
+            pulseColor = '#a16207'; // High-contrast amber-gold on light canvas
+          }
+          ctx.strokeStyle = pulseColor;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          const startX = Math.max(0, pulse.x);
+          const endX = Math.min(width, pulse.x + pulse.length);
+          if (endX > startX) {
+            ctx.moveTo(startX, currentY);
+            ctx.lineTo(endX, currentY);
+            ctx.stroke();
+
+            // Leading micro-node with subtle glow
+            ctx.fillStyle = isDark ? '#ffffff' : pulseColor;
+            ctx.beginPath();
+            ctx.arc(endX, currentY, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+      });
+
+      requestAnimationFrame(renderTopology);
+    };
+
+    // Pause off-screen via IntersectionObserver for zero wasted cycles
+    if ('IntersectionObserver' in window && heroSection) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          isVisibleOnScreen = entries[0].isIntersecting;
+        },
+        { threshold: 0.05 }
+      );
+      observer.observe(heroSection);
+    }
+
+    renderTopology();
   }
 
   document.addEventListener('DOMContentLoaded', initHeroEffects);

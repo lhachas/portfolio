@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -11,11 +12,13 @@ const experiencesData = experiencesSection.items;
 ---
 
 <!-- START EXPERIENCES -->
-<section class="section th-primary" id="experiences" aria-labelledby="experiences-heading">
+<section class="section th-secondary experiences" id="experiences" aria-labelledby="experiences-heading">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
     <div class="text-center reveal">
-      <i class={`icofont ${experiencesSection.sectionIcon} title-icon`} aria-hidden="true"></i>
+      <div class="title-icon inline-flex items-center justify-center">
+        <Icon name="briefcase" size={30} />
+      </div>
       <h2 id="experiences-heading" class="title">
         {experiencesSection.titlePrefix} <span class="font-medium">{experiencesSection.titleHighlight}</span>
       </h2>
@@ -35,7 +38,7 @@ const experiencesData = experiencesSection.items;
         class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer hover:border-gold"
         style="background-color: var(--th-secondary); border: 2px solid var(--card-border); color: var(--heading-color);"
       >
-        <i class="icofont icofont-layers text-gold text-sm" aria-hidden="true"></i>
+        <Icon name="layers" size={15} class="text-gold shrink-0 inline-block" />
         <span id="toggle-all-label">{experiencesSection.toggleCompactLabel}</span>
       </button>
     </div>
@@ -50,12 +53,10 @@ const experiencesData = experiencesSection.items;
 
         {
           experiencesData.map((exp) => {
-            const isBrandAccent = exp.color.toLowerCase() === '#cdb30c';
+            const isBrandAccent = exp.color.toLowerCase() === '#cdb30c' || exp.color.toLowerCase() === '#3f87f5';
             const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : exp.color;
             const resolvedTextColor = isBrandAccent ? 'var(--heading-color)' : resolvedColor;
             const headerTextColor = '#ffffff';
-            const pillBgOnHeader = '#0e3d65';
-            const pillTextOnHeader = '#ffffff';
             return (
               <article
                 class="timeline reveal"
@@ -68,28 +69,20 @@ const experiencesData = experiencesSection.items;
                     class="exp-card-header"
                     style={`background-color: ${resolvedColor}; color: ${headerTextColor};`}
                   >
-                    <div class="flex flex-wrap items-center justify-between gap-2.5">
                       <div class="inline-flex items-center gap-2.5">
-                        <span
-                          class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold tracking-wider"
-                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader}; border: 2px solid ${headerTextColor};`}
-                        >
+                        <span class="exp-step-badge" style={`border-color: #ffffff;`}>
                           {exp.stepNumber}
                         </span>
-                        <span
-                          class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                          style={`background-color: ${pillBgOnHeader}; color: ${pillTextOnHeader}; border: 1.5px solid ${headerTextColor};`}
-                        >
-                          <i class="icofont icofont-briefcase-1" aria-hidden="true"></i>
+                        <span class="exp-domain-badge" style={`border-color: #ffffff;`}>
+                          <Icon name="briefcase" size={13} class="shrink-0 inline-block" />
                           <span>{exp.clientOrDomain}</span>
                         </span>
                       </div>
 
                       <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white">
-                        <i class="icofont icofont-calendar" aria-hidden="true"></i>
+                        <Icon name="calendar" size={13} class="shrink-0 inline-block" />
                         <span>{exp.date}</span>
                       </span>
-                    </div>
                   </header>
 
                   <!-- Solid Inner Content Body -->
@@ -102,7 +95,7 @@ const experiencesData = experiencesSection.items;
                         class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
                         style="background-color: var(--th-primary); border: 1.5px solid var(--card-border); color: var(--pill-text);"
                       >
-                        <i class="icofont icofont-location-pin" style={`color: ${resolvedColor};`} aria-hidden="true"></i>
+                        <Icon name="map-pin" size={12} class="shrink-0 inline-block" style={`color: ${resolvedColor};`} />
                         <span>{exp.location}</span>
                       </span>
                     </div>
@@ -149,9 +142,9 @@ const experiencesData = experiencesSection.items;
     </div>
   </div>
 
-  <!-- Original Top-Anchored SVG Wave Divider (.wv-primary hangs downward from #skills into #experiences) -->
+  <!-- Original Top-Anchored SVG Wave Divider (Hangs downward from #projects into #experiences) -->
   <svg
-    class="wave wv-primary"
+    class="wave"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1920 81.717"
@@ -165,6 +158,57 @@ const experiencesData = experiencesSection.items;
   </svg>
 </section>
 <!-- END EXPERIENCES -->
+
+<style>
+  .exp-step-badge {
+    display: inline-flex;
+    height: 2.25rem;
+    width: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background-color: var(--th-primary);
+    color: var(--txt-primary);
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  .exp-domain-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: var(--th-primary);
+    color: var(--txt-primary);
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+  }
+
+  :global([data-theme="light"]) .exp-step-badge,
+  :global([data-theme="light"]) .exp-domain-badge,
+  :global([data-theme="dark"]) .exp-step-badge,
+  :global([data-theme="dark"]) .exp-domain-badge {
+    background-color: #14171f !important;
+    color: #ffffff !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+  }
+
+  .exp-domain-badge span,
+  .exp-domain-badge i,
+  .exp-domain-badge svg {
+    color: #ffffff !important;
+  }
+</style>
 
 <script is:inline>
   (() => {

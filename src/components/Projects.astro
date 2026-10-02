@@ -1,0 +1,1490 @@
+---
+import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
+
+interface Props {
+  locale?: PortfolioLocale;
+}
+
+const { locale = 'es' } = Astro.props;
+const { projectsSection } = await getPortfolioContent(locale);
+const {
+  titlePrefix,
+  titleHighlight,
+  subtitle,
+  filterAriaLabel,
+  filters,
+  carouselPrevLabel = 'Proyecto anterior',
+  carouselNextLabel = 'Siguiente proyecto',
+  carouselDragHint = 'Desliza o usa las flechas ← → para explorar',
+  carouselCounterLabel = 'Proyecto',
+  statusBadge = locale === 'en' ? 'PRODUCTION' : 'PRODUCCIÓN',
+  problemLabel,
+  solutionLabel,
+  architectureLabel,
+  impactLabel,
+  stackLabel,
+  repoButtonLabel,
+  demoButtonLabel,
+  viewAllGithubLabel,
+  viewAllGithubUrl,
+  items: projects,
+} = projectsSection;
+---
+
+<!-- START PROJECTS -->
+<section class="section th-primary projects" id="projects" aria-labelledby="projects-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <!-- Section Title Header (Solid Architectural Medallion .title-icon + Oswald Typography) -->
+    <div class="text-center reveal">
+      <div class="title-icon inline-flex items-center justify-center">
+        <Icon name="terminal" size={30} />
+      </div>
+      <h2 id="projects-heading" class="title">
+        {titlePrefix} <span class="font-medium">{titleHighlight}</span>
+      </h2>
+      <p class="txt-primary mt-3 title-subtitle mx-auto">
+        {subtitle}
+      </p>
+    </div>
+
+    <!-- Category Filter Tabs (100% Solid Architectural Filters - Zero Pastels, Accessible & Fluid) -->
+    <div
+      class="mt-8 flex flex-wrap items-center justify-center gap-2.5 reveal"
+      role="tablist"
+      aria-label={filterAriaLabel}
+    >
+      {
+        filters.map((filter) => (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={filter.id === 'all' ? 'true' : 'false'}
+            data-project-filter={filter.id}
+            class:list={[
+              'project-filter-btn min-h-[42px] rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-200 cursor-pointer',
+              { active: filter.id === 'all' },
+            ]}
+          >
+            <span>{filter.label}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Carousel Controls Bar (Status, Active Slide Indicator, Pagination Dots, Arrows & Progress Rail) -->
+    <div class="carousel-controls-bar mt-8 relative reveal">
+      <div class="flex flex-wrap items-center justify-between gap-4 pb-3.5">
+        <!-- Active Project Counter & Keyboard Navigation Hint -->
+        <div class="flex items-center gap-3.5">
+          <div class="project-counter-badge" aria-live="polite">
+            <span class="text-xs font-medium uppercase tracking-wider text-muted mr-1.5">{carouselCounterLabel}</span>
+            <span id="carousel-current" class="text-sm font-bold text-gold font-mono">01</span>
+            <span class="text-xs text-muted font-mono"> / </span>
+            <span id="carousel-total" class="text-xs font-medium text-muted font-mono">{String(projects.length).padStart(2, '0')}</span>
+          </div>
+
+          <div class="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted font-mono select-none">
+            <kbd class="kbd-key" aria-label="Tecla flecha izquierda">←</kbd>
+            <kbd class="kbd-key" aria-label="Tecla flecha derecha">→</kbd>
+            <span class="ml-1 text-[11.5px] tracking-wide">{carouselDragHint}</span>
+          </div>
+        </div>
+
+        <!-- Segmented Interactive Dots & Spring-Enabled Navigation Arrow Controls -->
+        <div class="flex items-center gap-4">
+          <!-- Interactive Pagination Dots -->
+          <div
+            class="carousel-dots-container flex items-center gap-1.5"
+            id="carousel-dots"
+            role="tablist"
+            aria-label="Diapositivas de proyectos"
+          >
+            {
+              projects.map((proj, idx) => (
+                <button
+                  type="button"
+                  role="tab"
+                  class:list={['carousel-dot-btn', { active: idx === 0 }]}
+                  data-dot-index={idx}
+                  aria-label={`${carouselCounterLabel} ${idx + 1}: ${proj.title}`}
+                  aria-selected={idx === 0 ? 'true' : 'false'}
+                />
+              ))
+            }
+          </div>
+
+          <!-- Prev / Next Navigation Arrows with Physical Spring Feedback -->
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              id="carousel-prev"
+              class="carousel-nav-btn"
+              aria-label={carouselPrevLabel}
+              title={carouselPrevLabel}
+            >
+              <Icon name="chevron-left" size={18} />
+            </button>
+            <button
+              type="button"
+              id="carousel-next"
+              class="carousel-nav-btn"
+              aria-label={carouselNextLabel}
+              title={carouselNextLabel}
+            >
+              <Icon name="chevron-right" size={18} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Architectural Micro-Progress Bar Rail: Singular Unified Solid Baseline -->
+      <div class="carousel-progress-track relative w-full h-[3px] bg-[var(--card-border)] rounded-full overflow-hidden" aria-hidden="true">
+        <div id="carousel-progress-bar" class="h-full bg-[var(--brand-gold)] rounded-full transition-all duration-300 ease-out" style="width: 10%;"></div>
+      </div>
+    </div>
+
+    <!-- Carousel Viewport & Track (100% Solid Cards with Native Scroll Snap & GSAP Enhancement) -->
+    <div class="project-carousel-viewport mt-6" id="project-carousel-viewport">
+      <div
+        class="project-carousel-track"
+        id="project-carousel-track"
+        tabindex="0"
+        role="region"
+        aria-label="Lista deslizable de proyectos de software"
+      >
+        {
+          projects.map((project, idx) => (
+            <article
+              class="project-card reveal flex flex-col justify-between"
+              data-project-card
+              data-category={project.category}
+              data-index={idx}
+              id={`project-${project.id}`}
+              data-project-id={project.id}
+            >
+                <div>
+                  <!-- Top Architectural Header: Domain Icon Medallion + Solid HUD Status + Semantic Category + Actions -->
+                  <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3.5 border-b border-[var(--card-border)]">
+                    <div class="flex items-center gap-2.5 flex-wrap">
+                      <!-- Official Domain Icon Medallion (Physical Depth & Micro-Rotation) -->
+                      <div class="project-domain-icon shrink-0" aria-hidden="true">
+                        <Icon name={project.icon} size={20} />
+                      </div>
+
+                      <!-- Production Status Badge (100% Solid Engineering HUD - Zero Pastel Mint) -->
+                      <span class="project-hud-status">
+                        <span class="status-pulse-dot" aria-hidden="true"></span>
+                        <span>{statusBadge}</span>
+                      </span>
+
+                      <!-- Harmonized Category Badge (Bound to Semantic Category - No Clashing Accents) -->
+                      <span
+                        class="project-category-badge"
+                        data-category={project.category}
+                      >
+                        {project.categoryLabel}
+                      </span>
+                    </div>
+
+                    <!-- Direct Repository/Demo Links & Slide Index -->
+                    <div class="flex items-center gap-2">
+                      <span class="text-[11.5px] font-mono text-muted tracking-widest mr-1">
+                        [{String(idx + 1).padStart(2, '0')}/{String(projects.length).padStart(2, '0')}]
+                      </span>
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-icon-link"
+                        aria-label={`${repoButtonLabel}: ${project.title}`}
+                        title={repoButtonLabel}
+                      >
+                        <Icon name="github" size={17} />
+                      </a>
+                      {project.demoUrl && (
+                        <a
+                          href={project.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="project-icon-link"
+                          aria-label={`${demoButtonLabel}: ${project.title}`}
+                          title={demoButtonLabel}
+                        >
+                          <Icon name="external" size={16} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  <!-- Architecture Pattern Sub-Badge -->
+                  <div class="mb-2.5 flex items-center gap-1.5">
+                    <span class="project-arch-badge">
+                      <Icon name="git-branch" size={13} class="shrink-0 text-gold" />
+                      <span>{project.badge}</span>
+                    </span>
+                  </div>
+
+                  <!-- Project Title & Tagline (Consistent Typographic Hierarchy) -->
+                  <h3 class="card-title project-title">
+                    <a
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="project-title-link inline-flex items-center gap-2"
+                    >
+                      <span>{project.title}</span>
+                    </a>
+                  </h3>
+                  <p class="detail-copy mt-2 text-muted">
+                    {project.tagline}
+                  </p>
+
+                  <!-- Architectural Bento Specs Strip (Responsive Grid - Zero Ellipsis Truncation) -->
+                  <div class="mt-4.5 project-specs-strip">
+                    {project.stats.map((stat, sIdx) => (
+                      <div class:list={['project-spec-item', { 'has-divider': sIdx < project.stats.length - 1 }]}>
+                        <span class="project-spec-label">{stat.label}</span>
+                        <strong class="project-spec-val font-mono">
+                          {stat.value}
+                        </strong>
+                      </div>
+                    ))}
+                  </div>
+
+                  <!-- Interactive Architectural Deep-Dive Dossier Tabs (100% Solid Segmented Inspector) -->
+                  <div class="mt-5 card-tabs-wrapper">
+                    <div class="card-tab-nav mb-3" role="tablist">
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected="true"
+                        class="card-tab-btn active"
+                        data-tab-target={`tab-sol-${idx}`}
+                        title={solutionLabel}
+                      >
+                        <Icon name="cpu" size={13} class="shrink-0" />
+                        <span class="truncate">{solutionLabel}</span>
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        class="card-tab-btn"
+                        data-tab-target={`tab-prob-${idx}`}
+                        title={problemLabel}
+                      >
+                        <Icon name="shield" size={13} class="shrink-0" />
+                        <span class="truncate">{problemLabel}</span>
+                      </button>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected="false"
+                        class="card-tab-btn"
+                        data-tab-target={`tab-imp-${idx}`}
+                        title={impactLabel}
+                      >
+                        <Icon name="award" size={13} class="shrink-0" />
+                        <span class="truncate">{impactLabel}</span>
+                      </button>
+                    </div>
+
+                    <!-- Tab Panels (Accessible, SEO-Ready & Fluidly Animated) -->
+                    <div class="card-tab-panels min-h-[148px]">
+                      <!-- Solution & Architecture Pane (Default active) -->
+                      <div id={`tab-sol-${idx}`} class="card-tab-pane active space-y-3">
+                        <div class="project-detail-block">
+                          <p class="detail-copy">
+                            {project.solution}
+                          </p>
+                        </div>
+                        <div class="project-arch-block flex items-start gap-2 pt-2 border-t border-[var(--card-border)]">
+                          <Icon name="cpu" size={14} class="text-gold shrink-0 mt-0.5" />
+                          <span class="project-arch-text text-xs sm:text-[13px] text-muted leading-relaxed">
+                            {project.architecture}
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Problem Pane -->
+                      <div id={`tab-prob-${idx}`} class="card-tab-pane hidden">
+                        <div class="project-detail-block">
+                          <p class="detail-copy">
+                            {project.problem}
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- Impact Pane -->
+                      <div id={`tab-imp-${idx}`} class="card-tab-pane hidden">
+                        <ul class="space-y-2" role="list">
+                          {project.highlights.map((highlight) => (
+                            <li class="flex items-start gap-2.5 detail-copy">
+                              <span class="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[#059669] text-white mt-0.5" aria-hidden="true">
+                                <Icon name="check" size={10} />
+                              </span>
+                              <span>{highlight}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Footer: Unified Portfolio Tech Pills (.tech-pill System) + Executive Action Buttons -->
+                <div class="mt-6 pt-5 border-t border-[var(--card-border)]">
+                  <span class="label-c block mb-2.5">
+                    {stackLabel}
+                  </span>
+                  <div class="flex flex-wrap gap-1.5 mb-5">
+                    {project.stack.map((tech) => (
+                      <span class="tech-pill">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div class="card-actions-wrapper flex flex-wrap items-center justify-center gap-3 w-full">
+                    <a
+                      href={project.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn-project-repo"
+                    >
+                      <Icon name="github" size={16} />
+                      <span>{repoButtonLabel}</span>
+                    </a>
+
+                    {project.demoUrl && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn-project-demo"
+                      >
+                        <Icon name="external" size={15} />
+                        <span>{demoButtonLabel}</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </article>
+            ))
+        }
+      </div>
+    </div>
+
+    <!-- Bottom GitHub Callout Banner (100% Solid Architectural Medallion) -->
+    <div class="mt-12 text-center reveal">
+      <a
+        href={viewAllGithubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="github-callout-banner inline-flex items-center gap-3 px-6 py-3.5 rounded-xl transition-all duration-200"
+      >
+        <Icon name="github" size={20} class="text-gold shrink-0" />
+        <span class="text-sm font-semibold tracking-wide text-white">
+          {viewAllGithubLabel}
+        </span>
+        <Icon name="external" size={16} class="text-gold shrink-0" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Top-Anchored SVG Wave Divider (.wv-primary hangs downward from #skills (th-secondary) into #projects (th-primary)) -->
+  <svg
+    class="wave wv-primary"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1920 81.717"
+    preserveAspectRatio="none"
+    xml:space="preserve"
+    aria-hidden="true"
+  >
+    <path
+      d="M1920,0c0,0-109.246,46.107-316.333,67.334C1343.5,94,1137.095,77.238,999.167,67.5C854,57.25,637.662,24.697,541.709,18.834C375.334,8.666,147,11,0,37.875V0H1920L1920,0z"
+    ></path>
+  </svg>
+</section>
+<!-- END PROJECTS -->
+
+<style>
+  /* ==========================================================================
+     Keyboard Keys & Control Badge Elements
+     ========================================================================== */
+  .kbd-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.35rem;
+    font-size: 0.725rem;
+    font-family: monospace;
+    font-weight: 600;
+    border-radius: 4px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    color: var(--txt-primary);
+    box-shadow: 0 1.5px 0 var(--card-border);
+    line-height: 1;
+  }
+
+  .project-counter-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+    background-color: var(--th-secondary);
+    border: 1.5px solid var(--card-border);
+    box-shadow: 0 2px 0 var(--card-border);
+  }
+
+  /* ==========================================================================
+     Carousel Navigation Buttons (Spring Physics & Accessible States)
+     ========================================================================== */
+  .carousel-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    background-color: var(--th-secondary);
+    border: 2px solid var(--card-border);
+    color: var(--heading-color);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+    box-shadow: 0 2px 0 var(--card-border);
+  }
+
+  .carousel-nav-btn:hover:not(:disabled) {
+    border-color: var(--brand-gold);
+    color: var(--brand-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 var(--brand-gold);
+  }
+
+  .carousel-nav-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.94);
+    box-shadow: 0 1px 0 var(--brand-gold);
+  }
+
+  .carousel-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    border-color: var(--card-border);
+    box-shadow: none;
+  }
+
+  /* Segmented Pagination Dots with Animated Expansion */
+  .carousel-dot-btn {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background-color: var(--card-border);
+    border: none;
+    cursor: pointer;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.25s ease,
+                transform 0.2s ease;
+    padding: 0;
+  }
+
+  .carousel-dot-btn:hover {
+    background-color: var(--brand-gold);
+    transform: scale(1.2);
+  }
+
+  .carousel-dot-btn:active {
+    transform: scale(0.9);
+  }
+
+  .carousel-dot-btn.active {
+    width: 28px;
+    background-color: var(--brand-gold);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ==========================================================================
+     Carousel Viewport & Native CSS Scroll Snap Track
+     ========================================================================== */
+  .project-carousel-viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .project-carousel-track {
+    display: flex;
+    gap: 1.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    scrollbar-width: none;
+    padding: 0.85rem 0.35rem 1.75rem 0.35rem;
+    cursor: grab;
+    outline: none;
+  }
+
+  .project-carousel-track:focus-visible {
+    outline: 2px solid var(--brand-gold);
+    outline-offset: 4px;
+    border-radius: 1rem;
+  }
+
+  .project-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-carousel-track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    user-select: none;
+  }
+
+  /* ==========================================================================
+     Project Card (100% Solid Architectural Surface - Zero Glassmorphism)
+     ========================================================================== */
+  .project-card {
+    flex: 0 0 calc(50% - 0.875rem);
+    min-width: calc(50% - 0.875rem);
+    scroll-snap-align: start;
+    background-color: var(--th-secondary);
+    border: 2px solid var(--card-border);
+    border-top: 4px solid var(--brand-gold);
+    border-radius: 18px;
+    padding: 1.85rem 1.75rem;
+    position: relative;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+  }
+
+  @media (max-width: 1024px) {
+    .project-card {
+      flex: 0 0 calc(80% - 0.5rem);
+      min-width: calc(80% - 0.5rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .project-card {
+      flex: 0 0 100%;
+      min-width: 100%;
+      padding: 1.4rem 1.25rem;
+      border-radius: 16px;
+    }
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--brand-gold);
+    border-top-color: var(--brand-gold);
+    box-shadow: 0 8px 0 var(--brand-gold);
+  }
+
+  .project-card:active:not(:has(a:active, button:active)) {
+    transform: translateY(-1px);
+  }
+
+  /* ==========================================================================
+     Top Architectural Zone (Official Domain Icon + HUD + Semantic Category)
+     ========================================================================== */
+  .project-domain-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--th-primary);
+    border: 2px solid var(--brand-gold);
+    color: var(--brand-gold);
+    font-size: 1.25rem;
+    box-shadow: 0 2px 0 var(--card-border);
+    transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .project-card:hover .project-domain-icon {
+    transform: scale(1.08) rotate(-4deg);
+    background-color: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #ffffff !important;
+  }
+
+  .project-domain-icon :global(i),
+  .project-domain-icon :global(svg) {
+    color: inherit !important;
+  }
+
+  /* 100% Solid High-Contrast HUD Status Badge (Zero Pastels, Authoritative Engineering) */
+  .project-hud-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.26rem 0.8rem;
+    border-radius: 9999px;
+    font-size: 0.65625rem;
+    font-family: monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background-color: #0f172a;
+    border: 1.5px solid #1e293b;
+    color: #ffffff !important;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+  }
+
+  [data-theme="dark"] .project-hud-status {
+    background-color: #064e3b;
+    border-color: #047857;
+    color: #ffffff !important;
+  }
+
+  .project-hud-status span {
+    color: #ffffff !important;
+  }
+
+  .project-hud-status .status-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #10b981;
+    border: 1px solid #ffffff;
+    display: inline-block;
+    animation: statusPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  /* Category Badges (Dynamically propagate active brand accent) */
+  .project-category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.24rem 0.8rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 9999px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--brand-gold);
+    color: var(--brand-gold);
+    white-space: nowrap;
+    max-width: 100%;
+    transition: all 0.2s ease;
+  }
+
+  .project-arch-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 9999px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    color: var(--txt-muted);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .project-icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 10px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    color: var(--heading-color);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                color 0.2s ease;
+  }
+
+  .project-icon-link:hover {
+    border-color: var(--brand-gold);
+    background-color: var(--brand-gold);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+  }
+
+  .project-icon-link:hover i,
+  .project-icon-link:hover svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+  }
+
+  /* Harmonized Typography: Neutral Contrast in Dark & Light */
+  .project-card .card-title,
+  .project-card .project-title-link {
+    color: var(--txt-primary) !important;
+    font-size: clamp(1.2rem, 1.8vw, 1.38rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .project-card .project-title-link:hover {
+    color: var(--brand-gold) !important;
+  }
+
+  /* ==========================================================================
+     Architectural Bento Specs Strip (Responsive Grid - Zero Truncation)
+     ========================================================================== */
+  .project-specs-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-radius: 12px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    box-shadow: 0 2px 0 var(--card-border);
+    overflow: hidden;
+  }
+
+  .project-spec-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 0.4rem;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .project-spec-item.has-divider {
+    border-right: 1.5px solid var(--card-border);
+  }
+
+  .project-spec-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--txt-muted);
+    line-height: 1.25;
+  }
+
+  .project-spec-val {
+    display: block;
+    font-size: 0.78125rem;
+    color: var(--heading-color);
+    line-height: 1.3;
+    margin-top: 0.25rem;
+    text-align: center;
+    word-break: normal;
+    text-wrap: balance;
+  }
+
+  /* ==========================================================================
+     Interactive Technical Tabs (100% Solid Segmented Inspector)
+     ========================================================================== */
+  .card-tab-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.3rem;
+    padding: 0.3rem;
+    border-radius: 10px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    width: 100%;
+  }
+
+  .card-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.4rem;
+    border-radius: 8px;
+    font-size: 0.71875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--txt-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .card-tab-btn span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .card-tab-btn:hover {
+    color: var(--heading-color);
+    background-color: var(--th-secondary);
+  }
+
+  .card-tab-btn.active {
+    background-color: var(--th-secondary);
+    border-color: var(--card-border);
+    color: var(--heading-color) !important;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-tab-btn.active i,
+  .card-tab-btn.active svg {
+    color: var(--brand-gold) !important;
+    stroke: var(--brand-gold) !important;
+  }
+
+  .card-tab-pane.active {
+    display: block;
+    animation: tabFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes tabFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .project-detail-block {
+    padding: 0.95rem 1.15rem;
+    border-radius: 10px;
+    background-color: var(--th-primary);
+    border: 1.5px solid var(--card-border);
+    border-left: 4px solid var(--brand-gold);
+  }
+
+  .project-arch-block {
+    padding-top: 0.5rem;
+  }
+
+  .project-arch-text {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+  }
+
+  /* ==========================================================================
+     Card Action Buttons (Executive Solid Styling Aligned with .btn-cv-solid)
+     ========================================================================== */
+  .card-actions-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .btn-project-repo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.65rem 1.6rem;
+    border-radius: 9999px;
+    font-size: 0.78125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background-color: #14171f;
+    color: #ffffff !important;
+    border: 2px solid #2d3546;
+    box-shadow: 0 3px 0 #0d1017;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+    min-width: 220px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .btn-project-repo span,
+  .btn-project-repo i,
+  .btn-project-repo svg {
+    color: #ffffff !important;
+  }
+
+  .btn-project-repo:hover {
+    background-color: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .btn-project-repo:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  :root:not([data-theme="dark"]) .btn-project-repo,
+  [data-theme="light"] .btn-project-repo {
+    background-color: #0e3d65;
+    border-color: #0e3d65;
+    box-shadow: 0 3px 0 #092238;
+  }
+
+  :root:not([data-theme="dark"]) .btn-project-repo:hover,
+  [data-theme="light"] .btn-project-repo:hover {
+    background-color: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #ffffff !important;
+  }
+
+  .btn-project-demo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.78125rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background-color: var(--th-primary);
+    color: var(--heading-color) !important;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 3px 0 var(--card-border);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s ease,
+                background-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .btn-project-demo:hover {
+    border-color: var(--brand-gold);
+    color: var(--brand-gold) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 var(--brand-gold);
+  }
+
+  .btn-project-demo:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 var(--brand-gold);
+  }
+
+  /* ==========================================================================
+     Filter Buttons & GitHub Callout Banner
+     ========================================================================== */
+  .project-filter-btn {
+    border: 2px solid var(--card-border);
+    background-color: var(--th-secondary);
+    color: var(--txt-primary);
+    box-shadow: 0 2px 0 var(--card-border);
+  }
+
+  .project-filter-btn:hover {
+    border-color: var(--brand-gold);
+    color: var(--brand-gold);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 var(--brand-gold);
+  }
+
+  .project-filter-btn:active {
+    transform: scale(0.96);
+  }
+
+  .project-filter-btn.active {
+    background-color: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #ffffff !important;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .project-filter-btn.active span {
+    color: #ffffff !important;
+  }
+
+  .github-callout-banner {
+    background-color: #14171f;
+    border: 2px solid #2d3546;
+    box-shadow: 0 4px 0 #0d0f14;
+    text-decoration: none;
+  }
+
+  .github-callout-banner:hover {
+    border-color: var(--brand-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--brand-gold);
+  }
+
+  [data-theme="light"] .github-callout-banner {
+    background-color: #0e3d65;
+    border-color: #0e3d65;
+    box-shadow: 0 4px 0 #092238;
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function setupProjectsCarousel() {
+    const track = document.getElementById('project-carousel-track') as HTMLElement | null;
+    const prevBtn = document.getElementById('carousel-prev') as HTMLButtonElement | null;
+    const nextBtn = document.getElementById('carousel-next') as HTMLButtonElement | null;
+    const currentIndicator = document.getElementById('carousel-current') as HTMLElement | null;
+    const totalIndicator = document.getElementById('carousel-total') as HTMLElement | null;
+    const progressBar = document.getElementById('carousel-progress-bar') as HTMLElement | null;
+    const dotButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.carousel-dot-btn'));
+    const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-project-filter]'));
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-project-card]'));
+
+    if (!track || !cards.length) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 1. Initial GSAP ScrollTrigger Entrance Reveal
+    if (!prefersReducedMotion) {
+      gsap.fromTo(
+        cards,
+        { y: 28, autoAlpha: 0, scale: 0.98 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          scale: 1,
+          duration: 0.55,
+          stagger: 0.08,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: track,
+            start: 'top 85%',
+            once: true,
+          },
+          clearProps: 'transform,opacity,visibility,scale',
+        }
+      );
+    }
+
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+    let hasDragged = false;
+    let lastX = 0;
+    let lastTime = 0;
+    let velocity = 0;
+
+    // Helper: Get currently visible cards based on active filter
+    function getVisibleCards(): HTMLElement[] {
+      return cards.filter((card) => card.style.display !== 'none');
+    }
+
+    // Helper: Update Navigation state, Counter, and Dots
+    function updateCarouselState() {
+      if (!track) return;
+      const visibleCards = getVisibleCards();
+      const total = visibleCards.length;
+      if (totalIndicator) {
+        totalIndicator.textContent = String(total).padStart(2, '0');
+      }
+
+      if (total === 0) {
+        if (currentIndicator) currentIndicator.textContent = '00';
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = true;
+        if (progressBar) progressBar.style.width = '0%';
+        return;
+      }
+
+      // Calculate which card is closest to the left edge of track
+      const trackLeft = track.getBoundingClientRect().left;
+      let closestIdx = 0;
+      let minDiff = Infinity;
+
+      visibleCards.forEach((card, idx) => {
+        const cardLeft = card.getBoundingClientRect().left;
+        const diff = Math.abs(cardLeft - trackLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = idx;
+        }
+      });
+
+      // Update current index counter
+      if (currentIndicator) {
+        currentIndicator.textContent = String(closestIdx + 1).padStart(2, '0');
+      }
+
+      // Update architectural progress bar smoothly
+      if (progressBar && total > 0) {
+        const percent = Math.min(100, Math.max(10, ((closestIdx + 1) / total) * 100));
+        progressBar.style.width = `${percent}%`;
+      }
+
+      // Update Dots
+      dotButtons.forEach((dot) => {
+        const dotIdx = parseInt(dot.getAttribute('data-dot-index') || '0', 10);
+        const originalIndex = parseInt(visibleCards[closestIdx]?.getAttribute('data-index') || '0', 10);
+        const isActive = dotIdx === originalIndex;
+        dot.classList.toggle('active', isActive);
+        dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      // Update Prev / Next button states
+      const maxScrollLeft = track.scrollWidth - track.clientWidth - 5;
+      if (prevBtn) prevBtn.disabled = track.scrollLeft <= 5;
+      if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScrollLeft;
+    }
+
+    // Scroll by N cards
+    function scrollByCard(direction: number) {
+      if (!track) return;
+      const visibleCards = getVisibleCards();
+      if (!visibleCards.length) return;
+
+      const trackLeft = track.getBoundingClientRect().left;
+      let closestIdx = 0;
+      let minDiff = Infinity;
+
+      visibleCards.forEach((card, idx) => {
+        const diff = Math.abs(card.getBoundingClientRect().left - trackLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIdx = idx;
+        }
+      });
+
+      let targetIdx = closestIdx + direction;
+      targetIdx = Math.max(0, Math.min(targetIdx, visibleCards.length - 1));
+
+      const targetCard = visibleCards[targetIdx];
+      if (targetCard) {
+        const targetScroll = targetCard.offsetLeft - track.offsetLeft;
+        track.scrollTo({
+          left: targetScroll,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+      }
+    }
+
+    // Scroll to specific slide index
+    function scrollToCardIndex(index: number) {
+      if (!track) return;
+      const card = cards.find((c) => c.getAttribute('data-index') === String(index));
+      if (card && card.style.display !== 'none') {
+        const targetScroll = card.offsetLeft - track.offsetLeft;
+        track.scrollTo({
+          left: targetScroll,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+      }
+    }
+
+    // Snap to closest visible card on drag release
+    function snapToNearestCard() {
+      if (!track) return;
+      const visibleCards = getVisibleCards();
+      if (!visibleCards.length) return;
+      const trackLeft = track.getBoundingClientRect().left;
+      let closestCard = visibleCards[0];
+      let minDiff = Infinity;
+      visibleCards.forEach((card) => {
+        const diff = Math.abs(card.getBoundingClientRect().left - trackLeft);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestCard = card;
+        }
+      });
+      if (closestCard) {
+        const targetScroll = closestCard.offsetLeft - track.offsetLeft;
+        track.scrollTo({
+          left: targetScroll,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+      }
+    }
+
+    // Micro-bounce spring animation on navigation buttons
+    const triggerBtnBounce = (btn: HTMLElement | null) => {
+      if (!btn || prefersReducedMotion) return;
+      gsap.fromTo(btn, { scale: 0.88 }, { scale: 1, duration: 0.35, ease: 'back.out(2)' });
+    };
+
+    // Event: Prev / Next buttons
+    prevBtn?.addEventListener('click', () => {
+      triggerBtnBounce(prevBtn);
+      scrollByCard(-1);
+    });
+    nextBtn?.addEventListener('click', () => {
+      triggerBtnBounce(nextBtn);
+      scrollByCard(1);
+    });
+
+    // Interactive Internal Tabs on each Project Card
+    cards.forEach((card) => {
+      const tabButtons = Array.from(card.querySelectorAll<HTMLButtonElement>('.card-tab-btn'));
+      const tabPanes = Array.from(card.querySelectorAll<HTMLElement>('.card-tab-pane'));
+
+      tabButtons.forEach((tabBtn) => {
+        tabBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetId = tabBtn.getAttribute('data-tab-target');
+          if (!targetId) return;
+
+          tabButtons.forEach((b) => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          tabBtn.classList.add('active');
+          tabBtn.setAttribute('aria-selected', 'true');
+
+          tabPanes.forEach((pane) => {
+            if (pane.id === targetId) {
+              pane.classList.remove('hidden');
+              pane.classList.add('active');
+              if (!prefersReducedMotion) {
+                gsap.fromTo(pane, { opacity: 0, y: 4 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' });
+              }
+            } else {
+              pane.classList.add('hidden');
+              pane.classList.remove('active');
+            }
+          });
+        });
+      });
+    });
+
+    // Event: Pagination dot clicks
+    dotButtons.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = parseInt(dot.getAttribute('data-dot-index') || '0', 10);
+        scrollToCardIndex(idx);
+      });
+    });
+
+    // Event: Scroll listener (debounced with requestAnimationFrame)
+    let isTicking = false;
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (!isTicking) {
+          window.requestAnimationFrame(() => {
+            updateCarouselState();
+            isTicking = false;
+          });
+          isTicking = true;
+        }
+      },
+      { passive: true },
+    );
+
+    // Event: Full Keyboard Navigation
+    track.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        scrollByCard(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        scrollByCard(1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        scrollToCardIndex(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        const visible = getVisibleCards();
+        if (visible.length) {
+          const lastIdx = parseInt(visible[visible.length - 1].getAttribute('data-index') || '0', 10);
+          scrollToCardIndex(lastIdx);
+        }
+      } else if (e.key === 'PageUp') {
+        e.preventDefault();
+        scrollByCard(-2);
+      } else if (e.key === 'PageDown') {
+        e.preventDefault();
+        scrollByCard(2);
+      }
+    });
+
+    // Event: Pointer Drag-to-Scroll Physics
+    track.addEventListener('pointerdown', (e: PointerEvent) => {
+      if ((e.target as HTMLElement)?.closest('button, a')) return;
+      isDown = true;
+      hasDragged = false;
+      startX = e.pageX - track.offsetLeft;
+      scrollStart = track.scrollLeft;
+      lastX = e.pageX;
+      lastTime = Date.now();
+      velocity = 0;
+      track.classList.add('is-dragging');
+    });
+
+    window.addEventListener('pointermove', (e: PointerEvent) => {
+      if (!isDown || !track) return;
+      const x = e.pageX - track.offsetLeft;
+      const walk = (x - startX) * 1.35;
+      if (Math.abs(walk) > 6) {
+        hasDragged = true;
+      }
+      track.scrollLeft = scrollStart - walk;
+
+      const now = Date.now();
+      const dt = now - lastTime;
+      if (dt > 0) {
+        velocity = (e.pageX - lastX) / dt;
+        lastX = e.pageX;
+        lastTime = now;
+      }
+    });
+
+    const stopDragging = () => {
+      if (!isDown || !track) return;
+      isDown = false;
+      track.classList.remove('is-dragging');
+
+      if (Math.abs(velocity) > 0.35) {
+        scrollByCard(velocity > 0 ? -1 : 1);
+      } else {
+        snapToNearestCard();
+      }
+      updateCarouselState();
+    };
+
+    window.addEventListener('pointerup', stopDragging);
+    window.addEventListener('pointercancel', stopDragging);
+
+    // Suppress accidental link click while dragging
+    track.addEventListener(
+      'click',
+      (e) => {
+        if (hasDragged) {
+          e.preventDefault();
+          e.stopPropagation();
+          hasDragged = false;
+        }
+      },
+      true,
+    );
+
+    // Category Filter Integration with Fluid Re-Entrance Transition
+    filterButtons.forEach((btn, bIdx) => {
+      btn.addEventListener('click', () => {
+        const filterValue = btn.getAttribute('data-project-filter');
+        if (!filterValue || !track) return;
+
+        // Update tab buttons
+        filterButtons.forEach((b) => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        // Filter cards
+        cards.forEach((card) => {
+          const category = card.getAttribute('data-category');
+          if (filterValue === 'all' || category === filterValue) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Dynamic re-entrance cascade
+        if (!prefersReducedMotion) {
+          const visible = getVisibleCards();
+          gsap.fromTo(
+            visible,
+            { opacity: 0, scale: 0.97, y: 16 },
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.35,
+              stagger: 0.05,
+              ease: 'power2.out',
+              clearProps: 'transform,opacity,scale',
+            }
+          );
+        }
+
+        // Filter dots
+        dotButtons.forEach((dot) => {
+          const dotIdx = dot.getAttribute('data-dot-index');
+          const correspondingCard = cards.find((c) => c.getAttribute('data-index') === dotIdx);
+          if (correspondingCard && correspondingCard.style.display !== 'none') {
+            dot.style.display = 'inline-block';
+          } else {
+            dot.style.display = 'none';
+          }
+        });
+
+        // Reset scroll position smoothly to first visible card
+        track.scrollTo({ left: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        setTimeout(updateCarouselState, 150);
+      });
+
+      // Filter arrow key navigation
+      btn.addEventListener('keydown', (e) => {
+        let targetIndex = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          targetIndex = (bIdx + 1) % filterButtons.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          targetIndex = (bIdx - 1 + filterButtons.length) % filterButtons.length;
+        } else if (e.key === 'Home') {
+          targetIndex = 0;
+        } else if (e.key === 'End') {
+          targetIndex = filterButtons.length - 1;
+        }
+
+        if (targetIndex >= 0) {
+          e.preventDefault();
+          const targetBtn = filterButtons[targetIndex];
+          targetBtn.focus();
+          targetBtn.click();
+        }
+      });
+    });
+
+    // Initial state update
+    updateCarouselState();
+  }
+
+  // Initialize on DOM ready and Astro page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupProjectsCarousel);
+  } else {
+    setupProjectsCarousel();
+  }
+  document.addEventListener('astro:page-load', setupProjectsCarousel);
+</script>

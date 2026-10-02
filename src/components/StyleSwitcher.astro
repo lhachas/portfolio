@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -45,7 +46,7 @@ const { styleSwitcher } = await getPortfolioContent(locale);
       aria-label={styleSwitcher.toggleAriaLabel}
       aria-expanded="false"
     >
-      <i class="icofont icofont-color-bucket text-2xl ti-spin-slow" aria-hidden="true"></i>
+      <Icon name="palette" size={20} class="ti-spin-slow text-white" />
     </button>
   </div>
 </div>
@@ -58,7 +59,7 @@ const { styleSwitcher } = await getPortfolioContent(locale);
   class="back-to-top-btn"
   aria-label={styleSwitcher.backToTopAriaLabel}
 >
-  <i class="icofont icofont-caret-up text-lg" aria-hidden="true"></i>
+  <Icon name="chevron-up" size={20} />
 </a>
 
 <script is:inline>
@@ -70,7 +71,7 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     const validHex = /^#[0-9a-fA-F]{6}$/;
 
     const syncActiveSwatch = (activeHex) => {
-      const normalized = (activeHex || '#cdb30c').toLowerCase();
+      const normalized = (activeHex || '#3f87f5').toLowerCase();
       swatches.forEach((swatch) => {
         const swatchHex = (swatch.getAttribute('data-accent-color') || '').toLowerCase();
         const isMatch = swatchHex === normalized;
@@ -80,8 +81,6 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     };
 
     const applyAccentPalette = (primary, hover, persist) => {
-      if (!validHex.test(primary) || !validHex.test(hover)) return;
-
       const onAccent = '#ffffff';
 
       const root = document.documentElement.style;
@@ -107,15 +106,15 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     };
 
     try {
-      const savedPrimary = localStorage.getItem('user-accent-hex') || '#cdb30c';
-      const savedHover = localStorage.getItem('user-accent-hover') || '#b39b09';
+      const savedPrimary = localStorage.getItem('user-accent-hex') || '#3f87f5';
+      const savedHover = localStorage.getItem('user-accent-hover') || '#2563eb';
       if (validHex.test(savedPrimary) && validHex.test(savedHover)) {
         applyAccentPalette(savedPrimary, savedHover, false);
       } else {
-        syncActiveSwatch('#cdb30c');
+        syncActiveSwatch('#3f87f5');
       }
     } catch (err) {
-      syncActiveSwatch('#cdb30c');
+      syncActiveSwatch('#3f87f5');
     }
 
     toggleBtn?.addEventListener('click', (e) => {
