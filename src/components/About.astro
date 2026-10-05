@@ -219,12 +219,8 @@ const { trainingShowcase } = about;
       <details class="training-drawer mt-7 group" open>
         <summary class="training-summary">
           <div class="flex items-center gap-3.5">
-            <span
-              class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0e3d65] text-gold border-2 border-gold"
-              style="box-shadow: 0 3px 0 #08233a;"
-              aria-hidden="true"
-            >
-              <i class="icofont icofont-certificate-alt-1 text-xl"></i>
+            <span class="training-icon-badge" aria-hidden="true">
+              <Icon name="award" size={22} class="text-gold" />
             </span>
             <div>
               <span class="block text-base sm:text-lg font-medium uppercase tracking-wider" style="color: var(--heading-color);">
@@ -245,11 +241,8 @@ const { trainingShowcase } = about;
                 </span>
               ))
             }
-            <span
-              class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0e3d65] text-gold border-2 border-gold group-open:rotate-180 transition-transform"
-              aria-hidden="true"
-            >
-              <i class="icofont icofont-rounded-down text-lg"></i>
+            <span class="training-toggle-btn" aria-hidden="true">
+              <Icon name="chevron-down" size={16} class="text-gold group-open:rotate-180 transition-transform duration-300" />
             </span>
           </div>
         </summary>
@@ -259,12 +252,13 @@ const { trainingShowcase } = about;
           <div class="lg:col-span-8">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
               <span class="label-c">{trainingShowcase.coursesHeading}</span>
-              <span class="text-xs font-medium uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#0e3d65] text-white">
-                {trainingShowcase.coursesPeriodBadge}
+              <span class="training-period-pill">
+                <Icon name="calendar" size={12} class="text-gold shrink-0" />
+                <span>{trainingShowcase.coursesPeriodBadge}</span>
               </span>
             </div>
 
-            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="list">
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="list">
               {
                 trainingShowcase.courses.map((course) => (
                   <li
@@ -276,20 +270,17 @@ const { trainingShowcase } = about;
                         <Icon name="check" size={12} class="inline-block shrink-0" />
                         <span>{course.provider}</span>
                       </span>
-                      <span
-                        class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider"
-                        style="background-color: var(--th-secondary); border: 1px solid var(--card-border); color: var(--pill-text);"
-                      >
+                      <span class="course-date-pill">
                         <Icon name="calendar" size={12} style={`color: ${course.providerColor};`} class="inline-block shrink-0" />
                         <span>{course.date}</span>
                       </span>
                     </div>
 
-                    <strong class="block font-medium text-[14.5px] leading-snug" style="color: var(--heading-color);">
+                    <strong class="course-title">
                       {course.name}
                     </strong>
 
-                    <div class="flex items-center justify-between pt-1 border-t" style="border-color: var(--card-border);">
+                    <div class="course-footer">
                       <span class="text-[12px] font-normal" style="color: var(--txt-muted);">
                         {trainingShowcase.courseDomainPrefix} <strong class="font-medium txt-primary">{course.domain}</strong>
                       </span>
@@ -311,17 +302,17 @@ const { trainingShowcase } = about;
                     const badgeColor = idx % 2 === 0 ? '#0d9488' : '#2563eb';
                     return (
                       <div
-                        class="flex items-center gap-3 rounded-xl p-2.5 border"
-                        style={`background-color: var(--th-primary); border-color: var(--card-border); border-left: 4px solid ${badgeColor};`}
+                        class="competency-card"
+                        style={`--competency-color: ${badgeColor};`}
                       >
                         <span
-                          class="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white text-xs"
+                          class="competency-badge"
                           style={`background-color: ${badgeColor};`}
                           aria-hidden="true"
                         >
-                          <i class="icofont icofont-check-alt"></i>
+                          <Icon name="check" size={12} class="text-white" />
                         </span>
-                        <span class="text-[14px] font-normal txt-primary">
+                        <span class="competency-label">
                           {skill}
                         </span>
                       </div>
@@ -331,18 +322,15 @@ const { trainingShowcase } = about;
               </div>
             </div>
 
-            <!-- Executive Summary Callout Card -->
-            <div
-              class="rounded-xl p-4 border-2 border-gold bg-[#0e3d65] text-white"
-              style="box-shadow: 0 4px 0 #08233a;"
-            >
-              <div class="flex items-center gap-2.5 mb-1.5">
-                <i class="icofont icofont-award text-gold text-xl" aria-hidden="true"></i>
-                <span class="text-xs font-semibold uppercase tracking-widest text-gold">
+            <!-- Executive Summary Callout Card (100% Solid Architectural Surface) -->
+            <div class="training-callout-card">
+              <div class="flex items-center gap-2.5 mb-2">
+                <Icon name="award" size={20} class="text-gold shrink-0" />
+                <span class="training-callout-title">
                   {trainingShowcase.engineeringFocusCallout.title}
                 </span>
               </div>
-              <p class="text-[13px] font-light text-[#e2e8f0] leading-relaxed">
+              <p class="training-callout-desc">
                 {trainingShowcase.engineeringFocusCallout.description}
               </p>
             </div>
