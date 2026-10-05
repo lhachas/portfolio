@@ -269,7 +269,7 @@ const { trainingShowcase } = about;
                 trainingShowcase.courses.map((course) => (
                   <li
                     class="course-card"
-                    style={`--provider-color: ${course.providerColor};`}
+                    style={`--provider-color: ${course.providerColor}; --card-accent: ${course.providerColor};`}
                   >
                     <div class="flex items-center justify-between gap-2">
                       <span class="provider-badge" style={`--provider-color: ${course.providerColor};`}>

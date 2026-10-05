@@ -1122,7 +1122,7 @@ a[data-lang-switch]:hover {
   border-color: var(--card-accent, var(--metric-accent, var(--brand-gold)));
   background-color: #252a38;
   transform: var(--card-hover-lift);
-  box-shadow: var(--card-hover-shadow);
+  box-shadow: 0 8px 0 var(--card-accent, var(--metric-accent, var(--brand-gold)));
 }
 
 :root:not([data-theme="dark"]) .hero-metric-card:hover,
@@ -1131,7 +1131,7 @@ a[data-lang-switch]:hover {
 [data-theme="light"] .hero-metric-card:focus-within {
   background-color: #f8fafc;
   border-color: var(--card-accent, var(--metric-accent, var(--brand-gold)));
-  box-shadow: var(--card-hover-shadow);
+  box-shadow: 0 8px 0 var(--card-accent, var(--metric-accent, var(--brand-gold)));
 }
 
 .hero-metric-card:active {
@@ -1685,7 +1685,7 @@ a[data-lang-switch]:hover {
 .spotlight-card:focus-within {
   transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--brand-gold));
-  box-shadow: var(--card-hover-shadow);
+  box-shadow: 0 8px 0 var(--card-accent, var(--brand-gold));
 }
 
 .card-box:active,
@@ -1773,7 +1773,7 @@ a[data-lang-switch]:hover {
 .edu-card:focus-within {
   transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--edu-accent, var(--brand-gold)));
-  box-shadow: var(--card-hover-shadow);
+  box-shadow: 0 8px 0 var(--card-accent, var(--edu-accent, var(--brand-gold)));
 }
 
 .edu-card:active {
@@ -1864,7 +1864,7 @@ a[data-lang-switch]:hover {
 .course-card:focus-within {
   transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--provider-color, #2563eb));
-  box-shadow: var(--card-hover-shadow);
+  box-shadow: 0 8px 0 var(--card-accent, var(--provider-color, #2563eb));
 }
 
 .course-card:active {
@@ -2061,7 +2061,7 @@ a[data-lang-switch]:hover {
   text-decoration: none;
   transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--timeline-color, var(--brand-gold)));
-  box-shadow: var(--card-hover-shadow);
+  box-shadow: 0 8px 0 var(--card-accent, var(--timeline-color, var(--brand-gold)));
 }
 
 .main-timeline .timeline-content:active {
