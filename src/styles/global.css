@@ -43,6 +43,15 @@
   --wave-primary-fill: #f1f5f9;
   --card-border: #cbd5e1;
   --card-shadow: 0 4px 0 #cbd5e1;
+  --card-border-width: 2px;
+  --card-top-border-width: 4px;
+  --card-hover-lift: translateY(-4px);
+  --card-active-lift: translateY(-1px);
+  --card-hover-transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                           border-color 0.25s ease,
+                           box-shadow 0.25s ease,
+                           background-color 0.25s ease;
+  --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.06), 0 4px 0 #cbd5e1;
   --input-bg: #f8fafc;
   --input-text: #1e293b;
   --input-placeholder: #475569;
@@ -73,6 +82,7 @@
   --wave-primary-fill: #161922;
   --card-border: #333a48;
   --card-shadow: 0 4px 0 #0d0f14;
+  --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 4px 0 #0d0f14;
   --input-bg: #14171f;
   --input-text: #f8fafc;
   --input-placeholder: #94a3b8;
@@ -1090,31 +1100,40 @@ a[data-lang-switch]:hover {
   border-radius: 14px;
   padding: 1.05rem 0.95rem;
   background-color: #1e222d;
-  border: 2px solid #2e3545;
-  border-top: 4px solid var(--metric-accent, var(--brand-gold));
-  box-shadow: 0 4px 0 #0a0c10;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--metric-accent, var(--brand-gold)));
+  box-shadow: var(--card-shadow);
+  transition: var(--card-hover-transition);
   overflow: hidden;
 }
 
 :root:not([data-theme="dark"]) .hero-metric-card,
 [data-theme="light"] .hero-metric-card {
   background-color: #ffffff;
-  border: 2px solid #cbd5e1;
-  border-top: 4px solid var(--metric-accent, var(--brand-gold));
-  box-shadow: 0 4px 0 #cbd5e1;
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--metric-accent, var(--brand-gold)));
+  box-shadow: var(--card-shadow);
 }
 
-.hero-metric-card:hover {
-  border-color: var(--metric-accent, var(--brand-gold));
+.hero-metric-card:hover,
+.hero-metric-card:focus-within {
+  border-color: var(--card-accent, var(--metric-accent, var(--brand-gold)));
   background-color: #252a38;
-  transform: translateY(-4px);
+  transform: var(--card-hover-lift);
+  box-shadow: var(--card-hover-shadow);
 }
 
 :root:not([data-theme="dark"]) .hero-metric-card:hover,
-[data-theme="light"] .hero-metric-card:hover {
+[data-theme="light"] .hero-metric-card:hover,
+:root:not([data-theme="dark"]) .hero-metric-card:focus-within,
+[data-theme="light"] .hero-metric-card:focus-within {
   background-color: #f8fafc;
-  border-color: var(--metric-accent, var(--brand-gold));
+  border-color: var(--card-accent, var(--metric-accent, var(--brand-gold)));
+  box-shadow: var(--card-hover-shadow);
+}
+
+.hero-metric-card:active {
+  transform: var(--card-active-lift);
 }
 
 .hero-metric-val {
@@ -1630,12 +1649,12 @@ a[data-lang-switch]:hover {
    Card Box & 45deg Diamond Rotating Icon (100% Solid Non-Monotonous Surface)
    ========================================================================== */
 .card-box {
-  border: 2px solid var(--card-border);
-  border-top: 5px solid var(--card-accent, var(--brand-gold));
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--brand-gold));
   border-radius: 16px;
   padding: 2rem 1.75rem;
   box-shadow: var(--card-shadow);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: var(--card-hover-transition);
   position: relative;
   overflow: hidden;
   height: 100%;
@@ -1651,15 +1670,24 @@ a[data-lang-switch]:hover {
 .spotlight-card {
   position: relative;
   overflow: hidden;
-  border: 2px solid var(--card-border);
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--brand-gold));
   box-shadow: var(--card-shadow);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: var(--card-hover-transition);
 }
 
 .card-box:hover,
-.spotlight-card:hover {
-  transform: translateY(-4px);
+.card-box:focus-within,
+.spotlight-card:hover,
+.spotlight-card:focus-within {
+  transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--brand-gold));
+  box-shadow: var(--card-hover-shadow);
+}
+
+.card-box:active,
+.spotlight-card:active {
+  transform: var(--card-active-lift);
 }
 
 .card-box .card-icon {
@@ -1728,18 +1756,24 @@ a[data-lang-switch]:hover {
   border-radius: 16px;
   padding: 1.5rem 1.4rem;
   background-color: var(--th-secondary);
-  border: 2px solid var(--card-border);
-  border-top: 5px solid var(--edu-accent, var(--brand-gold));
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--edu-accent, var(--brand-gold)));
   box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: var(--card-hover-transition);
 }
 
-.edu-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--edu-accent, var(--brand-gold));
+.edu-card:hover,
+.edu-card:focus-within {
+  transform: var(--card-hover-lift);
+  border-color: var(--card-accent, var(--edu-accent, var(--brand-gold)));
+  box-shadow: var(--card-hover-shadow);
+}
+
+.edu-card:active {
+  transform: var(--card-active-lift);
 }
 
 .edu-icon-badge {
@@ -1815,14 +1849,17 @@ a[data-lang-switch]:hover {
   padding: 0.85rem 1rem;
   border-radius: 12px;
   background-color: var(--th-primary);
-  border: 1.5px solid var(--card-border);
-  border-left: 4px solid var(--provider-color, #2563eb);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-left: var(--card-top-border-width, 4px) solid var(--card-accent, var(--provider-color, #2563eb));
+  box-shadow: 0 2px 0 var(--card-border);
+  transition: var(--card-hover-transition);
 }
 
-.course-card:hover {
+.course-card:hover,
+.course-card:focus-within {
   transform: translateY(-2px);
-  border-color: var(--provider-color, #2563eb);
+  border-color: var(--card-accent, var(--provider-color, #2563eb));
+  box-shadow: var(--card-hover-shadow);
 }
 
 .provider-badge {
@@ -1999,18 +2036,26 @@ a[data-lang-switch]:hover {
 .main-timeline .timeline-content {
   color: var(--txt-primary);
   background-color: var(--th-secondary);
-  border: 3px solid var(--timeline-color, var(--brand-gold));
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--timeline-color, var(--brand-gold)));
   border-radius: 18px;
   display: block;
   position: relative;
   overflow: hidden;
   box-shadow: var(--card-shadow);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: var(--card-hover-transition);
 }
 
-.main-timeline .timeline-content:hover {
+.main-timeline .timeline-content:hover,
+.main-timeline .timeline-content:focus-within {
   text-decoration: none;
-  transform: translateY(-4px);
+  transform: var(--card-hover-lift);
+  border-color: var(--card-accent, var(--timeline-color, var(--brand-gold)));
+  box-shadow: var(--card-hover-shadow);
+}
+
+.main-timeline .timeline-content:active {
+  transform: var(--card-active-lift);
 }
 
 .exp-card-header {
@@ -2193,14 +2238,17 @@ textarea.form-control-pill {
   padding: 0.95rem 1.15rem;
   border-radius: 14px;
   background-color: var(--th-secondary);
-  border: 2px solid var(--card-border);
-  border-left: 5px solid var(--channel-color, var(--brand-gold));
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  border: var(--card-border-width, 2px) solid var(--card-border);
+  border-left: 5px solid var(--card-accent, var(--channel-color, var(--brand-gold)));
+  box-shadow: 0 2px 0 var(--card-border);
+  transition: var(--card-hover-transition);
 }
 
-.contact-channel-card:hover {
+.contact-channel-card:hover,
+.contact-channel-card:focus-within {
   transform: translateX(4px);
-  border-color: var(--channel-color, var(--brand-gold));
+  border-color: var(--card-accent, var(--channel-color, var(--brand-gold)));
+  box-shadow: var(--card-hover-shadow);
 }
 
 .contact-channel-icon {
@@ -2246,11 +2294,18 @@ textarea.form-control-pill {
   border-radius: 16px;
   padding: 1.4rem 1.5rem;
   background-color: #1c212c;
-  border: 2px solid #2d3546;
-  border-top: 4px solid var(--footer-accent, var(--brand-gold));
+  border: var(--card-border-width, 2px) solid #2d3546;
+  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--footer-accent, var(--brand-gold)));
   box-shadow: 0 4px 0 #0a0c10;
   height: 100%;
-  transition: border-color 0.25s ease;
+  transition: var(--card-hover-transition);
+}
+
+.footer-card:hover,
+.footer-card:focus-within {
+  transform: var(--card-hover-lift);
+  border-color: var(--card-accent, var(--footer-accent, var(--brand-gold)));
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 4px 0 #0a0c10;
 }
 
 .footer-nav-pill {
@@ -2604,5 +2659,37 @@ textarea.form-control-pill {
   .iam-orbit-ring,
   .scroll-wheel {
     animation: none !important;
+  }
+  .card-box,
+  .spotlight-card,
+  .edu-card,
+  .course-card,
+  .hero-metric-card,
+  .project-card,
+  .main-timeline .timeline-content,
+  .contact-channel-card,
+  .footer-card {
+    transition: none !important;
+    transform: none !important;
+  }
+  .card-box:hover,
+  .card-box:focus-within,
+  .spotlight-card:hover,
+  .spotlight-card:focus-within,
+  .edu-card:hover,
+  .edu-card:focus-within,
+  .course-card:hover,
+  .course-card:focus-within,
+  .hero-metric-card:hover,
+  .hero-metric-card:focus-within,
+  .project-card:hover,
+  .project-card:focus-within,
+  .main-timeline .timeline-content:hover,
+  .main-timeline .timeline-content:focus-within,
+  .contact-channel-card:hover,
+  .contact-channel-card:focus-within,
+  .footer-card:hover,
+  .footer-card:focus-within {
+    transform: none !important;
   }
 }

@@ -162,6 +162,7 @@ const {
               data-index={idx}
               id={`project-${project.id}`}
               data-project-id={project.id}
+              style={`--card-accent: ${project.accentColor || 'var(--brand-gold)'};`}
             >
                 <div>
                   <!-- Top Architectural Header: Domain Icon Medallion + Solid HUD Status + Semantic Category + Actions -->
@@ -560,15 +561,13 @@ const {
     min-width: calc(50% - 0.875rem);
     scroll-snap-align: start;
     background-color: var(--th-secondary);
-    border: 2px solid var(--card-border);
-    border-top: 4px solid var(--brand-gold);
+    border: var(--card-border-width, 2px) solid var(--card-border);
+    border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--brand-gold));
     border-radius: 18px;
     padding: 1.85rem 1.75rem;
     position: relative;
     box-shadow: var(--card-shadow);
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.25s ease,
-                box-shadow 0.25s ease;
+    transition: var(--card-hover-transition);
   }
 
   @media (max-width: 1024px) {
@@ -587,15 +586,15 @@ const {
     }
   }
 
-  .project-card:hover {
-    transform: translateY(-6px);
-    border-color: var(--brand-gold);
-    border-top-color: var(--brand-gold);
-    box-shadow: 0 8px 0 var(--brand-gold);
+  .project-card:hover,
+  .project-card:focus-within {
+    transform: var(--card-hover-lift);
+    border-color: var(--card-accent, var(--brand-gold));
+    box-shadow: var(--card-hover-shadow);
   }
 
   .project-card:active:not(:has(a:active, button:active)) {
-    transform: translateY(-1px);
+    transform: var(--card-active-lift);
   }
 
   /* ==========================================================================
@@ -609,17 +608,18 @@ const {
     align-items: center;
     justify-content: center;
     background-color: var(--th-primary);
-    border: 2px solid var(--brand-gold);
-    color: var(--brand-gold);
+    border: 2px solid var(--card-accent, var(--brand-gold));
+    color: var(--card-accent, var(--brand-gold));
     font-size: 1.25rem;
     box-shadow: 0 2px 0 var(--card-border);
     transition: transform 0.25s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
-  .project-card:hover .project-domain-icon {
+  .project-card:hover .project-domain-icon,
+  .project-card:focus-within .project-domain-icon {
     transform: scale(1.08) rotate(-4deg);
-    background-color: var(--brand-gold);
-    border-color: var(--brand-gold);
+    background-color: var(--card-accent, var(--brand-gold));
+    border-color: var(--card-accent, var(--brand-gold));
     color: #ffffff !important;
   }
 
@@ -683,8 +683,8 @@ const {
     letter-spacing: 0.08em;
     border-radius: 9999px;
     background-color: var(--th-primary);
-    border: 1.5px solid var(--brand-gold);
-    color: var(--brand-gold);
+    border: 1.5px solid var(--card-accent, var(--brand-gold));
+    color: var(--card-accent, var(--brand-gold));
     white-space: nowrap;
     max-width: 100%;
     transition: all 0.2s ease;
@@ -726,8 +726,8 @@ const {
   }
 
   .project-icon-link:hover {
-    border-color: var(--brand-gold);
-    background-color: var(--brand-gold);
+    border-color: var(--card-accent, var(--brand-gold));
+    background-color: var(--card-accent, var(--brand-gold));
     color: #ffffff !important;
     transform: translateY(-2px);
   }
@@ -751,7 +751,7 @@ const {
   }
 
   .project-card .project-title-link:hover {
-    color: var(--brand-gold) !important;
+    color: var(--card-accent, var(--brand-gold)) !important;
   }
 
   /* ==========================================================================
@@ -859,8 +859,8 @@ const {
 
   .card-tab-btn.active i,
   .card-tab-btn.active svg {
-    color: var(--brand-gold) !important;
-    stroke: var(--brand-gold) !important;
+    color: var(--card-accent, var(--brand-gold)) !important;
+    stroke: var(--card-accent, var(--brand-gold)) !important;
   }
 
   .card-tab-pane.active {
@@ -884,7 +884,7 @@ const {
     border-radius: 10px;
     background-color: var(--th-primary);
     border: 1.5px solid var(--card-border);
-    border-left: 4px solid var(--brand-gold);
+    border-left: 4px solid var(--card-accent, var(--brand-gold));
   }
 
   .project-arch-block {
@@ -940,8 +940,8 @@ const {
   }
 
   .btn-project-repo:hover {
-    background-color: var(--brand-gold);
-    border-color: var(--brand-gold);
+    background-color: var(--card-accent, var(--brand-gold));
+    border-color: var(--card-accent, var(--brand-gold));
     color: #ffffff !important;
     transform: translateY(-2px);
     box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
@@ -961,8 +961,8 @@ const {
 
   :root:not([data-theme="dark"]) .btn-project-repo:hover,
   [data-theme="light"] .btn-project-repo:hover {
-    background-color: var(--brand-gold);
-    border-color: var(--brand-gold);
+    background-color: var(--card-accent, var(--brand-gold));
+    border-color: var(--card-accent, var(--brand-gold));
     color: #ffffff !important;
   }
 
@@ -991,15 +991,15 @@ const {
   }
 
   .btn-project-demo:hover {
-    border-color: var(--brand-gold);
-    color: var(--brand-gold) !important;
+    border-color: var(--card-accent, var(--brand-gold));
+    color: var(--card-accent, var(--brand-gold)) !important;
     transform: translateY(-2px);
-    box-shadow: 0 5px 0 var(--brand-gold);
+    box-shadow: 0 4px 0 var(--card-border);
   }
 
   .btn-project-demo:active {
     transform: translateY(1px);
-    box-shadow: 0 1px 0 var(--brand-gold);
+    box-shadow: 0 1px 0 var(--card-border);
   }
 
   /* ==========================================================================
@@ -1051,6 +1051,21 @@ const {
     background-color: #0e3d65;
     border-color: #0e3d65;
     box-shadow: 0 4px 0 #092238;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card,
+    .project-domain-icon,
+    .project-icon-link,
+    .btn-project-repo,
+    .btn-project-demo {
+      transition: none !important;
+      transform: none !important;
+    }
+    .project-card:hover,
+    .project-card:focus-within {
+      transform: none !important;
+    }
   }
 </style>
 
