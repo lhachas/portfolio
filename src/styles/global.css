@@ -45,13 +45,14 @@
   --card-shadow: 0 4px 0 #cbd5e1;
   --card-border-width: 2px;
   --card-top-border-width: 4px;
-  --card-hover-lift: translateY(-4px);
+  --card-hover-lift: translateY(-6px);
   --card-active-lift: translateY(-1px);
   --card-hover-transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                            border-color 0.25s ease,
-                           box-shadow 0.25s ease,
+                           box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                            background-color 0.25s ease;
-  --card-hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.06), 0 4px 0 #cbd5e1;
+  --card-hover-shadow: 0 8px 0 var(--card-accent, var(--brand-gold));
+  --card-active-shadow: 0 2px 0 var(--card-accent, var(--brand-gold));
   --input-bg: #f8fafc;
   --input-text: #1e293b;
   --input-placeholder: #475569;
@@ -82,7 +83,8 @@
   --wave-primary-fill: #161922;
   --card-border: #333a48;
   --card-shadow: 0 4px 0 #0d0f14;
-  --card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 4px 0 #0d0f14;
+  --card-hover-shadow: 0 8px 0 var(--card-accent, var(--brand-gold));
+  --card-active-shadow: 0 2px 0 var(--card-accent, var(--brand-gold));
   --input-bg: #14171f;
   --input-text: #f8fafc;
   --input-placeholder: #94a3b8;
@@ -1134,6 +1136,7 @@ a[data-lang-switch]:hover {
 
 .hero-metric-card:active {
   transform: var(--card-active-lift);
+  box-shadow: 0 2px 0 var(--card-accent, var(--metric-accent, var(--brand-gold)));
 }
 
 .hero-metric-val {
@@ -1688,6 +1691,7 @@ a[data-lang-switch]:hover {
 .card-box:active,
 .spotlight-card:active {
   transform: var(--card-active-lift);
+  box-shadow: 0 2px 0 var(--card-accent, var(--brand-gold));
 }
 
 .card-box .card-icon {
@@ -1774,6 +1778,7 @@ a[data-lang-switch]:hover {
 
 .edu-card:active {
   transform: var(--card-active-lift);
+  box-shadow: 0 2px 0 var(--card-accent, var(--edu-accent, var(--brand-gold)));
 }
 
 .edu-icon-badge {
@@ -1857,9 +1862,14 @@ a[data-lang-switch]:hover {
 
 .course-card:hover,
 .course-card:focus-within {
-  transform: translateY(-2px);
+  transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--provider-color, #2563eb));
   box-shadow: var(--card-hover-shadow);
+}
+
+.course-card:active {
+  transform: var(--card-active-lift);
+  box-shadow: 0 2px 0 var(--card-accent, var(--provider-color, #2563eb));
 }
 
 .provider-badge {
@@ -2056,6 +2066,7 @@ a[data-lang-switch]:hover {
 
 .main-timeline .timeline-content:active {
   transform: var(--card-active-lift);
+  box-shadow: 0 2px 0 var(--card-accent, var(--timeline-color, var(--brand-gold)));
 }
 
 .exp-card-header {
@@ -2246,9 +2257,14 @@ textarea.form-control-pill {
 
 .contact-channel-card:hover,
 .contact-channel-card:focus-within {
-  transform: translateX(4px);
+  transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--channel-color, var(--brand-gold)));
-  box-shadow: var(--card-hover-shadow);
+  box-shadow: 0 8px 0 var(--card-accent, var(--channel-color, var(--brand-gold)));
+}
+
+.contact-channel-card:active {
+  transform: var(--card-active-lift);
+  box-shadow: 0 2px 0 var(--card-accent, var(--channel-color, var(--brand-gold)));
 }
 
 .contact-channel-icon {
@@ -2305,7 +2321,12 @@ textarea.form-control-pill {
 .footer-card:focus-within {
   transform: var(--card-hover-lift);
   border-color: var(--card-accent, var(--footer-accent, var(--brand-gold)));
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 4px 0 #0a0c10;
+  box-shadow: 0 8px 0 var(--card-accent, var(--footer-accent, var(--brand-gold)));
+}
+
+.footer-card:active {
+  transform: var(--card-active-lift);
+  box-shadow: 0 2px 0 var(--card-accent, var(--footer-accent, var(--brand-gold)));
 }
 
 .footer-nav-pill {

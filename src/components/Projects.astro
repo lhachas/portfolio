@@ -590,11 +590,12 @@ const {
   .project-card:focus-within {
     transform: var(--card-hover-lift);
     border-color: var(--card-accent, var(--brand-gold));
-    box-shadow: var(--card-hover-shadow);
+    box-shadow: 0 8px 0 var(--card-accent, var(--brand-gold));
   }
 
   .project-card:active:not(:has(a:active, button:active)) {
     transform: var(--card-active-lift);
+    box-shadow: 0 2px 0 var(--card-accent, var(--brand-gold));
   }
 
   /* ==========================================================================
