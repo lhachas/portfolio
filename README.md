@@ -125,7 +125,8 @@ portfolio/
 │   │   ├── fonts/                     # Fuentes WOFF/WOFF2 de iconografía
 │   │   ├── images/                    # Fotografía de perfil, texturas y activos estáticos
 │   │   └── video/                     # Video cinematográfico Remotion (webm, mp4) y poster accesible (webp, png)
-│   ├── favicon.ico
+    │   ├── favicon.svg                # Favicon firma LH (Caveat)
+    │   ├── favicon.ico                # Fallback raster de la firma LH
 │   ├── robots.txt                     # Reglas de indexación + bloqueo explícito de extensiones .docx/.doc
 │   └── sitemap.xml                    # Mapa del sitio bilingüe con enlaces alternos hreflang
 ├── remotion/                          # Composición cinematográfica Remotion del Hero Header
@@ -153,9 +154,8 @@ portfolio/
 │   │   ├── Experiences.astro          # Línea de tiempo interconectada de 6 etapas con vista ejecutiva/detallada
 │   │   ├── Services.astro             # Soluciones de arquitectura backend, cloud AWS y full-stack
 │   │   ├── Contact.astro              # Canales directos, descarga condicional de CV y formulario Web3Forms
-│   │   ├── Footer.astro               # Pie de página ejecutivo de 3 columnas
-│   │   ├── StyleSwitcher.astro        # Selector de 6 paletas de acento 100% sólidas
-│   │   └── InteractiveCursor.astro    # Cursor interactivo y barra superior de lectura
+    │   │   ├── Footer.astro               # Pie de página ejecutivo de 3 columnas
+    │   │   └── InteractiveCursor.astro    # Cursor interactivo y barra superior de lectura
 │   ├── layouts/
 │   │   └── Layout.astro               # Metadatos SEO, OpenGraph, JSON-LD (Schema.org), hreflang y CSP
 │   ├── pages/
@@ -197,7 +197,7 @@ La interfaz sigue una línea editorial y técnica **100% sólida** definida en [
   - **Botones de Redes Oficiales (`.btn-social-pill`):** Colores sólidos oficiales de marca (`LinkedIn #0A66C2`, `GitHub #24292F`, `WhatsApp #25D366`).
 - **Alineación Responsiva Multidispositivo:**
   - En la sección **Perfil Profesional**, los 4 botones de acción (`Descargar CV`, `Contacto Directo`, `LinkedIn` y `GitHub`) se mantienen en **una sola línea horizontal sin saltos en escritorio y tablet (`>= 640px`)** mediante `.about-cta-row` y se adaptan en una **grilla `2x2` simétrica en móvil (`< 640px`)**.
-- **6 Paletas de Acento + Modo Claro/Oscuro:** Selector interactivo ([`StyleSwitcher.astro`](src/components/StyleSwitcher.astro)) con persistencia en `localStorage` y propagación instantánea de variables CSS.
+- **Acento fijo Azul Clásico (`#3f87f5`) + Modo Claro/Oscuro:** el acento de marca no es seleccionable; el toggle claro/oscuro permanece en la navbar con persistencia en `localStorage`.
 
 ---
 

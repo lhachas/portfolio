@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 import InteractiveCursor from '../components/InteractiveCursor.astro';
+import Icon from '../components/Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -11,7 +12,7 @@ interface Props {
 
 const { locale = 'es' } = Astro.props;
 const content = await getPortfolioContent(locale);
-const { seo, profile, about } = content;
+const { seo, profile, about, navigation } = content;
 
 const canonicalUrl = seo.siteUrl;
 const ogImageUrl = new URL(seo.ogImage.replace(/^\//, ''), 'https://lhachas.github.io/portfolio/').toString();
@@ -134,8 +135,9 @@ const jsonLd = {
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={seo.ogImageAlt} />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href={withBase(seo.favicon)} />
+    <!-- Favicon: LH signature (Caveat) -->
+    <link rel="icon" type="image/svg+xml" href={withBase(seo.favicon)} />
+    <link rel="icon" type="image/x-icon" href={withBase('/favicon.ico')} />
 
     <!-- Preload Critical Above-the-Fold Assets -->
     <link rel="preload" as="image" href={withBase(profile.profilePhoto)} />
@@ -155,7 +157,7 @@ const jsonLd = {
     <!-- Structured Data (Schema.org ProfilePage + Person + WebSite) -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Flash-Free Theme & Strictly Validated Accent Propagation (Default: Azul Clásico #3f87f5) -->
+    <!-- Flash-Free Theme (accent is fixed Classic Blue #3f87f5) -->
     <script is:inline>
       (function () {
         try {
@@ -164,18 +166,6 @@ const jsonLd = {
           var savedTheme = urlTheme || localStorage.getItem('user-theme');
           var theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'light';
           document.documentElement.setAttribute('data-theme', theme);
-
-          var validHex = /^#[0-9a-fA-F]{6}$/;
-          var savedAccent = localStorage.getItem('user-accent-hex') || '#3f87f5';
-          var savedAccentHover = localStorage.getItem('user-accent-hover') || '#2563eb';
-          if (validHex.test(savedAccent) && validHex.test(savedAccentHover)) {
-            var onAccent = '#ffffff';
-            var root = document.documentElement.style;
-            root.setProperty('--brand-gold', savedAccent);
-            root.setProperty('--brand-gold-hover', savedAccentHover);
-            root.setProperty('--brand-on-gold', onAccent);
-            root.setProperty('--title-icon-color', savedAccent);
-          }
         } catch (e) {}
       })();
     </script>
@@ -192,6 +182,15 @@ const jsonLd = {
     <InteractiveCursor />
 
     <slot />
+
+    <a
+      href="#home"
+      id="back-to-top"
+      class="back-to-top-btn"
+      aria-label={navigation.backToTopAriaLabel}
+    >
+      <Icon name="chevron-up" size={20} />
+    </a>
 
     <!-- Global Scroll-Reveal & Skill Progress Bar Observer -->
     <script>
@@ -233,6 +232,14 @@ const jsonLd = {
           { threshold: 0.2 }
         );
         progressBars.forEach((bar) => skillObserver.observe(bar));
+
+        const backToTop = document.getElementById('back-to-top');
+        const onBackToTopScroll = () => {
+          if (!backToTop) return;
+          backToTop.classList.toggle('visible', window.scrollY > 300);
+        };
+        window.addEventListener('scroll', onBackToTopScroll, { passive: true });
+        onBackToTopScroll();
 
         // 3. Accessible feedback on conditional CV PDF download links
         const cvLinks = document.querySelectorAll<HTMLAnchorElement>('a[data-cv-lang]');

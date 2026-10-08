@@ -65,8 +65,6 @@ export const portfolioSchema = z.object({
     brandPrefix: z.string().min(1),
     brandHighlight: z.string().min(1),
     brandSuffix: z.string().min(1),
-    avatarImage: z.string().min(1),
-    avatarAlt: z.string().min(1),
     profilePhoto: z.string().min(1),
     profilePhotoAlt: z.string().min(1),
     roleHeadline: z.string().min(1),
@@ -113,6 +111,7 @@ export const portfolioSchema = z.object({
     themeToggleAriaLabel: z.string().min(1),
     themeToggleTitle: z.string().min(1),
     mobileMenuAriaLabel: z.string().min(1),
+    backToTopAriaLabel: z.string().min(1),
     languageSwitcher: z.object({
       currentCode: z.string().min(2),
       targetCode: z.string().min(2),
@@ -127,24 +126,6 @@ export const portfolioSchema = z.object({
           id: z.string().min(1),
           icon: z.string().min(1),
           label: z.string().min(1),
-        }),
-      )
-      .min(1),
-  }),
-
-  styleSwitcher: z.object({
-    ariaLabel: z.string().min(1),
-    title: z.string().min(1),
-    toggleAriaLabel: z.string().min(1),
-    backToTopAriaLabel: z.string().min(1),
-    themes: z
-      .array(
-        z.object({
-          id: z.string().min(1),
-          name: z.string().min(1),
-          hex: solidHexColor,
-          hoverHex: solidHexColor,
-          className: z.string().min(1),
         }),
       )
       .min(1),

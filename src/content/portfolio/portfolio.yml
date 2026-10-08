@@ -29,7 +29,7 @@ seo:
   dateModified: "2026-09-30"
   ogImage: "/assets/images/iam-4.jpg"
   ogImageAlt: "Leonel Hacha Salazar - Senior Backend Developer | Full Stack Developer"
-  favicon: "/favicon.ico"
+  favicon: "/favicon.svg"
   skipToContentLabel: "Saltar al contenido principal"
   schemaOrg:
     givenName: "Leonel"
@@ -56,8 +56,6 @@ profile:
   brandPrefix: "L"
   brandHighlight: "Hacha"
   brandSuffix: "S"
-  avatarImage: "/assets/images/icons/boy.png"
-  avatarAlt: "Avatar profesional de Leonel Hacha Salazar"
   profilePhoto: "/assets/images/profile-portrait.webp"
   profilePhotoAlt: "Fotografía profesional de Leonel Hacha Salazar - Senior Backend Developer y Full Stack Developer"
   roleHeadline: "Senior Backend Developer | Full Stack Developer"
@@ -96,7 +94,7 @@ profile:
       level: "Intermedio"
 
 # ------------------------------------------------------------------------------
-# 3. BARRA DE NAVEGACIÓN Y SELECTOR DE TEMA / COLORES
+# 3. BARRA DE NAVEGACIÓN Y SELECTOR DE TEMA
 # ------------------------------------------------------------------------------
 navigation:
   ariaLabel: "Navegación principal"
@@ -104,6 +102,7 @@ navigation:
   themeToggleAriaLabel: "Cambiar entre modo claro y oscuro"
   themeToggleTitle: "Cambiar tema claro/oscuro"
   mobileMenuAriaLabel: "Abrir menú de navegación"
+  backToTopAriaLabel: "Volver al inicio"
   languageSwitcher:
     currentCode: "ES"
     targetCode: "EN"
@@ -133,43 +132,6 @@ navigation:
     - id: "contact"
       icon: "icofont-support"
       label: "Contacto"
-
-styleSwitcher:
-  ariaLabel: "Selector de color de acento del portafolio"
-  title: "Color de Acento"
-  toggleAriaLabel: "Alternar selector de color de acento"
-  backToTopAriaLabel: "Volver al inicio"
-  themes:
-    - id: "default"
-      name: "Azul Clásico"
-      hex: "#3f87f5"
-      hoverHex: "#2563eb"
-      className: "color1"
-    - id: "gold"
-      name: "Oro LHachaS"
-      hex: "#cdb30c"
-      hoverHex: "#b39b09"
-      className: "color4"
-    - id: "pink"
-      name: "Rosa Intenso"
-      hex: "#ff546c"
-      hoverHex: "#e04359"
-      className: "color2"
-    - id: "yellow"
-      name: "Ámbar Dorado"
-      hex: "#f2b31a"
-      hoverHex: "#d99b0d"
-      className: "color3"
-    - id: "purple"
-      name: "Púrpura Original"
-      hex: "#8060cf"
-      hoverHex: "#634aa0"
-      className: "color5"
-    - id: "light-blue"
-      name: "Cian Tech"
-      hex: "#37b8df"
-      hoverHex: "#2aa1c5"
-      className: "color6"
 
 # ------------------------------------------------------------------------------
 # 4. REDES SOCIALES Y CANALES OFICIALES (Colores Sólidos Oficiales de Marca)
@@ -249,16 +211,16 @@ hero:
   architecturePills:
     - icon: "nodejs"
       label: "Node.js · TypeScript · NestJS"
-      brandColor: "#339933"
+      brandColor: "#41873F"
     - icon: "java"
       label: "Java (15/17/21) · Spring Boot & WebFlux"
       brandColor: "#E76F00"
     - icon: "aws"
       label: "AWS · Microservices · Event-Driven"
-      brandColor: "#EA6A15"
+      brandColor: "#FF9900"
     - icon: "angular"
       label: "Angular · React · Full Stack"
-      brandColor: "#DD0031"
+      brandColor: "#E40035"
   primaryCta:
     label: "Explorar Proyectos"
     href: "#projects"

@@ -21,7 +21,7 @@ seo:
   dateModified: "2026-09-30"
   ogImage: "/assets/images/iam-4.jpg"
   ogImageAlt: "Leonel Hacha Salazar - Senior Backend Developer | Full Stack Developer"
-  favicon: "/favicon.ico"
+  favicon: "/favicon.svg"
   skipToContentLabel: "Skip to main content"
   schemaOrg:
     givenName: "Leonel"
@@ -48,8 +48,6 @@ profile:
   brandPrefix: "L"
   brandHighlight: "Hacha"
   brandSuffix: "S"
-  avatarImage: "/assets/images/icons/boy.png"
-  avatarAlt: "Professional developer avatar of Leonel Hacha Salazar"
   profilePhoto: "/assets/images/profile-portrait.webp"
   profilePhotoAlt: "Professional portrait of Leonel Hacha Salazar - Senior Backend Developer and Full Stack Developer"
   roleHeadline: "Senior Backend Developer | Full Stack Developer"
@@ -88,7 +86,7 @@ profile:
       level: "Intermediate"
 
 # ------------------------------------------------------------------------------
-# 3. NAVIGATION BAR & THEME / ACCENT COLOR SWITCHER
+# 3. NAVIGATION BAR & THEME SWITCHER
 # ------------------------------------------------------------------------------
 navigation:
   ariaLabel: "Main navigation"
@@ -96,6 +94,7 @@ navigation:
   themeToggleAriaLabel: "Switch between light and dark mode"
   themeToggleTitle: "Toggle light/dark theme"
   mobileMenuAriaLabel: "Open navigation menu"
+  backToTopAriaLabel: "Back to top"
   languageSwitcher:
     currentCode: "EN"
     targetCode: "ES"
@@ -125,43 +124,6 @@ navigation:
     - id: "contact"
       icon: "icofont-support"
       label: "Contact"
-
-styleSwitcher:
-  ariaLabel: "Portfolio accent color selector"
-  title: "Accent Color"
-  toggleAriaLabel: "Toggle accent color selector"
-  backToTopAriaLabel: "Back to top"
-  themes:
-    - id: "default"
-      name: "Classic Blue"
-      hex: "#3f87f5"
-      hoverHex: "#2563eb"
-      className: "color1"
-    - id: "gold"
-      name: "LHachaS Gold"
-      hex: "#cdb30c"
-      hoverHex: "#b39b09"
-      className: "color4"
-    - id: "pink"
-      name: "Vibrant Rose"
-      hex: "#ff546c"
-      hoverHex: "#e04359"
-      className: "color2"
-    - id: "yellow"
-      name: "Golden Amber"
-      hex: "#f2b31a"
-      hoverHex: "#d99b0d"
-      className: "color3"
-    - id: "purple"
-      name: "Royal Purple"
-      hex: "#8060cf"
-      hoverHex: "#634aa0"
-      className: "color5"
-    - id: "light-blue"
-      name: "Tech Cyan"
-      hex: "#37b8df"
-      hoverHex: "#2aa1c5"
-      className: "color6"
 
 # ------------------------------------------------------------------------------
 # 4. OFFICIAL SOCIAL NETWORKS & CHANNELS (100% Solid Brand Colors)
@@ -241,16 +203,16 @@ hero:
   architecturePills:
     - icon: "nodejs"
       label: "Node.js · TypeScript · NestJS"
-      brandColor: "#339933"
+      brandColor: "#41873F"
     - icon: "java"
       label: "Java (15/17/21) · Spring Boot & WebFlux"
       brandColor: "#E76F00"
     - icon: "aws"
       label: "AWS · Microservices · Event-Driven"
-      brandColor: "#EA6A15"
+      brandColor: "#FF9900"
     - icon: "angular"
       label: "Angular · React · Full Stack"
-      brandColor: "#DD0031"
+      brandColor: "#E40035"
   primaryCta:
     label: "Explore Projects"
     href: "#projects"

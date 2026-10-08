@@ -1,37 +1,16 @@
 ---
-import { withBase } from '../data/portfolio';
-
 interface Props {
-  avatarImage?: string;
-  avatarAlt?: string;
-  showAvatar?: boolean;
   subtitle?: string;
   class?: string;
 }
 
 const {
-  avatarImage = '/assets/images/icons/boy.png',
-  avatarAlt = 'Avatar profesional de Leonel Hacha Salazar',
-  showAvatar = true,
   subtitle = 'Backend & Full Stack',
   class: className = '',
 } = Astro.props;
 ---
 
 <div class:list={['brand-signature-wrap inline-flex items-center gap-2.5 sm:gap-3', className]}>
-  {
-    showAvatar && (
-      <img
-        class="navbar-brand-img shrink-0"
-        src={withBase(avatarImage)}
-        alt={avatarAlt}
-        width="44"
-        height="44"
-        loading="eager"
-        decoding="async"
-      />
-    )
-  }
   <div class="brand-signature-block flex flex-col justify-center select-none">
     <div class="brand-signature-row flex items-center leading-none">
       <span class="brand-signature-text">LHachaS</span>

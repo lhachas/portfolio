@@ -49,7 +49,8 @@ const { hero } = await getPortfolioContent(locale);
   <!-- Interactive Engineering Topology & Deterministic Signal Stream Canvas -->
   <canvas
     id="hero-topology-canvas"
-    class="pointer-events-none absolute inset-0 z-[2] h-full w-full"
+    class="pointer-events-none absolute inset-0 z-[2] h-full w-full opacity-50
+      transition-opacity duration-500 ease-in-out"
     aria-hidden="true"
   ></canvas>
 
@@ -106,7 +107,7 @@ const { hero } = await getPortfolioContent(locale);
           hero.architecturePills.map((arch) => (
             <span class="hero-arch-pill" style={`--arch-brand: ${arch.brandColor};`}>
               <span class="hero-arch-icon-badge" aria-hidden="true">
-                <Icon name={arch.icon} size={15} />
+                <Icon name={arch.icon} size={18} />
               </span>
               <span>{arch.label}</span>
             </span>
@@ -393,10 +394,6 @@ const { hero } = await getPortfolioContent(locale);
       getComputedStyle(document.documentElement).getPropertyValue('--brand-gold').trim() || '#3f87f5';
 
     let activeAccent = getActiveAccent();
-
-    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string }>) => {
-      activeAccent = e.detail?.primary || getActiveAccent();
-    }) as EventListener);
 
     // Track pointer with smooth interpolation
     heroSection?.addEventListener(
