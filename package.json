@@ -17,6 +17,7 @@
     "remotion:still": "remotion still remotion/index.ts HeroCinematicPoster public/assets/video/hero-cinematic-poster.png"
   },
   "dependencies": {
+    "@fontsource/iosevka-charon-mono": "^5.3.0",
     "@tailwindcss/vite": "^4.1.0",
     "astro": "^7.3.5",
     "gsap": "^3.15.0",

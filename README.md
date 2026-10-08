@@ -197,7 +197,7 @@ La interfaz sigue una línea editorial y técnica **100% sólida** definida en [
   - **Botones de Redes Oficiales (`.btn-social-pill`):** Colores sólidos oficiales de marca (`LinkedIn #0A66C2`, `GitHub #24292F`, `WhatsApp #25D366`).
 - **Alineación Responsiva Multidispositivo:**
   - En la sección **Perfil Profesional**, los 4 botones de acción (`Descargar CV`, `Contacto Directo`, `LinkedIn` y `GitHub`) se mantienen en **una sola línea horizontal sin saltos en escritorio y tablet (`>= 640px`)** mediante `.about-cta-row` y se adaptan en una **grilla `2x2` simétrica en móvil (`< 640px`)**.
-- **Acento fijo Azul Clásico (`#3f87f5`) + Modo Claro/Oscuro:** el acento de marca no es seleccionable; el toggle claro/oscuro permanece en la navbar con persistencia en `localStorage`.
+- **Acento fijo Azul Clásico (`#3f87f5`) + Dark por defecto:** el acento de marca no es seleccionable; el sitio arranca en modo oscuro y el toggle claro/oscuro permanece en la navbar con persistencia en `localStorage`. El texto animado del hero usa **Iosevka Charon Mono Bold Italic** (`@fontsource/iosevka-charon-mono`).
 
 ---
 

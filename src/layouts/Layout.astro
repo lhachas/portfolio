@@ -86,7 +86,7 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang={seo.language} data-theme="light">
+<html lang={seo.language} data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -142,11 +142,11 @@ const jsonLd = {
     <!-- Preload Critical Above-the-Fold Assets -->
     <link rel="preload" as="image" href={withBase(profile.profilePhoto)} />
 
-    <!-- Unified Typography via Google Fonts (Caveat Signature + Oswald + Victor Mono) -->
+    <!-- Unified Typography via Google Fonts (Caveat Signature + Oswald). Iosevka Charon Mono via Fontsource. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Oswald:wght@300;400;500;600;700&family=Victor+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Oswald:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -164,7 +164,7 @@ const jsonLd = {
           var params = new URLSearchParams(window.location.search);
           var urlTheme = params.get('theme');
           var savedTheme = urlTheme || localStorage.getItem('user-theme');
-          var theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'light';
+          var theme = savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'dark';
           document.documentElement.setAttribute('data-theme', theme);
         } catch (e) {}
       })();

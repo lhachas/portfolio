@@ -74,7 +74,7 @@ const { hero } = await getPortfolioContent(locale);
         {hero.greeting}
       </p>
 
-      <!-- Single-Line Typed Headline (Preserves Soy + Victor Mono Italic Dynamic Accent Typed Text without 2-line jump) -->
+      <!-- Single-Line Typed Headline (Soy + Iosevka Charon Mono Bold Italic) -->
       <h1
         class="home-title text-gold mb-0 flex flex-wrap sm:flex-nowrap items-center justify-center gap-x-3 pb-1 min-h-[3.2rem] sm:min-h-[3.6rem]"
         data-hero-anim
@@ -83,7 +83,7 @@ const { hero } = await getPortfolioContent(locale);
         <span class="inline-flex items-center pb-0.5 sm:whitespace-nowrap">
           <em
             id="typed-output"
-            class="typing italic font-semibold text-gold"
+            class="typing italic font-bold text-gold"
             data-strings={JSON.stringify(hero.typedStrings)}
           >
             {hero.typedStrings[0]}

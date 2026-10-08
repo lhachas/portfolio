@@ -192,7 +192,7 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
 
     // Toggle Light/Dark Theme (state-driven via html[data-theme])
     themeBtn?.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try {
