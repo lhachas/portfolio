@@ -46,7 +46,7 @@ const { styleSwitcher } = await getPortfolioContent(locale);
       aria-label={styleSwitcher.toggleAriaLabel}
       aria-expanded="false"
     >
-      <Icon name="palette" size={20} class="ti-spin-slow text-white" />
+      <Icon name="palette" size={20} class="ti-spin-slow text-current" />
     </button>
   </div>
 </div>
@@ -71,12 +71,12 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     const validHex = /^#[0-9a-fA-F]{6}$/;
 
     const accentPalettes = {
-      '#3f87f5': ['#3f87f5', '#7c3aed', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
-      '#cdb30c': ['#cdb30c', '#2563eb', '#0d9488', '#7c3aed', '#e11d48', '#059669'],
-      '#ff546c': ['#ff546c', '#2563eb', '#0d9488', '#ea6a15', '#7c3aed', '#059669'],
-      '#f2b31a': ['#f2b31a', '#2563eb', '#7c3aed', '#0d9488', '#e11d48', '#059669'],
-      '#8060cf': ['#8060cf', '#2563eb', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
-      '#37b8df': ['#37b8df', '#7c3aed', '#ea6a15', '#2563eb', '#e11d48', '#059669'],
+      '#3f87f5': ['#3f87f5', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#e11d48'],
+      '#cdb30c': ['#cdb30c', '#0d9488', '#ea580c', '#7c3aed', '#059669', '#d97706'],
+      '#ff546c': ['#ff546c', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#d97706'],
+      '#f2b31a': ['#f2b31a', '#0d9488', '#7c3aed', '#ea580c', '#059669', '#e11d48'],
+      '#8060cf': ['#8060cf', '#0d9488', '#ea580c', '#e11d48', '#059669', '#d97706'],
+      '#37b8df': ['#37b8df', '#7c3aed', '#ea580c', '#059669', '#e11d48', '#d97706'],
     };
 
     const syncActiveSwatch = (activeHex) => {

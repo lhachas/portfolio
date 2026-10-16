@@ -180,7 +180,7 @@ const { hero } = await getPortfolioContent(locale);
       </div>
 
       <!-- Animated Scroll-Down Indicator -->
-      <div class="mt-6 flex justify-center" data-hero-anim>
+      <div class="mt-12 sm:mt-16 mb-2 flex justify-center" data-hero-anim>
         <a
           href={hero.scrollIndicator.href}
           class="hero-scroll-indicator"
@@ -399,8 +399,26 @@ const { hero } = await getPortfolioContent(locale);
 
     let activeAccent = getActiveAccent();
 
-    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string }>) => {
+    const getActiveSlots = () => {
+      const rootStyle = getComputedStyle(document.documentElement);
+      const s1 = rootStyle.getPropertyValue('--accent-1').trim() || activeAccent;
+      const s2 = rootStyle.getPropertyValue('--accent-2').trim() || '#0d9488';
+      const s3 = rootStyle.getPropertyValue('--accent-3').trim() || '#ea580c';
+      const s4 = rootStyle.getPropertyValue('--accent-4').trim() || '#7c3aed';
+      const s5 = rootStyle.getPropertyValue('--accent-5').trim() || '#059669';
+      const s6 = rootStyle.getPropertyValue('--accent-6').trim() || '#d97706';
+      return [s1, s2, s3, s4, s5, s6];
+    };
+
+    let activeSlots = getActiveSlots();
+
+    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string; slots?: string[] }>) => {
       activeAccent = e.detail?.primary || getActiveAccent();
+      if (e.detail?.slots && Array.isArray(e.detail.slots) && e.detail.slots.length >= 6) {
+        activeSlots = e.detail.slots;
+      } else {
+        activeSlots = getActiveSlots();
+      }
     }) as EventListener);
 
     // Track pointer with smooth interpolation
@@ -443,7 +461,7 @@ const { hero } = await getPortfolioContent(locale);
     interface SignalRail {
       y: number;
       speed: number;
-      pulses: { x: number; length: number; speed: number; color: string }[];
+      pulses: { x: number; length: number; speed: number; slotIndex: number }[];
       deflection: number;
       velocity: number;
     }
@@ -462,13 +480,13 @@ const { hero } = await getPortfolioContent(locale);
             x: Math.random() * width,
             length: 36 + Math.random() * 40,
             speed: Math.abs(speed) * 1.8 + 0.4,
-            color: i % 2 === 0 ? 'accent' : '#2563eb',
+            slotIndex: i % 6,
           },
           {
             x: Math.random() * width,
             length: 24 + Math.random() * 32,
             speed: Math.abs(speed) * 1.4 + 0.3,
-            color: i === 1 ? '#10b981' : i === 3 ? '#cdb30c' : 'accent',
+            slotIndex: (i + 2) % 6,
           },
         ];
         rails.push({ y, speed, pulses: railPulses, deflection: 0, velocity: 0 });
@@ -542,9 +560,11 @@ const { hero } = await getPortfolioContent(locale);
             pulse.x = -pulse.length;
           }
 
-          let pulseColor = pulse.color === 'accent' ? activeAccent : pulse.color;
-          if (!isDark && pulseColor.toLowerCase() === '#cdb30c') {
-            pulseColor = '#a16207'; // High-contrast amber-gold on light canvas
+          const rawColor = activeSlots[pulse.slotIndex % activeSlots.length] || activeAccent;
+          let pulseColor = rawColor;
+          const lower = rawColor.toLowerCase();
+          if (!isDark && (lower === '#cdb30c' || lower === '#f2b31a')) {
+            pulseColor = '#b45309'; // High-contrast amber-gold on light canvas
           }
           ctx.strokeStyle = pulseColor;
           ctx.lineWidth = 2;

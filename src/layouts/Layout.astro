@@ -188,12 +188,12 @@ const jsonLd = {
 
           var validHex = /^#[0-9a-fA-F]{6}$/;
           var accentPalettes = {
-            '#3f87f5': ['#3f87f5', '#7c3aed', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
-            '#cdb30c': ['#cdb30c', '#2563eb', '#0d9488', '#7c3aed', '#e11d48', '#059669'],
-            '#ff546c': ['#ff546c', '#2563eb', '#0d9488', '#ea6a15', '#7c3aed', '#059669'],
-            '#f2b31a': ['#f2b31a', '#2563eb', '#7c3aed', '#0d9488', '#e11d48', '#059669'],
-            '#8060cf': ['#8060cf', '#2563eb', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
-            '#37b8df': ['#37b8df', '#7c3aed', '#ea6a15', '#2563eb', '#e11d48', '#059669'],
+            '#3f87f5': ['#3f87f5', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#e11d48'],
+            '#cdb30c': ['#cdb30c', '#0d9488', '#ea580c', '#7c3aed', '#059669', '#d97706'],
+            '#ff546c': ['#ff546c', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#d97706'],
+            '#f2b31a': ['#f2b31a', '#0d9488', '#7c3aed', '#ea580c', '#059669', '#e11d48'],
+            '#8060cf': ['#8060cf', '#0d9488', '#ea580c', '#e11d48', '#059669', '#d97706'],
+            '#37b8df': ['#37b8df', '#7c3aed', '#ea580c', '#059669', '#e11d48', '#d97706'],
           };
           var savedAccent = (localStorage.getItem('user-accent-hex') || '#3f87f5').toLowerCase();
           var savedAccentHover = localStorage.getItem('user-accent-hover') || '#2563eb';
