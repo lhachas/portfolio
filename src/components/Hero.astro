@@ -79,7 +79,7 @@ const { hero } = await getPortfolioContent(locale);
         data-hero-anim
       >
         <span class="hero-title-prefix font-light shrink-0">{hero.titlePrefix}</span>
-        <span class="inline-flex items-center pb-0.5 sm:whitespace-nowrap">
+        <span class="inline sm:inline-flex items-center pb-0.5 sm:whitespace-nowrap">
           <em
             id="typed-output"
             class="typing italic font-semibold text-gold"
@@ -106,7 +106,7 @@ const { hero } = await getPortfolioContent(locale);
           hero.architecturePills.map((arch) => (
             <span class="hero-arch-pill" style={`--arch-brand: ${arch.brandColor};`}>
               <span class="hero-arch-icon-badge" aria-hidden="true">
-                <Icon name={arch.icon} size={15} />
+                <Icon name={arch.icon} size={17} />
               </span>
               <span>{arch.label}</span>
             </span>
@@ -139,9 +139,14 @@ const { hero } = await getPortfolioContent(locale);
       <!-- Recruiter Impact Metrics Strip (100% Solid Non-Monotonous Architectural Cards) -->
       <div class="mt-7 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center" data-hero-metrics>
         {
-          hero.metrics.map((metric) => {
-            const isBrandAccent = metric.accentColor.toLowerCase() === '#cdb30c';
-            const resolvedAccent = isBrandAccent ? 'var(--brand-gold)' : metric.accentColor;
+          hero.metrics.map((metric, idx) => {
+            const metricSlots = [
+              'var(--accent-1)',
+              'var(--accent-2)',
+              'var(--accent-3)',
+              'var(--accent-4)',
+            ];
+            const resolvedAccent = metricSlots[idx % metricSlots.length];
             const iconTextColor = '#ffffff';
             return (
               <div
@@ -154,7 +159,7 @@ const { hero } = await getPortfolioContent(locale);
                   class="hero-metric-badge mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl border-2"
                   style={`background-color: ${resolvedAccent}; color: ${iconTextColor};`}
                 >
-                  <i class={`icofont ${metric.icon} text-lg`} aria-hidden="true"></i>
+                  <Icon name={metric.icon} size={19} class="shrink-0" />
                 </div>
                 <div class="hero-metric-val text-xl sm:text-2xl font-medium tracking-wide">
                   {metric.value}

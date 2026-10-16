@@ -11,7 +11,7 @@ interface Props {
 
 const { locale = 'es' } = Astro.props;
 const content = await getPortfolioContent(locale);
-const { seo, profile, about } = content;
+const { seo, profile, about, projectsSection } = content;
 
 const canonicalUrl = seo.siteUrl;
 const ogImageUrl = new URL(seo.ogImage.replace(/^\//, ''), 'https://lhachas.github.io/portfolio/').toString();
@@ -34,6 +34,9 @@ const jsonLd = {
       dateModified: seo.dateModified,
       mainEntity: {
         '@id': `${canonicalUrl}#person`,
+      },
+      hasPart: {
+        '@id': `${canonicalUrl}#projects-list`,
       },
     },
     {
@@ -69,6 +72,28 @@ const jsonLd = {
         profile.instagram,
       ],
       knowsAbout: about.coreStackPills,
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${canonicalUrl}#projects-list`,
+      name: `${projectsSection.titlePrefix} ${projectsSection.titleHighlight}`,
+      description: projectsSection.subtitle,
+      numberOfItems: projectsSection.items.length,
+      itemListElement: projectsSection.items.map((proj, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'SoftwareSourceCode',
+          '@id': `${canonicalUrl}#project-${proj.id}`,
+          name: proj.title,
+          description: proj.tagline,
+          codeRepository: proj.repoUrl,
+          programmingLanguage: proj.stack,
+          author: {
+            '@id': `${canonicalUrl}#person`,
+          },
+        },
+      })),
     },
     {
       '@type': 'WebSite',
@@ -148,11 +173,7 @@ const jsonLd = {
       rel="stylesheet"
     />
 
-    <!-- Original Icon Fonts (Icofont & Technology Icons) -->
-    <link rel="stylesheet" href={withBase('/assets/css/plugins/icofont.css')} />
-    <link rel="stylesheet" href={withBase('/assets/css/plugins/technology-icons.css')} />
-
-    <!-- Structured Data (Schema.org ProfilePage + Person + WebSite) -->
+    <!-- Structured Data (Schema.org ProfilePage + Person + ItemList/SoftwareSourceCode + WebSite) -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Flash-Free Theme & Strictly Validated Accent Propagation (Default: Azul Clásico #3f87f5) -->
@@ -166,7 +187,15 @@ const jsonLd = {
           document.documentElement.setAttribute('data-theme', theme);
 
           var validHex = /^#[0-9a-fA-F]{6}$/;
-          var savedAccent = localStorage.getItem('user-accent-hex') || '#3f87f5';
+          var accentPalettes = {
+            '#3f87f5': ['#3f87f5', '#7c3aed', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
+            '#cdb30c': ['#cdb30c', '#2563eb', '#0d9488', '#7c3aed', '#e11d48', '#059669'],
+            '#ff546c': ['#ff546c', '#2563eb', '#0d9488', '#ea6a15', '#7c3aed', '#059669'],
+            '#f2b31a': ['#f2b31a', '#2563eb', '#7c3aed', '#0d9488', '#e11d48', '#059669'],
+            '#8060cf': ['#8060cf', '#2563eb', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
+            '#37b8df': ['#37b8df', '#7c3aed', '#ea6a15', '#2563eb', '#e11d48', '#059669'],
+          };
+          var savedAccent = (localStorage.getItem('user-accent-hex') || '#3f87f5').toLowerCase();
           var savedAccentHover = localStorage.getItem('user-accent-hover') || '#2563eb';
           if (validHex.test(savedAccent) && validHex.test(savedAccentHover)) {
             var onAccent = '#ffffff';
@@ -175,6 +204,17 @@ const jsonLd = {
             root.setProperty('--brand-gold-hover', savedAccentHover);
             root.setProperty('--brand-on-gold', onAccent);
             root.setProperty('--title-icon-color', savedAccent);
+            var slots = accentPalettes[savedAccent] || [
+              savedAccent,
+              '#7c3aed',
+              '#ea6a15',
+              '#0d9488',
+              '#e11d48',
+              '#059669',
+            ];
+            for (var i = 0; i < slots.length; i++) {
+              root.setProperty('--accent-' + (i + 1), slots[i]);
+            }
           }
         } catch (e) {}
       })();
@@ -182,7 +222,7 @@ const jsonLd = {
   </head>
   <body class="antialiased">
     <a
-      href="#home"
+      href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[10001] focus:rounded-full focus:px-5 focus:py-2.5 focus:font-medium"
       style="background-color: var(--brand-gold); color: #ffffff;"
     >

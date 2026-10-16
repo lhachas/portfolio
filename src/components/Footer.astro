@@ -30,10 +30,13 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
       <!-- Column 1: Brand Identity, Value Proposition & Live Status -->
       <div class="lg:col-span-4">
-        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--brand-gold); --card-accent: var(--brand-gold);">
+        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--accent-1); --card-accent: var(--accent-1);">
           <div>
             <div class="mb-3">
-              <BrandSignature />
+              <BrandSignature
+                avatarImage={profile.avatarImage}
+                avatarAlt={profile.avatarAlt}
+              />
             </div>
 
             <p class="text-xs font-semibold uppercase tracking-widest text-gold mb-2">
@@ -60,13 +63,13 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
 
       <!-- Column 2: Quick Section Navigation & Official 2026 CV Downloads -->
       <div class="lg:col-span-4">
-        <div class="footer-card flex flex-col justify-between" style="--footer-accent: #2563eb; --card-accent: #2563eb;">
+        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--accent-2); --card-accent: var(--accent-2);">
           <div>
             <div class="flex items-center justify-between mb-3">
               <span class="text-xs font-semibold uppercase tracking-widest text-white">
                 {footer.navColumnTitle}
               </span>
-              <span class="rounded-md bg-[#2563eb] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+              <span class="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" style="background-color: var(--accent-2);">
                 {footer.navColumnBadge}
               </span>
             </div>
@@ -122,13 +125,13 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
 
       <!-- Column 3: Official Brand Social Network & Direct Contact -->
       <div class="lg:col-span-4">
-        <div class="footer-card flex flex-col justify-between" style="--footer-accent: #0d9488; --card-accent: #0d9488;">
+        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--accent-4); --card-accent: var(--accent-4);">
           <div>
             <div class="flex items-center justify-between mb-3">
               <span class="text-xs font-semibold uppercase tracking-widest text-white">
                 {footer.channelsColumnTitle}
               </span>
-              <span class="rounded-md bg-[#0d9488] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+              <span class="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" style="background-color: var(--accent-4);">
                 {footer.channelsColumnBadge}
               </span>
             </div>

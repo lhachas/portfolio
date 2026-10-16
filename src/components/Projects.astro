@@ -85,8 +85,8 @@ const {
           </div>
 
           <div class="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted font-mono select-none">
-            <kbd class="kbd-key" aria-label="Tecla flecha izquierda">←</kbd>
-            <kbd class="kbd-key" aria-label="Tecla flecha derecha">→</kbd>
+            <kbd class="kbd-key" aria-label={locale === 'en' ? 'Left arrow key' : 'Tecla flecha izquierda'}>←</kbd>
+            <kbd class="kbd-key" aria-label={locale === 'en' ? 'Right arrow key' : 'Tecla flecha derecha'}>→</kbd>
             <span class="ml-1 text-[11.5px] tracking-wide">{carouselDragHint}</span>
           </div>
         </div>
@@ -98,7 +98,7 @@ const {
             class="carousel-dots-container flex items-center gap-1.5"
             id="carousel-dots"
             role="tablist"
-            aria-label="Diapositivas de proyectos"
+            aria-label={locale === 'en' ? 'Project slides' : 'Diapositivas de proyectos'}
           >
             {
               projects.map((proj, idx) => (
@@ -151,19 +151,29 @@ const {
         id="project-carousel-track"
         tabindex="0"
         role="region"
-        aria-label="Lista deslizable de proyectos de software"
+        aria-label={locale === 'en' ? 'Scrollable list of software projects' : 'Lista deslizable de proyectos de software'}
       >
         {
-          projects.map((project, idx) => (
-            <article
-              class="project-card reveal flex flex-col justify-between"
-              data-project-card
-              data-category={project.category}
-              data-index={idx}
-              id={`project-${project.id}`}
-              data-project-id={project.id}
-              style={`--card-accent: ${project.accentColor || 'var(--brand-gold)'};`}
-            >
+          projects.map((project, idx) => {
+            const projectSlots = [
+              'var(--accent-1)',
+              'var(--accent-2)',
+              'var(--accent-3)',
+              'var(--accent-4)',
+              'var(--accent-5)',
+              'var(--accent-6)',
+            ];
+            const projectAccent = projectSlots[idx % projectSlots.length];
+            return (
+              <article
+                class="project-card reveal flex flex-col justify-between"
+                data-project-card
+                data-category={project.category}
+                data-index={idx}
+                id={`project-${project.id}`}
+                data-project-id={project.id}
+                style={`--card-accent: ${projectAccent};`}
+              >
                 <div>
                   <!-- Top Architectural Header: Domain Icon Medallion + Solid HUD Status + Semantic Category + Actions -->
                   <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3.5 border-b border-[var(--card-border)]">
@@ -221,7 +231,7 @@ const {
                   <!-- Architecture Pattern Sub-Badge -->
                   <div class="mb-2.5 flex items-center gap-1.5">
                     <span class="project-arch-badge">
-                      <Icon name="git-branch" size={13} class="shrink-0 text-gold" />
+                      <Icon name="git-branch" size={13} class="shrink-0" style={`color: ${projectAccent};`} />
                       <span>{project.badge}</span>
                     </span>
                   </div>
@@ -301,7 +311,7 @@ const {
                           </p>
                         </div>
                         <div class="project-arch-block flex items-start gap-2 pt-2 border-t border-[var(--card-border)]">
-                          <Icon name="cpu" size={14} class="text-gold shrink-0 mt-0.5" />
+                          <Icon name="cpu" size={14} class="shrink-0 mt-0.5" style={`color: ${projectAccent};`} />
                           <span class="project-arch-text text-xs sm:text-[13px] text-muted leading-relaxed">
                             {project.architecture}
                           </span>
@@ -340,8 +350,11 @@ const {
                     {stackLabel}
                   </span>
                   <div class="flex flex-wrap gap-1.5 mb-5">
-                    {project.stack.map((tech) => (
-                      <span class="tech-pill">
+                    {project.stack.map((tech, tIdx) => (
+                      <span
+                        class="tech-pill"
+                        style={`--card-accent: ${projectSlots[(idx + tIdx) % projectSlots.length]};`}
+                      >
                         {tech}
                       </span>
                     ))}
@@ -372,7 +385,8 @@ const {
                   </div>
                 </div>
               </article>
-            ))
+            );
+          })
         }
       </div>
     </div>

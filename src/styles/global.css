@@ -15,6 +15,14 @@
   --brand-purple: #8060cf;
   --brand-dark: #14171f;
 
+  /* Intelligent 6-Slot Dynamic Accent System (Zero Same-Row Color Monotony) */
+  --accent-1: var(--brand-gold);
+  --accent-2: #7c3aed;
+  --accent-3: #ea6a15;
+  --accent-4: #0d9488;
+  --accent-5: #e11d48;
+  --accent-6: #059669;
+
   /* Official Social Network Brand Colors (100% Solid) */
   --social-linkedin: #0A66C2;
   --social-linkedin-hover: #004182;
@@ -286,6 +294,10 @@ p,
   flex-shrink: 0;
 }
 
+.tech-pill:has(> svg, > .status-pulse-dot)::before {
+  display: none;
+}
+
 .tech-pill:hover {
   transform: translateY(-2px);
   background-color: var(--card-accent, var(--brand-gold));
@@ -297,7 +309,8 @@ p,
   background-color: #ffffff;
 }
 
-.tech-pill:hover i {
+.tech-pill:hover i,
+.tech-pill:hover svg {
   color: #ffffff !important;
 }
 
@@ -767,6 +780,7 @@ a[data-lang-switch]:hover {
   background-image: none;
   position: relative;
   min-height: calc(100vh - 20px);
+  min-height: calc(100dvh - 20px);
   display: flex;
   align-items: center;
   padding-top: 104px;
@@ -967,16 +981,17 @@ a[data-lang-switch]:hover {
 }
 
 .hero-arch-icon-badge {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: var(--arch-brand, var(--brand-gold));
   color: #ffffff;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   flex-shrink: 0;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
 }
 
 .hero-arch-pill:hover {
@@ -1308,15 +1323,14 @@ a[data-lang-switch]:hover {
 }
 
 .btn-brand span::after {
-  font-family: "IcoFont" !important;
-  content: "\ea5d";
+  content: "→";
   position: absolute;
   opacity: 0;
   top: 50%;
   right: -18px;
   transform: translateY(-50%);
   transition: 0.25s ease;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .btn-brand:hover span {
@@ -2191,6 +2205,8 @@ a[data-lang-switch]:hover {
   width: 100%;
   height: 100%;
   background-color: var(--brand-gold);
+  transform-origin: top center;
+  transition: transform 0.14s ease-out, background-color 0.25s ease;
 }
 
 .main-timeline .timeline {
@@ -2674,6 +2690,56 @@ textarea.form-control-pill {
   background-color: var(--brand-gold);
   border-color: var(--brand-gold);
   color: var(--brand-on-gold);
+}
+
+@media (max-width: 767px) {
+  #style-switcher {
+    top: auto;
+    bottom: 18px;
+    border-radius: 0 12px 12px 0;
+  }
+
+  #style-switcher .bottom .settings-btn {
+    top: auto;
+    bottom: -2px;
+    height: 40px;
+    width: 40px;
+    right: -40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-brand-img {
+    height: 36px;
+    width: 36px;
+    margin-right: 4px;
+  }
+
+  .brand-signature-text {
+    font-size: 1.5rem;
+  }
+
+  .brand-rubric-flourish {
+    width: 92px;
+    height: 9px;
+  }
+
+  .brand-signature-sub {
+    font-size: 0.52rem;
+    letter-spacing: 0.12em;
+  }
+
+  .nav-control-btn {
+    height: 38px;
+    min-width: 38px;
+  }
+
+  a[data-lang-switch] {
+    padding-left: 0.6rem !important;
+    padding-right: 0.6rem !important;
+    font-size: 0.68rem !important;
+    gap: 0.25rem !important;
+  }
 }
 
 .style-swatch-btn {

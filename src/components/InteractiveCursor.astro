@@ -141,21 +141,27 @@
       );
     }
 
-    // 3. Magnetic Pull Micro-Interaction on CTAs & Social Buttons
+    // 3. Magnetic Pull Micro-Interaction on CTAs & Social Buttons (excluding Hero CTAs managed by GSAP)
     const magneticElements = document.querySelectorAll<HTMLElement>(
-      '.btn-brand, .social-icon-btn, [data-magnetic]'
+      '.btn-brand:not([data-hero-ctas] *), .social-icon-btn, [data-magnetic]'
     );
     magneticElements.forEach((el) => {
-      el.addEventListener('mousemove', (e) => {
-        const rect = el.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const deltaX = (e.clientX - centerX) * 0.24;
-        const deltaY = (e.clientY - centerY) * 0.24;
-        el.style.transform = `translate3d(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px, 0)`;
-      });
+      el.addEventListener(
+        'mousemove',
+        (e) => {
+          const rect = el.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          const deltaX = (e.clientX - centerX) * 0.22;
+          const deltaY = (e.clientY - centerY) * 0.22;
+          el.style.transition = 'transform 0.12s cubic-bezier(0.16, 1, 0.3, 1)';
+          el.style.transform = `translate3d(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px, 0)`;
+        },
+        { passive: true }
+      );
 
       el.addEventListener('mouseleave', () => {
+        el.style.transition = 'transform 0.32s cubic-bezier(0.16, 1, 0.3, 1)';
         el.style.transform = '';
       });
     });

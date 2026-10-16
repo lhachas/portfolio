@@ -44,117 +44,146 @@ const skillCategories = skillsSection.categories;
         {skillsSection.filterAllLabel}
       </button>
       {
-        skillCategories.map((category) => (
-          <button
-            type="button"
-            role="tab"
-            aria-selected="false"
-            data-skill-filter={category.id}
-            style={`--tab-accent: ${category.accentColor}; --tab-text: #ffffff;`}
-            class="skill-filter-btn min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-200 cursor-pointer inline-flex items-center gap-2"
-          >
-            <span
-              class="skill-filter-dot h-2.5 w-2.5 rounded-full shrink-0"
-              style={`background-color: ${category.accentColor};`}
-              aria-hidden="true"
-            ></span>
-            <span>{category.title}</span>
-          </button>
-        ))
+        skillCategories.map((category, idx) => {
+          const pillarSlots = [
+            'var(--accent-1)',
+            'var(--accent-3)',
+            'var(--accent-4)',
+            'var(--accent-2)',
+          ];
+          const pillarAccent = pillarSlots[idx % pillarSlots.length];
+          return (
+            <button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              data-skill-filter={category.id}
+              style={`--tab-accent: ${pillarAccent}; --tab-text: #ffffff;`}
+              class="skill-filter-btn min-h-[42px] rounded-full px-4 py-2 text-xs font-medium uppercase tracking-wider transition-all duration-200 cursor-pointer inline-flex items-center gap-2"
+            >
+              <span
+                class="skill-filter-dot h-2.5 w-2.5 rounded-full shrink-0"
+                style={`background-color: ${pillarAccent};`}
+                aria-hidden="true"
+              ></span>
+              <span>{category.title}</span>
+            </button>
+          );
+        })
       }
     </div>
 
     <!-- 2x2 Skills Grid (100% Solid Category-Accented Cards + Official Brand Tech Badges) -->
     <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-7" id="skills-grid">
       {
-        skillCategories.map((category, idx) => (
-          <article
-            class="card-box th-primary reveal justify-between"
-            data-skill-card={category.id}
-            style={`--card-accent: ${category.accentColor}; --reveal-delay: ${(idx % 2) * 100}ms;`}
-          >
-            <div>
-              <!-- Category Pillar Badge + 45deg Diamond Rotating Icon -->
-              <div class="flex items-center justify-between mb-1">
-                <span
-                  class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white"
-                  style={`background-color: ${category.accentColor};`}
-                >
-                  <span>{skillsSection.pillarPrefixLabel} 0{idx + 1}</span>
-                </span>
-                <span
-                  class="text-xs font-semibold uppercase tracking-wider"
-                  style={`color: ${category.accentColor};`}
-                >
-                  {category.items.length} {skillsSection.domainsCountSuffix}
-                </span>
-              </div>
+        skillCategories.map((category, idx) => {
+          const pillarSlots = [
+            'var(--accent-1)',
+            'var(--accent-3)',
+            'var(--accent-4)',
+            'var(--accent-2)',
+          ];
+          const pillarAccent = pillarSlots[idx % pillarSlots.length];
+          const tagSlots = [
+            'var(--accent-1)',
+            'var(--accent-2)',
+            'var(--accent-3)',
+            'var(--accent-4)',
+            'var(--accent-5)',
+            'var(--accent-6)',
+          ];
+          return (
+            <article
+              class="card-box th-primary reveal justify-between"
+              data-skill-card={category.id}
+              style={`--card-accent: ${pillarAccent}; --reveal-delay: ${(idx % 2) * 100}ms;`}
+            >
+              <div>
+                <!-- Category Pillar Badge + 45deg Diamond Rotating Icon -->
+                <div class="flex items-center justify-between mb-1">
+                  <span
+                    class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white"
+                    style={`background-color: ${pillarAccent};`}
+                  >
+                    <span>{skillsSection.pillarPrefixLabel} 0{idx + 1}</span>
+                  </span>
+                  <span
+                    class="text-xs font-semibold uppercase tracking-wider"
+                    style={`color: ${pillarAccent};`}
+                  >
+                    {category.items.length} {skillsSection.domainsCountSuffix}
+                  </span>
+                </div>
 
-              <!-- Large Centered 45deg Diamond Rotating Icon Medallion -->
-              <div class="card-icon">
-                <span class="icon">
-                  {category.id === 'languages-frameworks' && <Icon name="terminal" size={36} />}
-                  {category.id === 'cloud-distributed' && <Icon name="cloud" size={36} />}
-                  {category.id === 'data-observability' && <Icon name="database" size={36} />}
-                  {category.id === 'ai-assisted-dev' && <Icon name="shield" size={36} />}
-                </span>
-              </div>
+                <!-- Large Centered 45deg Diamond Rotating Icon Medallion -->
+                <div class="card-icon">
+                  <span class="icon">
+                    {category.id === 'languages-frameworks' && <Icon name="terminal" size={36} />}
+                    {category.id === 'cloud-distributed' && <Icon name="cloud" size={36} />}
+                    {category.id === 'data-observability' && <Icon name="database" size={36} />}
+                    {category.id === 'ai-assisted-dev' && <Icon name="shield" size={36} />}
+                  </span>
+                </div>
 
-              <h3 class="card-title text-center">
-                {category.title}
-              </h3>
-              <p class="detail-copy mt-1.5 text-center" style="color: var(--txt-muted);">
-                {category.subtitle}
-              </p>
+                <h3 class="card-title text-center">
+                  {category.title}
+                </h3>
+                <p class="detail-copy mt-1.5 text-center" style="color: var(--txt-muted);">
+                  {category.subtitle}
+                </p>
 
-              <!-- Animated Skill Progress Bars with Official Solid Brand Icon Badges -->
-              <div class="skills-list mt-6">
-                {
-                  category.items.map((skill) => (
-                    <div class="skill-item" style={`--skill-brand: ${skill.brandColor};`}>
-                      <div class="skill-text">
-                        <span class="inline-flex items-center min-w-0">
-                          <span class="skill-brand-badge" aria-hidden="true">
-                            <i class={skill.icon}></i>
+                <!-- Animated Skill Progress Bars with Official Solid Brand Icon Badges -->
+                <div class="skills-list mt-6">
+                  {
+                    category.items.map((skill) => (
+                      <div class="skill-item" style={`--skill-brand: ${skill.brandColor};`}>
+                        <div class="skill-text">
+                          <span class="inline-flex items-center min-w-0">
+                            <span class="skill-brand-badge" aria-hidden="true">
+                              <Icon name={skill.icon} size={16} />
+                            </span>
+                            <span class="font-medium tracking-wide truncate">{skill.name}</span>
                           </span>
-                          <span class="font-medium tracking-wide truncate">{skill.name}</span>
-                        </span>
-                        <span class="skill-level-pill">
-                          {skill.level}
-                        </span>
+                          <span class="skill-level-pill">
+                            {skill.level}
+                          </span>
+                        </div>
+                        <div class="skill-progress">
+                          <div
+                            class="progres"
+                            style={`width: ${skill.level};`}
+                            data-value={skill.level}
+                            role="progressbar"
+                            aria-label={`${skill.name}: ${skill.level}`}
+                          />
+                        </div>
                       </div>
-                      <div class="skill-progress">
-                        <div
-                          class="progres"
-                          style={`width: ${skill.level};`}
-                          data-value={skill.level}
-                          role="progressbar"
-                          aria-label={`${skill.name}: ${skill.level}`}
-                        />
-                      </div>
-                    </div>
-                  ))
-                }
+                    ))
+                  }
+                </div>
               </div>
-            </div>
 
-            <!-- Granular Tech Pills from 2026 CV (Solid Category-Accented Pills) -->
-            <div class="mt-6 pt-4 border-t-2" style="border-color: var(--card-border);">
-              <span class="label-c block mb-2.5 text-center" style={`color: ${category.accentColor};`}>
-                {skillsSection.verifiedStackHeading}
-              </span>
-              <div class="flex flex-wrap justify-center gap-1.5">
-                {
-                  category.tags.map((tag) => (
-                    <span class="tech-pill">
-                      {tag}
-                    </span>
-                  ))
-                }
+              <!-- Granular Tech Pills from 2026 CV (Solid Multi-Accented Non-Monotonous Pills) -->
+              <div class="mt-6 pt-4 border-t-2" style="border-color: var(--card-border);">
+                <span class="label-c block mb-2.5 text-center" style={`color: ${pillarAccent};`}>
+                  {skillsSection.verifiedStackHeading}
+                </span>
+                <div class="flex flex-wrap justify-center gap-1.5">
+                  {
+                    category.tags.map((tag, tIdx) => (
+                      <span
+                        class="tech-pill"
+                        style={`--card-accent: ${tagSlots[(idx + tIdx) % tagSlots.length]};`}
+                      >
+                        {tag}
+                      </span>
+                    ))
+                  }
+                </div>
               </div>
-            </div>
-          </article>
-        ))
+            </article>
+          );
+        })
       }
     </div>
   </div>

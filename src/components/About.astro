@@ -62,16 +62,20 @@ const { trainingShowcase } = about;
 
         <!-- Languages & Location Quick Strip (100% Solid Non-Monotonous Pills) -->
         <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
-          <span class="tech-pill" style="--card-accent: #0e3d65;">
+          <span class="tech-pill" style="--card-accent: var(--accent-1);">
             <Icon name="map-pin" size={14} class="text-gold shrink-0 inline-block" />
             <span>{profile.location}</span>
           </span>
           {
-            profile.languages.map((lang) => (
-              <span class="tech-pill" style="--card-accent: #0d9488;">
-                <strong>{lang.name}:</strong> <span>{lang.level}</span>
-              </span>
-            ))
+            profile.languages.map((lang, idx) => {
+              const langSlots = ['var(--accent-2)', 'var(--accent-3)', 'var(--accent-4)'];
+              const langAccent = langSlots[idx % langSlots.length];
+              return (
+                <span class="tech-pill" style={`--card-accent: ${langAccent};`}>
+                  <strong>{lang.name}:</strong> <span>{lang.level}</span>
+                </span>
+              );
+            })
           }
         </div>
       </div>
@@ -97,7 +101,14 @@ const { trainingShowcase } = about;
             <div class="flex flex-wrap gap-2">
               {
                 about.coreStackPills.map((tech, idx) => {
-                  const accents = ['#2563eb', '#ea6a15', '#0d9488', '#7c3aed'];
+                  const accents = [
+                    'var(--accent-1)',
+                    'var(--accent-2)',
+                    'var(--accent-3)',
+                    'var(--accent-4)',
+                    'var(--accent-5)',
+                    'var(--accent-6)',
+                  ];
                   const accent = accents[idx % accents.length];
                   return (
                     <span class="tech-pill" style={`--card-accent: ${accent};`}>
@@ -159,59 +170,63 @@ const { trainingShowcase } = about;
     <div class="mt-14 reveal">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         {
-          about.education.map((edu, idx) => (
-            <article
-              class="edu-card"
-              style={`--edu-accent: ${edu.accentColor}; --card-accent: ${edu.accentColor}; --reveal-delay: ${idx * 90}ms;`}
-            >
-              <div>
-                <div class="flex items-start justify-between gap-3 mb-4">
-                  <div class="inline-flex items-center gap-3">
-                    <span class="edu-icon-badge" aria-hidden="true">
-                      <i class={`icofont ${edu.icon}`}></i>
-                    </span>
-                    <div>
-                      <span
-                        class="block text-xs font-semibold uppercase tracking-widest"
-                        style={`color: ${edu.accentColor};`}
-                      >
-                        {edu.category}
+          about.education.map((edu, idx) => {
+            const eduSlots = ['var(--accent-1)', 'var(--accent-3)', 'var(--accent-4)'];
+            const eduAccent = eduSlots[idx % eduSlots.length];
+            return (
+              <article
+                class="edu-card"
+                style={`--edu-accent: ${eduAccent}; --card-accent: ${eduAccent}; --reveal-delay: ${idx * 90}ms;`}
+              >
+                <div>
+                  <div class="flex items-start justify-between gap-3 mb-4">
+                    <div class="inline-flex items-center gap-3">
+                      <span class="edu-icon-badge" aria-hidden="true">
+                        <Icon name={edu.icon} size={22} />
                       </span>
-                      <span
-                        class="mt-1 inline-block rounded-md px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-white"
-                        style={`background-color: ${edu.accentColor};`}
-                      >
-                        {edu.badgeText}
-                      </span>
+                      <div>
+                        <span
+                          class="block text-xs font-semibold uppercase tracking-widest"
+                          style={`color: ${eduAccent};`}
+                        >
+                          {edu.category}
+                        </span>
+                        <span
+                          class="mt-1 inline-block rounded-md px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-white"
+                          style={`background-color: ${eduAccent};`}
+                        >
+                          {edu.badgeText}
+                        </span>
+                      </div>
                     </div>
+
+                    <span class="edu-period-pill">
+                      <Icon name="calendar" size={13} style={`color: ${eduAccent};`} class="inline-block shrink-0" />
+                      <span>{edu.period}</span>
+                    </span>
                   </div>
 
-                  <span class="edu-period-pill">
-                    <Icon name="calendar" size={13} style={`color: ${edu.accentColor};`} class="inline-block shrink-0" />
-                    <span>{edu.period}</span>
-                  </span>
+                  <h4 class="item-title !text-[1.1rem]">
+                    {edu.institution}
+                  </h4>
+
+                  <p class="detail-copy mt-2">
+                    {edu.detail}
+                  </p>
                 </div>
 
-                <h4 class="item-title !text-[1.1rem]">
-                  {edu.institution}
-                </h4>
-
-                <p class="detail-copy mt-2">
-                  {edu.detail}
-                </p>
-              </div>
-
-              <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs font-medium" style="border-color: var(--card-border);">
-                <span class="txt-primary inline-flex items-center gap-1.5">
-                  <Icon name="check" size={13} style={`color: ${edu.accentColor};`} class="inline-block shrink-0" />
-                  <span>{about.educationVerifiedLabel}</span>
-                </span>
-                <span class="font-semibold uppercase tracking-wider" style={`color: ${edu.accentColor};`}>
-                  0{idx + 1}
-                </span>
-              </div>
-            </article>
-          ))
+                <div class="mt-4 pt-3 border-t flex items-center justify-between text-xs font-medium" style="border-color: var(--card-border);">
+                  <span class="txt-primary inline-flex items-center gap-1.5">
+                    <Icon name="check" size={13} style={`color: ${eduAccent};`} class="inline-block shrink-0" />
+                    <span>{about.educationVerifiedLabel}</span>
+                  </span>
+                  <span class="font-semibold uppercase tracking-wider" style={`color: ${eduAccent};`}>
+                    0{idx + 1}
+                  </span>
+                </div>
+              </article>
+            );
+          })
         }
       </div>
 
@@ -234,12 +249,16 @@ const { trainingShowcase } = about;
 
           <div class="flex flex-wrap items-center gap-2.5">
             {
-              trainingShowcase.providerSummaryBadges.map((badge) => (
-                <span class="provider-badge" style={`--provider-color: ${badge.color};`}>
-                  <i class={`icofont ${badge.icon}`} aria-hidden="true"></i>
-                  <span>{badge.label}</span>
-                </span>
-              ))
+              trainingShowcase.providerSummaryBadges.map((badge, idx) => {
+                const summarySlots = ['var(--accent-1)', 'var(--accent-4)'];
+                const badgeAccent = summarySlots[idx % summarySlots.length];
+                return (
+                  <span class="provider-badge" style={`--provider-color: ${badgeAccent};`}>
+                    <Icon name={badge.icon} size={14} class="shrink-0" />
+                    <span>{badge.label}</span>
+                  </span>
+                );
+              })
             }
             <span class="training-toggle-btn" aria-hidden="true">
               <Icon name="chevron-down" size={16} class="text-gold group-open:rotate-180 transition-transform duration-300" />
@@ -260,34 +279,47 @@ const { trainingShowcase } = about;
 
             <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3.5" role="list">
               {
-                trainingShowcase.courses.map((course) => (
-                  <li
-                    class="course-card"
-                    style={`--provider-color: ${course.providerColor}; --card-accent: ${course.providerColor};`}
-                  >
-                    <div class="flex items-center justify-between gap-2">
-                      <span class="provider-badge" style={`--provider-color: ${course.providerColor};`}>
-                        <Icon name="check" size={12} class="inline-block shrink-0" />
-                        <span>{course.provider}</span>
-                      </span>
-                      <span class="course-date-pill">
-                        <Icon name="calendar" size={12} style={`color: ${course.providerColor};`} class="inline-block shrink-0" />
-                        <span>{course.date}</span>
-                      </span>
-                    </div>
+                trainingShowcase.courses.map((course, idx) => {
+                  const courseSlots = [
+                    'var(--accent-1)',
+                    'var(--accent-3)',
+                    'var(--accent-4)',
+                    'var(--accent-2)',
+                    'var(--accent-6)',
+                    'var(--accent-5)',
+                    'var(--accent-2)',
+                    'var(--accent-4)',
+                  ];
+                  const courseAccent = courseSlots[idx % courseSlots.length];
+                  return (
+                    <li
+                      class="course-card"
+                      style={`--provider-color: ${courseAccent}; --card-accent: ${courseAccent};`}
+                    >
+                      <div class="flex items-center justify-between gap-2">
+                        <span class="provider-badge" style={`--provider-color: ${courseAccent};`}>
+                          <Icon name="check" size={12} class="inline-block shrink-0" />
+                          <span>{course.provider}</span>
+                        </span>
+                        <span class="course-date-pill">
+                          <Icon name="calendar" size={12} style={`color: ${courseAccent};`} class="inline-block shrink-0" />
+                          <span>{course.date}</span>
+                        </span>
+                      </div>
 
-                    <strong class="course-title">
-                      {course.name}
-                    </strong>
+                      <strong class="course-title">
+                        {course.name}
+                      </strong>
 
-                    <div class="course-footer">
-                      <span class="text-[12px] font-normal" style="color: var(--txt-muted);">
-                        {trainingShowcase.courseDomainPrefix} <strong class="font-medium txt-primary">{course.domain}</strong>
-                      </span>
-                      <Icon name="check" size={13} style={`color: ${course.providerColor};`} class="inline-block shrink-0" />
-                    </div>
-                  </li>
-                ))
+                      <div class="course-footer">
+                        <span class="text-[12px] font-normal" style="color: var(--txt-muted);">
+                          {trainingShowcase.courseDomainPrefix} <strong class="font-medium txt-primary">{course.domain}</strong>
+                        </span>
+                        <Icon name="check" size={13} style={`color: ${courseAccent};`} class="inline-block shrink-0" />
+                      </div>
+                    </li>
+                  );
+                })
               }
             </ul>
           </div>
@@ -299,7 +331,15 @@ const { trainingShowcase } = about;
               <div class="grid grid-cols-1 gap-2.5">
                 {
                   trainingShowcase.softSkills.map((skill, idx) => {
-                    const badgeColor = idx % 2 === 0 ? '#0d9488' : '#2563eb';
+                    const softSkillSlots = [
+                      'var(--accent-1)',
+                      'var(--accent-2)',
+                      'var(--accent-3)',
+                      'var(--accent-4)',
+                      'var(--accent-5)',
+                      'var(--accent-6)',
+                    ];
+                    const badgeColor = softSkillSlots[idx % softSkillSlots.length];
                     return (
                       <div
                         class="competency-card"

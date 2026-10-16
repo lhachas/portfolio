@@ -52,10 +52,17 @@ const experiencesData = experiencesSection.items;
         </div>
 
         {
-          experiencesData.map((exp) => {
-            const isBrandAccent = exp.color.toLowerCase() === '#cdb30c' || exp.color.toLowerCase() === '#3f87f5';
-            const resolvedColor = isBrandAccent ? 'var(--brand-gold)' : exp.color;
-            const resolvedTextColor = isBrandAccent ? 'var(--heading-color)' : resolvedColor;
+          experiencesData.map((exp, idx) => {
+            const expSlots = [
+              'var(--accent-1)',
+              'var(--accent-3)',
+              'var(--accent-4)',
+              'var(--accent-2)',
+              'var(--accent-5)',
+              'var(--accent-6)',
+            ];
+            const resolvedColor = expSlots[idx % expSlots.length];
+            const resolvedTextColor = resolvedColor;
             const headerTextColor = '#ffffff';
             return (
               <article
@@ -128,8 +135,11 @@ const experiencesData = experiencesSection.items;
                     <!-- Stage-Color-Coded Solid Stack Badges -->
                     <div class="mt-4 pt-2 flex flex-wrap gap-1.5">
                       {
-                        exp.technologies.map((tech) => (
-                          <span class="exp-tech-pill">
+                        exp.technologies.map((tech, tIdx) => (
+                          <span
+                            class="exp-tech-pill"
+                            style={`--card-accent: ${expSlots[(idx + tIdx) % expSlots.length]};`}
+                          >
                             {tech}
                           </span>
                         ))
@@ -234,5 +244,37 @@ const experiencesData = experiencesSection.items;
         toggleLabel.textContent = nextState ? compactLabel : detailedLabel;
       }
     });
+
+    // Scroll-driven timeline spine progress (respecting prefers-reduced-motion)
+    const timelineEl = document.getElementById('experiences-timeline');
+    const spineProgress = document.getElementById('timeline-spine-progress');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (timelineEl && spineProgress && !prefersReducedMotion) {
+      let ticking = false;
+      const updateTimelineProgress = () => {
+        const rect = timelineEl.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const startOffset = viewportHeight * 0.78;
+        const totalDistance = Math.max(1, rect.height - viewportHeight * 0.25);
+        const scrolled = startOffset - rect.top;
+        const ratio = Math.min(1, Math.max(0.08, scrolled / totalDistance));
+        spineProgress.style.transform = `scaleY(${ratio.toFixed(3)})`;
+        ticking = false;
+      };
+
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(updateTimelineProgress);
+            ticking = true;
+          }
+        },
+        { passive: true }
+      );
+      window.addEventListener('resize', updateTimelineProgress, { passive: true });
+      updateTimelineProgress();
+    }
   })();
 </script>

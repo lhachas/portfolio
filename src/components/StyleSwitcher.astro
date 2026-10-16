@@ -13,9 +13,9 @@ const { styleSwitcher } = await getPortfolioContent(locale);
 <!-- START SWITCHER -->
 <div id="style-switcher" aria-label={styleSwitcher.ariaLabel}>
   <div>
-    <h3 class="text-white text-center text-sm font-bold uppercase tracking-wider mb-2">
+    <p class="text-white text-center text-sm font-bold uppercase tracking-wider mb-2">
       {styleSwitcher.title}
-    </h3>
+    </p>
     <ul class="grid grid-cols-3 gap-2.5 p-2 justify-items-center" role="list">
       {
         styleSwitcher.themes.map((theme, idx) => (
@@ -70,6 +70,15 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     const backToTop = document.getElementById('back-to-top');
     const validHex = /^#[0-9a-fA-F]{6}$/;
 
+    const accentPalettes = {
+      '#3f87f5': ['#3f87f5', '#7c3aed', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
+      '#cdb30c': ['#cdb30c', '#2563eb', '#0d9488', '#7c3aed', '#e11d48', '#059669'],
+      '#ff546c': ['#ff546c', '#2563eb', '#0d9488', '#ea6a15', '#7c3aed', '#059669'],
+      '#f2b31a': ['#f2b31a', '#2563eb', '#7c3aed', '#0d9488', '#e11d48', '#059669'],
+      '#8060cf': ['#8060cf', '#2563eb', '#ea6a15', '#0d9488', '#e11d48', '#059669'],
+      '#37b8df': ['#37b8df', '#7c3aed', '#ea6a15', '#2563eb', '#e11d48', '#059669'],
+    };
+
     const syncActiveSwatch = (activeHex) => {
       const normalized = (activeHex || '#3f87f5').toLowerCase();
       swatches.forEach((swatch) => {
@@ -81,26 +90,38 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     };
 
     const applyAccentPalette = (primary, hover, persist) => {
+      const normalizedPrimary = (primary || '#3f87f5').toLowerCase();
       const onAccent = '#ffffff';
+      const slots = accentPalettes[normalizedPrimary] || [
+        normalizedPrimary,
+        '#7c3aed',
+        '#ea6a15',
+        '#0d9488',
+        '#e11d48',
+        '#059669',
+      ];
 
       const root = document.documentElement.style;
-      root.setProperty('--brand-gold', primary);
+      root.setProperty('--brand-gold', normalizedPrimary);
       root.setProperty('--brand-gold-hover', hover);
       root.setProperty('--brand-on-gold', onAccent);
-      root.setProperty('--title-icon-color', primary);
+      root.setProperty('--title-icon-color', normalizedPrimary);
+      slots.forEach((slotColor, index) => {
+        root.setProperty(`--accent-${index + 1}`, slotColor);
+      });
 
-      syncActiveSwatch(primary);
+      syncActiveSwatch(normalizedPrimary);
 
       if (persist) {
         try {
-          localStorage.setItem('user-accent-hex', primary);
+          localStorage.setItem('user-accent-hex', normalizedPrimary);
           localStorage.setItem('user-accent-hover', hover);
         } catch (err) {}
       }
 
       window.dispatchEvent(
         new CustomEvent('portfolio:accent-change', {
-          detail: { primary, hover, onAccent },
+          detail: { primary: normalizedPrimary, hover, onAccent, slots },
         })
       );
     };
@@ -111,10 +132,10 @@ const { styleSwitcher } = await getPortfolioContent(locale);
       if (validHex.test(savedPrimary) && validHex.test(savedHover)) {
         applyAccentPalette(savedPrimary, savedHover, false);
       } else {
-        syncActiveSwatch('#3f87f5');
+        applyAccentPalette('#3f87f5', '#2563eb', false);
       }
     } catch (err) {
-      syncActiveSwatch('#3f87f5');
+      applyAccentPalette('#3f87f5', '#2563eb', false);
     }
 
     toggleBtn?.addEventListener('click', (e) => {

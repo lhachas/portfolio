@@ -114,6 +114,19 @@ if (fs.existsSync(readmePath)) {
   }
 }
 
+// 3c. Verify public/sitemap.xml contains zero .docx URLs and includes xhtml:link hreflang annotations
+const sitemapPath = path.join(PUBLIC_DIR, 'sitemap.xml');
+if (fs.existsSync(sitemapPath)) {
+  const sitemapXml = fs.readFileSync(sitemapPath, 'utf8');
+  if (/\.docx/i.test(sitemapXml)) {
+    fail('public/sitemap.xml must NOT contain disallowed .docx URLs');
+  } else if (!sitemapXml.includes('xhtml:link') || !sitemapXml.includes('hreflang="x-default"')) {
+    fail('public/sitemap.xml is missing reciprocal xhtml:link hreflang annotations');
+  } else {
+    pass('public/sitemap.xml verified: PDF-only CV URLs + reciprocal xhtml:link hreflang annotations');
+  }
+}
+
 // 4. If dist/ exists, verify the final production bundle
 if (fs.existsSync(DIST_DIR)) {
   const distFiles = walkFiles(DIST_DIR);
