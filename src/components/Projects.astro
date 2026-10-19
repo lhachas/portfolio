@@ -1049,28 +1049,46 @@ const {
      Filter Buttons & GitHub Callout Banner
      ========================================================================== */
   .project-filter-btn {
+    position: relative;
     border: 2px solid var(--card-border);
     background-color: var(--th-secondary);
     color: var(--txt-primary);
-    box-shadow: 0 2px 0 var(--card-border);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.25s ease,
+                box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease,
+                color 0.2s ease;
   }
 
   .project-filter-btn:hover {
+    transform: translateY(-4px);
     border-color: var(--brand-gold);
+    box-shadow: 0 8px 0 var(--brand-gold);
     color: var(--brand-gold);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 0 var(--brand-gold);
   }
 
   .project-filter-btn:active {
-    transform: scale(0.96);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 0 var(--brand-gold);
   }
 
   .project-filter-btn.active {
     background-color: var(--brand-gold);
     border-color: var(--brand-gold);
     color: #ffffff !important;
-    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+    font-weight: 600;
+  }
+
+  .project-filter-btn.active:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .project-filter-btn.active:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
   }
 
   .project-filter-btn.active span {

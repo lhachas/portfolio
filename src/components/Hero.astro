@@ -338,10 +338,10 @@ const { hero } = await getPortfolioContent(locale);
       });
     }
 
-    // 3c. Magnetic Physics Micro-Interactions on CTA Buttons & Badges
+    // 3c. Micro-Interactions on Badges
     if (isFinePointer && !prefersReducedMotion) {
       const magneticTargets = document.querySelectorAll<HTMLElement>(
-        '.hero-btn-primary, .hero-btn-secondary, .hero-status-pill'
+        '.hero-status-pill'
       );
       magneticTargets.forEach((target) => {
         target.addEventListener('mousemove', (e) => {

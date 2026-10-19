@@ -690,14 +690,14 @@ html[data-theme="dark"] #theme-toggle-btn #theme-icon-sun {
   transform: scale(1.15) rotate(15deg);
 }
 
-/* Zero-friction Segmented Language Switcher (Clear Active vs Inactive State) */
+/* Zero-friction Segmented Language Switcher (Integrated Header Palette & Clear Active State) */
 .lang-segmented-btn {
   display: inline-flex;
   height: 44px;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: #222734;
+  background-color: #1e222d;
   border: 2px solid #333a48;
   color: #ffffff;
   padding: 0 0.35rem 0 0.45rem;
@@ -705,7 +705,7 @@ html[data-theme="dark"] #theme-toggle-btn #theme-icon-sun {
   cursor: pointer;
   text-decoration: none;
   transform: none !important;
-  box-shadow: 0 3px 0 #14171f;
+  box-shadow: 0 3px 0 #0d0f14;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.2s ease,
               background-color 0.2s ease,
@@ -714,10 +714,11 @@ html[data-theme="dark"] #theme-toggle-btn #theme-icon-sun {
 
 :root:not([data-theme="dark"]) .lang-segmented-btn,
 [data-theme="light"] .lang-segmented-btn {
-  background-color: #ffffff;
-  border: 2px solid #cbd5e1;
-  color: #1e293b;
-  box-shadow: 0 3px 0 #cbd5e1;
+  /* Navbar header retains solid dark slate aesthetic (#14171f / #0f1219) across both themes */
+  background-color: #1e222d;
+  border: 2px solid #333a48;
+  color: #ffffff;
+  box-shadow: 0 3px 0 #0d0f14;
 }
 
 .lang-segmented-btn:hover {
@@ -735,7 +736,7 @@ html[data-theme="dark"] #theme-toggle-btn #theme-icon-sun {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.22rem 0.55rem;
+  padding: 0.24rem 0.6rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 700;
@@ -748,21 +749,21 @@ html[data-theme="dark"] #theme-toggle-btn #theme-icon-sun {
   background-color: var(--brand-gold);
   color: #ffffff !important;
   border: 1px solid var(--brand-gold);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-/* Inactive target locale: Crisp subtle pill, becomes highlighted on parent hover */
+/* Inactive target locale: Sits naturally on header background, highlights on hover */
 .lang-pill-badge.target {
-  background-color: #181c26;
+  background-color: #14171f;
   color: #94a3b8;
-  border: 1px solid #333a48;
+  border: 1px solid #2d3546;
 }
 
 :root:not([data-theme="dark"]) .lang-pill-badge.target,
 [data-theme="light"] .lang-pill-badge.target {
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #cbd5e1;
+  background-color: #14171f;
+  color: #cbd5e1;
+  border: 1px solid #2d3546;
 }
 
 .lang-segmented-btn:hover .lang-pill-badge.target {
@@ -773,8 +774,8 @@ html[data-theme="dark"] #theme-toggle-btn #theme-icon-sun {
 
 :root:not([data-theme="dark"]) .lang-segmented-btn:hover .lang-pill-badge.target,
 [data-theme="light"] .lang-segmented-btn:hover .lang-pill-badge.target {
-  background-color: #e2e8f0;
-  color: #0f172a;
+  background-color: #2e3546;
+  color: #ffffff;
   border-color: var(--brand-gold);
 }
 
@@ -1107,12 +1108,14 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 }
 
 /* Hero Action CTAs - 100% Solid Surfaces, Tactile Feedback, Single-Line Desktop */
+/* Hero Action CTAs - 100% Solid Surfaces, Card-Standard Tactile Feedback */
 .hero-btn-primary {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
-  padding: 0.65rem 1.6rem;
+  padding: 0.7rem 1.75rem;
   border-radius: 9999px;
   background-color: var(--brand-gold);
   border: 2px solid var(--brand-gold);
@@ -1122,9 +1125,12 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-btn-primary span,
@@ -1138,8 +1144,8 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   background-color: var(--brand-gold-hover);
   border-color: var(--brand-gold-hover);
   color: #ffffff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.45);
 }
 
 .hero-btn-primary:hover span,
@@ -1150,8 +1156,8 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 }
 
 .hero-btn-primary:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
   color: #ffffff !important;
 }
 
@@ -1163,51 +1169,58 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 }
 
 .hero-btn-secondary {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
-  padding: 0.65rem 1.6rem;
+  padding: 0.7rem 1.75rem;
   border-radius: 9999px;
   background-color: #1e222d;
-  border: 2px solid #333a48;
+  border: 2px solid var(--card-border);
   color: #ffffff !important;
   font-size: 0.8125rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
-  box-shadow: 0 3px 0 #0a0c10;
+  box-shadow: 0 4px 0 #0d0f14;
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              color 0.2s ease,
+              background-color 0.2s ease,
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root:not([data-theme="dark"]) .hero-btn-secondary,
 [data-theme="light"] .hero-btn-secondary {
   background-color: #ffffff;
-  border-color: #cbd5e1;
+  border: 2px solid #cbd5e1;
   color: #1e293b !important;
-  box-shadow: 0 3px 0 #cbd5e1;
+  box-shadow: 0 4px 0 #cbd5e1;
 }
 
 .hero-btn-secondary:hover {
   border-color: var(--brand-gold);
+  background-color: #252a38;
   color: var(--brand-gold) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 #0a0c10;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 var(--brand-gold);
 }
 
 :root:not([data-theme="dark"]) .hero-btn-secondary:hover,
 [data-theme="light"] .hero-btn-secondary:hover {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   border-color: var(--brand-gold);
   color: var(--brand-gold) !important;
-  box-shadow: 0 5px 0 #94a3b8;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 0 var(--brand-gold);
 }
 
 .hero-btn-secondary:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 1px 0 #0a0c10;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 0 var(--brand-gold);
 }
 
 /* Hero Impact Metric Cards - 100% Solid Surface with Distinct Accent Colors */
