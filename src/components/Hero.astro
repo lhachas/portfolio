@@ -324,18 +324,6 @@ const { hero } = await getPortfolioContent(locale);
           ease: 'power2.out',
           transformPerspective: 1200,
         });
-
-        // Layered micro-parallax on architecture pills
-        const archPills = heroSection.querySelectorAll('.hero-arch-pill');
-        archPills.forEach((pill, idx) => {
-          const depth = (idx % 2 === 0 ? 1 : -1) * 6;
-          gsap.to(pill, {
-            x: relX * depth,
-            y: relY * depth,
-            duration: 0.35,
-            ease: 'power1.out',
-          });
-        });
       });
 
       heroSection.addEventListener('mouseleave', () => {
@@ -347,8 +335,6 @@ const { hero } = await getPortfolioContent(locale);
           duration: 0.75,
           ease: 'power2.out',
         });
-        const archPills = heroSection.querySelectorAll('.hero-arch-pill');
-        gsap.to(archPills, { x: 0, y: 0, duration: 0.75, ease: 'power2.out' });
       });
     }
 

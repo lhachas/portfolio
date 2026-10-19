@@ -77,18 +77,17 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
             <span class="text-sm font-normal tracking-wider">{profile.phone}</span>
           </a>
 
-          <!-- Zero-friction Language Switcher (100% Solid Pill - No Magnetic Delay) -->
+          <!-- Zero-friction Language Switcher (100% Solid Segmented Pill - Clear Active Selection) -->
           <a
             href={withBase(languageSwitcher.targetHref)}
             data-lang-switch
-            class="nav-control-btn inline-flex h-11 items-center justify-center gap-1.5 rounded-full px-3.5 text-xs font-semibold uppercase tracking-widest cursor-pointer select-none"
+            class="lang-segmented-btn inline-flex h-11 items-center justify-center gap-1.5 rounded-full px-2 text-xs font-semibold uppercase tracking-wider cursor-pointer select-none"
             aria-label={languageSwitcher.ariaLabel}
             title={languageSwitcher.title}
           >
-            <Icon name="globe" size={16} class="text-gold shrink-0" />
-            <span>{languageSwitcher.currentCode}</span>
-            <span class="opacity-60" aria-hidden="true">/</span>
-            <span class="text-gold">{languageSwitcher.targetCode}</span>
+            <Icon name="globe" size={15} class="lang-globe-icon shrink-0 ml-1.5 text-gold" />
+            <span class="lang-pill-badge active" aria-current="true">{languageSwitcher.currentCode}</span>
+            <span class="lang-pill-badge target">{languageSwitcher.targetCode}</span>
           </a>
 
           <!-- Light / Dark Mode Switcher (SVG Icons - 100% Solid) -->
