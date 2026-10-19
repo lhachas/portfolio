@@ -10,6 +10,74 @@ export interface HeroCinematicProps extends Record<string, unknown> {
   speed: number;
 }
 
+interface Point2D {
+  x: number;
+  y: number;
+}
+
+/**
+ * Computes exact 2D coordinates along a multi-segment orthogonal polyline
+ * parameterized by normalized progress t in [0, 1].
+ */
+function interpolatePolyline(points: Point2D[], t: number): Point2D {
+  if (points.length === 0) return { x: 0, y: 0 };
+  if (points.length === 1 || t <= 0) return points[0];
+  if (t >= 1) return points[points.length - 1];
+
+  const lengths: number[] = [];
+  let totalLength = 0;
+  for (let i = 0; i < points.length - 1; i++) {
+    const dx = points[i + 1].x - points[i].x;
+    const dy = points[i + 1].y - points[i].y;
+    const segLen = Math.hypot(dx, dy);
+    lengths.push(segLen);
+    totalLength += segLen;
+  }
+
+  let targetDist = t * totalLength;
+  for (let i = 0; i < lengths.length; i++) {
+    const segLen = lengths[i];
+    if (targetDist <= segLen || i === lengths.length - 1) {
+      const localT = segLen > 0 ? targetDist / segLen : 0;
+      return {
+        x: points[i].x + (points[i + 1].x - points[i].x) * localT,
+        y: points[i].y + (points[i + 1].y - points[i].y) * localT,
+      };
+    }
+    targetDist -= segLen;
+  }
+
+  return points[points.length - 1];
+}
+
+const BUS_PATH_1: Point2D[] = [
+  { x: 160, y: 300 },
+  { x: 520, y: 300 },
+  { x: 520, y: 540 },
+  { x: 720, y: 540 },
+];
+
+const BUS_PATH_2: Point2D[] = [
+  { x: 1760, y: 300 },
+  { x: 1400, y: 300 },
+  { x: 1400, y: 540 },
+  { x: 1200, y: 540 },
+];
+
+const BUS_PATH_3: Point2D[] = [
+  { x: 240, y: 820 },
+  { x: 560, y: 820 },
+  { x: 560, y: 900 },
+  { x: 960, y: 900 },
+];
+
+const BUS_PATH_4: Point2D[] = [
+  { x: 1680, y: 820 },
+  { x: 1360, y: 820 },
+  { x: 1360, y: 900 },
+  { x: 960, y: 900 },
+];
+
 export const HeroCinematic: React.FC<HeroCinematicProps> = ({
   accentColor = '#3f87f5', // Azul Clásico oficial por defecto
   secondaryColor = '#cdb30c', // Oro Leonel Hacha Salazar
@@ -19,19 +87,36 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
 }) => {
   const frame = useCurrentFrame();
 
-  // Packet positions traversing orthogonal architectural bus rails
-  const packetPos1 = interpolate(frame % 120, [0, 120], [0, 1], {
+  // Exact divisors of 300 frames (150 and 100) guarantee a mathematically seamless loop at frame 300 -> 0
+  const packetPos1 = interpolate(frame % 150, [0, 149], [0, 1], {
     easing: Easing.bezier(0.16, 1, 0.3, 1),
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
   });
-  const packetPos2 = interpolate((frame + 60) % 120, [0, 120], [0, 1], {
+  const packetPos2 = interpolate((frame + 75) % 150, [0, 149], [0, 1], {
     easing: Easing.bezier(0.16, 1, 0.3, 1),
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
   });
-  const packetPos3 = interpolate((frame + 30) % 150, [0, 150], [0, 1], {
+  const packetPos3 = interpolate((frame + 25) % 100, [0, 99], [0, 1], {
     easing: Easing.bezier(0.16, 1, 0.3, 1),
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
   });
-  const packetPos4 = interpolate((frame + 90) % 150, [0, 150], [0, 1], {
+  const packetPos4 = interpolate((frame + 75) % 100, [0, 99], [0, 1], {
     easing: Easing.bezier(0.16, 1, 0.3, 1),
+    extrapolateLeft: 'clamp',
+    extrapolateRight: 'clamp',
   });
+
+  const pos1 = interpolatePolyline(BUS_PATH_1, packetPos1);
+  const pos2 = interpolatePolyline(BUS_PATH_2, packetPos2);
+  const pos3 = interpolatePolyline(BUS_PATH_3, packetPos3);
+  const pos4 = interpolatePolyline(BUS_PATH_4, packetPos4);
+
+  // Dash offset of 1.0px/frame over 300 frames = 300px, exact multiple of dasharray (4+6=10)
+  const dashOffsetForward = -frame;
+  const dashOffsetReverse = frame;
 
   return (
     <div
@@ -98,7 +183,7 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           fontFamily="'Victor Mono', monospace"
           letterSpacing="0.1em"
         >
-          SYS.ARCH // NODE_01 [AWS.SA-EAST-1]
+          SYS.ARCH // NODE_01 [AWS.US-EAST-1 · SA-EAST-1]
         </text>
         <text
           x="1360"
@@ -108,7 +193,7 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           fontFamily="'Victor Mono', monospace"
           letterSpacing="0.1em"
         >
-          PROTO // REST·SOAP·EDA·DDoSExt
+          PROTO // REST · GRAPHQL · SOAP · EDA
         </text>
         <text
           x="240"
@@ -118,7 +203,7 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           fontFamily="'Victor Mono', monospace"
           letterSpacing="0.1em"
         >
-          LATENCY // &lt;35ms [ACID GUARANTEED]
+          LATENCY // &lt;35ms [ACID &amp; IDEMPOTENT]
         </text>
         <text
           x="1380"
@@ -128,11 +213,11 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           fontFamily="'Victor Mono', monospace"
           letterSpacing="0.1em"
         >
-          SECURITY // TLS 1.3 / X.509 SHA-256
+          SECURITY // TLS 1.3 · X.509 SHA-256
         </text>
       </svg>
 
-      {/* LAYER 2: Orthogonal Technical Bus Rails & Micro Signal Pulses (Zero Chaotic Waves) */}
+      {/* LAYER 2: Orthogonal Technical Bus Rails & 2D Multi-Segment Signal Pulses (Zero Blur) */}
       <svg
         width="1920"
         height="1080"
@@ -145,8 +230,8 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           stroke="#2563eb"
           strokeWidth="1.5"
           strokeDasharray="4 6"
-          strokeDashoffset={-frame * 1.2}
-          strokeOpacity="0.65"
+          strokeDashoffset={dashOffsetForward}
+          strokeOpacity="0.7"
         />
         <path
           d="M 1760 300 L 1400 300 L 1400 540 L 1200 540"
@@ -154,8 +239,8 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           stroke={accentColor}
           strokeWidth="1.5"
           strokeDasharray="4 6"
-          strokeDashoffset={frame * 1.2}
-          strokeOpacity="0.65"
+          strokeDashoffset={dashOffsetReverse}
+          strokeOpacity="0.7"
         />
         <path
           d="M 240 820 L 560 820 L 560 900 L 960 900"
@@ -163,8 +248,8 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           stroke={emeraldColor}
           strokeWidth="1.5"
           strokeDasharray="4 6"
-          strokeDashoffset={-frame * 1.2}
-          strokeOpacity="0.55"
+          strokeDashoffset={dashOffsetForward}
+          strokeOpacity="0.6"
         />
         <path
           d="M 1680 820 L 1360 820 L 1360 900 L 960 900"
@@ -172,39 +257,36 @@ export const HeroCinematic: React.FC<HeroCinematicProps> = ({
           stroke={secondaryColor}
           strokeWidth="1.5"
           strokeDasharray="4 6"
-          strokeDashoffset={frame * 1.2}
-          strokeOpacity="0.55"
+          strokeDashoffset={dashOffsetReverse}
+          strokeOpacity="0.6"
         />
 
-        {/* Micro Signal Pulses Traversing Bus Rails */}
-        <circle
-          cx={160 + (520 - 160) * packetPos1}
-          cy={300}
-          r="4.5"
-          fill="#60a5fa"
-          style={{ filter: 'drop-shadow(0 0 6px #3f87f5)' }}
-        />
-        <circle
-          cx={1760 - (1760 - 1400) * packetPos2}
-          cy={300}
-          r="4.5"
-          fill="#93c5fd"
-          style={{ filter: 'drop-shadow(0 0 6px #60a5fa)' }}
-        />
-        <circle
-          cx={240 + (560 - 240) * packetPos3}
-          cy={820}
-          r="4.5"
-          fill="#34d399"
-          style={{ filter: 'drop-shadow(0 0 6px #10b981)' }}
-        />
-        <circle
-          cx={1680 - (1680 - 1360) * packetPos4}
-          cy={820}
-          r="4.5"
-          fill="#facc15"
-          style={{ filter: 'drop-shadow(0 0 6px #cdb30c)' }}
-        />
+        {/* Static Architectural Terminal Nodes at Bus Endpoints */}
+        <circle cx={160} cy={300} r="3.5" fill="#14171f" stroke="#3f87f5" strokeWidth="1.5" />
+        <circle cx={720} cy={540} r="3.5" fill="#14171f" stroke="#3f87f5" strokeWidth="1.5" />
+        <circle cx={1760} cy={300} r="3.5" fill="#14171f" stroke={accentColor} strokeWidth="1.5" />
+        <circle cx={1200} cy={540} r="3.5" fill="#14171f" stroke={accentColor} strokeWidth="1.5" />
+        <circle cx={240} cy={820} r="3.5" fill="#14171f" stroke={emeraldColor} strokeWidth="1.5" />
+        <circle cx={1680} cy={820} r="3.5" fill="#14171f" stroke={secondaryColor} strokeWidth="1.5" />
+        <circle cx={960} cy={900} r="4.5" fill="#14171f" stroke="#f8fafc" strokeWidth="1.5" />
+
+        {/* Crisp 100% Solid Concentric Signal Nodes Traversing Full 2D Bus Paths */}
+        <g transform={`translate(${pos1.x}, ${pos1.y})`}>
+          <circle r="7" fill="#14171f" stroke="#3f87f5" strokeWidth="1.5" />
+          <circle r="3.5" fill="#60a5fa" />
+        </g>
+        <g transform={`translate(${pos2.x}, ${pos2.y})`}>
+          <circle r="7" fill="#14171f" stroke="#60a5fa" strokeWidth="1.5" />
+          <circle r="3.5" fill="#93c5fd" />
+        </g>
+        <g transform={`translate(${pos3.x}, ${pos3.y})`}>
+          <circle r="7" fill="#14171f" stroke="#10b981" strokeWidth="1.5" />
+          <circle r="3.5" fill="#34d399" />
+        </g>
+        <g transform={`translate(${pos4.x}, ${pos4.y})`}>
+          <circle r="7" fill="#14171f" stroke="#cdb30c" strokeWidth="1.5" />
+          <circle r="3.5" fill="#facc15" />
+        </g>
       </svg>
 
       {/* LAYER 3: Non-Destructive Deep Vignette & Contrast Control */}

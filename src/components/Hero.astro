@@ -519,35 +519,37 @@ const { hero } = await getPortfolioContent(locale);
 
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
-      // 1. Subtle Architectural Grid Lines & Crosshairs
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = isDark ? '#181e2b' : 'rgba(203, 213, 225, 0.45)';
-      ctx.beginPath();
-      for (let x = 0; x <= width; x += gridStep) {
-        ctx.moveTo(x + 0.5, 0);
-        ctx.lineTo(x + 0.5, height);
-      }
-      ctx.stroke();
-
-      // Precision coordinate marks at intersections
-      ctx.strokeStyle = isDark ? '#252f44' : '#94a3b8';
-      ctx.beginPath();
-      for (let x = 0; x <= width; x += gridStep) {
-        for (let y = 0; y <= height; y += gridStep) {
-          ctx.moveTo(x - 2.5, y + 0.5);
-          ctx.lineTo(x + 2.5, y + 0.5);
-          ctx.moveTo(x + 0.5, y - 2.5);
-          ctx.lineTo(x + 0.5, y + 2.5);
+      // 1. Subtle Architectural Grid Lines & Crosshairs (Rendered on canvas in Light Mode; Dark Mode uses Remotion lattice)
+      if (!isDark) {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.beginPath();
+        for (let x = 0; x <= width; x += gridStep) {
+          ctx.moveTo(x + 0.5, 0);
+          ctx.lineTo(x + 0.5, height);
         }
-      }
-      ctx.stroke();
+        ctx.stroke();
 
-      // 2. High-Performance Signal Rails (Zero chaotic wave distortions)
+        // Precision coordinate marks at intersections
+        ctx.strokeStyle = '#94a3b8';
+        ctx.beginPath();
+        for (let x = 0; x <= width; x += gridStep) {
+          for (let y = 0; y <= height; y += gridStep) {
+            ctx.moveTo(x - 2.5, y + 0.5);
+            ctx.lineTo(x + 2.5, y + 0.5);
+            ctx.moveTo(x + 0.5, y - 2.5);
+            ctx.lineTo(x + 0.5, y + 2.5);
+          }
+        }
+        ctx.stroke();
+      }
+
+      // 2. High-Performance Signal Rails (Zero chaotic wave distortions, 100% solid hex strokes)
       rails.forEach((rail) => {
         const currentY = rail.y;
 
         // Draw base architectural track line
-        ctx.strokeStyle = isDark ? '#1e283a' : 'rgba(203, 213, 225, 0.65)';
+        ctx.strokeStyle = isDark ? '#1e283a' : '#dbe3ef';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(0, currentY);

@@ -4,7 +4,7 @@
 [![Live Portfolio (EN)](https://img.shields.io/badge/Portfolio_EN-lhachas.github.io%2Fportfolio%2Fen-2563eb?style=flat-square&logo=googlechrome&logoColor=ffffff)](https://lhachas.github.io/portfolio/en/)
 [![CV Oficial ES (PDF)](https://img.shields.io/badge/CV_2026_(ES)-Descargar_PDF-cdb30c?style=flat-square&logo=adobeacrobatreader&logoColor=ffffff)](https://lhachas.github.io/portfolio/assets/cv/CV-Leonel-Hacha-Salazar-Backend-2026-ES.pdf)
 [![Official CV EN (PDF)](https://img.shields.io/badge/CV_2026_(EN)-Download_PDF-0d9488?style=flat-square&logo=adobeacrobatreader&logoColor=ffffff)](https://lhachas.github.io/portfolio/assets/cv/CV-Leonel-Hacha-Salazar-Backend-2026-EN.pdf)
-[![Astro](https://img.shields.io/badge/Astro-7.3-ff5d01?style=flat-square&logo=astro&logoColor=ffffff)](https://astro.build/)
+[![Astro](https://img.shields.io/badge/Astro-6.0-ff5d01?style=flat-square&logo=astro&logoColor=ffffff)](https://astro.build/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178c6?style=flat-square&logo=typescript&logoColor=ffffff)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1-0ea5e9?style=flat-square&logo=tailwindcss&logoColor=ffffff)](https://tailwindcss.com/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-leonel--hacha--salazar-0A66C2?style=flat-square&logo=linkedin&logoColor=ffffff)](https://www.linkedin.com/in/leonel-hacha-salazar)
@@ -112,7 +112,7 @@ Documentados de forma centralizada en `projectsSection.items` ([`portfolio.yml`]
 
 ## 4. Arquitectura del Repositorio y Fuente Única de Verdad (SSOT)
 
-El proyecto está construido con **Astro 7**, **TypeScript 5.8** y **Tailwind CSS v4** bajo el principio de **cero contenido hardcodeado en componentes**:
+El proyecto está construido con **Astro 6**, **TypeScript 5.8** y **Tailwind CSS v4** bajo el principio de **cero contenido hardcodeado en componentes**:
 
 ```text
 portfolio/
@@ -192,7 +192,7 @@ La interfaz sigue una línea editorial y técnica **100% sólida** definida en [
 
 - **Cero Glassmorphism y Cero Transparencias Difusas:** Sin `backdrop-filter: blur()`, sin capas translúcidas que degraden la legibilidad. Todos los colores de contenido son validados por expresión regular (`^#[0-9a-fA-F]{6}$`) en el esquema Zod.
 - **Jerarquía de Color y Contraste Accesible:**
-  - **Botones de Descarga de CV (`.btn-gold` / `.btn-cv-solid`):** Dorado de marca (`--brand-gold`, por defecto `#cdb30c`) con texto e iconografía en blanco nítido (`#ffffff`).
+  - **Acento Principal y Botones de Descarga de CV (`.btn-gold` / `.btn-cv-solid`):** Azul Clásico oficial (`--brand-gold`, por defecto `#3f87f5`, conmutable a 6 temas sólidos) con texto e iconografía en blanco nítido (`#ffffff`).
   - **Botones de Acción Primaria (`.btn-theme-primary` — *Contacto Directo*, *Enviar Mensaje*):** Azul Institucional Navy (`#0e3d65` en modo claro / `#2563eb` en modo oscuro y Hero) con texto e iconografía en blanco (`#ffffff`).
   - **Botones de Redes Oficiales (`.btn-social-pill`):** Colores sólidos oficiales de marca (`LinkedIn #0A66C2`, `GitHub #24292F`, `WhatsApp #25D366`).
 - **Alineación Responsiva Multidispositivo:**

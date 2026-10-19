@@ -7,7 +7,7 @@ const defaultProps: HeroCinematicProps = {
   secondaryColor: '#cdb30c', // Oro Leonel Hacha Salazar
   emeraldColor: '#10b981', // Status operational
   backgroundColor: '#14171f', // Dark canvas 100% sólido
-  gridSpacing: 80,
+  gridSpacing: 64,
   speed: 1.0,
 };
 

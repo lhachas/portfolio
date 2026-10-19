@@ -16,9 +16,13 @@ const {
   filters,
   carouselPrevLabel = 'Proyecto anterior',
   carouselNextLabel = 'Siguiente proyecto',
+  carouselPrevKeyAriaLabel = 'Tecla flecha izquierda',
+  carouselNextKeyAriaLabel = 'Tecla flecha derecha',
+  carouselDotsAriaLabel = 'Diapositivas de proyectos',
+  carouselTrackAriaLabel = 'Lista deslizable de proyectos de software',
   carouselDragHint = 'Desliza o usa las flechas ← → para explorar',
   carouselCounterLabel = 'Proyecto',
-  statusBadge = locale === 'en' ? 'PRODUCTION' : 'PRODUCCIÓN',
+  statusBadge = 'PRODUCCIÓN',
   problemLabel,
   solutionLabel,
   architectureLabel,
@@ -85,8 +89,8 @@ const {
           </div>
 
           <div class="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted font-mono select-none">
-            <kbd class="kbd-key" aria-label={locale === 'en' ? 'Left arrow key' : 'Tecla flecha izquierda'}>←</kbd>
-            <kbd class="kbd-key" aria-label={locale === 'en' ? 'Right arrow key' : 'Tecla flecha derecha'}>→</kbd>
+            <kbd class="kbd-key" aria-label={carouselPrevKeyAriaLabel}>←</kbd>
+            <kbd class="kbd-key" aria-label={carouselNextKeyAriaLabel}>→</kbd>
             <span class="ml-1 text-[11.5px] tracking-wide">{carouselDragHint}</span>
           </div>
         </div>
@@ -98,7 +102,7 @@ const {
             class="carousel-dots-container flex items-center gap-1.5"
             id="carousel-dots"
             role="tablist"
-            aria-label={locale === 'en' ? 'Project slides' : 'Diapositivas de proyectos'}
+            aria-label={carouselDotsAriaLabel}
           >
             {
               projects.map((proj, idx) => (
@@ -151,7 +155,7 @@ const {
         id="project-carousel-track"
         tabindex="0"
         role="region"
-        aria-label={locale === 'en' ? 'Scrollable list of software projects' : 'Lista deslizable de proyectos de software'}
+        aria-label={carouselTrackAriaLabel}
       >
         {
           projects.map((project, idx) => {

@@ -41,7 +41,7 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
           <BrandSignature
             avatarImage={profile.avatarImage}
             avatarAlt={profile.avatarAlt}
-            subtitle={locale === 'en' ? 'Backend & Full Stack' : 'Backend & Full Stack'}
+            subtitle={profile.brandSubtitle || 'Backend & Full Stack'}
           />
         </a>
 
