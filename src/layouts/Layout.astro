@@ -14,7 +14,8 @@ const content = await getPortfolioContent(locale);
 const { seo, profile, about, projectsSection } = content;
 
 const canonicalUrl = seo.siteUrl;
-const ogImageUrl = new URL(seo.ogImage.replace(/^\//, ''), 'https://lhachas.github.io/portfolio/').toString();
+const siteOriginBase = 'https://lhachas.github.io/portfolio/';
+const ogImageUrl = new URL(seo.ogImage.replace(/^\//, ''), siteOriginBase).toString();
 
 const {
   title = seo.title,
@@ -163,7 +164,8 @@ const jsonLd = {
     <link rel="icon" type="image/x-icon" href={withBase(seo.favicon)} />
 
     <!-- Preload Critical Above-the-Fold Assets -->
-    <link rel="preload" as="image" href={withBase(profile.profilePhoto)} />
+    <link rel="preload" as="image" href={withBase('/assets/video/hero-cinematic-poster.webp')} type="image/webp" />
+    <link rel="preload" as="image" href={withBase(profile.profilePhoto)} type="image/webp" />
 
     <!-- Unified Typography via Google Fonts (Caveat Signature + Oswald + Victor Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -265,11 +265,13 @@ const {
 
                   <!-- Interactive Architectural Deep-Dive Dossier Tabs (100% Solid Segmented Inspector) -->
                   <div class="mt-5 card-tabs-wrapper">
-                    <div class="card-tab-nav mb-3" role="tablist">
+                    <div class="card-tab-nav mb-3" role="tablist" aria-label={project.title}>
                       <button
                         type="button"
                         role="tab"
+                        id={`btn-sol-${idx}`}
                         aria-selected="true"
+                        aria-controls={`tab-sol-${idx}`}
                         class="card-tab-btn active"
                         data-tab-target={`tab-sol-${idx}`}
                         title={solutionLabel}
@@ -280,7 +282,9 @@ const {
                       <button
                         type="button"
                         role="tab"
+                        id={`btn-prob-${idx}`}
                         aria-selected="false"
+                        aria-controls={`tab-prob-${idx}`}
                         class="card-tab-btn"
                         data-tab-target={`tab-prob-${idx}`}
                         title={problemLabel}
@@ -291,7 +295,9 @@ const {
                       <button
                         type="button"
                         role="tab"
+                        id={`btn-imp-${idx}`}
                         aria-selected="false"
+                        aria-controls={`tab-imp-${idx}`}
                         class="card-tab-btn"
                         data-tab-target={`tab-imp-${idx}`}
                         title={impactLabel}
@@ -304,7 +310,12 @@ const {
                     <!-- Tab Panels (Accessible, SEO-Ready & Fluidly Animated) -->
                     <div class="card-tab-panels min-h-[148px]">
                       <!-- Solution & Architecture Pane (Default active) -->
-                      <div id={`tab-sol-${idx}`} class="card-tab-pane active space-y-3">
+                      <div
+                        id={`tab-sol-${idx}`}
+                        role="tabpanel"
+                        aria-labelledby={`btn-sol-${idx}`}
+                        class="card-tab-pane active space-y-3"
+                      >
                         <div class="project-detail-block">
                           <p class="detail-copy">
                             {project.solution}
@@ -319,7 +330,12 @@ const {
                       </div>
 
                       <!-- Problem Pane -->
-                      <div id={`tab-prob-${idx}`} class="card-tab-pane hidden">
+                      <div
+                        id={`tab-prob-${idx}`}
+                        role="tabpanel"
+                        aria-labelledby={`btn-prob-${idx}`}
+                        class="card-tab-pane hidden"
+                      >
                         <div class="project-detail-block">
                           <p class="detail-copy">
                             {project.problem}
@@ -327,8 +343,16 @@ const {
                         </div>
                       </div>
 
-                      <!-- Impact Pane -->
-                      <div id={`tab-imp-${idx}`} class="card-tab-pane hidden">
+                      <!-- Impact Pane (Renders Measurable Executive Impact Summary + Key Highlights) -->
+                      <div
+                        id={`tab-imp-${idx}`}
+                        role="tabpanel"
+                        aria-labelledby={`btn-imp-${idx}`}
+                        class="card-tab-pane hidden space-y-2.5"
+                      >
+                        <p class="detail-copy font-medium text-[var(--txt-primary)] pb-2 border-b border-[var(--card-border)]">
+                          {project.impact}
+                        </p>
                         <ul class="space-y-2" role="list">
                           {project.highlights.map((highlight) => (
                             <li class="flex items-start gap-2.5 detail-copy">

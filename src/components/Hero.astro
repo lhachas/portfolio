@@ -54,7 +54,7 @@ const { hero } = await getPortfolioContent(locale);
   ></canvas>
 
   <div id="hero-parallax-stage" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-2 pb-2">
-    <div class="mx-auto max-w-5xl text-center">
+    <div id="hero-tilt-stage" class="mx-auto max-w-5xl text-center">
       <!-- Live Recruiter Availability Status Pill (100% Solid Utilitarian Badge) -->
       <div class="mb-4 inline-flex items-center justify-center" data-hero-anim>
         <a
@@ -180,7 +180,7 @@ const { hero } = await getPortfolioContent(locale);
       </div>
 
       <!-- Animated Scroll-Down Indicator -->
-      <div class="mt-12 sm:mt-16 mb-2 flex justify-center" data-hero-anim>
+      <div class="mt-8 sm:mt-10 mb-1 flex justify-center" data-hero-anim>
         <a
           href={hero.scrollIndicator.href}
           class="hero-scroll-indicator"
@@ -209,6 +209,7 @@ const { hero } = await getPortfolioContent(locale);
     const typedEl = document.getElementById('typed-output');
     const heroSection = document.getElementById('home');
     const heroStage = document.getElementById('hero-parallax-stage');
+    const heroTiltStage = document.getElementById('hero-tilt-stage');
     const cinematicVideo = document.getElementById('hero-cinematic-video') as HTMLVideoElement | null;
 
     if (cinematicVideo) {
@@ -307,14 +308,14 @@ const { hero } = await getPortfolioContent(locale);
     }
 
     // 3b. 3D Interactive Mouse Parallax across Hero Stage & Architecture Stack Pills
-    if (heroSection && isFinePointer && !prefersReducedMotion && heroStage) {
+    if (heroSection && isFinePointer && !prefersReducedMotion && heroTiltStage) {
       heroSection.addEventListener('mousemove', (e) => {
         const rect = heroSection.getBoundingClientRect();
         const relX = (e.clientX - rect.left) / rect.width - 0.5;
         const relY = (e.clientY - rect.top) / rect.height - 0.5;
 
-        // Stage perspective micro-tilt and smooth translation
-        gsap.to(heroStage, {
+        // Stage perspective micro-tilt and smooth translation (isolated from ScrollTrigger container)
+        gsap.to(heroTiltStage, {
           rotationY: relX * 5,
           rotationX: -relY * 5,
           x: relX * 14,
@@ -338,7 +339,7 @@ const { hero } = await getPortfolioContent(locale);
       });
 
       heroSection.addEventListener('mouseleave', () => {
-        gsap.to(heroStage, {
+        gsap.to(heroTiltStage, {
           rotationY: 0,
           rotationX: 0,
           x: 0,
