@@ -101,8 +101,11 @@ const experiencesData = experiencesSection.items;
                       <span class="exp-company-accent text-sm uppercase tracking-wider font-semibold">
                         {exp.company}
                       </span>
-                      <span class="exp-location-badge">
-                        <Icon name="map-pin" size={12} class="shrink-0 inline-block" />
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
+                        style="background-color: var(--th-primary); border: 1.5px solid var(--card-border); color: var(--pill-text);"
+                      >
+                        <Icon name="map-pin" size={12} class="shrink-0 inline-block" style={`color: ${resolvedColor};`} />
                         <span>{exp.location}</span>
                       </span>
                     </div>
@@ -129,11 +132,14 @@ const experiencesData = experiencesSection.items;
                       }
                     </div>
 
-                    <!-- Stage-Color-Coded Harmonious Stack Badges -->
+                    <!-- Footer: Unified Portfolio Tech Pills (.tech-pill System) -->
                     <div class="mt-4 pt-2 flex flex-wrap gap-1.5" aria-label="Tecnologías utilizadas">
                       {
                         exp.technologies.map((tech) => (
-                          <span class="exp-tech-pill">
+                          <span
+                            class="tech-pill"
+                            style={`--card-accent: ${resolvedColor};`}
+                          >
                             {tech}
                           </span>
                         ))
@@ -269,126 +275,6 @@ const experiencesData = experiencesSection.items;
   .exp-date-badge svg,
   .exp-date-badge i {
     color: var(--timeline-color) !important;
-  }
-
-  /* Location badge styling harmonized with stage color */
-  .exp-location-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    border-radius: 9999px;
-    padding: 0.22rem 0.7rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-  }
-
-  :global([data-theme="dark"]) .exp-location-badge {
-    background-color: color-mix(in srgb, var(--timeline-color) 8%, var(--th-primary)) !important;
-    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 25%, var(--card-border)) !important;
-    color: #f1f5f9 !important;
-  }
-
-  :global([data-theme="light"]) .exp-location-badge {
-    background-color: color-mix(in srgb, var(--timeline-color) 6%, #ffffff) !important;
-    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 25%, var(--card-border)) !important;
-    color: #0f172a !important;
-  }
-
-  .exp-location-badge svg,
-  .exp-location-badge i {
-    color: var(--timeline-color) !important;
-  }
-
-  /* Highlight Sub-Cards with Subtle Stage-Accent Glow & Contrast */
-  .exp-highlight-card {
-    border-radius: 10px;
-    padding: 0.7rem 0.9rem;
-    border: 1.5px solid var(--card-border);
-    border-left: 4px solid var(--timeline-color, var(--brand-gold));
-    transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
-  }
-
-  :global([data-theme="dark"]) .exp-highlight-card {
-    background-color: color-mix(in srgb, var(--timeline-color) 6%, #171b26) !important;
-    border-color: color-mix(in srgb, var(--timeline-color) 28%, #2d3546) !important;
-    border-left: 4px solid var(--timeline-color, var(--brand-gold)) !important;
-  }
-
-  :global([data-theme="dark"]) .exp-highlight-card:hover {
-    background-color: color-mix(in srgb, var(--timeline-color) 11%, #171b26) !important;
-    border-color: var(--timeline-color, var(--brand-gold)) !important;
-    transform: translateX(3px);
-  }
-
-  :global([data-theme="light"]) .exp-highlight-card {
-    background-color: color-mix(in srgb, var(--timeline-color) 4%, #ffffff) !important;
-    border-color: color-mix(in srgb, var(--timeline-color) 25%, #cbd5e1) !important;
-    border-left: 4px solid var(--timeline-color, var(--brand-gold)) !important;
-  }
-
-  :global([data-theme="light"]) .exp-highlight-card:hover {
-    background-color: color-mix(in srgb, var(--timeline-color) 8%, #ffffff) !important;
-    border-color: var(--timeline-color, var(--brand-gold)) !important;
-    transform: translateX(3px);
-  }
-
-  /* Redesigned Technology Tags with Stage-Color Harmony & Emil Kowalski Micro-Physics */
-  .exp-tech-pill {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    line-height: 1.35;
-    letter-spacing: 0.02em;
-    border-radius: 9999px;
-    padding: 0.26rem 0.8rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    cursor: default;
-    user-select: none;
-    transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
-                background-color 200ms ease,
-                color 200ms ease,
-                border-color 200ms ease,
-                box-shadow 200ms ease;
-  }
-
-  :global([data-theme="dark"]) .exp-tech-pill {
-    background-color: color-mix(in srgb, var(--timeline-color) 9%, #151822) !important;
-    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 35%, #2a3142) !important;
-    color: #f1f5f9 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  }
-
-  :global([data-theme="dark"]) .exp-tech-pill:hover {
-    transform: translateY(-2px);
-    background-color: color-mix(in srgb, var(--timeline-color) 22%, #151822) !important;
-    border-color: var(--timeline-color, var(--brand-gold)) !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
-  }
-
-  :global([data-theme="dark"]) .exp-tech-pill:active {
-    transform: translateY(0) scale(0.97);
-  }
-
-  :global([data-theme="light"]) .exp-tech-pill {
-    background-color: color-mix(in srgb, var(--timeline-color) 7%, #ffffff) !important;
-    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 32%, #cbd5e1) !important;
-    color: #0f172a !important;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-  }
-
-  :global([data-theme="light"]) .exp-tech-pill:hover {
-    transform: translateY(-2px);
-    background-color: color-mix(in srgb, var(--timeline-color) 16%, #ffffff) !important;
-    border-color: var(--timeline-color, var(--brand-gold)) !important;
-    color: #0f172a !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  }
-
-  :global([data-theme="light"]) .exp-tech-pill:active {
-    transform: translateY(0) scale(0.97);
   }
 </style>
 
