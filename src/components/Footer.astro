@@ -80,7 +80,7 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
                 {
                   navItems.map((item) => (
                     <li>
-                      <a href={`#${item.id}`} class="footer-nav-pill">
+                      <a href={item.id === 'home' ? withBase(locale === 'en' ? '/en/' : '/') : withBase(locale === 'en' ? `/en/${item.id}` : `/${item.id}`)} data-nav-link={item.id} class="footer-nav-pill">
                         <Icon name={navIconMap[item.id] || 'layers'} size={14} class="shrink-0" />
                         <span>{item.label}</span>
                       </a>

@@ -5,12 +5,15 @@ import Icon from './Icon.astro';
 
 interface Props {
   locale?: PortfolioLocale;
+  activeSection?: string;
 }
 
-const { locale = 'es' } = Astro.props;
+const { locale = 'es', activeSection = 'home' } = Astro.props;
 const { navigation, profile } = await getPortfolioContent(locale);
 const navItems = navigation.items;
 const { languageSwitcher } = navigation;
+
+const basePath = withBase(locale === 'en' ? '/en/' : '/');
 
 const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefcase' | 'layers' | 'message'> = {
   home: 'home',
@@ -29,13 +32,17 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
     class="navbar-custom fixed top-0 left-0 right-0"
     id="navbar"
     aria-label={navigation.ariaLabel}
+    data-base-path={basePath}
+    data-locale={locale}
+    data-active-section={activeSection}
   >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex min-h-[72px] items-center justify-between">
         <!-- Brand Signature Logo (Natural Cursive Rubric + Avatar) -->
         <a
           class="navbar-brand-logo flex items-center"
-          href={`#${navItems[0]?.id || 'home'}`}
+          href={basePath}
+          data-nav-link="home"
           aria-label={navigation.brandAriaLabel}
         >
           <BrandSignature
@@ -50,12 +57,16 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
           {
             navItems.map((item, index) => {
               const iconName = navIconMap[item.id] || 'home';
+              const href = item.id === 'home'
+                ? basePath
+                : withBase(locale === 'en' ? `/en/${item.id}` : `/${item.id}`);
+              const isActive = activeSection ? item.id === activeSection : index === 0;
               return (
                 <li class="flex">
                   <a
-                    href={`#${item.id}`}
+                    href={href}
                     data-nav-link={item.id}
-                    class:list={['nav-item-link', { active: index === 0 }]}
+                    class:list={['nav-item-link', { active: isActive }]}
                   >
                     <Icon name={iconName} size={18} class="nav-icon mb-1" />
                     <span class="nav-label">{item.label}</span>
@@ -136,12 +147,16 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
           {
             navItems.map((item, index) => {
               const iconName = navIconMap[item.id] || 'home';
+              const href = item.id === 'home'
+                ? basePath
+                : withBase(locale === 'en' ? `/en/${item.id}` : `/${item.id}`);
+              const isActive = activeSection ? item.id === activeSection : index === 0;
               return (
                 <li>
                   <a
-                    href={`#${item.id}`}
+                    href={href}
                     data-nav-link={item.id}
-                    class:list={['nav-item-link rounded-lg py-3', { active: index === 0 }]}
+                    class:list={['nav-item-link rounded-lg py-3', { active: isActive }]}
                   >
                     <Icon name={iconName} size={18} class="nav-icon mb-1" />
                     <span class="nav-label">{item.label}</span>
@@ -171,37 +186,63 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
     const navbar = document.getElementById('navbar');
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('navbarCollapse');
-    const iconBars = document.getElementById('mobile-icon-bars');
-    const iconClose = document.getElementById('mobile-icon-close');
     const themeBtn = document.getElementById('theme-toggle-btn');
-    const moonIcon = document.getElementById('theme-icon-moon');
-    const sunIcon = document.getElementById('theme-icon-sun');
-    const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
     const langLinks = document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch]');
 
-    // Preserve active section hash when switching ES <-> EN
-    langLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        if (window.location.hash) {
-          const baseHref = link.getAttribute('href')?.split('#')[0] || '';
-          if (baseHref) {
-            link.setAttribute('href', `${baseHref}${window.location.hash}`);
-          }
-        }
+    const basePath = navbar?.getAttribute('data-base-path') || '/';
+    const locale = navbar?.getAttribute('data-locale') || 'es';
+    let currentActiveSection = navbar?.getAttribute('data-active-section') || 'home';
+    let isProgrammaticScroll = false;
+
+    const sectionSlugMap: Record<string, string> = {
+      home: 'home',
+      inicio: 'home',
+      about: 'about',
+      perfil: 'about',
+      profile: 'about',
+      skills: 'skills',
+      habilidades: 'skills',
+      projects: 'projects',
+      proyectos: 'projects',
+      experiences: 'experiences',
+      experiencia: 'experiences',
+      experience: 'experiences',
+      services: 'services',
+      soluciones: 'services',
+      solutions: 'services',
+      contact: 'contact',
+      contacto: 'contact',
+    };
+
+    function updateActiveNav(sectionId: string) {
+      const allNavLinks = document.querySelectorAll<HTMLAnchorElement>('#navbar [data-nav-link]');
+      allNavLinks.forEach((link) => {
+        const linkSection = link.getAttribute('data-nav-link');
+        link.classList.toggle('active', linkSection === sectionId);
       });
-    });
+    }
 
-    // Toggle Light/Dark Theme (state-driven via html[data-theme])
-    themeBtn?.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      try {
-        localStorage.setItem('user-theme', next);
-      } catch (e) {}
-    });
+    function scrollToSection(sectionId: string, smooth = true) {
+      const targetEl = document.getElementById(sectionId);
+      if (!targetEl) return false;
+      const navOffset = navbar ? navbar.offsetHeight : 72;
+      const targetY = sectionId === 'home' ? 0 : targetEl.getBoundingClientRect().top + window.scrollY - navOffset + 2;
+      window.scrollTo({
+        top: Math.max(0, targetY),
+        behavior: smooth ? 'smooth' : ('instant' as ScrollBehavior),
+      });
+      return true;
+    }
 
-    // Accessible Mobile Menu Toggle with Escape, click-outside, and resize cleanup
+    function getCleanUrlForSection(sectionId: string): string {
+      if (sectionId === 'home') {
+        return basePath;
+      }
+      const prefix = basePath.endsWith('/') ? basePath : `${basePath}/`;
+      return `${prefix}${sectionId}`;
+    }
+
+    // Accessible Mobile Menu Toggle
     function setMobileMenuOpen(open: boolean) {
       if (!mobileBtn || !mobileMenu) return;
       mobileBtn.setAttribute('aria-expanded', String(open));
@@ -213,15 +254,6 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
       e.stopPropagation();
       const isExpanded = mobileBtn.getAttribute('aria-expanded') === 'true';
       setMobileMenuOpen(!isExpanded);
-    });
-
-    // Close on link click
-    navLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth < 1024) {
-          setMobileMenuOpen(false);
-        }
-      });
     });
 
     // Close on Escape key press and refocus button
@@ -254,6 +286,105 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
       { passive: true }
     );
 
+    // Toggle Light/Dark Theme (state-driven via html[data-theme])
+    themeBtn?.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('user-theme', next);
+      } catch (e) {}
+    });
+
+    // Handle all friendly in-page navigation links (navbar, hero, about, footer, etc.)
+    const allNavLinks = document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]');
+    allNavLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const sectionId = link.getAttribute('data-nav-link');
+        if (!sectionId) return;
+
+        const resolvedId = sectionSlugMap[sectionId] || sectionId;
+        const targetEl = document.getElementById(resolvedId);
+        if (targetEl) {
+          e.preventDefault();
+          isProgrammaticScroll = true;
+
+          const targetUrl = link.getAttribute('href') || getCleanUrlForSection(resolvedId);
+          history.pushState({ section: resolvedId }, '', targetUrl);
+
+          scrollToSection(resolvedId, true);
+          currentActiveSection = resolvedId;
+          updateActiveNav(resolvedId);
+
+          if (window.innerWidth < 1024) {
+            setMobileMenuOpen(false);
+          }
+
+          setTimeout(() => {
+            isProgrammaticScroll = false;
+          }, 700);
+        }
+      });
+    });
+
+    // Handle Language Switcher with clean URL (no hash!)
+    langLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const rawTargetHref = link.getAttribute('href') || '';
+        const baseTarget = rawTargetHref.split('#')[0];
+        const activeId = currentActiveSection || 'home';
+        if (activeId && activeId !== 'home') {
+          const cleanBase = baseTarget.endsWith('/') ? baseTarget : `${baseTarget}/`;
+          link.setAttribute('href', `${cleanBase}${activeId}`);
+        } else {
+          link.setAttribute('href', baseTarget);
+        }
+      });
+    });
+
+    // Handle browser Back / Forward (popstate)
+    window.addEventListener('popstate', (e) => {
+      let sectionId = e.state?.section;
+      if (!sectionId) {
+        const parts = window.location.pathname.replace(/\/$/, '').split('/');
+        const lastPart = parts[parts.length - 1];
+        sectionId = sectionSlugMap[lastPart] || 'home';
+      }
+      isProgrammaticScroll = true;
+      scrollToSection(sectionId, true);
+      currentActiveSection = sectionId;
+      updateActiveNav(sectionId);
+      setTimeout(() => {
+        isProgrammaticScroll = false;
+      }, 700);
+    });
+
+    // Automatically handle direct visits, legacy bookmarks with #hash, or dynamic section paths
+    if (window.location.hash) {
+      const hashSlug = window.location.hash.replace('#', '');
+      const resolvedFromHash = sectionSlugMap[hashSlug] || hashSlug;
+      const targetFromHash = document.getElementById(resolvedFromHash);
+      if (targetFromHash) {
+        const cleanUrl = getCleanUrlForSection(resolvedFromHash);
+        history.replaceState({ section: resolvedFromHash }, '', cleanUrl);
+        currentActiveSection = resolvedFromHash;
+        updateActiveNav(resolvedFromHash);
+        setTimeout(() => {
+          scrollToSection(resolvedFromHash, false);
+        }, 60);
+      }
+    } else {
+      const initialAttr = document.getElementById('main-content')?.getAttribute('data-initial-section');
+      const resolvedInitial = initialAttr && sectionSlugMap[initialAttr] ? sectionSlugMap[initialAttr] : null;
+      if (resolvedInitial && resolvedInitial !== 'home') {
+        currentActiveSection = resolvedInitial;
+        updateActiveNav(resolvedInitial);
+        setTimeout(() => {
+          scrollToSection(resolvedInitial, false);
+        }, 60);
+      }
+    }
+
     // Sticky Navbar state using passive scroll
     const updateSticky = () => {
       if (!navbar) return;
@@ -266,9 +397,13 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
     updateSticky();
     window.addEventListener('scroll', updateSticky, { passive: true });
 
-    // Deterministic Scrollspy based on viewport scroll position
+    // Deterministic ScrollSpy syncing clean URL without hash
     const sections = Array.from(document.querySelectorAll<HTMLElement>('section[id]'));
+    let scrollSpyTimer: number | null = null;
+
     const updateScrollSpy = () => {
+      if (isProgrammaticScroll) return;
+
       const scrollPos = window.scrollY + 240;
       let currentId = 'home';
       if (window.scrollY >= 120) {
@@ -278,11 +413,24 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
           }
         }
       }
-      navLinks.forEach((link) => {
-        const isMatch = link.getAttribute('data-nav-link') === currentId;
-        link.classList.toggle('active', isMatch);
-      });
+
+      if (currentId !== currentActiveSection) {
+        currentActiveSection = currentId;
+        updateActiveNav(currentId);
+
+        // Update address bar cleanly using replaceState (debounced slightly)
+        if (scrollSpyTimer) window.clearTimeout(scrollSpyTimer);
+        scrollSpyTimer = window.setTimeout(() => {
+          if (!isProgrammaticScroll) {
+            const cleanUrl = getCleanUrlForSection(currentId);
+            if (window.location.pathname !== cleanUrl && window.location.hash === '') {
+              history.replaceState({ section: currentId }, '', cleanUrl);
+            }
+          }
+        }, 120);
+      }
     };
+
     updateScrollSpy();
     window.addEventListener('scroll', updateScrollSpy, { passive: true });
   }

@@ -1,0 +1,42 @@
+---
+import PortfolioPage from '../components/PortfolioPage.astro';
+---
+
+<PortfolioPage locale="es" initialSection="home" />
+
+<script>
+  // If the user arrived at 404 via an unmapped slug or old URL, attempt resolution or redirect to portfolio root
+  const currentPath = window.location.pathname;
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const sectionSlugMap: Record<string, string> = {
+    home: 'home',
+    inicio: 'home',
+    about: 'about',
+    perfil: 'about',
+    profile: 'about',
+    skills: 'skills',
+    habilidades: 'skills',
+    projects: 'projects',
+    proyectos: 'projects',
+    experiences: 'experiences',
+    experiencia: 'experiences',
+    experience: 'experiences',
+    services: 'services',
+    soluciones: 'services',
+    solutions: 'services',
+    contact: 'contact',
+    contacto: 'contact',
+  };
+
+  const pathParts = currentPath.replace(/\/$/, '').split('/');
+  const lastPart = pathParts[pathParts.length - 1];
+  const matchedSection = sectionSlugMap[lastPart];
+
+  if (matchedSection) {
+    const isEn = currentPath.includes('/en/') || currentPath.endsWith('/en');
+    const targetUrl = isEn
+      ? `${basePath}/en/${matchedSection}`
+      : `${basePath}/${matchedSection}`;
+    window.location.replace(targetUrl);
+  }
+</script>

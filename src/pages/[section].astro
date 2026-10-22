@@ -1,0 +1,49 @@
+---
+import PortfolioPage from '../components/PortfolioPage.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { section: 'home' } },
+    { params: { section: 'about' } },
+    { params: { section: 'perfil' } },
+    { params: { section: 'profile' } },
+    { params: { section: 'skills' } },
+    { params: { section: 'habilidades' } },
+    { params: { section: 'projects' } },
+    { params: { section: 'proyectos' } },
+    { params: { section: 'experiences' } },
+    { params: { section: 'experiencia' } },
+    { params: { section: 'experience' } },
+    { params: { section: 'services' } },
+    { params: { section: 'soluciones' } },
+    { params: { section: 'solutions' } },
+    { params: { section: 'contact' } },
+    { params: { section: 'contacto' } },
+  ];
+}
+
+const { section = 'home' } = Astro.params;
+
+const sectionIdMap: Record<string, string> = {
+  home: 'home',
+  about: 'about',
+  perfil: 'about',
+  profile: 'about',
+  skills: 'skills',
+  habilidades: 'skills',
+  projects: 'projects',
+  proyectos: 'projects',
+  experiences: 'experiences',
+  experiencia: 'experiences',
+  experience: 'experiences',
+  services: 'services',
+  soluciones: 'services',
+  solutions: 'services',
+  contact: 'contact',
+  contacto: 'contact',
+};
+
+const resolvedSection = sectionIdMap[section] || 'home';
+---
+
+<PortfolioPage locale="es" initialSection={resolvedSection} />

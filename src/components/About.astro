@@ -137,7 +137,8 @@ const { trainingShowcase } = about;
             </a>
 
             <a
-              href="#contact"
+              href={withBase(locale === 'en' ? '/en/contact' : '/contact')}
+              data-nav-link="contact"
               class="btn-brand btn-theme-primary"
               data-cursor-label={about.contactButtonCursorLabel}
             >

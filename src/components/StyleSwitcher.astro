@@ -1,5 +1,5 @@
 ---
-import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -54,8 +54,9 @@ const { styleSwitcher } = await getPortfolioContent(locale);
 
 <!-- Back to top -->
 <a
-  href="#home"
+  href={withBase(locale === 'en' ? '/en/' : '/')}
   id="back-to-top"
+  data-nav-link="home"
   class="back-to-top-btn"
   aria-label={styleSwitcher.backToTopAriaLabel}
 >

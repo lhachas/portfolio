@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from './Navbar.astro';
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Skills from './Skills.astro';
+import Projects from './Projects.astro';
+import Experiences from './Experiences.astro';
+import Services from './Services.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+import StyleSwitcher from './StyleSwitcher.astro';
+import type { PortfolioLocale } from '../data/portfolio';
+
+interface Props {
+  locale: PortfolioLocale;
+  initialSection?: string;
+}
+
+const { locale = 'es', initialSection = 'home' } = Astro.props;
+---
+
+<Layout locale={locale}>
+  <Navbar locale={locale} activeSection={initialSection} />
+  <main id="main-content" data-initial-section={initialSection}>
+    <Hero locale={locale} />
+    <About locale={locale} />
+    <Skills locale={locale} />
+    <Projects locale={locale} />
+    <Experiences locale={locale} />
+    <Services locale={locale} />
+    <Contact locale={locale} />
+  </main>
+  <Footer locale={locale} />
+  <StyleSwitcher locale={locale} />
+</Layout>

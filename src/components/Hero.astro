@@ -58,7 +58,8 @@ const { hero } = await getPortfolioContent(locale);
       <!-- Live Recruiter Availability Status Pill (100% Solid Utilitarian Badge) -->
       <div class="mb-4 inline-flex items-center justify-center" data-hero-anim>
         <a
-          href={hero.secondaryCta.href}
+          href={withBase(locale === 'en' ? '/en/contact' : '/contact')}
+          data-nav-link="contact"
           class="hero-status-pill"
           data-cursor-label={hero.availabilityCursorLabel}
         >
@@ -117,7 +118,8 @@ const { hero } = await getPortfolioContent(locale);
       <!-- Hero Action CTAs (1 Primary + 1 Secondary, 100% Solid Surfaces, WCAG AAA Contrast, Tactile Micro-Interactions) -->
       <div class="mt-6 flex flex-wrap items-center justify-center gap-3.5" data-hero-anim>
         <a
-          href={hero.primaryCta.href}
+          href={withBase(locale === 'en' ? '/en/projects' : '/projects')}
+          data-nav-link="projects"
           class="hero-btn-primary"
           data-cursor-label={hero.primaryCta.cursorLabel}
         >
@@ -127,7 +129,8 @@ const { hero } = await getPortfolioContent(locale);
         </a>
 
         <a
-          href={hero.secondaryCta.href}
+          href={withBase(locale === 'en' ? '/en/contact' : '/contact')}
+          data-nav-link="contact"
           class="hero-btn-secondary"
           data-cursor-label={hero.secondaryCta.cursorLabel}
         >
@@ -182,7 +185,8 @@ const { hero } = await getPortfolioContent(locale);
       <!-- Animated Scroll-Down Indicator -->
       <div class="mt-8 sm:mt-10 mb-1 flex justify-center" data-hero-anim>
         <a
-          href={hero.scrollIndicator.href}
+          href={withBase(locale === 'en' ? '/en/about' : '/about')}
+          data-nav-link="about"
           class="hero-scroll-indicator"
           aria-label={hero.scrollIndicator.ariaLabel}
         >
