@@ -35,7 +35,7 @@ const experiencesData = experiencesSection.items;
         data-expanded="true"
         data-compact-label={experiencesSection.toggleCompactLabel}
         data-detailed-label={experiencesSection.toggleDetailedLabel}
-        class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer hover:border-gold"
+        class="inline-flex min-h-[42px] items-center gap-2 rounded-full px-5 py-2 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer hover:border-gold active:scale-[0.97]"
         style="background-color: var(--th-secondary); border: 2px solid var(--card-border); color: var(--heading-color);"
       >
         <Icon name="layers" size={15} class="text-gold shrink-0 inline-block" />
@@ -74,25 +74,25 @@ const experiencesData = experiencesSection.items;
                   class="timeline-content"
                   style={`--timeline-color: ${resolvedColor}; --card-accent: ${resolvedColor};`}
                 >
-                  <!-- Solid Stage Header Bar with Circular Stage Number Medallion -->
+                  <!-- Solid Stage Header Bar with Harmonized Medallions & Badges -->
                   <header
                     class="exp-card-header"
-                    style={`background-color: ${resolvedColor}; color: ${headerTextColor};`}
+                    style={`background-color: ${resolvedColor};`}
                   >
-                      <div class="inline-flex items-center gap-2.5">
-                        <span class="exp-step-badge" style={`border-color: #ffffff;`}>
-                          {exp.stepNumber}
-                        </span>
-                        <span class="exp-domain-badge" style={`border-color: #ffffff;`}>
-                          <Icon name="briefcase" size={13} class="shrink-0 inline-block" />
-                          <span>{exp.clientOrDomain}</span>
-                        </span>
-                      </div>
-
-                      <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white">
-                        <Icon name="calendar" size={13} class="shrink-0 inline-block" />
-                        <span>{exp.date}</span>
+                    <div class="exp-header-badges-group">
+                      <span class="exp-step-badge" aria-label={`Etapa ${exp.stepNumber}`}>
+                        {exp.stepNumber}
                       </span>
+                      <span class="exp-domain-badge">
+                        <Icon name="briefcase" size={13} class="shrink-0 inline-block" />
+                        <span>{exp.clientOrDomain}</span>
+                      </span>
+                    </div>
+
+                    <span class="exp-date-badge">
+                      <Icon name="calendar" size={13} class="shrink-0 inline-block" />
+                      <span>{exp.date}</span>
+                    </span>
                   </header>
 
                   <!-- Solid Inner Content Body -->
@@ -101,11 +101,8 @@ const experiencesData = experiencesSection.items;
                       <span class="exp-company-accent text-sm uppercase tracking-wider font-semibold">
                         {exp.company}
                       </span>
-                      <span
-                        class="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium"
-                        style="background-color: var(--th-primary); border: 1.5px solid var(--card-border); color: var(--pill-text);"
-                      >
-                        <Icon name="map-pin" size={12} class="shrink-0 inline-block" style={`color: ${resolvedColor};`} />
+                      <span class="exp-location-badge">
+                        <Icon name="map-pin" size={12} class="shrink-0 inline-block" />
                         <span>{exp.location}</span>
                       </span>
                     </div>
@@ -132,14 +129,11 @@ const experiencesData = experiencesSection.items;
                       }
                     </div>
 
-                    <!-- Stage-Color-Coded Solid Stack Badges -->
-                    <div class="mt-4 pt-2 flex flex-wrap gap-1.5">
+                    <!-- Stage-Color-Coded Harmonious Stack Badges -->
+                    <div class="mt-4 pt-2 flex flex-wrap gap-1.5" aria-label="Tecnologías utilizadas">
                       {
-                        exp.technologies.map((tech, tIdx) => (
-                          <span
-                            class="exp-tech-pill"
-                            style={`--card-accent: ${expSlots[(idx + tIdx) % expSlots.length]};`}
-                          >
+                        exp.technologies.map((tech) => (
+                          <span class="exp-tech-pill">
                             {tech}
                           </span>
                         ))
@@ -173,6 +167,25 @@ const experiencesData = experiencesSection.items;
 <!-- END EXPERIENCES -->
 
 <style>
+  .exp-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding: 12px 18px;
+    border-bottom: 2px solid var(--timeline-color, var(--brand-gold));
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .exp-header-badges-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  /* Universal High-Contrast Harmonious White Badges inside the Colored Stage Header */
   .exp-step-badge {
     display: inline-flex;
     height: 2.25rem;
@@ -180,17 +193,55 @@ const experiencesData = experiencesSection.items;
     align-items: center;
     justify-content: center;
     border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    background-color: var(--th-primary);
-    color: var(--txt-primary);
-    border: 2px solid #ffffff;
-    box-shadow: 0 2px 0 #0d0f14;
-    transition: all 0.2s ease;
+    font-size: 0.825rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    background-color: #ffffff !important;
+    color: var(--timeline-color) !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+    flex-shrink: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .exp-step-badge:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.22);
   }
 
   .exp-domain-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    font-size: 0.725rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #ffffff !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .exp-domain-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+  }
+
+  .exp-domain-badge span {
+    color: #0f172a !important;
+    font-weight: 700;
+  }
+
+  .exp-domain-badge svg,
+  .exp-domain-badge i {
+    color: var(--timeline-color) !important;
+  }
+
+  .exp-date-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
@@ -198,28 +249,146 @@ const experiencesData = experiencesSection.items;
     padding: 0.35rem 0.85rem;
     font-size: 0.72rem;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.05em;
-    background-color: var(--th-primary);
-    color: var(--txt-primary);
-    border: 1.5px solid #ffffff;
-    box-shadow: 0 2px 0 #0d0f14;
-    transition: all 0.2s ease;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #ffffff !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease;
   }
 
-  :global([data-theme="light"]) .exp-step-badge,
-  :global([data-theme="light"]) .exp-domain-badge,
-  :global([data-theme="dark"]) .exp-step-badge,
-  :global([data-theme="dark"]) .exp-domain-badge {
-    background-color: #14171f !important;
-    color: #ffffff !important;
-    border: 1.5px solid #475569 !important;
+  .exp-date-badge:hover {
+    transform: translateY(-1px);
   }
 
-  .exp-domain-badge span,
-  .exp-domain-badge i,
-  .exp-domain-badge svg {
+  .exp-date-badge span {
+    color: #0f172a !important;
+    font-weight: 700;
+  }
+
+  .exp-date-badge svg,
+  .exp-date-badge i {
+    color: var(--timeline-color) !important;
+  }
+
+  /* Location badge styling harmonized with stage color */
+  .exp-location-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 9999px;
+    padding: 0.22rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  :global([data-theme="dark"]) .exp-location-badge {
+    background-color: color-mix(in srgb, var(--timeline-color) 8%, var(--th-primary)) !important;
+    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 25%, var(--card-border)) !important;
+    color: #f1f5f9 !important;
+  }
+
+  :global([data-theme="light"]) .exp-location-badge {
+    background-color: color-mix(in srgb, var(--timeline-color) 6%, #ffffff) !important;
+    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 25%, var(--card-border)) !important;
+    color: #0f172a !important;
+  }
+
+  .exp-location-badge svg,
+  .exp-location-badge i {
+    color: var(--timeline-color) !important;
+  }
+
+  /* Highlight Sub-Cards with Subtle Stage-Accent Glow & Contrast */
+  .exp-highlight-card {
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--card-border);
+    border-left: 4px solid var(--timeline-color, var(--brand-gold));
+    transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  :global([data-theme="dark"]) .exp-highlight-card {
+    background-color: color-mix(in srgb, var(--timeline-color) 6%, #171b26) !important;
+    border-color: color-mix(in srgb, var(--timeline-color) 28%, #2d3546) !important;
+    border-left: 4px solid var(--timeline-color, var(--brand-gold)) !important;
+  }
+
+  :global([data-theme="dark"]) .exp-highlight-card:hover {
+    background-color: color-mix(in srgb, var(--timeline-color) 11%, #171b26) !important;
+    border-color: var(--timeline-color, var(--brand-gold)) !important;
+    transform: translateX(3px);
+  }
+
+  :global([data-theme="light"]) .exp-highlight-card {
+    background-color: color-mix(in srgb, var(--timeline-color) 4%, #ffffff) !important;
+    border-color: color-mix(in srgb, var(--timeline-color) 25%, #cbd5e1) !important;
+    border-left: 4px solid var(--timeline-color, var(--brand-gold)) !important;
+  }
+
+  :global([data-theme="light"]) .exp-highlight-card:hover {
+    background-color: color-mix(in srgb, var(--timeline-color) 8%, #ffffff) !important;
+    border-color: var(--timeline-color, var(--brand-gold)) !important;
+    transform: translateX(3px);
+  }
+
+  /* Redesigned Technology Tags with Stage-Color Harmony & Emil Kowalski Micro-Physics */
+  .exp-tech-pill {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    border-radius: 9999px;
+    padding: 0.26rem 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: default;
+    user-select: none;
+    transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 200ms ease,
+                color 200ms ease,
+                border-color 200ms ease,
+                box-shadow 200ms ease;
+  }
+
+  :global([data-theme="dark"]) .exp-tech-pill {
+    background-color: color-mix(in srgb, var(--timeline-color) 9%, #151822) !important;
+    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 35%, #2a3142) !important;
+    color: #f1f5f9 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  :global([data-theme="dark"]) .exp-tech-pill:hover {
+    transform: translateY(-2px);
+    background-color: color-mix(in srgb, var(--timeline-color) 22%, #151822) !important;
+    border-color: var(--timeline-color, var(--brand-gold)) !important;
     color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+  }
+
+  :global([data-theme="dark"]) .exp-tech-pill:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  :global([data-theme="light"]) .exp-tech-pill {
+    background-color: color-mix(in srgb, var(--timeline-color) 7%, #ffffff) !important;
+    border: 1.5px solid color-mix(in srgb, var(--timeline-color) 32%, #cbd5e1) !important;
+    color: #0f172a !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  :global([data-theme="light"]) .exp-tech-pill:hover {
+    transform: translateY(-2px);
+    background-color: color-mix(in srgb, var(--timeline-color) 16%, #ffffff) !important;
+    border-color: var(--timeline-color, var(--brand-gold)) !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  :global([data-theme="light"]) .exp-tech-pill:active {
+    transform: translateY(0) scale(0.97);
   }
 </style>
 

@@ -2397,7 +2397,12 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 }
 
 .exp-card-header {
-  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 12px 18px;
   border-bottom: 2px solid var(--timeline-color, var(--brand-gold));
   transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
@@ -2411,47 +2416,39 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 /* Stage-Specific Solid Sub-Cards & Non-Monotonous Accents inside Experience Cards */
 .exp-company-accent {
   color: var(--timeline-text-color, var(--timeline-color, var(--brand-gold)));
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .exp-highlight-card {
-  background-color: var(--th-primary);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
   border: 1.5px solid var(--card-border);
   border-left: 4px solid var(--timeline-color, var(--brand-gold));
-  border-radius: 10px;
-  padding: 0.65rem 0.85rem;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-
-.exp-highlight-card:hover {
-  border-color: var(--timeline-color, var(--brand-gold));
-  transform: translateX(2px);
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
 .exp-highlight-label {
   color: var(--timeline-text-color, var(--timeline-color, var(--brand-gold)));
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .exp-tech-pill {
   font-size: 0.8125rem;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.35;
-  letter-spacing: 0.025em;
+  letter-spacing: 0.02em;
   border-radius: 9999px;
-  padding: 0.22rem 0.75rem;
-  background-color: var(--th-primary);
-  border: 1.5px solid var(--timeline-color, var(--brand-gold));
-  color: var(--pill-text);
+  padding: 0.26rem 0.8rem;
   display: inline-flex;
   align-items: center;
-  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.25s ease;
-}
-
-.exp-tech-pill:hover {
-  transform: translateY(-1px);
-  background-color: var(--timeline-color, var(--brand-gold));
-  color: #ffffff;
+  gap: 0.35rem;
+  cursor: default;
+  user-select: none;
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 200ms ease,
+              color 200ms ease,
+              border-color 200ms ease,
+              box-shadow 200ms ease;
 }
 
 /* Even / Right-Side Alternating Timeline Items */
