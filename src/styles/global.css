@@ -90,8 +90,8 @@
   --th-secondary: #1D1A36;
   --txt-primary: #f8fafc;
   --txt-muted: #cbd5e1;
-  --heading-color: var(--brand-gold);
-  --label-color: var(--brand-gold);
+  --heading-color: color-mix(in srgb, var(--brand-gold), #ffffff 45%);
+  --label-color: color-mix(in srgb, var(--brand-gold), #ffffff 45%);
   --title-icon-bg: #1D1A36;
   --title-icon-color: var(--brand-gold);
   --wave-fill: #2A2750;
@@ -3133,3 +3133,35 @@ textarea.form-control-pill {
   }
 }
 
+
+/* ==========================================================================
+   Derivados brillantes de acento en modo oscuro — los saturados de claro se
+   pierden sobre navy (tono sobre tono): se aclaran con color-mix 40-50%
+   ========================================================================== */
+[data-theme="dark"] .provider-badge {
+  color: color-mix(in srgb, var(--provider-color, var(--brand-gold)), #ffffff 45%);
+  border-color: color-mix(in srgb, var(--provider-color, var(--brand-gold)), #ffffff 40%);
+}
+
+[data-theme="dark"] .edu-icon-badge {
+  background-color: color-mix(in srgb, var(--edu-accent, var(--brand-gold)), #ffffff 30%);
+  border-color: color-mix(in srgb, var(--edu-accent, var(--brand-gold)), #ffffff 25%);
+}
+
+[data-theme="dark"] .edu-period-pill,
+[data-theme="dark"] .course-date-pill,
+[data-theme="dark"] .training-period-pill {
+  border-color: color-mix(in srgb, var(--edu-accent, var(--provider-color, var(--brand-gold))), #ffffff 40%);
+}
+
+[data-theme="dark"] .main-timeline .tech-pill {
+  border-color: color-mix(in srgb, var(--card-accent, var(--brand-gold)), #ffffff 45%);
+}
+
+[data-theme="dark"] .main-timeline .tech-pill::before {
+  background-color: color-mix(in srgb, var(--card-accent, var(--brand-gold)), #ffffff 45%);
+}
+
+[data-theme="dark"] .skill-brand-badge {
+  border-color: color-mix(in srgb, var(--skill-brand, var(--brand-gold)), #ffffff 35%);
+}
