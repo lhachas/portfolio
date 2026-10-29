@@ -63,7 +63,9 @@ const { styleSwitcher } = await getPortfolioContent(locale);
   <Icon name="chevron-up" size={20} />
 </a>
 
-<script is:inline>
+<script>
+  import { DEFAULT_ACCENT, resolveAccentSlots } from '../data/accents';
+
   (() => {
     const switcher = document.getElementById('style-switcher');
     const toggleBtn = document.getElementById('style-switcher-toggle');
@@ -71,17 +73,8 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     const backToTop = document.getElementById('back-to-top');
     const validHex = /^#[0-9a-fA-F]{6}$/;
 
-    const accentPalettes = {
-      '#3f87f5': ['#3f87f5', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#e11d48'],
-      '#cdb30c': ['#cdb30c', '#0d9488', '#ea580c', '#7c3aed', '#059669', '#d97706'],
-      '#ff546c': ['#ff546c', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#d97706'],
-      '#f2b31a': ['#f2b31a', '#0d9488', '#7c3aed', '#ea580c', '#059669', '#e11d48'],
-      '#8060cf': ['#8060cf', '#0d9488', '#ea580c', '#e11d48', '#059669', '#d97706'],
-      '#37b8df': ['#37b8df', '#7c3aed', '#ea580c', '#059669', '#e11d48', '#d97706'],
-    };
-
-    const syncActiveSwatch = (activeHex) => {
-      const normalized = (activeHex || '#3f87f5').toLowerCase();
+    const syncActiveSwatch = (activeHex: string) => {
+      const normalized = (activeHex || DEFAULT_ACCENT.primary).toLowerCase();
       swatches.forEach((swatch) => {
         const swatchHex = (swatch.getAttribute('data-accent-color') || '').toLowerCase();
         const isMatch = swatchHex === normalized;
@@ -90,17 +83,10 @@ const { styleSwitcher } = await getPortfolioContent(locale);
       });
     };
 
-    const applyAccentPalette = (primary, hover, persist) => {
-      const normalizedPrimary = (primary || '#3f87f5').toLowerCase();
+    const applyAccentPalette = (primary: string, hover: string, persist: boolean) => {
+      const normalizedPrimary = (primary || DEFAULT_ACCENT.primary).toLowerCase();
       const onAccent = '#ffffff';
-      const slots = accentPalettes[normalizedPrimary] || [
-        normalizedPrimary,
-        '#7c3aed',
-        '#ea6a15',
-        '#0d9488',
-        '#e11d48',
-        '#059669',
-      ];
+      const slots = resolveAccentSlots(normalizedPrimary);
 
       const root = document.documentElement.style;
       root.setProperty('--brand-gold', normalizedPrimary);
@@ -128,15 +114,15 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     };
 
     try {
-      const savedPrimary = localStorage.getItem('user-accent-hex') || '#3f87f5';
-      const savedHover = localStorage.getItem('user-accent-hover') || '#2563eb';
+      const savedPrimary = localStorage.getItem('user-accent-hex') || DEFAULT_ACCENT.primary;
+      const savedHover = localStorage.getItem('user-accent-hover') || DEFAULT_ACCENT.hover;
       if (validHex.test(savedPrimary) && validHex.test(savedHover)) {
         applyAccentPalette(savedPrimary, savedHover, false);
       } else {
-        applyAccentPalette('#3f87f5', '#2563eb', false);
+        applyAccentPalette(DEFAULT_ACCENT.primary, DEFAULT_ACCENT.hover, false);
       }
     } catch (err) {
-      applyAccentPalette('#3f87f5', '#2563eb', false);
+      applyAccentPalette(DEFAULT_ACCENT.primary, DEFAULT_ACCENT.hover, false);
     }
 
     toggleBtn?.addEventListener('click', (e) => {

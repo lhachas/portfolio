@@ -204,6 +204,7 @@ const { hero } = await getPortfolioContent(locale);
 <script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { DEFAULT_SLOTS } from '../data/accents';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -392,13 +393,10 @@ const { hero } = await getPortfolioContent(locale);
 
     const getActiveSlots = () => {
       const rootStyle = getComputedStyle(document.documentElement);
-      const s1 = rootStyle.getPropertyValue('--accent-1').trim() || activeAccent;
-      const s2 = rootStyle.getPropertyValue('--accent-2').trim() || '#0d9488';
-      const s3 = rootStyle.getPropertyValue('--accent-3').trim() || '#ea580c';
-      const s4 = rootStyle.getPropertyValue('--accent-4').trim() || '#7c3aed';
-      const s5 = rootStyle.getPropertyValue('--accent-5').trim() || '#059669';
-      const s6 = rootStyle.getPropertyValue('--accent-6').trim() || '#d97706';
-      return [s1, s2, s3, s4, s5, s6];
+      // SSOT fallbacks (familia Océano & Pizarra) si el token aún no está aplicado.
+      return DEFAULT_SLOTS.map(
+        (fallback, i) => rootStyle.getPropertyValue(`--accent-${i + 1}`).trim() || fallback,
+      );
     };
 
     let activeSlots = getActiveSlots();

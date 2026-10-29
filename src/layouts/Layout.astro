@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import { ACCENT_PALETTES, DEFAULT_ACCENT } from '../data/accents';
 import InteractiveCursor from '../components/InteractiveCursor.astro';
 
 interface Props {
@@ -178,8 +179,8 @@ const jsonLd = {
     <!-- Structured Data (Schema.org ProfilePage + Person + ItemList/SoftwareSourceCode + WebSite) -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-    <!-- Flash-Free Theme & Strictly Validated Accent Propagation (Default: Azul Clásico #3f87f5) -->
-    <script is:inline>
+    <!-- Flash-Free Theme & Strictly Validated Accent Propagation (SSOT: src/data/accents.ts, Default: Azul Clásico #3f87f5) -->
+    <script is:inline define:vars={{ accentPalettes: ACCENT_PALETTES, defaultAccent: DEFAULT_ACCENT }}>
       (function () {
         try {
           var params = new URLSearchParams(window.location.search);
@@ -189,16 +190,8 @@ const jsonLd = {
           document.documentElement.setAttribute('data-theme', theme);
 
           var validHex = /^#[0-9a-fA-F]{6}$/;
-          var accentPalettes = {
-            '#3f87f5': ['#3f87f5', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#e11d48'],
-            '#cdb30c': ['#cdb30c', '#0d9488', '#ea580c', '#7c3aed', '#059669', '#d97706'],
-            '#ff546c': ['#ff546c', '#7c3aed', '#0d9488', '#ea580c', '#059669', '#d97706'],
-            '#f2b31a': ['#f2b31a', '#0d9488', '#7c3aed', '#ea580c', '#059669', '#e11d48'],
-            '#8060cf': ['#8060cf', '#0d9488', '#ea580c', '#e11d48', '#059669', '#d97706'],
-            '#37b8df': ['#37b8df', '#7c3aed', '#ea580c', '#059669', '#e11d48', '#d97706'],
-          };
-          var savedAccent = (localStorage.getItem('user-accent-hex') || '#3f87f5').toLowerCase();
-          var savedAccentHover = localStorage.getItem('user-accent-hover') || '#2563eb';
+          var savedAccent = (localStorage.getItem('user-accent-hex') || defaultAccent.primary).toLowerCase();
+          var savedAccentHover = localStorage.getItem('user-accent-hover') || defaultAccent.hover;
           if (validHex.test(savedAccent) && validHex.test(savedAccentHover)) {
             var onAccent = '#ffffff';
             var root = document.documentElement.style;
@@ -206,14 +199,8 @@ const jsonLd = {
             root.setProperty('--brand-gold-hover', savedAccentHover);
             root.setProperty('--brand-on-gold', onAccent);
             root.setProperty('--title-icon-color', savedAccent);
-            var slots = accentPalettes[savedAccent] || [
-              savedAccent,
-              '#7c3aed',
-              '#ea6a15',
-              '#0d9488',
-              '#e11d48',
-              '#059669',
-            ];
+            var fallbackSlots = accentPalettes[defaultAccent.primary];
+            var slots = accentPalettes[savedAccent] || [savedAccent].concat(fallbackSlots.slice(1));
             for (var i = 0; i < slots.length; i++) {
               root.setProperty('--accent-' + (i + 1), slots[i]);
             }
