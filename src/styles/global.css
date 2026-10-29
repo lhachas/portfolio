@@ -119,18 +119,33 @@ html {
 }
 
 body {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
+  font-family: 'Manrope', 'Oswald', sans-serif;
+  font-weight: 400;
   overflow-x: clip;
   position: relative;
-  letter-spacing: 0.018em;
-  line-height: 1.72;
+  letter-spacing: 0.01em;
+  line-height: 1.7;
   font-size: 16px;
   background-color: var(--th-primary);
   color: var(--txt-primary);
   transition: background-color 0.25s ease, color 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* UI chrome (labels & uppercase buttons) keeps the condensed Oswald voice */
+.hero-status-pill,
+.hero-btn-primary,
+.hero-btn-secondary,
+.btn-brand,
+.btn-outline-gold,
+.btn-cv-solid,
+.btn-cv-outline,
+.btn-social-pill,
+.nav-item-link,
+.hero-scroll-indicator,
+.lang-pill-badge {
+  font-family: 'Oswald', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -153,23 +168,25 @@ b, strong {
 
 p,
 .body-copy {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 400;
   font-size: 1rem; /* 16px unified primary body copy */
-  line-height: 1.72;
-  letter-spacing: 0.018em;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  text-wrap: pretty;
 }
 
 .detail-copy {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 400;
   font-size: 0.9375rem; /* 15px unified secondary / bullet / card detail copy */
   line-height: 1.65;
-  letter-spacing: 0.016em;
+  letter-spacing: 0.012em;
   color: var(--txt-primary);
 }
 
 .hero-greeting {
+  font-family: 'Oswald', sans-serif;
   font-size: clamp(1.15rem, 1.9vw, 1.45rem);
   line-height: 1.35;
   font-weight: 400;
@@ -264,6 +281,7 @@ p,
 
 /* Unified Micro-Label */
 .label-c {
+  font-family: 'Oswald', sans-serif;
   color: var(--label-color);
   font-size: 0.8125rem; /* 13px */
   text-transform: uppercase;
@@ -328,19 +346,6 @@ p,
 
 [data-theme="dark"] .typing {
   filter: none;
-}
-
-[class^="icofont-"],
-[class*=" icofont-"] {
-  font-family: "IcoFont" !important;
-  speak-as: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
@@ -1044,6 +1049,34 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   box-shadow: 0 2px 0 #e2e8f0;
 }
 
+/* ==========================================================================
+   Official Brand Icons (svgl.app vendorizados) — Variantes por tema y chips
+   ========================================================================== */
+.brand-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.brand-variant {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+}
+
+.brand-variant svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+[data-theme="dark"] .brand-variant-light {
+  display: none;
+}
+
+:root:not([data-theme="dark"]) .brand-variant-dark {
+  display: none;
+}
+
 /* Hero Architecture Stack Pills - 100% Solid Surface with Official Brand Icon Badges */
 .hero-arch-pill {
   position: relative;
@@ -1075,6 +1108,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   box-shadow: 0 4px 0 #cbd5e1;
 }
 
+/* Neutral solid chip + accent border: los logos oficiales muestran su color natural */
 .hero-arch-icon-badge {
   width: 28px;
   height: 28px;
@@ -1082,11 +1116,16 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--arch-brand, var(--brand-gold));
-  color: #ffffff;
-  font-size: 0.9rem;
+  background-color: #f1f5f9;
+  border: 2px solid var(--arch-brand, var(--brand-gold));
+  padding: 3px;
   flex-shrink: 0;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
+  transition: background-color 0.2s ease;
+}
+
+[data-theme="dark"] .hero-arch-icon-badge {
+  background-color: #14171f;
 }
 
 .hero-arch-pill:hover {
@@ -2240,6 +2279,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   gap: 0.5rem;
 }
 
+/* Chip neutro sólido + borde de acento: logo oficial a color natural */
 .skill-brand-badge {
   width: 30px;
   height: 30px;
@@ -2247,9 +2287,9 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--skill-brand, #0e3d65);
-  color: #ffffff !important;
-  font-size: 1rem;
+  background-color: var(--th-primary);
+  border: 2px solid var(--skill-brand, #0e3d65);
+  padding: 3px;
   margin-right: 0.6rem;
   flex-shrink: 0;
   box-shadow: 0 2px 0 var(--card-border);
@@ -2291,7 +2331,6 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
    Experiences Interconnected Timeline (100% Solid Non-Monotonous Architecture)
    ========================================================================== */
 .main-timeline {
-  font-family: 'Oswald', sans-serif;
   position: relative;
   padding: 24px 0;
 }
@@ -2538,7 +2577,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 }
 
 .form-control-pill[aria-invalid="true"] {
-  border-color: #dc2626;
+  border-color: var(--status-error);
 }
 
 textarea.form-control-pill {
@@ -2574,6 +2613,7 @@ textarea.form-control-pill {
   box-shadow: 0 2px 0 var(--card-accent, var(--channel-color, var(--brand-gold)));
 }
 
+/* Chip neutro sólido + borde del color de canal: logo oficial a color natural */
 .contact-channel-icon {
   width: 44px;
   height: 44px;
@@ -2583,9 +2623,12 @@ textarea.form-control-pill {
   justify-content: center;
   font-size: 1.25rem;
   color: var(--channel-text-color, #ffffff);
-  background-color: var(--channel-color, var(--brand-gold));
+  background-color: var(--th-primary);
+  border: 2px solid var(--channel-color, var(--brand-gold));
+  padding: 6px;
   flex-shrink: 0;
-  transition: transform 0.2s ease, background-color 0.25s ease, color 0.25s ease;
+  box-shadow: 0 2px 0 var(--card-border);
+  transition: transform 0.2s ease, border-color 0.25s ease;
 }
 
 .contact-channel-card:hover .contact-channel-icon {
@@ -2687,6 +2730,12 @@ textarea.form-control-pill {
 .social-icon-btn svg {
   display: block;
   flex-shrink: 0;
+}
+
+/* Logos oficiales (svgl) sobre botones de marca sólida: forma oficial en blanco */
+.social-icon-btn .brand-icon svg,
+.btn-social-pill .brand-icon svg {
+  filter: brightness(0) invert(1);
 }
 
 .social-icon-btn:hover {

@@ -116,6 +116,7 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={profile.name} />
@@ -151,6 +152,7 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content={seo.ogImageAlt} />
+    <meta property="og:image:type" content="image/webp" />
     <meta property="og:image:width" content="600" />
     <meta property="og:image:height" content="600" />
 
@@ -168,11 +170,11 @@ const jsonLd = {
     <link rel="preload" as="image" href={withBase('/assets/video/hero-cinematic-poster.webp')} type="image/webp" />
     <link rel="preload" as="image" href={withBase(profile.profilePhoto)} type="image/webp" />
 
-    <!-- Unified Typography via Google Fonts (Caveat Signature + Oswald + Victor Mono) -->
+    <!-- Unified Typography via Google Fonts (Caveat Signature + Oswald Display + Manrope Body + Victor Mono) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Oswald:wght@300;400;500;600;700&family=Victor+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Manrope:wght@400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Victor+Mono:ital,wght@0,400;0,600;1,400;1,600&display=swap"
       rel="stylesheet"
     />
 
