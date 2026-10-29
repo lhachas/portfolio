@@ -127,6 +127,36 @@ if (fs.existsSync(sitemapPath)) {
   }
 }
 
+// 3d. Verify official brand SVGs (svgl.app) are present and safe (docs/spec.md §3)
+const BRAND_ICONS_DIR = path.join(ROOT, 'src', 'assets', 'icons', 'brand');
+const MIN_BRAND_ICONS = 18;
+if (!fs.existsSync(BRAND_ICONS_DIR)) {
+  fail(`Missing official brand icon directory: src/assets/icons/brand/`);
+} else {
+  const brandSvgs = fs.readdirSync(BRAND_ICONS_DIR).filter((f) => f.endsWith('.svg'));
+  if (brandSvgs.length < MIN_BRAND_ICONS) {
+    fail(`Expected at least ${MIN_BRAND_ICONS} vendorized brand SVGs, found ${brandSvgs.length}`);
+  } else {
+    pass(`Official svgl brand iconography vendorized: ${brandSvgs.length} SVGs in src/assets/icons/brand/`);
+  }
+  for (const svgFile of brandSvgs) {
+    const svg = fs.readFileSync(path.join(BRAND_ICONS_DIR, svgFile), 'utf8');
+    if (/<script/i.test(svg) || /href\s*=\s*["']https?:/i.test(svg)) {
+      fail(`Unsafe brand SVG (script or remote reference): src/assets/icons/brand/${svgFile}`);
+    }
+  }
+  pass('All vendorized brand SVGs are script-free and free of remote references');
+}
+
+// 3e. Verify legacy icon fonts are fully retired (docs/spec.md AC-I3)
+const legacyAssets = ['public/assets/css', 'public/assets/fonts'];
+for (const legacyDir of legacyAssets) {
+  if (fs.existsSync(path.join(ROOT, legacyDir))) {
+    fail(`Legacy icon asset directory still present: ${legacyDir}/`);
+  }
+}
+pass('Legacy icofont/technology-icons fonts and plugin CSS fully removed from public/');
+
 // 4. If dist/ exists, verify the final production bundle
 if (fs.existsSync(DIST_DIR)) {
   const distFiles = walkFiles(DIST_DIR);
@@ -214,6 +244,14 @@ if (fs.existsSync(DIST_DIR)) {
     if (!html.includes('hero-cinematic-video') || !html.includes('hero-cinematic-poster')) {
       fail(`${rel} is missing Remotion cinematic video/poster layer`);
     }
+    if (/icofont|technology-icons/i.test(html)) {
+      fail(`${rel} still references legacy icofont/technology-icons iconography`);
+    }
+    const harmonicAccents = ['#0e7490', '#1e3a8a', '#155e75'];
+    const foundAccents = harmonicAccents.filter((hex) => html.includes(hex));
+    if (foundAccents.length === 0) {
+      fail(`${rel} is missing the ocean-and-slate harmonic accent tokens (docs/spec.md §1.2)`);
+    }
     const requiredProjects = [
       'retail-platform',
       'veltiq-forge',
@@ -231,7 +269,7 @@ if (fs.existsSync(DIST_DIR)) {
       fail(`${rel} is missing curated projects: ${missing.join(', ')}`);
     }
   }
-  pass('Verified all generated HTML pages enforce crisp #ffffff contrast, BrandSignature, #projects section with 10 curated projects, and profile-portrait.webp');
+  pass('Verified all generated HTML pages enforce crisp #ffffff contrast, BrandSignature, #projects section with 10 curated projects, official svgl iconography, ocean-and-slate accents, and profile-portrait.webp');
 }
 
 if (errors > 0) {

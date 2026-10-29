@@ -1,0 +1,38 @@
+---
+/**
+ * BrandIcon — Logos oficiales de marca (vendorizados desde svgl.app).
+ *
+ * Contrato (docs/spec.md §3):
+ * - Registro y saneamiento en `src/data/brandIcons.ts` (build-time, SSOT).
+ * - Si existe variante `-dark.svg`, se renderizan ambas y el tema activo
+ *   selecciona la visible vía CSS (`[data-theme="dark"]`).
+ */
+import { brandRegistry, sanitizeBrandSvg } from '../data/brandIcons';
+
+interface Props {
+  name: string;
+  size?: number | string;
+  class?: string;
+}
+
+const { name, size = 20, class: className = '' } = Astro.props;
+const light = brandRegistry[name];
+const dark = brandRegistry[`${name}-dark`];
+
+if (!light) {
+  throw new Error(`[BrandIcon] No existe un SVG vendorizado para "${name}"`);
+}
+---
+
+<span class:list={['brand-icon', className]} style={`width:${size}px;height:${size}px`} aria-hidden="true">
+  {
+    dark ? (
+      <>
+        <span class="brand-variant brand-variant-light" set:html={sanitizeBrandSvg(light, name)} />
+        <span class="brand-variant brand-variant-dark" set:html={sanitizeBrandSvg(dark, name)} />
+      </>
+    ) : (
+      <span class="brand-variant" set:html={sanitizeBrandSvg(light, name)} />
+    )
+  }
+</span>
