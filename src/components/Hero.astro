@@ -55,7 +55,7 @@ const { hero, profile } = await getPortfolioContent(locale);
         data-hero-anim
       >
         <span class="hero-title-prefix font-light shrink-0">{hero.titlePrefix}</span>
-        <span class="inline sm:inline-flex items-center pb-0.5 sm:whitespace-nowrap">
+        <span class="relative inline sm:inline-flex items-center pb-0.5 sm:whitespace-nowrap">
           <em
             id="typed-output"
             class="typing italic font-semibold text-gold"
@@ -64,13 +64,17 @@ const { hero, profile } = await getPortfolioContent(locale);
             {hero.typedStrings[0]}
           </em>
           <span class="typed-cursor" aria-hidden="true"></span>
+          <!-- La rúbrica subraya exactamente el ancho del texto tecleado (keystroke a keystroke) -->
+          <span
+            id="hero-rubric-underline"
+            class="hero-rubric-underline"
+            data-hero-anim
+            aria-hidden="true"
+          >
+            <BrandRubric stretch class="hero-rubric-svg" />
+          </span>
         </span>
       </h1>
-
-      <!-- Huella de marca: rúbrica caligráfica dibujada bajo el nombre (GSAP: trazo 1 → 0) -->
-      <div id="hero-rubric-underline" class="hero-rubric-underline" data-hero-anim aria-hidden="true">
-        <BrandRubric width={230} height={16} class="hero-rubric-svg" />
-      </div>
 
       <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid crisp text) -->
       <p class="title-subtitle hero-subtitle mt-3 mb-0 mx-auto" data-hero-anim>
@@ -409,7 +413,7 @@ const { hero, profile } = await getPortfolioContent(locale);
       const bottom = height * 0.82;
       const bandH = Math.max(bottom - top, 120);
       const cols = Math.min(8, Math.max(4, Math.floor((width - 2 * mx) / 150)));
-      const rows = Math.min(5, Math.max(3, Math.floor(bandH / 125)));
+      const rows = Math.min(6, Math.max(3, Math.floor(bandH / 125)));
       const nodes: SceneNode[] = [];
       const cellW = (width - 2 * mx) / Math.max(cols - 1, 1);
       const cellH = bandH / Math.max(rows - 1, 1);

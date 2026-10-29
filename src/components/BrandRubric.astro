@@ -3,21 +3,26 @@
  * BrandRubric — rúbrica caligráfica de la marca LHachaS (huella visual).
  * Trazo único reutilizable: firma del navbar y subrayado artesanal del H1.
  * `pathLength="1"` permite animar el dibujo del trazo (stroke-dashoffset 1 → 0).
+ * Con `stretch` el SVG se expande al 100% del contenedor (distorsión controlada)
+ * para que la rúbrica subraye exactamente el ancho del texto tecleado.
  */
 interface Props {
   width?: number | string;
   height?: number | string;
   class?: string;
+  stretch?: boolean;
 }
 
-const { width = 140, height = 14, class: className = '' } = Astro.props;
+const { width = 140, height = 14, class: className = '', stretch = false } = Astro.props;
+const sizing = stretch ? { width: '100%', height: '100%' } : { width, height };
 ---
 
 <svg
   class={className}
-  width={width}
-  height={height}
+  width={sizing.width}
+  height={sizing.height}
   viewBox="0 0 140 14"
+  preserveAspectRatio={stretch ? 'none' : 'xMidYMid meet'}
   fill="none"
   xmlns="http://www.w3.org/2000/svg"
   aria-hidden="true"
@@ -25,9 +30,10 @@ const { width = 140, height = 14, class: className = '' } = Astro.props;
   <path
     d="M2 3C28 11 72 13 136 3.5C114 13 82 11.5 60 9C38 6.5 16 11.5 8 8"
     stroke="var(--brand-gold)"
-    stroke-width="2"
+    stroke-width={stretch ? 2.4 : 2}
     stroke-linecap="round"
     stroke-linejoin="round"
+    vector-effect={stretch ? 'non-scaling-stroke' : undefined}
     pathLength="1"
   ></path>
 </svg>
