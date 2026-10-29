@@ -90,8 +90,8 @@
   --th-secondary: #1D1A36;
   --txt-primary: #f8fafc;
   --txt-muted: #cbd5e1;
-  --heading-color: color-mix(in srgb, var(--brand-gold), #ffffff 45%);
-  --label-color: color-mix(in srgb, var(--brand-gold), #ffffff 45%);
+  --heading-color: var(--brand-gold);
+  --label-color: var(--brand-gold);
   --title-icon-bg: #1D1A36;
   --title-icon-color: var(--brand-gold);
   --wave-fill: #2A2750;
@@ -3163,5 +3163,5 @@ textarea.form-control-pill {
 }
 
 [data-theme="dark"] .skill-brand-badge {
-  border-color: color-mix(in srgb, var(--skill-brand, var(--brand-gold)), #ffffff 35%);
+  border-color: var(--skill-brand, var(--brand-gold));
 }

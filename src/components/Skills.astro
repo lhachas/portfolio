@@ -84,19 +84,11 @@ const skillCategories = skillsSection.categories;
             'var(--accent-2)',
           ];
           const pillarAccent = pillarSlots[idx % pillarSlots.length];
-          const tagSlots = [
-            'var(--accent-1)',
-            'var(--accent-2)',
-            'var(--accent-3)',
-            'var(--accent-4)',
-            'var(--accent-5)',
-            'var(--accent-6)',
-          ];
           return (
             <article
               class="card-box th-primary reveal justify-between"
               data-skill-card={category.id}
-              style={`--card-accent: ${pillarAccent}; --reveal-delay: ${(idx % 2) * 100}ms;`}
+              style={`--card-accent: ${pillarAccent}; --skill-brand: ${pillarAccent}; --reveal-delay: ${(idx % 2) * 100}ms;`}
             >
               <div>
                 <!-- Category Pillar Badge + 45deg Diamond Rotating Icon -->
@@ -136,7 +128,7 @@ const skillCategories = skillsSection.categories;
                 <div class="skills-list mt-6">
                   {
                     category.items.map((skill) => (
-                      <div class="skill-item" style={`--skill-brand: ${skill.brandColor};`}>
+                      <div class="skill-item">
                         <div class="skill-text">
                           <span class="inline-flex items-center min-w-0">
                             <span class="skill-brand-badge" aria-hidden="true">
@@ -170,10 +162,10 @@ const skillCategories = skillsSection.categories;
                 </span>
                 <div class="flex flex-wrap justify-center gap-1.5">
                   {
-                    category.tags.map((tag, tIdx) => (
+                    category.tags.map((tag) => (
                       <span
                         class="tech-pill"
-                        style={`--card-accent: ${tagSlots[(idx + tIdx) % tagSlots.length]};`}
+                        style={`--card-accent: ${pillarAccent};`}
                       >
                         {tag}
                       </span>

@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
-import { ACCENT_PALETTES, DEFAULT_ACCENT } from '../data/accents';
+import { ACCENT_PALETTES, ACCENT_PALETTES_DARK, DEFAULT_ACCENT } from '../data/accents';
 import InteractiveCursor from '../components/InteractiveCursor.astro';
 
 interface Props {
@@ -181,7 +181,7 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Flash-Free Theme & Strictly Validated Accent Propagation (SSOT: src/data/accents.ts, Default: Azul Clásico #3f87f5) -->
-    <script is:inline define:vars={{ accentPalettes: ACCENT_PALETTES, defaultAccent: DEFAULT_ACCENT }}>
+    <script is:inline define:vars={{ accentPalettes: ACCENT_PALETTES, accentPalettesDark: ACCENT_PALETTES_DARK, defaultAccent: DEFAULT_ACCENT }}>
       (function () {
         try {
           var params = new URLSearchParams(window.location.search);
@@ -200,8 +200,10 @@ const jsonLd = {
             root.setProperty('--brand-gold-hover', savedAccentHover);
             root.setProperty('--brand-on-gold', onAccent);
             root.setProperty('--title-icon-color', savedAccent);
-            var fallbackSlots = accentPalettes[defaultAccent.primary];
-            var slots = accentPalettes[savedAccent] || [savedAccent].concat(fallbackSlots.slice(1));
+            // Derivados brillantes de los slots cuando el tema activo es oscuro
+            var activePalettes = theme === 'dark' ? accentPalettesDark : accentPalettes;
+            var fallbackSlots = activePalettes[defaultAccent.primary];
+            var slots = activePalettes[savedAccent] || [savedAccent].concat(fallbackSlots.slice(1));
             for (var i = 0; i < slots.length; i++) {
               root.setProperty('--accent-' + (i + 1), slots[i]);
             }

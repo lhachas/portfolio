@@ -86,7 +86,10 @@ const { styleSwitcher } = await getPortfolioContent(locale);
     const applyAccentPalette = (primary: string, hover: string, persist: boolean) => {
       const normalizedPrimary = (primary || DEFAULT_ACCENT.primary).toLowerCase();
       const onAccent = '#ffffff';
-      const slots = resolveAccentSlots(normalizedPrimary);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const slots = resolveAccentSlots(normalizedPrimary, isDark);
+      lastPrimary = normalizedPrimary;
+      lastHover = hover;
 
       const root = document.documentElement.style;
       root.setProperty('--brand-gold', normalizedPrimary);
@@ -112,6 +115,16 @@ const { styleSwitcher } = await getPortfolioContent(locale);
         })
       );
     };
+
+    // Al alternar el tema se re-aplican los slots con su derivado (claro u oscuro)
+    let lastPrimary = '';
+    let lastHover = '';
+    new MutationObserver(() => {
+      if (lastPrimary) applyAccentPalette(lastPrimary, lastHover, false);
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
 
     try {
       const savedPrimary = localStorage.getItem('user-accent-hex') || DEFAULT_ACCENT.primary;
