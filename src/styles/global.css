@@ -12,16 +12,20 @@
   --brand-primary: #0e3d65;
   --brand-primary-hover: #1e40af;
   --brand-on-primary: #ffffff;
-  --brand-purple: #8060cf;
   --brand-dark: #14171f;
 
-  /* Intelligent 6-Slot Dynamic Accent System (Zero Same-Row Color Monotony) */
-  --accent-1: var(--brand-gold);
-  --accent-2: #7c3aed;
-  --accent-3: #0d9488;
-  --accent-4: #ea580c;
-  --accent-5: #059669;
-  --accent-6: #e11d48;
+  /* Familia "Océano & Pizarra" — 6 slots armónicos azul/cian/pizarra (SSOT: src/data/accents.ts) */
+  --accent-1: #3f87f5;
+  --accent-2: #0e7490;
+  --accent-3: #1e3a8a;
+  --accent-4: #155e75;
+  --accent-5: #475569;
+  --accent-6: #1d4ed8;
+
+  /* Semáforo de estados (validación de formularios) — semántica universal, no decoración */
+  --status-success: #059669;
+  --status-warning: #d97706;
+  --status-error: #dc2626;
 
   /* Official Social Network Brand Colors (100% Solid) */
   --social-linkedin: #0A66C2;
@@ -1380,14 +1384,6 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 
 .border-gold {
   border-color: var(--brand-gold) !important;
-}
-
-.text-purple-brand {
-  color: var(--brand-purple) !important;
-}
-
-.bg-purple-brand {
-  background-color: var(--brand-purple) !important;
 }
 
 .typed-cursor {
