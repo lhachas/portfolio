@@ -26,185 +26,186 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
 <!-- START FOOTER -->
 <footer class="footer-section" aria-label={footer.ariaLabel}>
   <div class="footer-content-wrapper mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-    <!-- 3-Column Executive Brand Architecture (100% Solid Non-Monotonous Cards) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-      <!-- Column 1: Brand Identity, Value Proposition & Live Status -->
-      <div class="lg:col-span-4">
-        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--accent-1); --card-accent: var(--accent-1);">
-          <div>
-            <div class="mb-3">
-              <BrandSignature
-                avatarImage={profile.avatarImage}
-                avatarAlt={profile.avatarAlt}
-                subtitle={profile.brandSubtitle || 'Backend & Full Stack'}
-              />
-            </div>
+    <!-- Traza de circuito: eco del hero, conecta el footer con la identidad del sitio -->
+    <div class="footer-circuit-line" aria-hidden="true">
+      <span class="footer-circuit-node" style="left: 8%;"></span>
+      <span class="footer-circuit-node footer-circuit-node--accent" style="left: 46%;"></span>
+      <span class="footer-circuit-node" style="left: 87%;"></span>
+    </div>
 
-            <p class="text-xs font-semibold uppercase tracking-widest text-gold mb-2">
-              {profile.roleHeadline}
-            </p>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-12">
+      <!-- Columna A: Marca, propuesta de valor y estado en vivo -->
+      <div class="lg:col-span-5">
+        <div class="mb-7">
+          <BrandSignature
+            avatarImage={profile.avatarImage}
+            avatarAlt={profile.avatarAlt}
+            subtitle={profile.brandSubtitle || 'Backend & Full Stack'}
+          />
+        </div>
 
-            <p class="text-[14px] font-light text-[#cbd5e1] leading-relaxed">
-              {footer.brandSummary}
-            </p>
-          </div>
+        <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold mb-3">
+          {profile.roleHeadline}
+        </p>
 
-          <div class="mt-4 pt-3 border-t border-[#2d3546] flex flex-wrap items-center justify-between gap-2">
-            <span class="inline-flex items-center gap-2 rounded-full bg-[#14171f] border border-[#22c55e] px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-white">
-              <span class="status-pulse-dot" aria-hidden="true"></span>
-              <span>{footer.availabilityBadge}</span>
-            </span>
-            <span class="text-xs text-[#cbd5e1] inline-flex items-center gap-1.5">
-              <Icon name="map-pin" size={14} class="text-gold shrink-0" />
-              <span>{profile.location}</span>
-            </span>
-          </div>
+        <p class="text-[14px] leading-relaxed text-[#cbd5e1] max-w-sm mb-6">
+          {footer.brandSummary}
+        </p>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2.5">
+          <span class="inline-flex items-center gap-2 rounded-full border border-[#22c55e] px-3 py-1 text-[11px] font-medium uppercase tracking-wider text-white" style="background-color: var(--chrome-bg);">
+            <span class="status-pulse-dot" aria-hidden="true"></span>
+            <span>{footer.availabilityBadge}</span>
+          </span>
+          <span class="text-xs text-[#cbd5e1] inline-flex items-center gap-1.5">
+            <Icon name="map-pin" size={14} class="text-gold shrink-0" />
+            <span>{profile.location}</span>
+          </span>
         </div>
       </div>
 
-      <!-- Column 2: Quick Section Navigation & Official 2026 CV Downloads -->
-      <div class="lg:col-span-4">
-        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--accent-2); --card-accent: var(--accent-2);">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-semibold uppercase tracking-widest text-white">
-                {footer.navColumnTitle}
-              </span>
-              <span class="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" style="background-color: var(--accent-2);">
-                {footer.navColumnBadge}
-              </span>
-            </div>
+      <!-- Columna B: Navegación ejecutiva + CV oficial -->
+      <div class="lg:col-span-3">
+        <div class="mb-4">
+          <span class="footer-col-label block">{footer.navColumnTitle}</span>
+          <span class="footer-col-count block mt-1.5">{footer.navColumnBadge}</span>
+        </div>
 
-            <nav aria-label={footer.navAriaLabel}>
-              <ul class="flex flex-wrap gap-2" role="list">
-                {
-                  navItems.map((item) => (
-                    <li>
-                      <a href={item.id === 'home' ? withBase(locale === 'en' ? '/en/' : '/') : withBase(locale === 'en' ? `/en/${item.id}` : `/${item.id}`)} data-nav-link={item.id} class="footer-nav-pill">
-                        <Icon name={navIconMap[item.id] || 'layers'} size={14} class="shrink-0" />
-                        <span>{item.label}</span>
-                      </a>
-                    </li>
-                  ))
-                }
+        <nav aria-label={footer.navAriaLabel}>
+          <ul class="flex flex-col gap-0.5" role="list">
+            {
+              navItems.map((item) => (
                 <li>
                   <a
-                    href={withBase(navigation.languageSwitcher.targetHref)}
-                    class="footer-nav-pill"
-                    data-lang-switch
-                    aria-label={navigation.languageSwitcher.ariaLabel}
+                    href={item.id === 'home' ? withBase(locale === 'en' ? '/en/' : '/') : withBase(locale === 'en' ? `/en/${item.id}` : `/${item.id}`)}
+                    data-nav-link={item.id}
+                    class="footer-nav-link"
                   >
-                    <Icon name="globe" size={14} class="text-gold shrink-0" />
-                    <span>{navigation.languageSwitcher.currentCode} / {navigation.languageSwitcher.targetCode}</span>
+                    <Icon name={navIconMap[item.id] || 'layers'} size={15} />
+                    <span>{item.label}</span>
+                    <Icon name="chevron-right" size={13} class="footer-nav-chevron" />
                   </a>
                 </li>
-              </ul>
-            </nav>
-          </div>
-
-          <div class="mt-4 pt-3 border-t border-[#2d3546]">
-            <span class="block text-[11px] font-semibold uppercase tracking-widest text-[#cbd5e1] mb-2">
-              {footer.cvDownloadHeading}
-            </span>
-            <div class="mt-1">
+              ))
+            }
+            <li>
               <a
-                href={withBase(profile.cvPrimary.url)}
-                target="_blank"
-                rel="noopener noreferrer"
-                download={profile.cvPrimary.filename}
-                data-cv-lang={profile.cvPrimary.langCode}
-                aria-label={profile.cvPrimary.ariaLabel}
-                class="btn-cv-solid w-full !min-h-[36px] !px-3 !py-1.5 !text-xs justify-center whitespace-nowrap"
+                href={withBase(navigation.languageSwitcher.targetHref)}
+                class="footer-nav-link"
+                data-lang-switch
+                aria-label={navigation.languageSwitcher.ariaLabel}
               >
-                <Icon name="file-pdf" size={15} class="mr-1.5 shrink-0" />
-                <span>{profile.cvPrimary.labelFooter}</span>
+                <Icon name="globe" size={15} />
+                <span>{navigation.languageSwitcher.currentCode} / {navigation.languageSwitcher.targetCode}</span>
+                <Icon name="chevron-right" size={13} class="footer-nav-chevron" />
               </a>
-            </div>
-          </div>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="mt-6 pt-5 border-t" style="border-color: var(--chrome-border);">
+          <span class="block text-[11px] font-semibold uppercase tracking-widest mb-3" style="color: var(--txt-muted);">
+            {footer.cvDownloadHeading}
+          </span>
+          <a
+            href={withBase(profile.cvPrimary.url)}
+            target="_blank"
+            rel="noopener noreferrer"
+            download={profile.cvPrimary.filename}
+            data-cv-lang={profile.cvPrimary.langCode}
+            aria-label={profile.cvPrimary.ariaLabel}
+            class="btn-cv-solid w-full !min-h-[38px] !px-3 !py-1.5 !text-xs justify-center whitespace-nowrap"
+          >
+            <Icon name="file-pdf" size={15} class="mr-1.5 shrink-0" />
+            <span>{profile.cvPrimary.labelFooter}</span>
+          </a>
         </div>
       </div>
 
-      <!-- Column 3: Official Brand Social Network & Direct Contact -->
+      <!-- Columna C: Canales oficiales y contacto directo -->
       <div class="lg:col-span-4">
-        <div class="footer-card flex flex-col justify-between" style="--footer-accent: var(--accent-4); --card-accent: var(--accent-4);">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-semibold uppercase tracking-widest text-white">
-                {footer.channelsColumnTitle}
-              </span>
-              <span class="rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white" style="background-color: var(--accent-4);">
-                {footer.channelsColumnBadge}
-              </span>
-            </div>
+        <div class="mb-4">
+          <span class="footer-col-label block">{footer.channelsColumnTitle}</span>
+          <span class="footer-col-count block mt-1.5">{footer.channelsColumnBadge}</span>
+        </div>
 
-            <p class="text-[13.5px] font-light text-[#cbd5e1] mb-3.5">
-              {footer.channelsDescription}
-            </p>
+        <p class="text-[13.5px] leading-relaxed text-[#cbd5e1] mb-5">
+          {footer.channelsDescription}
+        </p>
 
-            <!-- Official Brand-Colored Social Buttons (100% Solid + Zero Wave Overlap) -->
-            <ul class="flex flex-wrap items-center gap-2.5 mb-0" role="list">
-              {
-                socialLinks.map((social) => (
-                  <li>
-                    <a
-                      href={social.url}
-                      target={social.id === 'email' ? undefined : '_blank'}
-                      rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
-                      class={`social-icon-btn ${social.id}`}
-                      data-magnetic
-                      data-cursor-label={social.name}
-                      aria-label={`${social.name} - ${profile.name} (${social.handle})`}
-                      title={`${social.name}: ${social.handle}`}
-                    >
-                      <Icon name={social.id} size={19} />
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
-
-          <div class="mt-4 pt-3 border-t border-[#2d3546] flex flex-wrap items-center justify-between gap-2 text-xs text-[#cbd5e1]">
+        <ul class="flex flex-col gap-2 mb-6" role="list">
+          <li>
             <a
               href={`mailto:${profile.email}`}
-              class="inline-flex items-center gap-1.5 text-white hover:text-gold transition-colors truncate"
+              class="footer-contact-row"
+              data-cursor-label="Email"
             >
-              <Icon name="mail" size={14} class="text-[#EA4335] shrink-0" />
-              <span>{profile.email}</span>
+              <span class="footer-contact-icon" style="color: #EA4335;" aria-hidden="true">
+                <Icon name="mail" size={15} />
+              </span>
+              <span class="truncate">{profile.email}</span>
             </a>
+          </li>
+          <li>
             <a
               href={`tel:${profile.phoneClean}`}
-              class="inline-flex items-center gap-1 text-white hover:text-gold transition-colors font-medium"
+              class="footer-contact-row"
+              data-cursor-label="Teléfono"
             >
-              <Icon name="phone" size={14} class="text-[#25D366] shrink-0" />
-              <span>{profile.phone}</span>
+              <span class="footer-contact-icon" style="color: #25D366;" aria-hidden="true">
+                <Icon name="phone" size={15} />
+              </span>
+              <span class="font-medium">{profile.phone}</span>
             </a>
-          </div>
-        </div>
+          </li>
+        </ul>
+
+        <ul class="flex flex-wrap items-center gap-2" role="list">
+          {
+            socialLinks.map((social) => (
+              <li>
+                <a
+                  href={social.url}
+                  target={social.id === 'email' ? undefined : '_blank'}
+                  rel={social.id === 'email' ? undefined : 'noopener noreferrer'}
+                  class={`social-icon-btn ${social.id}`}
+                  data-magnetic
+                  data-cursor-label={social.name}
+                  aria-label={`${social.name} - ${profile.name} (${social.handle})`}
+                  title={`${social.name}: ${social.handle}`}
+                >
+                  <Icon name={social.id} size={18} />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
 
     <!-- Bottom Attribution & Copyright Bar -->
-    <div class="mt-7 pt-5 border-t border-[#262d3d] flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-      <p class="text-[14px] font-light text-[#cbd5e1] mb-0">
-        {currentYear} © <span class="font-medium text-white">LHachaS</span>. {footer.copyrightPrefix}{' '}
-        <a
-          class="text-gold hover:underline font-medium"
-          href={profile.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {profile.name}
-        </a>
-      </p>
+    <div class="mt-12 pt-5 border-t" style="border-color: var(--chrome-border);" >
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <p class="text-[14px] font-light text-[#cbd5e1] mb-0">
+          {currentYear} © <span class="font-medium text-white">LHachaS</span>. {footer.copyrightPrefix}{' '}
+          <a
+            class="text-gold hover:underline font-medium"
+            href={profile.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {profile.name}
+          </a>
+        </p>
 
-      <div class="flex flex-wrap items-center justify-center gap-2 text-xs text-[#cbd5e1]">
-        <span class="rounded-full bg-[#1c212c] border border-[#2d3546] px-3 py-1">
-          {footer.stackBadgeLabel} <strong class="text-gold font-medium">{footer.stackBadgeValue}</strong>
-        </span>
-        <span class="rounded-full bg-[#1c212c] border border-[#2d3546] px-3 py-1">
-          {footer.designBadgeLabel} <strong class="text-white font-medium">{footer.designBadgeValue}</strong>
-        </span>
+        <div class="flex flex-wrap items-center justify-center gap-2 text-xs text-[#cbd5e1]">
+          <span class="rounded-full border px-3 py-1" style="border-color: var(--chrome-border); background-color: var(--chrome-bg);">
+            {footer.stackBadgeLabel} <strong class="text-gold font-medium">{footer.stackBadgeValue}</strong>
+          </span>
+          <span class="rounded-full border px-3 py-1" style="border-color: var(--chrome-border); background-color: var(--chrome-bg);">
+            {footer.designBadgeLabel} <strong class="text-white font-medium">{footer.designBadgeValue}</strong>
+          </span>
+        </div>
       </div>
     </div>
   </div>

@@ -2606,61 +2606,12 @@ textarea.form-control-pill {
   z-index: 10;
 }
 
-.footer-card {
-  border-radius: 16px;
-  padding: 1.4rem 1.5rem;
-  background-color: var(--chrome-card);
-  border: var(--card-border-width, 2px) solid var(--chrome-border);
-  border-top: var(--card-top-border-width, 4px) solid var(--card-accent, var(--footer-accent, var(--brand-gold)));
-  box-shadow: 0 4px 0 var(--chrome-deep);
-  height: 100%;
-  transition: var(--card-hover-transition);
-}
 
-.footer-card:hover,
-.footer-card:focus-within {
-  transform: var(--card-hover-lift);
-  border-color: var(--card-accent, var(--footer-accent, var(--brand-gold)));
-  box-shadow: 0 8px 0 var(--card-accent, var(--footer-accent, var(--brand-gold)));
-}
 
-.footer-card:active {
-  transform: var(--card-active-lift);
-  box-shadow: 0 2px 0 var(--card-accent, var(--footer-accent, var(--brand-gold)));
-}
 
-.footer-nav-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 9999px;
-  background-color: var(--chrome-bg);
-  border: 1.5px solid var(--chrome-border);
-  color: #e2e8f0;
-  font-size: 0.8125rem;
-  font-weight: 400;
-  letter-spacing: 0.03em;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-}
 
-.footer-nav-pill i {
-  color: var(--brand-gold);
-}
 
-.footer-nav-pill:hover {
-  transform: translateY(-2px);
-  background-color: var(--brand-gold);
-  border-color: var(--brand-gold);
-  color: #ffffff !important;
-}
 
-.footer-nav-pill:hover i,
-.footer-nav-pill:hover span,
-.footer-nav-pill:hover svg {
-  color: #ffffff !important;
-  stroke: #ffffff !important;
-}
 
 .social-icon-btn {
   border: 2px solid transparent;
@@ -3050,13 +3001,7 @@ textarea.form-control-pill {
   .project-card,
   .main-timeline .timeline-content,
   .contact-channel-card,
-  .footer-card,
-  .competency-card,
-  .training-callout-card {
-    transition: none !important;
-    transform: none !important;
-  }
-  .card-box:hover,
+    .card-box:hover,
   .card-box:focus-within,
   .spotlight-card:hover,
   .spotlight-card:focus-within,
@@ -3072,14 +3017,7 @@ textarea.form-control-pill {
   .main-timeline .timeline-content:focus-within,
   .contact-channel-card:hover,
   .contact-channel-card:focus-within,
-  .footer-card:hover,
-  .footer-card:focus-within,
-  .competency-card:hover,
-  .training-callout-card:hover,
-  .training-callout-card:focus-within {
-    transform: none !important;
   }
-}
 /* ==========================================================================
    Hero Signature Craft — rúbrica de marca, marco blueprint y micro-etiqueta HUD
    ========================================================================== */
@@ -3164,4 +3102,124 @@ textarea.form-control-pill {
 
 [data-theme="dark"] .skill-brand-badge {
   border-color: var(--skill-brand, var(--brand-gold));
+}
+
+/* ==========================================================================
+   Footer v4 — ejecutivo abierto (sin cajas), eco de circuito del hero
+   ========================================================================== */
+.footer-circuit-line {
+  position: relative;
+  height: 1px;
+  background-color: var(--chrome-border);
+  margin-bottom: 2.75rem;
+}
+
+.footer-circuit-node {
+  position: absolute;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background-color: var(--brand-gold);
+}
+
+.footer-circuit-node--accent {
+  background-color: var(--accent-2);
+}
+
+.footer-col-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: 'Victor Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brand-gold);
+}
+
+.footer-col-label::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  background-color: var(--brand-gold);
+  opacity: 0.6;
+}
+
+.footer-col-count {
+  font-family: 'Victor Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--txt-muted);
+}
+
+.footer-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--txt-muted);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.footer-nav-link > svg:first-child {
+  color: var(--brand-gold);
+  opacity: 0.9;
+}
+
+.footer-nav-link .footer-nav-chevron {
+  margin-left: auto;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  color: var(--brand-gold);
+}
+
+.footer-nav-link:hover,
+.footer-nav-link:focus-visible {
+  color: #ffffff;
+  background-color: var(--chrome-card);
+}
+
+.footer-nav-link:hover .footer-nav-chevron,
+.footer-nav-link:focus-visible .footer-nav-chevron {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.footer-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 0.85rem;
+  color: var(--txt-muted);
+  transition: color 0.2s ease;
+}
+
+.footer-contact-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--chrome-card);
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a.footer-contact-row:hover {
+  color: #ffffff;
+}
+
+a.footer-contact-row:hover .footer-contact-icon {
+  background-color: var(--brand-gold);
+  color: #ffffff;
 }
