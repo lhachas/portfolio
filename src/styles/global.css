@@ -894,6 +894,9 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   overflow: hidden;
   pointer-events: none;
   z-index: 1;
+  /* Fundido radial de bordes: elimina restos del lattice/etiquetas cortadas en los costados */
+  -webkit-mask-image: radial-gradient(ellipse 82% 78% at 50% 46%, #000 52%, transparent 96%);
+  mask-image: radial-gradient(ellipse 82% 78% at 50% 46%, #000 52%, transparent 96%);
 }
 
 :root:not([data-theme="dark"]) .hero-cinematic-stage,
@@ -918,7 +921,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.88;
+  opacity: 0.66;
   filter: contrast(105%) brightness(102%);
   transition: opacity 0.5s ease-out;
 }
@@ -930,7 +933,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.94;
+  opacity: 0.72;
   filter: contrast(105%) brightness(102%);
   transition: opacity 0.5s ease-out;
 }
@@ -938,10 +941,11 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 .hero-cinematic-overlay {
   position: absolute;
   inset: 0;
-  /* Balanced radial mask & guaranteed solid bottom fade for seamless wave transition */
+  /* Fundido central + viñeta lateral sólida: el contenido manda sobre el fondo */
   background:
-    radial-gradient(ellipse at 50% 45%, rgba(20, 23, 31, 0.12) 0%, rgba(20, 23, 31, 0.55) 60%, rgba(20, 23, 31, 0.95) 100%),
-    linear-gradient(to bottom, transparent 65%, var(--hero-bg) 100%);
+    radial-gradient(ellipse at 50% 45%, rgba(20, 23, 31, 0.28) 0%, rgba(20, 23, 31, 0.62) 58%, rgba(20, 23, 31, 0.96) 100%),
+    linear-gradient(90deg, rgba(20, 23, 31, 0.55) 0%, transparent 18% 82%, rgba(20, 23, 31, 0.55) 100%),
+    linear-gradient(to bottom, rgba(20, 23, 31, 0.35) 0%, transparent 22% 78%, var(--hero-bg) 100%);
   pointer-events: none;
 }
 
@@ -1131,8 +1135,8 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 /* En escritorio la tira de pills respira más allá del stage para conservar una sola línea */
 @media (min-width: 1280px) {
   .hero-arch-strip {
-    margin-left: -7.5rem;
-    margin-right: -7.5rem;
+    margin-left: -8.5rem;
+    margin-right: -8.5rem;
   }
 }
 
@@ -2254,7 +2258,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   gap: 0.5rem;
 }
 
-/* Chip neutro sólido + borde de acento: logo oficial a color natural */
+/* Chip neutro con icono teñido por PILAR (familia); logos oficiales muestran color natural */
 .skill-brand-badge {
   width: 30px;
   height: 30px;
@@ -2263,11 +2267,16 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   align-items: center;
   justify-content: center;
   background-color: var(--th-primary);
-  border: 2px solid var(--skill-brand, #0e3d65);
-  padding: 3px;
+  border: 2px solid var(--card-border);
+  color: var(--skill-brand, #0e3d65);
+  padding: 4px;
   margin-right: 0.6rem;
   flex-shrink: 0;
   box-shadow: 0 2px 0 var(--card-border);
+}
+
+[data-theme="dark"] .skill-brand-badge {
+  color: color-mix(in oklab, var(--skill-brand, var(--brand-gold)), white 45%);
 }
 
 .skill-level-pill {

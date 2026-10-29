@@ -577,14 +577,6 @@ const { hero } = await getPortfolioContent(locale);
             ctx.moveTo(startX, currentY);
             ctx.lineTo(endX, currentY);
             ctx.stroke();
-
-            // Leading micro-node: solo en modo oscuro (en claro se elimina el ruido de puntos, spec §4.1)
-            if (isDark) {
-              ctx.fillStyle = '#ffffff';
-              ctx.beginPath();
-              ctx.arc(endX, currentY, 2.5, 0, Math.PI * 2);
-              ctx.fill();
-            }
           }
         });
       });
