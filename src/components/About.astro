@@ -178,34 +178,31 @@ const { trainingShowcase } = about;
                 style={`--edu-accent: ${eduAccent}; --card-accent: ${eduAccent}; --reveal-delay: ${idx * 90}ms;`}
               >
                 <div>
-                  <div class="flex items-start justify-between gap-3 mb-4">
-                    <div class="inline-flex items-center gap-3">
-                      <span class="edu-icon-badge" aria-hidden="true">
-                        <Icon name={edu.icon} size={22} />
-                      </span>
-                      <div>
-                        <span
-                          class="block text-xs font-semibold uppercase tracking-widest"
-                          style={`color: ${eduAccent};`}
-                        >
-                          {edu.category}
-                        </span>
-                        <span
-                          class="mt-1 inline-block rounded-md px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider"
-                          style={`border: 1.5px solid ${eduAccent}; color: ${eduAccent}; background-color: var(--th-primary);`}
-                        >
-                          {edu.badgeText}
-                        </span>
-                      </div>
-                    </div>
-
+                  <!-- Header en filas limpias: medallión + período / eyebrow / badge (sin apiñamiento) -->
+                  <div class="flex items-center justify-between gap-3 mb-3">
+                    <span class="edu-icon-badge" aria-hidden="true">
+                      <Icon name={edu.icon} size={22} />
+                    </span>
                     <span class="edu-period-pill">
                       <Icon name="calendar" size={13} style={`color: ${eduAccent};`} class="inline-block shrink-0" />
                       <span>{edu.period}</span>
                     </span>
                   </div>
 
-                  <h4 class="item-title !text-[1.1rem]">
+                  <span
+                    class="block text-xs font-semibold uppercase tracking-widest"
+                    style={`color: ${eduAccent};`}
+                  >
+                    {edu.category}
+                  </span>
+                  <span
+                    class="mt-1.5 inline-block whitespace-nowrap rounded-md border px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider"
+                    style={`border-width: 1.5px; border-color: ${eduAccent}; color: ${eduAccent}; background-color: var(--th-primary);`}
+                  >
+                    {edu.badgeText}
+                  </span>
+
+                  <h4 class="item-title !text-[1.1rem] mt-3">
                     {edu.institution}
                   </h4>
 
