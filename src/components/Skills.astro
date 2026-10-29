@@ -1,6 +1,5 @@
 ---
 import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
-import { brandIconNames } from '../data/brandIcons';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -97,7 +96,7 @@ const skillCategories = skillsSection.categories;
             <article
               class="card-box th-primary reveal justify-between"
               data-skill-card={category.id}
-              style={`--card-accent: ${pillarAccent}; --skill-brand: ${pillarAccent}; --reveal-delay: ${(idx % 2) * 100}ms;`}
+              style={`--card-accent: ${pillarAccent}; --reveal-delay: ${(idx % 2) * 100}ms;`}
             >
               <div>
                 <!-- Category Pillar Badge + 45deg Diamond Rotating Icon -->
@@ -137,16 +136,10 @@ const skillCategories = skillsSection.categories;
                 <div class="skills-list mt-6">
                   {
                     category.items.map((skill) => (
-                      <div class="skill-item">
+                      <div class="skill-item" style={`--skill-brand: ${skill.brandColor};`}>
                         <div class="skill-text">
                           <span class="inline-flex items-center min-w-0">
-                            <span
-                              class:list={[
-                                'skill-brand-badge',
-                                { 'skill-practice-badge': !brandIconNames.has(skill.icon) },
-                              ]}
-                              aria-hidden="true"
-                            >
+                            <span class="skill-brand-badge" aria-hidden="true">
                               <Icon name={skill.icon} size={16} />
                             </span>
                             <span class="font-medium tracking-wide truncate">{skill.name}</span>

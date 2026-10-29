@@ -169,6 +169,7 @@ const { hero } = await getPortfolioContent(locale);
                 </div>
                 <div
                   class="hero-metric-label mt-0.5 text-[13.5px] font-medium uppercase tracking-wider"
+                  style={`color: ${resolvedAccent};`}
                 >
                   {metric.label}
                 </div>
@@ -203,7 +204,6 @@ const { hero } = await getPortfolioContent(locale);
 <script>
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { DEFAULT_SLOTS } from '../data/accents';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -242,7 +242,7 @@ const { hero } = await getPortfolioContent(locale);
         '-=0.32'
       );
 
-      // Masked headline reveal (H1) — orquestado al inicio de la timeline (≤1.4s total)
+      // Masked headline reveal (H1) — orquestado al inicio de la timeline
       const headline = heroSection.querySelector<HTMLElement>('.home-title');
       if (headline) {
         tl.fromTo(
@@ -353,7 +353,7 @@ const { hero } = await getPortfolioContent(locale);
       });
     }
 
-    // 3b. Micro-Interacciones magnéticas controladas (solo puntero fino, sin reduced-motion)
+    // 3c. Micro-Interactions on Badges
     if (isFinePointer && !prefersReducedMotion) {
       const magneticTargets = document.querySelectorAll<HTMLElement>(
         '.hero-status-pill, .hero-btn-primary, .hero-btn-secondary'
@@ -403,10 +403,13 @@ const { hero } = await getPortfolioContent(locale);
 
     const getActiveSlots = () => {
       const rootStyle = getComputedStyle(document.documentElement);
-      // SSOT fallbacks (familia Océano & Pizarra) si el token aún no está aplicado.
-      return DEFAULT_SLOTS.map(
-        (fallback, i) => rootStyle.getPropertyValue(`--accent-${i + 1}`).trim() || fallback,
-      );
+      const s1 = rootStyle.getPropertyValue('--accent-1').trim() || activeAccent;
+      const s2 = rootStyle.getPropertyValue('--accent-2').trim() || '#0d9488';
+      const s3 = rootStyle.getPropertyValue('--accent-3').trim() || '#ea580c';
+      const s4 = rootStyle.getPropertyValue('--accent-4').trim() || '#7c3aed';
+      const s5 = rootStyle.getPropertyValue('--accent-5').trim() || '#059669';
+      const s6 = rootStyle.getPropertyValue('--accent-6').trim() || '#d97706';
+      return [s1, s2, s3, s4, s5, s6];
     };
 
     let activeSlots = getActiveSlots();
@@ -479,14 +482,13 @@ const { hero } = await getPortfolioContent(locale);
             x: Math.random() * width,
             length: 36 + Math.random() * 40,
             speed: Math.abs(speed) * 1.8 + 0.4,
-            // Rails monocromos: solo los 3 primeros slots de la familia Océano & Pizarra (spec §4.1)
-            slotIndex: i % 3,
+            slotIndex: i % 6,
           },
           {
             x: Math.random() * width,
             length: 24 + Math.random() * 32,
             speed: Math.abs(speed) * 1.4 + 0.3,
-            slotIndex: (i + 1) % 3,
+            slotIndex: (i + 2) % 6,
           },
         ];
         rails.push({ y, speed, pulses: railPulses, deflection: 0, velocity: 0 });
@@ -577,6 +579,12 @@ const { hero } = await getPortfolioContent(locale);
             ctx.moveTo(startX, currentY);
             ctx.lineTo(endX, currentY);
             ctx.stroke();
+
+            // Leading micro-node with subtle glow
+            ctx.fillStyle = isDark ? '#ffffff' : pulseColor;
+            ctx.beginPath();
+            ctx.arc(endX, currentY, 2.5, 0, Math.PI * 2);
+            ctx.fill();
           }
         });
       });

@@ -112,7 +112,7 @@ Documentados de forma centralizada en `projectsSection.items` ([`portfolio.yml`]
 
 ## 4. Arquitectura del Repositorio y Fuente Única de Verdad (SSOT)
 
-El proyecto está construido con **Astro 7**, **TypeScript 5.8** y **Tailwind CSS v4** bajo el principio de **cero contenido hardcodeado en componentes**:
+El proyecto está construido con **Astro 6**, **TypeScript 5.8** y **Tailwind CSS v4** bajo el principio de **cero contenido hardcodeado en componentes**:
 
 ```text
 portfolio/
@@ -186,22 +186,18 @@ El portafolio aplica una política estricta de **seguridad documental y coherenc
 
 ---
 
-## 6. Sistema de Diseño Sólido (100% Solid Minimalist UI · v3 "Azul Clásico")
+## 6. Sistema de Diseño Sólido (100% Solid Minimalist UI)
 
-La interfaz sigue una línea editorial y técnica **100% sólida** definida en [`src/styles/global.css`](src/styles/global.css), evolucionada en la v3 según [`docs/spec.md`](docs/spec.md):
+La interfaz sigue una línea editorial y técnica **100% sólida** definida en [`src/styles/global.css`](src/styles/global.css):
 
 - **Cero Glassmorphism y Cero Transparencias Difusas:** Sin `backdrop-filter: blur()`, sin capas translúcidas que degraden la legibilidad. Todos los colores de contenido son validados por expresión regular (`^#[0-9a-fA-F]{6}$`) en el esquema Zod.
-- **Familia Cromática Armónica "Océano & Pizarra" (SSOT en [`src/data/accents.ts`](src/data/accents.ts)):** Azul Clásico `#3f87f5` como acento rector y 6 slots armónicos azul/cian/pizarra (`#0e7490`, `#1e3a8a`, `#155e75`, `#475569`, `#1d4ed8`) que rotan por fila (anti-monotonía dentro de una sola familia). En modo oscuro, los textos sobre acento se aclaran con `color-mix` para contraste AA.
-- **Tipografía:** Manrope (cuerpo de lectura) + Oswald (display/uppercase) + Victor Mono (código/typing) + Caveat (firma manuscrita).
-- **Iconografía Oficial:** logos de marca vendorizados desde [svgl.app](https://svgl.app) en [`src/assets/icons/brand/`](src/assets/icons/brand/) e inlineados en build (24 SVG, sin red en runtime, verificados por [`scripts/verify-build-security.mjs`](scripts/verify-build-security.mjs)); fuentes de iconos legacy (`icofont`, `technology-icons`) retiradas por completo.
 - **Jerarquía de Color y Contraste Accesible:**
-  - **Acento Principal y Botones de Descarga de CV (`.btn-gold` / `.btn-cv-solid`):** Azul Clásico oficial (`--brand-gold`, por defecto `#3f87f5`, conmutable a 6 temas sólidos monocromáticos) con texto e iconografía en blanco nítido (`#ffffff`).
+  - **Acento Principal y Botones de Descarga de CV (`.btn-gold` / `.btn-cv-solid`):** Azul Clásico oficial (`--brand-gold`, por defecto `#3f87f5`, conmutable a 6 temas sólidos) con texto e iconografía en blanco nítido (`#ffffff`).
   - **Botones de Acción Primaria (`.btn-theme-primary` — *Contacto Directo*, *Enviar Mensaje*):** Azul Institucional Navy (`#0e3d65` en modo claro / `#2563eb` en modo oscuro y Hero) con texto e iconografía en blanco (`#ffffff`).
-  - **Botones de Redes Oficiales (`.btn-social-pill` / `.social-icon-btn`):** chips sólidos neutros con borde y logo oficial de cada marca (`LinkedIn #0A66C2`, `GitHub #24292F`, `WhatsApp #25D366`).
+  - **Botones de Redes Oficiales (`.btn-social-pill`):** Colores sólidos oficiales de marca (`LinkedIn #0A66C2`, `GitHub #24292F`, `WhatsApp #25D366`).
 - **Alineación Responsiva Multidispositivo:**
   - En la sección **Perfil Profesional**, los 4 botones de acción (`Descargar CV`, `Contacto Directo`, `LinkedIn` y `GitHub`) se mantienen en **una sola línea horizontal sin saltos en escritorio y tablet (`>= 640px`)** mediante `.about-cta-row` y se adaptan en una **grilla `2x2` simétrica en móvil (`< 640px`)**.
-  - La tira de pills de arquitectura del Hero conserva **una sola línea en escritorio (≥ 1280px)** mediante `.hero-arch-strip`.
-- **6 Paletas de Acento + Modo Claro/Oscuro:** Selector interactivo ([`StyleSwitcher.astro`](src/components/StyleSwitcher.astro)) con persistencia en `localStorage` y propagación instantánea de variables CSS desde el SSOT de acentos.
+- **6 Paletas de Acento + Modo Claro/Oscuro:** Selector interactivo ([`StyleSwitcher.astro`](src/components/StyleSwitcher.astro)) con persistencia en `localStorage` y propagación instantánea de variables CSS.
 
 ---
 
@@ -311,7 +307,7 @@ profile:
 - [x] Aislamiento de archivos editables `.docx` fuera del bundle público y descarga condicional de PDF por idioma activo.
 - [x] Sistema de diseño **100% Solid Minimalist** con estandarización de contraste `#ffffff` y botonera de perfil en una sola línea en desktop (`.about-cta-row`).
 - [x] Integración de formulario de contacto directo con Web3Forms + protección anti-spam y auditoría automatizada en CI/CD.
-- [x] **v3 "Azul Clásico"** ([`docs/spec.md`](docs/spec.md) · [`docs/report.md`](docs/report.md)): familia cromática armónica Océano & Pizarra con SSOT tipado de acentos, tipografía Manrope para cuerpo, iconografía oficial svgl.app vendorizada, hero premium (rails monocromos, CTAs magnéticos, reveal con máscara) y validación visual iterativa real (375/768/1440 × claro/oscuro) con evidencia en [`docs/evidence/`](docs/evidence/).
+- [x] **v3 (refinamiento estructural)**: tira de arquitectura del Hero en una sola línea en escritorio (`.hero-arch-strip`), fondo cinematográfico depurado (viñeta/máscara), SSOT tipado del sistema de acentos ([`src/data/accents.ts`](src/data/accents.ts)), metas SEO `color-scheme`/`og:image:type`, títulos y descripciones dentro de rango de display y verificador de build extendido — manteniendo íntegro el lenguaje visual original.
 - [ ] Incorporación de sección de artículos técnicos de arquitectura (*Architecture Decision Records / Deep Dives* en DDD, AWS Serverless y WebFlux).
 - [ ] Pruebas visuales automatizadas con Playwright sobre los breakpoints `375px`, `768px` y `1440px`.
 

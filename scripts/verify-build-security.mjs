@@ -247,10 +247,10 @@ if (fs.existsSync(DIST_DIR)) {
     if (/icofont|technology-icons/i.test(html)) {
       fail(`${rel} still references legacy icofont/technology-icons iconography`);
     }
-    const harmonicAccents = ['#0e7490', '#1e3a8a', '#155e75'];
+    const harmonicAccents = ['#7c3aed', '#0d9488', '#ea580c'];
     const foundAccents = harmonicAccents.filter((hex) => html.includes(hex));
     if (foundAccents.length === 0) {
-      fail(`${rel} is missing the ocean-and-slate harmonic accent tokens (docs/spec.md §1.2)`);
+      fail(`${rel} is missing the original dynamic accent slot tokens`);
     }
     const requiredProjects = [
       'retail-platform',
