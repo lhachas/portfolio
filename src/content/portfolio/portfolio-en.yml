@@ -237,7 +237,7 @@ hero:
     - "Senior Backend Developer"
     - "Full Stack Developer"
     - "Backend & Cloud Developer"
-  subtitle: "With over 9 years of experience building scalable and maintainable software solutions for the financial, retail, and automotive technology industries. I design and build backend services and cloud architectures with Node.js, TypeScript, NestJS, Java (Spring Boot/WebFlux), Angular, React, and AWS."
+  subtitle: "I have been building backend systems for digital banking, retail and logistics for over 9 years. I work with Node.js, Java and AWS, focused on architectures that hold up in production."
   architecturePillsAriaLabel: "Core technology stack"
   architecturePills:
     - icon: "nodejs"
@@ -294,12 +294,12 @@ about:
   sectionIcon: "icofont-man-in-glasses"
   titlePrefix: "Professional"
   titleHighlight: "Profile"
-  lead: "Software Developer with over 9 years of experience building scalable and maintainable solutions for the financial, retail, and automotive technology industries."
+  lead: "I have been designing and building software since 2016. Digital banking, retail, logistics, automotive and education — always on the backend side."
   roleTitle: "Senior Backend Developer"
   roleHighlight: "| Full Stack Developer"
   paragraphs:
-    - "I build resilient and scalable backend services with Node.js, TypeScript, NestJS, Java (15/17/21), and Spring Boot/WebFlux, alongside modern frontend interfaces in Angular, React, and Vue.js. My experience centers on implementing Serverless, Event-Driven (EDA), and Hexagonal architectures on AWS, REST/GraphQL/SOAP API integrations, SQL/NoSQL databases, and containerized deployments with Docker and Kubernetes."
-    - "I focus on writing clean, maintainable code by applying Clean Code, Domain-Driven Design (DDD), design patterns, automated testing, distributed observability, and CI/CD pipelines across international teams. I also integrate AI-assisted development tools into my daily workflow to streamline legacy code refactoring, security reviews (OWASP), and technical documentation (OpenAPI, C4)."
+    - "I write backend with Node.js, TypeScript, NestJS, Java and Spring, and connect those services to Angular and React frontends when the project calls for it. I have designed Serverless and event-driven architectures on AWS, integrated APIs of all kinds (REST, GraphQL, SOAP) and worked with SQL and NoSQL databases in Docker and Kubernetes containers."
+    - "I apply DDD, automated testing and observability from day one, not as a patch at the end. I use AI tools (Copilot, Claude, Cursor) to speed up legacy refactoring, security review and documentation — but always with my own judgment on what they produce."
   coreStackLabel: "Core Technologies:"
   coreStackPills:
     - "Node.js"
@@ -979,7 +979,7 @@ experiencesSection:
   sectionIcon: "icofont-architecture-alt"
   titlePrefix: "Professional"
   titleHighlight: "Experience"
-  subtitle: "Over 9 years of experience designing, integrating, and evolving transactional backend services in digital banking, regional DaaS logistics platforms, serverless mobile applications, and Full Stack ecosystems."
+  subtitle: "Transactional backend services, digital banking, DaaS logistics, serverless applications and full-stack — in reverse chronological order."
   toggleCompactLabel: "Executive view (hide achievement details)"
   toggleDetailedLabel: "Detailed view (show all achievements)"
   items:
@@ -1208,7 +1208,7 @@ servicesSection:
   sectionIcon: "icofont-responsive"
   titlePrefix: "Architecture &"
   titleHighlight: "Solutions"
-  subtitle: "Design, development, and evolution of transactional backend services, event-driven cloud-native architectures, and full-stack applications engineered for high concurrency."
+  subtitle: "What I can build with you: transactional backend services, event-driven cloud architectures and full-stack applications."
   deliverablesHeading: "Key Capabilities & Deliverables:"
   items:
     - icon: "icofont-code"
@@ -1246,7 +1246,7 @@ contactSection:
   sectionIcon: "icofont-support"
   titlePrefix: "Direct"
   titleHighlight: "Contact"
-  subtitle: "Looking for a Senior Backend Developer or Full Stack Developer with experience in digital banking, retail/logistics, and AWS architectures? Reach out via my contact channels or send me a direct message."
+  subtitle: "If you have a backend project or a position that matches my profile, reach out. I respond quickly on any of these channels."
   channelsTitlePrefix: "Contact"
   channelsTitleHighlight: "Channels"
   channels:
@@ -1338,7 +1338,7 @@ contactSection:
 # ------------------------------------------------------------------------------
 footer:
   ariaLabel: "Footer and contact information"
-  brandSummary: "Senior Developer with over 9 years of experience building scalable backend and full-stack software solutions with Node.js, TypeScript, NestJS, Java, Spring Boot/WebFlux, Angular, React, and AWS."
+  brandSummary: "Backend developer specialized in distributed architectures for banking and retail. Working remotely worldwide from Cusco, Peru."
   availabilityBadge: "Available · International Remote"
   navColumnTitle: "Portfolio Sections"
   navColumnBadge: "7 Sections"

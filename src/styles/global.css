@@ -131,8 +131,8 @@ html {
 }
 
 body {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
+  font-family: 'PT Sans Narrow', sans-serif;
+  font-weight: 400;
   overflow-x: clip;
   position: relative;
   letter-spacing: 0.018em;
@@ -146,15 +146,15 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'PT Sans Narrow', sans-serif;
   text-decoration: none;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.02em;
   text-wrap: balance;
 }
 
 b, strong {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 [data-theme="dark"] .section h3,
@@ -165,16 +165,16 @@ b, strong {
 
 p,
 .body-copy {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
+  font-family: 'PT Sans Narrow', sans-serif;
+  font-weight: 400;
   font-size: 1rem; /* 16px unified primary body copy */
   line-height: 1.72;
   letter-spacing: 0.018em;
 }
 
 .detail-copy {
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
+  font-family: 'PT Sans Narrow', sans-serif;
+  font-weight: 400;
   font-size: 0.9375rem; /* 15px unified secondary / bullet / card detail copy */
   line-height: 1.65;
   letter-spacing: 0.016em;
@@ -225,7 +225,7 @@ p,
   font-size: clamp(1.85rem, 2.9vw, 2.2rem); /* 29.6px - 35.2px across all sections */
   letter-spacing: 0.045em;
   line-height: 1.22;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--heading-color);
 }
 
@@ -238,7 +238,7 @@ p,
   max-width: 680px;
   font-size: 1.0625rem; /* 17px across all sections */
   line-height: 1.72;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.018em;
 }
 
@@ -259,7 +259,7 @@ p,
 /* Unified Card H3 Heading (Skills, Experiences, Services, Contact) */
 .card-title {
   font-size: clamp(1.2rem, 1.8vw, 1.35rem); /* 19.2px - 21.6px across all cards */
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.32;
   letter-spacing: 0.02em;
   color: var(--heading-color);
@@ -268,7 +268,7 @@ p,
 /* Unified Item H4 Heading (Education cards, Skill items, Form sections) */
 .item-title {
   font-size: 1.05rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.38;
   letter-spacing: 0.02em;
   color: var(--heading-color);
@@ -280,7 +280,7 @@ p,
   font-size: 0.8125rem; /* 13px */
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.4;
 }
 
@@ -571,9 +571,9 @@ summary:focus-visible,
 }
 
 .brand-signature-sub {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'PT Sans Narrow', sans-serif;
   font-size: 0.625rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #94a3b8;
@@ -597,7 +597,7 @@ summary:focus-visible,
   padding: 8px 14px;
   text-transform: uppercase;
   transition: all 0.2s ease;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.05em;
   position: relative;
   border-radius: 8px;
@@ -622,7 +622,7 @@ summary:focus-visible,
 .nav-item-link.active {
   color: #ffffff !important;
   background-color: var(--brand-gold);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .nav-item-link.active span,
@@ -938,7 +938,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
   box-shadow: 0 3px 0 var(--chrome-deep);
   transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
@@ -1027,7 +1027,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 2px solid var(--card-border);
   color: #f8fafc;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.03em;
   box-shadow: 0 4px 0 var(--chrome-deep);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
@@ -1104,7 +1104,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 2px solid var(--brand-gold);
   color: #ffffff !important;
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -1163,7 +1163,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 2px solid var(--card-border);
   color: #ffffff !important;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -1286,7 +1286,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   gap: 0.6rem;
   color: #cbd5e1;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   padding: 0.5rem 1rem;
@@ -1411,7 +1411,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
   overflow: hidden;
 }
@@ -1500,7 +1500,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 2px solid var(--brand-gold);
   padding: 0.625rem 1.35rem;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #ffffff;
@@ -1530,7 +1530,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 2px solid var(--brand-gold);
   padding: 0.5rem 1.15rem;
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #ffffff !important;
@@ -1560,7 +1560,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 2px solid var(--brand-gold);
   padding: 0.45rem 1rem;
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--pill-text);
@@ -1603,7 +1603,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   padding: 0.55rem 1.25rem;
   border-radius: 9999px;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: #ffffff !important;
@@ -1925,7 +1925,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 1.5px solid var(--edu-accent, var(--card-border));
   color: var(--pill-text);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -2023,7 +2023,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 1.5px solid var(--brand-gold);
   color: var(--brand-gold);
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   box-shadow: 0 2px 0 var(--card-border);
@@ -2060,7 +2060,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 .course-title {
   display: block;
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.35;
   letter-spacing: 0.015em;
   color: var(--heading-color);
@@ -2076,7 +2076,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 1.5px solid var(--card-border);
   color: var(--pill-text);
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
 }
@@ -2101,7 +2101,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 1.5px solid var(--provider-color, var(--brand-gold));
   color: var(--provider-color, var(--brand-gold));
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   box-shadow: 0 1.5px 0 var(--card-border);
@@ -2186,7 +2186,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 
 .training-callout-title {
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--brand-gold);
@@ -2194,7 +2194,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 
 .training-callout-desc {
   font-size: 0.85rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.65;
   letter-spacing: 0.015em;
   color: var(--txt-primary);
@@ -2258,7 +2258,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border: 1.5px solid var(--skill-brand, var(--card-accent, var(--brand-gold)));
   color: var(--pill-text);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.03em;
   flex-shrink: 0;
 }
@@ -2284,7 +2284,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
    Experiences Interconnected Timeline (100% Solid Non-Monotonous Architecture)
    ========================================================================== */
 .main-timeline {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'PT Sans Narrow', sans-serif;
   position: relative;
   padding: 24px 0;
 }
@@ -2405,7 +2405,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 /* Stage-Specific Solid Sub-Cards & Non-Monotonous Accents inside Experience Cards */
 .exp-company-accent {
   color: var(--timeline-text-color, var(--timeline-color, var(--brand-gold)));
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .exp-highlight-card {
@@ -2424,7 +2424,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 
 .exp-highlight-label {
   color: var(--timeline-text-color, var(--timeline-color, var(--brand-gold)));
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* Even / Right-Side Alternating Timeline Items */
@@ -2970,9 +2970,9 @@ textarea.form-control-pill {
 }
 
 .cursor-label {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'PT Sans Narrow', sans-serif;
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--brand-gold);
@@ -3057,7 +3057,7 @@ textarea.form-control-pill {
   left: 8px;
   font-family: 'Victor Mono', monospace;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--txt-muted);
@@ -3137,7 +3137,7 @@ textarea.form-control-pill {
 .sub-section-label {
   font-family: 'Victor Mono', monospace;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--brand-gold);
@@ -3182,7 +3182,7 @@ textarea.form-control-pill {
   gap: 0.55rem;
   font-family: 'Victor Mono', monospace;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--brand-gold);
@@ -3200,7 +3200,7 @@ textarea.form-control-pill {
 .footer-col-count {
   font-family: 'Victor Mono', monospace;
   font-size: 9.5px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--txt-muted);

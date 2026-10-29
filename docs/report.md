@@ -139,3 +139,27 @@ Dos inconsistencias post-migración: (1) el footer se fundía con Contacto porqu
 Auditoría del cliente sobre navy: los acentos saturados de claro (#3f87f5, etc.) aplicados tal cual sobre `#2A2750` producían tono-sobre-tono — títulos de tarjeta, badges outline y tech-pills "se perdían". Fix estándar de dark-theming: `--heading-color`/`--label-color` y las clases de acento pequeño (provider-badge, edu-icon-badge, period/date pills, tech-pills del timeline) se **aclaran con `color-mix(acento, blanco 40-50%)` solo en `[data-theme="dark"]`** — derivados brillantes que resaltan sin tocar el modo claro. Evidencia: `a9-1440-dark-bright-{about,experiences}.png`.
 ### v3.5d — Habilidades: unificación por pilar (restaurada tras el revert v3.2)
 El barrido integral detectó que la unificación por pilar de Habilidades (v3.2) quedó revertida al restaurar `Skills.astro` desde el commit base: chips, barras y tech-pills volvían a usar el `brandColor` de cada ítem (arcoíris verde/azul/rojo/rosa/violeta/naranja/cian). Re-aplicado: `--skill-brand` y `--card-accent` de las tech-pills se heredan del **pilar** (familia Océano & Pizarra con derivados brillantes en dark). Evidencia: `a11-1440-dark-skills-harmony.png` (Pilar 01 azul uniforme, Pilar 02 teal uniforme).
+## 14. v4.0 — Auditoría de contenido + PT Sans Narrow global
+
+### Tipografía
+Oswald → **PT Sans Narrow** (400/700) como tipografía global del portafolio. Cambios: Google Fonts URL en Layout.astro, 7 declaraciones `font-family` en global.css, remapeo de pesos intermedios (300/500 → 400, 600 → 700). Victor Mono (typing) y Caveat (firma) se conservan para sus usos específicos.
+
+### Auditoría de contenido (hallazgos y correcciones aplicadas)
+| Hallazgo | Severidad | Corrección |
+| :-- | :-- | :-- |
+| Hero subtitle = dump de keywords con "más de 9 años de experiencia construyendo..." | Alta | "Llevo más de 9 años construyendo backend para banca digital, retail y logística. Trabajo con Node.js, Java y AWS, y me enfoco en arquitecturas que aguantan producción real." |
+| About lead repetía hero subtitle casi verbatim | Alta | "Diseño y desarrollo software desde 2016. He pasado por banca digital, retail, logística, automotriz y educación, siempre del lado del backend." |
+| About paragraphs: lista tecnológica densa sin narrativa | Media | Reescritos en primera persona, tono directo, menos stack-dump |
+| Footer brandSummary repetía el stack completo del hero | Media | "Backend developer especializado en arquitecturas distribuidas para banca y retail. Trabajo remoto internacional desde Cusco, Perú." |
+| Contact subtitle: formal, largo, pasivo | Media | "Si tienes un proyecto backend o una posición que encaje con mi perfil, escríbeme. Respondo rápido por cualquiera de estos canales." |
+| Services/Experiences subtitles con clichés ("preparadas para alta concurrencia", "Más de 9 años de trayectoria") | Media | Reescritos concisos y descriptivos |
+| EN: mismos patrones de cliché y redundancia | Media | 8 reescrituras espejo aplicadas |
+
+### Checklist de validación
+- [x] Sin redundancias hero/about/footer (cada sección aporta información única)
+- [x] Sin clichés IA ("robusto", "escalable y mantenible", "end-to-end", "fortalecí la resiliencia")
+- [x] Voz consistente ES/EN (primera persona, tono profesional cercano)
+- [x] Contenido centralizado en portfolio.yml / portfolio-en.yml (cero hardcodeo)
+- [x] Alineado a CVs 2026 ES/EN (fechas, empresas, tecnologías, logros verificables)
+- [x] PT Sans Narrow aplicada globalmente con jerarquía 400/700
+- [x] Build verde + security audit verde
