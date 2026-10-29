@@ -326,9 +326,17 @@ const { trainingShowcase } = about;
               <span class="label-c block mb-3.5">{trainingShowcase.competenciesHeading}</span>
               <div class="grid grid-cols-1 gap-2.5">
                 {
-                  trainingShowcase.softSkills.map((skill) => {
-                    // Uniformidad: todos los checks en el acento rector (repetición = ritmo, sin arcoíris)
-                    const badgeColor = 'var(--brand-gold)';
+                  trainingShowcase.softSkills.map((skill, idx) => {
+                    // Colores variados originales: rotación de los 6 slots (lenguaje v2 aceptado)
+                    const softSkillSlots = [
+                      'var(--accent-1)',
+                      'var(--accent-2)',
+                      'var(--accent-3)',
+                      'var(--accent-4)',
+                      'var(--accent-5)',
+                      'var(--accent-6)',
+                    ];
+                    const badgeColor = softSkillSlots[idx % softSkillSlots.length];
                     return (
                       <div
                         class="competency-card"
