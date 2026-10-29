@@ -191,8 +191,8 @@ const { trainingShowcase } = about;
                           {edu.category}
                         </span>
                         <span
-                          class="mt-1 inline-block rounded-md px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-white"
-                          style={`background-color: ${eduAccent};`}
+                          class="mt-1 inline-block rounded-md px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider"
+                          style={`border: 1.5px solid ${eduAccent}; color: ${eduAccent}; background-color: var(--th-primary);`}
                         >
                           {edu.badgeText}
                         </span>
@@ -329,16 +329,9 @@ const { trainingShowcase } = about;
               <span class="label-c block mb-3.5">{trainingShowcase.competenciesHeading}</span>
               <div class="grid grid-cols-1 gap-2.5">
                 {
-                  trainingShowcase.softSkills.map((skill, idx) => {
-                    const softSkillSlots = [
-                      'var(--accent-1)',
-                      'var(--accent-2)',
-                      'var(--accent-3)',
-                      'var(--accent-4)',
-                      'var(--accent-5)',
-                      'var(--accent-6)',
-                    ];
-                    const badgeColor = softSkillSlots[idx % softSkillSlots.length];
+                  trainingShowcase.softSkills.map((skill) => {
+                    // Uniformidad: todos los checks en el acento rector (repetición = ritmo, sin arcoíris)
+                    const badgeColor = 'var(--brand-gold)';
                     return (
                       <div
                         class="competency-card"

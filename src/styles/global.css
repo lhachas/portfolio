@@ -111,13 +111,14 @@
   --timeline-spine-bg: #3E3A6B;
   --timeline-ring-base: #1A1830;
   /* Chrome oscuro (navbar, footer, chips) — derivados de la misma familia */
-  --chrome-bg: #1D1A36;
+  --chrome-bg: #2A2750;
   --chrome-bg-2: #17152E;
-  --chrome-card: #2A2750;
-  --chrome-card-2: #332F5C;
+  --chrome-card: #332F5C;
+  --chrome-card-2: #3A3668;
   --chrome-border: #3E3A6B;
   --chrome-border-2: #332F5C;
   --chrome-deep: #131126;
+  --footer-bg: #2A2750;
 }
 
 /* ==========================================================================
@@ -2089,19 +2090,21 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   border-top: 1.5px solid var(--card-border);
 }
 
+/* Provider badge: chip neutro con borde y texto en el acento del pilar (lenguaje unificado) */
 .provider-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
   padding: 0.2rem 0.6rem;
   border-radius: 9999px;
-  background-color: var(--provider-color, var(--brand-gold));
-  color: #ffffff;
+  background-color: var(--th-primary);
+  border: 1.5px solid var(--provider-color, var(--brand-gold));
+  color: var(--provider-color, var(--brand-gold));
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  box-shadow: 0 1.5px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1.5px 0 var(--card-border);
 }
 
 /* Competency Items (Soft Skills Column) */
