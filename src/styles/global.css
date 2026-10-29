@@ -3105,6 +3105,61 @@ textarea.form-control-pill {
 }
 
 /* ==========================================================================
+   Section Trace — traza de circuito que atraviesa el medallión de sección
+   (lenguaje unificado: hero → footer → headers de sección)
+   ========================================================================== */
+.text-center.reveal {
+  position: relative;
+}
+
+.section-trace {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(480px, 72%);
+  height: 1px;
+  background-color: var(--chrome-border);
+  pointer-events: none;
+}
+
+.section-trace-node {
+  position: absolute;
+  top: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 1.5px;
+  transform: rotate(45deg);
+  background-color: var(--chrome-border);
+}
+
+.section-trace-node--start { left: -3px; }
+.section-trace-node--end { right: -3px; background-color: var(--brand-gold); opacity: 0.5; }
+
+@media (max-width: 640px) {
+  .section-trace { width: 88%; }
+}
+
+/* Labels mono de sub-sección (mismo lenguaje que footer-col-label) */
+.sub-section-label {
+  font-family: 'Victor Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brand-gold);
+}
+
+.sub-section-label::before {
+  content: '— ';
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-trace { display: none; }
+}
+
+/* ==========================================================================
    Footer v4 — ejecutivo abierto (sin cajas), eco de circuito del hero
    ========================================================================== */
 .footer-circuit-line {

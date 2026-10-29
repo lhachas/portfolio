@@ -1,0 +1,18 @@
+---
+/**
+ * SectionTrace — traza de circuito con nodos rombo que atraviesa el medallión
+ * de sección. Eco del lenguaje de circuito del hero (v3.3) y del footer (v4).
+ * Se posiciona como capa decorativa detrás del medallión `.title-icon`.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['section-trace', className]} aria-hidden="true">
+  <span class="section-trace-line"></span>
+  <span class="section-trace-node section-trace-node--start"></span>
+  <span class="section-trace-node section-trace-node--end"></span>
+</span>

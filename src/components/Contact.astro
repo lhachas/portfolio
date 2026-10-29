@@ -1,6 +1,7 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
 import Icon from './Icon.astro';
+import SectionTrace from './SectionTrace.astro';
 
 interface Props {
   locale?: PortfolioLocale;
@@ -24,6 +25,7 @@ const defaultAjaxEndpoint = `https://formsubmit.co/ajax/${profile.email}`;
   <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
     <!-- Section Title Header (Preserves .title-icon + .title + .title-subtitle) -->
     <div class="text-center reveal">
+      <SectionTrace />
       <div class="title-icon inline-flex items-center justify-center">
         <Icon name="mail" size={30} />
       </div>
