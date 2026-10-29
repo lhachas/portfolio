@@ -71,7 +71,7 @@ const { hero, profile } = await getPortfolioContent(locale);
             data-hero-anim
             aria-hidden="true"
           >
-            <BrandRubric stretch class="hero-rubric-svg" />
+            <BrandRubric stretch variant="underline" class="hero-rubric-svg" />
           </span>
         </span>
       </h1>
@@ -409,6 +409,36 @@ const { hero, profile } = await getPortfolioContent(locale);
     const buildScene = () => {
       const rand = mulberry32(20260715);
       const mx = Math.max(96, width * 0.14);
+      // Zona de exclusión: el circuito ENMARCA el contenido, jamás lo cruza
+      const stageEl = document.getElementById('hero-tilt-stage');
+      let keepOut: { x1: number; y1: number; x2: number; y2: number } | null = null;
+      if (stageEl) {
+        const pad = 26;
+        const sr = stageEl.getBoundingClientRect();
+        const cr = canvas.getBoundingClientRect();
+        keepOut = {
+          x1: sr.left - cr.left - pad,
+          y1: sr.top - cr.top - pad,
+          x2: sr.right - cr.left + pad,
+          y2: sr.bottom - cr.top + pad,
+        };
+      }
+      const outside = (x: number, y: number) => {
+        if (keepOut && x > keepOut.x1 && x < keepOut.x2 && y > keepOut.y1 && y < keepOut.y2) {
+          const dl = x - keepOut.x1;
+          const dr = keepOut.x2 - x;
+          const dt = y - keepOut.y1;
+          const db = keepOut.y2 - y;
+          const m = Math.min(dl, dr, dt, db);
+          if (m === dl) x = keepOut.x1 - 12;
+          else if (m === dr) x = keepOut.x2 + 12;
+          else if (m === dt) y = keepOut.y1 - 12;
+          else y = keepOut.y2 + 12;
+          x = Math.max(8, Math.min(width - 8, x));
+          y = Math.max(8, Math.min(height - 8, y));
+        }
+        return { x, y };
+      };
       const top = height * 0.18;
       const bottom = height * 0.82;
       const bandH = Math.max(bottom - top, 120);
@@ -421,7 +451,8 @@ const { hero, profile } = await getPortfolioContent(locale);
         for (let c = 0; c < cols; c++) {
           const jx = (rand() - 0.5) * cellW * 0.36;
           const jy = (rand() - 0.5) * cellH * 0.36;
-          nodes.push({ x: mx + c * cellW + jx, y: top + r * cellH + jy, primary: rand() < 0.18 });
+          const p = outside(mx + c * cellW + jx, top + r * cellH + jy);
+          nodes.push({ x: p.x, y: p.y, primary: rand() < 0.18 });
         }
       }
       const traces: Trace[] = [];
@@ -429,14 +460,16 @@ const { hero, profile } = await getPortfolioContent(locale);
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           const n = at(r, c);
-          if (c < cols - 1 && rand() < 0.6) {
-            const m = at(r, c + 1);
-            traces.push({ ax: n.x, ay: n.y, bx: m.x, by: m.y, hFirst: true, active: rand() < 0.45, accent: Math.floor(rand() * 3), phase: rand() });
-          }
-          if (r < rows - 1 && rand() < 0.45) {
-            const m = at(r + 1, c);
-            traces.push({ ax: n.x, ay: n.y, bx: m.x, by: m.y, hFirst: false, active: rand() < 0.4, accent: Math.floor(rand() * 3), phase: rand() });
-          }
+          const addTrace = (n2: SceneNode, hFirst: boolean) => {
+            const bx1 = Math.min(n.x, n2.x);
+            const bx2 = Math.max(n.x, n2.x);
+            const by1 = Math.min(n.y, n2.y);
+            const by2 = Math.max(n.y, n2.y);
+            if (keepOut && bx1 < keepOut.x2 && bx2 > keepOut.x1 && by1 < keepOut.y2 && by2 > keepOut.y1) return;
+            traces.push({ ax: n.x, ay: n.y, bx: n2.x, by: n2.y, hFirst, active: rand() < 0.45, accent: Math.floor(rand() * 3), phase: rand() });
+          };
+          if (c < cols - 1 && rand() < 0.6) addTrace(at(r, c + 1), true);
+          if (r < rows - 1 && rand() < 0.45) addTrace(at(r + 1, c), false);
         }
       }
       scene = { nodes, traces };
