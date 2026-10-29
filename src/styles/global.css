@@ -151,7 +151,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Oswald', sans-serif;
   text-decoration: none;
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 0.02em;
   text-wrap: balance;
 }
@@ -189,7 +189,7 @@ p,
   font-family: 'Oswald', sans-serif;
   font-size: clamp(1.15rem, 1.9vw, 1.45rem);
   line-height: 1.35;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #cbd5e1;
@@ -221,7 +221,7 @@ p,
 .home-title {
   font-size: clamp(1.85rem, 3.6vw, 2.95rem);
   line-height: 1.22;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 /* Unified Section H2 Title */
@@ -230,7 +230,7 @@ p,
   font-size: clamp(1.85rem, 2.9vw, 2.2rem); /* 29.6px - 35.2px across all sections */
   letter-spacing: 0.045em;
   line-height: 1.22;
-  font-weight: 300;
+  font-weight: 500;
   color: var(--heading-color);
 }
 
@@ -251,7 +251,7 @@ p,
 .subsection-title {
   text-transform: uppercase;
   font-size: clamp(1.4rem, 2.2vw, 1.65rem); /* 22.4px - 26.4px */
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.035em;
   line-height: 1.28;
   color: var(--heading-color);
@@ -1028,8 +1028,8 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: #22c55e;
-  border: 2px solid #14532d;
+  background-color: var(--brand-gold);
+  border: 2px solid #0e3d65;
   display: inline-block;
 }
 
@@ -1121,7 +1121,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   align-items: center;
   justify-content: center;
   background-color: #f1f5f9;
-  border: 2px solid var(--arch-brand, var(--brand-gold));
+  border: 2px solid var(--card-border);
   padding: 2px;
   flex-shrink: 0;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
@@ -1677,7 +1677,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   letter-spacing: 0.06em;
   color: var(--pill-text) !important;
   background-color: var(--th-primary);
-  border: 2px solid var(--pill-brand, var(--brand-gold));
+  border: 2px solid var(--card-border);
   transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
@@ -1692,16 +1692,10 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 .btn-social-pill:hover {
   transform: translateY(-2px);
   background-color: var(--th-secondary);
-  border-color: var(--pill-brand, var(--brand-gold));
-  color: var(--pill-brand, var(--brand-gold)) !important;
+  border-color: var(--brand-gold);
+  color: var(--brand-gold) !important;
 }
 
-.btn-social-pill.linkedin { --pill-brand: var(--social-linkedin); }
-.btn-social-pill.github { --pill-brand: var(--social-github); }
-.btn-social-pill.whatsapp { --pill-brand: var(--social-whatsapp); }
-.btn-social-pill.facebook { --pill-brand: var(--social-facebook); }
-.btn-social-pill.instagram { --pill-brand: var(--social-instagram); }
-.btn-social-pill.email { --pill-brand: var(--social-email); }
 
 /* Profile Section Action Bar: 2x2 Grid on Mobile (<640px), Strict Single Row on Tablet & Desktop (>=640px) */
 .about-cta-row {
@@ -2275,6 +2269,13 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   box-shadow: 0 2px 0 var(--card-border);
 }
 
+/* Insignia de práctica de ingeniería: conceptos sin marca oficial, rellenas del acento del pilar */
+.skill-brand-badge.skill-practice-badge {
+  background-color: var(--skill-brand, var(--brand-gold));
+  border-color: var(--skill-brand, var(--brand-gold));
+  color: #ffffff;
+}
+
 [data-theme="dark"] .skill-brand-badge {
   color: color-mix(in oklab, var(--skill-brand, var(--brand-gold)), white 45%);
 }
@@ -2612,9 +2613,9 @@ textarea.form-control-pill {
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
-  color: var(--channel-color, var(--brand-gold));
+  color: var(--brand-gold);
   background-color: var(--th-primary);
-  border: 2px solid var(--channel-color, var(--brand-gold));
+  border: 2px solid var(--card-border);
   padding: 6px;
   flex-shrink: 0;
   box-shadow: 0 2px 0 var(--card-border);
@@ -2703,7 +2704,7 @@ textarea.form-control-pill {
 }
 
 .social-icon-btn {
-  border: 2px solid var(--pill-brand, var(--brand-gold));
+  border: 2px solid var(--card-border);
   color: inherit;
   display: inline-flex;
   align-items: center;
@@ -2725,15 +2726,9 @@ textarea.form-control-pill {
 
 .social-icon-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 0 var(--pill-brand, var(--brand-gold));
+  box-shadow: 0 5px 0 var(--brand-gold);
 }
 
-.social-icon-btn.facebook { --pill-brand: var(--social-facebook); }
-.social-icon-btn.linkedin { --pill-brand: var(--social-linkedin); }
-.social-icon-btn.instagram { --pill-brand: var(--social-instagram); }
-.social-icon-btn.whatsapp { --pill-brand: var(--social-whatsapp); }
-.social-icon-btn.github { --pill-brand: #484f58; }
-.social-icon-btn.email { --pill-brand: var(--social-email); }
 
 /* ==========================================================================
    Style Switcher & Back-to-Top (100% Solid Minimalist Surface)

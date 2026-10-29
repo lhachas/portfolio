@@ -99,7 +99,17 @@ Evolución rotunda del portafolio (Astro 7 + Tailwind v4 + GSAP + Remotion) sin 
 4. **Tira del hero en 2 filas:** Manrope ensanchó los pills → padding/tipografía compactados + `.hero-arch-strip` con expansión ≥1280px → una sola línea.
 5. **Descripciones SEO 167–172 chars** → recorte a 155/159 dentro del rango.
 
-## 6. Cómo repetir la validación
+## 8. Bucle v3.1 — Dirección unificada (decisión del cliente)
+
+Tras la revisión del cliente, se fijó la dirección única del sistema y se ejecutó en una pasada:
+
+1. **Iconos: "Oficial en todas partes".** Todos los chips muestran logo oficial multicolor (svgl.app): se incorporaron **Jest, Grafana, Swagger, GitHub Copilot, Cursor, Postman, GitLab, Apache Kafka, Nx, Kubernetes** y se remapearon los ítems de skills (cloud→Kubernetes/EKS, EDA→Kafka, Hexagonal→Nx, Testing→Jest, Observabilidad→Grafana, IA→Copilot, Refactor→Cursor, Pruebas→Postman, Documentación→Swagger). Solo 2 conceptos puros sin marca (Clean Code/DDD, OWASP) usan insignia rellena del pilar con glifo blanco, como sub-sistema deliberado de "práctica de ingeniería". Prohibido mezclar outline y logos en una misma lista.
+2. **Tipografía: pareja disciplinada.** Oswald 500 exclusivo de títulos/etiquetas uppercase (peso 300→500 para presencia) y Manrope para todo el cuerpo.
+3. **Color: azul estricto.** Verde de disponibilidad → azul (`--brand-gold`); bordes de marca social eliminados (chips neutros con borde gris-azulado; la identidad vive solo en el logo oficial); feedback de éxito del formulario en azul; error mantiene rojo universal.
+
+Evidencia: `docs/evidence/final/b6-*.png` (skills claro/oscuro con 100% logos oficiales y barras por pilar; contacto con canales neutros). Commit: `feat(ui): official logos everywhere, disciplined type pairing and strict blue palette`.
+
+## 9. Cómo repetir la validación
 
 ```bash
 npm ci && npm run build && npm run preview

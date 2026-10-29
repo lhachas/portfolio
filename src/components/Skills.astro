@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, type PortfolioLocale } from '../data/portfolio';
+import { brandIconNames } from '../data/brandIcons';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -139,7 +140,13 @@ const skillCategories = skillsSection.categories;
                       <div class="skill-item">
                         <div class="skill-text">
                           <span class="inline-flex items-center min-w-0">
-                            <span class="skill-brand-badge" aria-hidden="true">
+                            <span
+                              class:list={[
+                                'skill-brand-badge',
+                                { 'skill-practice-badge': !brandIconNames.has(skill.icon) },
+                              ]}
+                              aria-hidden="true"
+                            >
                               <Icon name={skill.icon} size={16} />
                             </span>
                             <span class="font-medium tracking-wide truncate">{skill.name}</span>
