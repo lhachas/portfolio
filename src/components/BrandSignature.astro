@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../data/portfolio';
+import BrandRubric from './BrandRubric.astro';
 
 interface Props {
   avatarImage?: string;
@@ -37,22 +38,8 @@ const {
       <span class="brand-signature-text">LHachaS</span>
       <span class="brand-signature-dot" aria-hidden="true"></span>
     </div>
-    <!-- Elegant Natural Cursive Rubric Flourish -->
-    <svg
-      class="brand-rubric-flourish"
-      viewBox="0 0 140 14"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M2 3C28 11 72 13 136 3.5C114 13 82 11.5 60 9C38 6.5 16 11.5 8 8"
-        stroke="var(--brand-gold)"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
+    <!-- Elegant Natural Cursive Rubric Flourish (huella compartida: navbar + hero) -->
+    <BrandRubric class="brand-rubric-flourish" width={140} height={14} />
     <span class="brand-signature-sub">{subtitle}</span>
   </div>
 </div>

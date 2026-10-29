@@ -1,0 +1,33 @@
+---
+/**
+ * BrandRubric — rúbrica caligráfica de la marca LHachaS (huella visual).
+ * Trazo único reutilizable: firma del navbar y subrayado artesanal del H1.
+ * `pathLength="1"` permite animar el dibujo del trazo (stroke-dashoffset 1 → 0).
+ */
+interface Props {
+  width?: number | string;
+  height?: number | string;
+  class?: string;
+}
+
+const { width = 140, height = 14, class: className = '' } = Astro.props;
+---
+
+<svg
+  class={className}
+  width={width}
+  height={height}
+  viewBox="0 0 140 14"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <path
+    d="M2 3C28 11 72 13 136 3.5C114 13 82 11.5 60 9C38 6.5 16 11.5 8 8"
+    stroke="var(--brand-gold)"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    pathLength="1"
+  ></path>
+</svg>

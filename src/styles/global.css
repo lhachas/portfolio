@@ -1357,10 +1357,14 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   background-color: var(--brand-purple) !important;
 }
 
+/* Cursor de tecleo: bloque pulsante artesanal (no el caret de texto por defecto) */
 .typed-cursor {
-  opacity: 1;
-  color: var(--brand-gold);
-  font-weight: 400;
+  display: inline-block;
+  width: 3px;
+  height: 1.05em;
+  margin-left: 3px;
+  border-radius: 2px;
+  background-color: var(--brand-gold);
   animation: typedBlink 0.75s infinite;
 }
 
@@ -3056,5 +3060,58 @@ textarea.form-control-pill {
   .training-callout-card:hover,
   .training-callout-card:focus-within {
     transform: none !important;
+  }
+}
+/* ==========================================================================
+   Hero Signature Craft — rúbrica de marca, marco blueprint y micro-etiqueta HUD
+   ========================================================================== */
+.hero-rubric-underline {
+  display: block;
+  width: min(240px, 62%);
+  margin: 4px auto 0;
+  opacity: 0.95;
+}
+
+.hero-rubric-underline path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.hero-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--brand-gold);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.hero-corner.tl { top: 6px; left: 6px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }
+.hero-corner.tr { top: 6px; right: 6px; border-left: none; border-bottom: none; border-top-right-radius: 6px; }
+.hero-corner.bl { bottom: 6px; left: 6px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }
+.hero-corner.br { bottom: 6px; right: 6px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
+
+.hero-hud-label {
+  position: absolute;
+  top: -16px;
+  left: 8px;
+  font-family: 'Victor Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--txt-muted);
+  pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  .hero-corner,
+  .hero-hud-label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rubric-underline path {
+    stroke-dashoffset: 0;
   }
 }

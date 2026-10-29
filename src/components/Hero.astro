@@ -1,5 +1,6 @@
 ---
 import { getPortfolioContent, withBase, type PortfolioLocale } from '../data/portfolio';
+import BrandRubric from './BrandRubric.astro';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 const { locale = 'es' } = Astro.props;
-const { hero } = await getPortfolioContent(locale);
+const { hero, profile } = await getPortfolioContent(locale);
 ---
 
 <!-- START HOME -->
@@ -20,6 +21,14 @@ const { hero } = await getPortfolioContent(locale);
   ></canvas>
   <div class="hero-canvas-overlay" aria-hidden="true"></div>
   <div id="hero-parallax-stage" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-2 pb-2">
+    <!-- Marco blueprint: esquinas de registro + micro-etiqueta HUD (datos desde el SSOT) -->
+    <span class="hero-corner tl" aria-hidden="true"></span>
+    <span class="hero-corner tr" aria-hidden="true"></span>
+    <span class="hero-corner bl" aria-hidden="true"></span>
+    <span class="hero-corner br" aria-hidden="true"></span>
+    <span class="hero-hud-label" aria-hidden="true">
+      {profile.brandPrefix}{profile.brandHighlight}{profile.brandSuffix} // {profile.locationShort}
+    </span>
     <div id="hero-tilt-stage" class="mx-auto max-w-5xl text-center">
       <!-- Live Recruiter Availability Status Pill (100% Solid Utilitarian Badge) -->
       <div class="mb-4 inline-flex items-center justify-center" data-hero-anim>
@@ -54,9 +63,14 @@ const { hero } = await getPortfolioContent(locale);
           >
             {hero.typedStrings[0]}
           </em>
-          <span class="typed-cursor" aria-hidden="true">|</span>
+          <span class="typed-cursor" aria-hidden="true"></span>
         </span>
       </h1>
+
+      <!-- Huella de marca: rúbrica caligráfica dibujada bajo el nombre (GSAP: trazo 1 → 0) -->
+      <div id="hero-rubric-underline" class="hero-rubric-underline" data-hero-anim aria-hidden="true">
+        <BrandRubric width={230} height={16} class="hero-rubric-svg" />
+      </div>
 
       <!-- Value Proposition Subtitle (Unified .title-subtitle scale, 100% solid crisp text) -->
       <p class="title-subtitle hero-subtitle mt-3 mb-0 mx-auto" data-hero-anim>
@@ -206,6 +220,17 @@ const { hero } = await getPortfolioContent(locale);
           { clipPath: 'inset(0 0 100% 0)' },
           { clipPath: 'inset(0 0 0% 0)', duration: 0.75, ease: 'power3.out', clearProps: 'clip-path' },
           0.1
+        );
+      }
+
+      // Huella de marca: la rúbrica se dibuja a mano tras asentarse el H1
+      const rubricPath = heroSection.querySelector('#hero-rubric-underline path');
+      if (rubricPath) {
+        tl.fromTo(
+          rubricPath,
+          { strokeDashoffset: 1 },
+          { strokeDashoffset: 0, duration: 0.9, ease: 'power2.out' },
+          0.95
         );
       }
 
