@@ -216,7 +216,12 @@ p,
 .home-title {
   font-size: clamp(1.85rem, 3.6vw, 2.95rem);
   line-height: 1.22;
-  font-weight: 400;
+  font-weight: 700;
+}
+
+/* PT Sans Narrow: el texto tecleado siempre en peso fuerte (evita síntesis de 600) */
+.home-title .typing {
+  font-weight: 700;
 }
 
 /* Unified Section H2 Title */
@@ -225,12 +230,20 @@ p,
   font-size: clamp(1.85rem, 2.9vw, 2.2rem); /* 29.6px - 35.2px across all sections */
   letter-spacing: 0.045em;
   line-height: 1.22;
-  font-weight: 400;
+  font-weight: 700;
   color: var(--heading-color);
 }
 
 .title span.font-medium {
   color: var(--brand-gold);
+  font-weight: 700;
+}
+
+/* Dos colores consistentes en dark: prefijo claro + highlight dorado
+   (en claro el prefijo ya es navy vía --heading-color) */
+[data-theme="dark"] .title,
+[data-theme="dark"] .subsection-title {
+  color: var(--txt-primary);
 }
 
 /* Unified Section Lead Subtitle */
@@ -246,7 +259,7 @@ p,
 .subsection-title {
   text-transform: uppercase;
   font-size: clamp(1.4rem, 2.2vw, 1.65rem); /* 22.4px - 26.4px */
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0.035em;
   line-height: 1.28;
   color: var(--heading-color);
@@ -254,12 +267,13 @@ p,
 
 .subsection-title span.font-medium {
   color: var(--brand-gold);
+  font-weight: 700;
 }
 
 /* Unified Card H3 Heading (Skills, Experiences, Services, Contact) */
 .card-title {
   font-size: clamp(1.2rem, 1.8vw, 1.35rem); /* 19.2px - 21.6px across all cards */
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.32;
   letter-spacing: 0.02em;
   color: var(--heading-color);
@@ -268,7 +282,7 @@ p,
 /* Unified Item H4 Heading (Education cards, Skill items, Form sections) */
 .item-title {
   font-size: 1.05rem;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.38;
   letter-spacing: 0.02em;
   color: var(--heading-color);

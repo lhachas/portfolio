@@ -163,3 +163,7 @@ Oswald → **PT Sans Narrow** (400/700) como tipografía global del portafolio. 
 - [x] Alineado a CVs 2026 ES/EN (fechas, empresas, tecnologías, logros verificables)
 - [x] PT Sans Narrow aplicada globalmente con jerarquía 400/700
 - [x] Build verde + security audit verde
+### v4.1 — Jerarquía tipográfica bold + dos colores consistentes
+- Títulos en **700** (PT Sans Narrow bold): `.home-title`, `.title`, `.subsection-title`, `.card-title`, `.item-title` — antes 400 (se veían delgados).
+- **Dos colores en títulos de sección, consistentes en ambos modos**: prefijo navy (claro) / blanco (dark) + highlight dorado vía `.title span.font-medium`. En dark `[data-theme="dark"] .title, .subsection-title { color: var(--txt-primary) }`.
+- Pesos de span protegidos contra síntesis (`.font-medium` → 700 explícito).
