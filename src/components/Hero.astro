@@ -227,13 +227,14 @@ const { hero, profile } = await getPortfolioContent(locale);
         );
       }
 
-      // Huella de marca: la rúbrica se dibuja a mano tras asentarse el H1
-      const rubricPath = heroSection.querySelector('#hero-rubric-underline path');
-      if (rubricPath) {
+      // Huella de marca: la rúbrica se revela izquierda→derecha (clip-path; sin dash para
+      // evitar el bug de Chromium con pathLength + non-scaling-stroke)
+      const rubric = heroSection.querySelector('#hero-rubric-underline');
+      if (rubric) {
         tl.fromTo(
-          rubricPath,
-          { strokeDashoffset: 1 },
-          { strokeDashoffset: 0, duration: 0.9, ease: 'power2.out' },
+          rubric,
+          { clipPath: 'inset(0 100% 0 0)' },
+          { clipPath: 'inset(0 0% 0 0)', duration: 0.8, ease: 'power2.out' },
           0.95
         );
       }

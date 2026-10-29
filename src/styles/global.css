@@ -3067,7 +3067,7 @@ textarea.form-control-pill {
    ========================================================================== */
 .hero-rubric-underline {
   position: absolute;
-  top: calc(100% + 3px);
+  top: calc(100% + 4px);
   left: 6px;
   right: 6px;
   height: 12px;
@@ -3079,11 +3079,7 @@ textarea.form-control-pill {
   width: 100%;
   height: 100%;
   display: block;
-}
-
-.hero-rubric-underline path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+  overflow: visible;
 }
 
 .hero-corner {
@@ -3119,8 +3115,3 @@ textarea.form-control-pill {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-rubric-underline path {
-    stroke-dashoffset: 0;
-  }
-}
