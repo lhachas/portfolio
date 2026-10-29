@@ -1082,15 +1082,15 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1rem 0.4rem 0.5rem;
+  gap: 0.4rem;
+  padding: 0.32rem 0.78rem 0.32rem 0.4rem;
   border-radius: 9999px;
   background-color: #1e222d;
   border: 2px solid var(--card-border);
   color: #f8fafc;
-  font-size: 0.8125rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   box-shadow: 0 4px 0 #0d0f14;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.25s ease,
@@ -1110,15 +1110,15 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 
 /* Neutral solid chip + accent border: los logos oficiales muestran su color natural */
 .hero-arch-icon-badge {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: #f1f5f9;
   border: 2px solid var(--arch-brand, var(--brand-gold));
-  padding: 3px;
+  padding: 2px;
   flex-shrink: 0;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
   transition: background-color 0.2s ease;
@@ -1126,6 +1126,14 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 
 [data-theme="dark"] .hero-arch-icon-badge {
   background-color: #14171f;
+}
+
+/* En escritorio la tira de pills respira más allá del stage para conservar una sola línea */
+@media (min-width: 1280px) {
+  .hero-arch-strip {
+    margin-left: -7.5rem;
+    margin-right: -7.5rem;
+  }
 }
 
 .hero-arch-pill:hover {
@@ -1325,6 +1333,15 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
 :root:not([data-theme="dark"]) .hero-metric-desc,
 [data-theme="light"] .hero-metric-desc {
   color: #475569;
+}
+
+/* Etiqueta de métrica: acento base en claro, variante aclarada legible en oscuro */
+.hero-metric-label {
+  color: var(--metric-accent, var(--brand-gold));
+}
+
+[data-theme="dark"] .hero-metric-label {
+  color: color-mix(in oklab, var(--metric-accent, var(--brand-gold)), white 45%);
 }
 
 .hero-metric-badge {
@@ -1641,7 +1658,7 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   color: #ffffff;
 }
 
-/* Official Social Network Pill Button (100% Solid Brand Colors) */
+/* Official Social Network Pill Button — chip neutro + borde de marca + logo oficial natural */
 .btn-social-pill {
   display: inline-flex;
   align-items: center;
@@ -1651,78 +1668,36 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   padding: 0.55rem 1.25rem;
   border-radius: 9999px;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #ffffff !important;
-  border: 2px solid transparent;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  color: var(--pill-text) !important;
+  background-color: var(--th-primary);
+  border: 2px solid var(--pill-brand, var(--brand-gold));
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .btn-social-pill i,
-.btn-social-pill svg {
+.btn-social-pill svg,
+.btn-social-pill .brand-icon {
   font-size: 1.05rem;
-  color: #ffffff !important;
+  color: inherit;
   flex-shrink: 0;
 }
 
 .btn-social-pill:hover {
   transform: translateY(-2px);
+  background-color: var(--th-secondary);
+  border-color: var(--pill-brand, var(--brand-gold));
+  color: var(--pill-brand, var(--brand-gold)) !important;
 }
 
-.btn-social-pill.linkedin {
-  background-color: var(--social-linkedin);
-  border-color: var(--social-linkedin);
-}
-.btn-social-pill.linkedin:hover {
-  background-color: var(--social-linkedin-hover);
-  border-color: var(--social-linkedin-hover);
-}
-
-.btn-social-pill.github {
-  background-color: var(--social-github);
-  border-color: #484f58;
-}
-.btn-social-pill.github:hover {
-  background-color: var(--social-github-hover);
-  border-color: var(--brand-gold);
-}
-
-.btn-social-pill.whatsapp {
-  background-color: var(--social-whatsapp);
-  border-color: var(--social-whatsapp);
-}
-.btn-social-pill.whatsapp:hover {
-  background-color: var(--social-whatsapp-hover);
-  border-color: var(--social-whatsapp-hover);
-}
-
-.btn-social-pill.facebook {
-  background-color: var(--social-facebook);
-  border-color: var(--social-facebook);
-}
-.btn-social-pill.facebook:hover {
-  background-color: var(--social-facebook-hover);
-  border-color: var(--social-facebook-hover);
-}
-
-.btn-social-pill.instagram {
-  background-color: var(--social-instagram);
-  border-color: var(--social-instagram);
-}
-.btn-social-pill.instagram:hover {
-  background-color: var(--social-instagram-hover);
-  border-color: var(--social-instagram-hover);
-}
-
-.btn-social-pill.email {
-  background-color: var(--social-email);
-  border-color: var(--social-email);
-}
-.btn-social-pill.email:hover {
-  background-color: var(--social-email-hover);
-  border-color: var(--social-email-hover);
-}
+.btn-social-pill.linkedin { --pill-brand: var(--social-linkedin); }
+.btn-social-pill.github { --pill-brand: var(--social-github); }
+.btn-social-pill.whatsapp { --pill-brand: var(--social-whatsapp); }
+.btn-social-pill.facebook { --pill-brand: var(--social-facebook); }
+.btn-social-pill.instagram { --pill-brand: var(--social-instagram); }
+.btn-social-pill.email { --pill-brand: var(--social-email); }
 
 /* Profile Section Action Bar: 2x2 Grid on Mobile (<640px), Strict Single Row on Tablet & Desktop (>=640px) */
 .about-cta-row {
@@ -2473,6 +2448,12 @@ a[data-lang-switch]:not(.lang-segmented-btn) {
   font-weight: 600;
 }
 
+/* Texto sobre acento en modo oscuro: variante aclarada (contraste AA sobre #1e222d) */
+[data-theme="dark"] .exp-company-accent,
+[data-theme="dark"] .exp-highlight-label {
+  color: color-mix(in oklab, var(--timeline-text-color, var(--timeline-color, var(--brand-gold))), white 45%);
+}
+
 /* Even / Right-Side Alternating Timeline Items */
 .main-timeline .timeline:nth-of-type(even) {
   float: right;
@@ -2613,7 +2594,7 @@ textarea.form-control-pill {
   box-shadow: 0 2px 0 var(--card-accent, var(--channel-color, var(--brand-gold)));
 }
 
-/* Chip neutro sólido + borde del color de canal: logo oficial a color natural */
+/* Chip neutro sólido + borde del color de canal; icono stroke teñido con el canal */
 .contact-channel-icon {
   width: 44px;
   height: 44px;
@@ -2622,7 +2603,7 @@ textarea.form-control-pill {
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
-  color: var(--channel-text-color, #ffffff);
+  color: var(--channel-color, var(--brand-gold));
   background-color: var(--th-primary);
   border: 2px solid var(--channel-color, var(--brand-gold));
   padding: 6px;
@@ -2713,8 +2694,8 @@ textarea.form-control-pill {
 }
 
 .social-icon-btn {
-  border: 2px solid transparent;
-  color: #ffffff !important;
+  border: 2px solid var(--pill-brand, var(--brand-gold));
+  color: inherit;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2722,9 +2703,10 @@ textarea.form-control-pill {
   width: 44px;
   border-radius: 12px;
   font-size: 18px;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   position: relative;
   box-shadow: 0 3px 0 #0a0c10;
+  background-color: #f8fafc;
 }
 
 .social-icon-btn svg {
@@ -2732,60 +2714,17 @@ textarea.form-control-pill {
   flex-shrink: 0;
 }
 
-/* Logos oficiales (svgl) sobre botones de marca sólida: forma oficial en blanco */
-.social-icon-btn .brand-icon svg,
-.btn-social-pill .brand-icon svg {
-  filter: brightness(0) invert(1);
-}
-
 .social-icon-btn:hover {
   transform: translateY(-3px);
-  border-color: #ffffff;
+  box-shadow: 0 5px 0 var(--pill-brand, var(--brand-gold));
 }
 
-.social-icon-btn.facebook {
-  background-color: var(--social-facebook);
-}
-.social-icon-btn.facebook:hover {
-  background-color: var(--social-facebook-hover);
-}
-
-.social-icon-btn.linkedin {
-  background-color: var(--social-linkedin);
-}
-.social-icon-btn.linkedin:hover {
-  background-color: var(--social-linkedin-hover);
-}
-
-.social-icon-btn.instagram {
-  background-color: var(--social-instagram);
-}
-.social-icon-btn.instagram:hover {
-  background-color: var(--social-instagram-hover);
-}
-
-.social-icon-btn.whatsapp {
-  background-color: var(--social-whatsapp);
-}
-.social-icon-btn.whatsapp:hover {
-  background-color: var(--social-whatsapp-hover);
-}
-
-.social-icon-btn.github {
-  background-color: var(--social-github);
-  border-color: #484f58;
-}
-.social-icon-btn.github:hover {
-  background-color: var(--social-github-hover);
-  border-color: var(--brand-gold);
-}
-
-.social-icon-btn.email {
-  background-color: var(--social-email);
-}
-.social-icon-btn.email:hover {
-  background-color: var(--social-email-hover);
-}
+.social-icon-btn.facebook { --pill-brand: var(--social-facebook); }
+.social-icon-btn.linkedin { --pill-brand: var(--social-linkedin); }
+.social-icon-btn.instagram { --pill-brand: var(--social-instagram); }
+.social-icon-btn.whatsapp { --pill-brand: var(--social-whatsapp); }
+.social-icon-btn.github { --pill-brand: #484f58; }
+.social-icon-btn.email { --pill-brand: var(--social-email); }
 
 /* ==========================================================================
    Style Switcher & Back-to-Top (100% Solid Minimalist Surface)
