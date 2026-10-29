@@ -124,7 +124,7 @@ portfolio/
 │   │   ├── cv/                        # ÚNICAMENTE los 2 CVs oficiales públicos en PDF (ES y EN)
 │   │   ├── fonts/                     # Fuentes WOFF/WOFF2 de iconografía
 │   │   ├── images/                    # Fotografía de perfil, texturas y activos estáticos
-│   │   └── video/                     # Video cinematográfico Remotion (webm, mp4) y poster accesible (webp, png)
+│   │   └── (sin assets de video: el fondo del Hero es un canvas determinista 100% código)
 │   ├── favicon.ico
 │   ├── robots.txt                     # Reglas de indexación + bloqueo explícito de extensiones .docx/.doc
 │   └── sitemap.xml                    # Mapa del sitio bilingüe con enlaces alternos hreflang
@@ -146,7 +146,7 @@ portfolio/
 │   │   └── portfolio.ts               # Helper tipado getPortfolioContent('es' | 'en') y withBase()
 │   ├── components/
 │   │   ├── Navbar.astro               # Navegación sticky, switcher ES/EN y selector de tema claro/oscuro
-│   │   ├── Hero.astro                 # Presentación principal con CTAs enfocados, métricas de impacto y animaciones GSAP
+│   │   ├── Hero.astro                 # Presentación principal con fondo de topología de servicios (canvas), CTAs, métricas y animaciones GSAP
 │   │   ├── About.astro                # Perfil profesional, fotografía optimizada WebP y educación
 │   │   ├── Skills.astro               # 4 pilares técnicos con filtrado accesible por categoría
 │   │   ├── Projects.astro             # Carrusel showcase de proyectos arquitecturales con scroll-snap nativo, filtrado reactivo y métricas

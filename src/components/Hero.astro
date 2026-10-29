@@ -12,47 +12,13 @@ const { hero } = await getPortfolioContent(locale);
 
 <!-- START HOME -->
 <section class="section bg-home relative overflow-hidden" id="home" aria-label={hero.sectionAriaLabel}>
-  <!-- Cinematic Architectural Background Canvas & Asset Viewport (Produced with Remotion) -->
-  <div class="hero-cinematic-stage absolute inset-0 overflow-hidden pointer-events-none z-[1]" aria-hidden="true">
-    <!-- Accessible Poster Picture Fallback (Zero network lag, instant paint, 34KB WebP) -->
-    <picture class="hero-cinematic-poster absolute inset-0 w-full h-full">
-      <source srcset={withBase('/assets/video/hero-cinematic-poster.webp')} type="image/webp" />
-      <img
-        src={withBase('/assets/video/hero-cinematic-poster.png')}
-        alt=""
-        class="w-full h-full object-cover object-center select-none"
-        loading="eager"
-        fetchpriority="high"
-        decoding="async"
-      />
-    </picture>
-
-    <!-- High-Performance Looping Cinematic Video (Remotion Produced) -->
-    <video
-      id="hero-cinematic-video"
-      class="hero-cinematic-video absolute inset-0 w-full h-full object-cover object-center select-none"
-      autoplay
-      muted
-      loop
-      playsinline
-      poster={withBase('/assets/video/hero-cinematic-poster.webp')}
-      preload="metadata"
-    >
-      <source src={withBase('/assets/video/hero-cinematic.webm')} type="video/webm" />
-      <source src={withBase('/assets/video/hero-cinematic.mp4')} type="video/mp4" />
-    </video>
-
-    <!-- Pure Non-Destructive Dark Falloff Overlay (Ensures 100% Solid WCAG AAA text contrast) -->
-    <div class="hero-cinematic-overlay absolute inset-0"></div>
-  </div>
-
-  <!-- Interactive Engineering Topology & Deterministic Signal Stream Canvas -->
+  <!-- Hero Circuit Backdrop — topología de servicios determinista (canvas único, sin assets externos) -->
   <canvas
-    id="hero-topology-canvas"
-    class="pointer-events-none absolute inset-0 z-[2] h-full w-full"
+    id="hero-circuit-canvas"
+    class="hero-circuit-canvas"
     aria-hidden="true"
   ></canvas>
-
+  <div class="hero-canvas-overlay" aria-hidden="true"></div>
   <div id="hero-parallax-stage" class="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 w-full pt-2 pb-2">
     <div id="hero-tilt-stage" class="mx-auto max-w-5xl text-center">
       <!-- Live Recruiter Availability Status Pill (100% Solid Utilitarian Badge) -->
@@ -214,16 +180,6 @@ const { hero } = await getPortfolioContent(locale);
     const heroSection = document.getElementById('home');
     const heroStage = document.getElementById('hero-parallax-stage');
     const heroTiltStage = document.getElementById('hero-tilt-stage');
-    const cinematicVideo = document.getElementById('hero-cinematic-video') as HTMLVideoElement | null;
-
-    if (cinematicVideo) {
-      if (prefersReducedMotion) {
-        cinematicVideo.pause();
-        cinematicVideo.style.display = 'none';
-      } else {
-        cinematicVideo.play().catch(() => {});
-      }
-    }
 
     // 1. GSAP Orchestrated Entrance Timeline & Subtle Scroll Parallax
     if (!prefersReducedMotion && heroSection) {
@@ -381,229 +337,208 @@ const { hero } = await getPortfolioContent(locale);
       });
     }
 
-    // 4. Kinetic Architectural Topology & Deterministic Signal Stream Engine
-    const canvas = document.getElementById('hero-topology-canvas') as HTMLCanvasElement | null;
-    if (!canvas || prefersReducedMotion) return;
+    // 4. Hero Circuit Backdrop — topología de servicios determinista (una sola voz visual)
+    const canvas = document.getElementById('hero-circuit-canvas') as HTMLCanvasElement | null;
+    if (!canvas || !heroSection) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let width = 0;
-    let height = 0;
-    let dpr = 1;
-    let pointerX = -9999;
-    let pointerY = -9999;
-    let targetPointerX = -9999;
-    let targetPointerY = -9999;
-    let isVisibleOnScreen = true;
-
-    const getActiveAccent = () =>
-      getComputedStyle(document.documentElement).getPropertyValue('--brand-gold').trim() || '#3f87f5';
-
-    let activeAccent = getActiveAccent();
-
-    const getActiveSlots = () => {
-      const rootStyle = getComputedStyle(document.documentElement);
-      const s1 = rootStyle.getPropertyValue('--accent-1').trim() || activeAccent;
-      const s2 = rootStyle.getPropertyValue('--accent-2').trim() || '#0d9488';
-      const s3 = rootStyle.getPropertyValue('--accent-3').trim() || '#ea580c';
-      const s4 = rootStyle.getPropertyValue('--accent-4').trim() || '#7c3aed';
-      const s5 = rootStyle.getPropertyValue('--accent-5').trim() || '#059669';
-      const s6 = rootStyle.getPropertyValue('--accent-6').trim() || '#d97706';
-      return [s1, s2, s3, s4, s5, s6];
+    const mulberry32 = (seed: number) => () => {
+      seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
 
-    let activeSlots = getActiveSlots();
+    interface SceneNode { x: number; y: number; primary: boolean; }
+    interface Trace { ax: number; ay: number; bx: number; by: number; hFirst: boolean; active: boolean; accent: number; phase: number; }
+    interface Scene { nodes: SceneNode[]; traces: Trace[]; }
+    let scene: Scene = { nodes: [], traces: [] };
+    let width = 0;
+    let height = 0;
+    let accentColors: string[] = ['#3f87f5', '#0d9488', '#7c3aed'];
+    let nodeFill = '#1e222d';
+    let backdropVisible = true;
 
-    window.addEventListener('portfolio:accent-change', ((e: CustomEvent<{ primary?: string; slots?: string[] }>) => {
-      activeAccent = e.detail?.primary || getActiveAccent();
-      if (e.detail?.slots && Array.isArray(e.detail.slots) && e.detail.slots.length >= 6) {
-        activeSlots = e.detail.slots;
-      } else {
-        activeSlots = getActiveSlots();
+    const readAccents = () => {
+      const s = getComputedStyle(document.documentElement);
+      accentColors = [1, 2, 3].map((i) => s.getPropertyValue('--accent-' + i).trim() || accentColors[i - 1] || '#3f87f5');
+    };
+    const readSurface = () => {
+      nodeFill = getComputedStyle(document.documentElement).getPropertyValue('--th-primary').trim() || '#1e222d';
+    };
+    readAccents();
+    readSurface();
+    window.addEventListener('portfolio:accent-change', () => {
+      readAccents();
+      readSurface();
+      if (prefersReducedMotion) drawScene(0);
+    });
+
+    const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
+
+    const buildScene = () => {
+      const rand = mulberry32(20260715);
+      const mx = Math.max(96, width * 0.14);
+      const top = height * 0.18;
+      const bottom = height * 0.82;
+      const bandH = Math.max(bottom - top, 120);
+      const cols = Math.min(8, Math.max(4, Math.floor((width - 2 * mx) / 150)));
+      const rows = Math.min(5, Math.max(3, Math.floor(bandH / 125)));
+      const nodes: SceneNode[] = [];
+      const cellW = (width - 2 * mx) / Math.max(cols - 1, 1);
+      const cellH = bandH / Math.max(rows - 1, 1);
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const jx = (rand() - 0.5) * cellW * 0.36;
+          const jy = (rand() - 0.5) * cellH * 0.36;
+          nodes.push({ x: mx + c * cellW + jx, y: top + r * cellH + jy, primary: rand() < 0.18 });
+        }
       }
-    }) as EventListener);
+      const traces: Trace[] = [];
+      const at = (r: number, c: number) => nodes[r * cols + c];
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const n = at(r, c);
+          if (c < cols - 1 && rand() < 0.6) {
+            const m = at(r, c + 1);
+            traces.push({ ax: n.x, ay: n.y, bx: m.x, by: m.y, hFirst: true, active: rand() < 0.45, accent: Math.floor(rand() * 3), phase: rand() });
+          }
+          if (r < rows - 1 && rand() < 0.45) {
+            const m = at(r + 1, c);
+            traces.push({ ax: n.x, ay: n.y, bx: m.x, by: m.y, hFirst: false, active: rand() < 0.4, accent: Math.floor(rand() * 3), phase: rand() });
+          }
+        }
+      }
+      scene = { nodes, traces };
+    };
 
-    // Track pointer with smooth interpolation
-    heroSection?.addEventListener(
-      'mousemove',
-      (e) => {
-        const rect = canvas.getBoundingClientRect();
-        targetPointerX = e.clientX - rect.left;
-        targetPointerY = e.clientY - rect.top;
-      },
-      { passive: true }
-    );
-
-    heroSection?.addEventListener(
-      'mouseleave',
-      () => {
-        targetPointerX = -9999;
-        targetPointerY = -9999;
-      },
-      { passive: true }
-    );
-
-    // Resize handling with devicePixelRatio support for crisp Retina rendering
-    const resizeCanvas = () => {
-      if (!canvas) return;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = canvas.offsetWidth;
       height = canvas.offsetHeight;
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildScene();
+      if (prefersReducedMotion) drawScene(0);
     };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas, { passive: true });
 
-    // Grid configuration
-    const gridStep = 64;
-
-    // Deterministic Signal Rails
-    interface SignalRail {
-      y: number;
-      speed: number;
-      pulses: { x: number; length: number; speed: number; slotIndex: number }[];
-      deflection: number;
-      velocity: number;
-    }
-
-    const railsCount = 6;
-    const rails: SignalRail[] = [];
-
-    const initRails = () => {
-      rails.length = 0;
-      const spacing = height / (railsCount + 1);
-      for (let i = 0; i < railsCount; i++) {
-        const y = Math.round((i + 1) * spacing);
-        const speed = (0.6 + (i % 3) * 0.4) * (i % 2 === 0 ? 1 : -1);
-        const railPulses = [
-          {
-            x: Math.random() * width,
-            length: 36 + Math.random() * 40,
-            speed: Math.abs(speed) * 1.8 + 0.4,
-            slotIndex: i % 6,
-          },
-          {
-            x: Math.random() * width,
-            length: 24 + Math.random() * 32,
-            speed: Math.abs(speed) * 1.4 + 0.3,
-            slotIndex: (i + 2) % 6,
-          },
-        ];
-        rails.push({ y, speed, pulses: railPulses, deflection: 0, velocity: 0 });
-      }
+    const roundedSquare = (x: number, y: number, s: number) => {
+      const r = 3;
+      ctx.beginPath();
+      ctx.moveTo(x - s / 2 + r, y - s / 2);
+      ctx.arcTo(x + s / 2, y - s / 2, x + s / 2, y + s / 2, r);
+      ctx.arcTo(x + s / 2, y + s / 2, x - s / 2, y + s / 2, r);
+      ctx.arcTo(x - s / 2, y + s / 2, x - s / 2, y - s / 2, r);
+      ctx.arcTo(x - s / 2, y - s / 2, x + s / 2, y - s / 2, r);
+      ctx.closePath();
     };
-    initRails();
-    window.addEventListener('resize', initRails, { passive: true });
 
-    // Animation Loop with Spring Physics
-    const springK = 0.08;
-    const damping = 0.88;
-
-    const renderTopology = () => {
-      if (!isVisibleOnScreen) {
-        requestAnimationFrame(renderTopology);
-        return;
-      }
-
-      // Pointer spring interpolation
-      if (targetPointerX === -9999) {
-        pointerX = -9999;
-        pointerY = -9999;
-      } else {
-        pointerX += (targetPointerX - pointerX) * 0.2;
-        pointerY += (targetPointerY - pointerY) * 0.2;
-      }
-
+    const drawScene = (time: number) => {
+      const dark = isDark();
+      const ink = dark ? '167,181,201' : '51,65,85';
       ctx.clearRect(0, 0, width, height);
 
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      // Retícula blueprint (menor + mayor)
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(' + ink + ', ' + (dark ? 0.055 : 0.05) + ')';
+      ctx.beginPath();
+      for (let x = 32; x < width; x += 32) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, height); }
+      for (let y = 32; y < height; y += 32) { ctx.moveTo(0, y + 0.5); ctx.lineTo(width, y + 0.5); }
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(' + ink + ', ' + (dark ? 0.09 : 0.08) + ')';
+      ctx.beginPath();
+      for (let x = 160; x < width; x += 160) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, height); }
+      for (let y = 160; y < height; y += 160) { ctx.moveTo(0, y + 0.5); ctx.lineTo(width, y + 0.5); }
+      ctx.stroke();
 
-      // 1. Subtle Architectural Grid Lines & Crosshairs (Rendered on canvas in Light Mode; Dark Mode uses Remotion lattice)
-      if (!isDark) {
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#e2e8f0';
+      // Trazas de circuito ortogonales
+      for (const tr of scene.traces) {
+        const midX = tr.hFirst ? tr.bx : tr.ax;
+        const midY = tr.hFirst ? tr.ay : tr.by;
         ctx.beginPath();
-        for (let x = 0; x <= width; x += gridStep) {
-          ctx.moveTo(x + 0.5, 0);
-          ctx.lineTo(x + 0.5, height);
+        ctx.moveTo(tr.ax, tr.ay);
+        ctx.lineTo(midX, midY);
+        ctx.lineTo(tr.bx, tr.by);
+        if (tr.active) {
+          ctx.strokeStyle = accentColors[tr.accent % accentColors.length];
+          ctx.globalAlpha = 0.35;
+          ctx.lineWidth = 1.5;
+        } else {
+          ctx.strokeStyle = 'rgba(' + ink + ', ' + (dark ? 0.22 : 0.18) + ')';
+          ctx.globalAlpha = 1;
+          ctx.lineWidth = 1.2;
         }
         ctx.stroke();
-
-        // Precision coordinate marks at intersections
-        ctx.strokeStyle = '#94a3b8';
-        ctx.beginPath();
-        for (let x = 0; x <= width; x += gridStep) {
-          for (let y = 0; y <= height; y += gridStep) {
-            ctx.moveTo(x - 2.5, y + 0.5);
-            ctx.lineTo(x + 2.5, y + 0.5);
-            ctx.moveTo(x + 0.5, y - 2.5);
-            ctx.lineTo(x + 0.5, y + 2.5);
-          }
-        }
-        ctx.stroke();
+        ctx.globalAlpha = 1;
       }
 
-      // 2. High-Performance Signal Rails (Zero chaotic wave distortions, 100% solid hex strokes)
-      rails.forEach((rail) => {
-        const currentY = rail.y;
-
-        // Draw base architectural track line
-        ctx.strokeStyle = isDark ? '#1e283a' : '#dbe3ef';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(0, currentY);
-        ctx.lineTo(width, currentY);
-        ctx.stroke();
-
-        // Draw traveling signal pulses
-        rail.pulses.forEach((pulse) => {
-          pulse.x += pulse.speed;
-          if (pulse.x > width + pulse.length) {
-            pulse.x = -pulse.length;
-          }
-
-          const rawColor = activeSlots[pulse.slotIndex % activeSlots.length] || activeAccent;
-          let pulseColor = rawColor;
-          const lower = rawColor.toLowerCase();
-          if (!isDark && (lower === '#cdb30c' || lower === '#f2b31a')) {
-            pulseColor = '#b45309'; // High-contrast amber-gold on light canvas
-          }
-          ctx.strokeStyle = pulseColor;
-          ctx.lineWidth = 2;
+      // Pulsos viajando por las trazas activas
+      if (!prefersReducedMotion) {
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        for (const tr of scene.traces) {
+          if (!tr.active) continue;
+          const len = tr.hFirst ? Math.abs(tr.bx - tr.ax) : Math.abs(tr.by - tr.ay);
+          const cycle = len * 2 + 121;
+          const u = ((time * 0.028 + tr.phase * cycle) % cycle) - 60;
+          const head = Math.max(0, Math.min(len, u));
+          const tail = Math.max(0, Math.min(len, u - 30));
+          if (head <= tail) continue;
+          const ux = tr.hFirst ? tr.ax + tail : tr.ax;
+          const uy = tr.hFirst ? tr.ay : tr.ay + tail;
+          const vx = tr.hFirst ? tr.ax + head : tr.ax;
+          const vy = tr.hFirst ? tr.ay : tr.ay + head;
+          const jx = tr.hFirst ? vx : ux;
+          const jy = tr.hFirst ? uy : vy;
+          ctx.strokeStyle = accentColors[tr.accent % accentColors.length];
+          ctx.globalAlpha = 0.85;
           ctx.beginPath();
-          const startX = Math.max(0, pulse.x);
-          const endX = Math.min(width, pulse.x + pulse.length);
-          if (endX > startX) {
-            ctx.moveTo(startX, currentY);
-            ctx.lineTo(endX, currentY);
-            ctx.stroke();
+          ctx.moveTo(ux, uy);
+          ctx.lineTo(jx, jy);
+          ctx.lineTo(vx, vy);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+      }
 
-            // Leading micro-node with subtle glow
-            ctx.fillStyle = isDark ? '#ffffff' : pulseColor;
-            ctx.beginPath();
-            ctx.arc(endX, currentY, 2.5, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        });
-      });
-
-      requestAnimationFrame(renderTopology);
+      // Nodos: chips cuadrados redondeados (mismo lenguaje que .title-icon)
+      for (const nd of scene.nodes) {
+        if (nd.primary) {
+          ctx.fillStyle = accentColors[0];
+          roundedSquare(nd.x, nd.y, 13);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(nd.x, nd.y, 2.2, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = nodeFill;
+          roundedSquare(nd.x, nd.y, 10);
+          ctx.fill();
+          ctx.lineWidth = 1.6;
+          ctx.strokeStyle = dark ? 'rgba(167,181,201,0.55)' : 'rgba(51,65,85,0.5)';
+          ctx.stroke();
+        }
+      }
     };
 
-    // Pause off-screen via IntersectionObserver for zero wasted cycles
-    if ('IntersectionObserver' in window && heroSection) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          isVisibleOnScreen = entries[0].isIntersecting;
-        },
-        { threshold: 0.05 }
-      );
-      observer.observe(heroSection);
-    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
 
-    renderTopology();
+    if (prefersReducedMotion) {
+      drawScene(0);
+    } else {
+      if ('IntersectionObserver' in window && heroSection) {
+        new IntersectionObserver((entries) => { backdropVisible = entries[0].isIntersecting; }, { threshold: 0.02 }).observe(heroSection);
+      }
+      const loop = (t: number) => {
+        if (backdropVisible && !document.hidden) drawScene(t);
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    }
   }
 
   document.addEventListener('DOMContentLoaded', initHeroEffects);
