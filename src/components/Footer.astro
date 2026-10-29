@@ -21,6 +21,11 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
   services: 'layers',
   contact: 'mail',
 };
+
+// Dos colores en el rol: parte principal clara + especialidad en acento (split por "|")
+const roleParts = profile.roleHeadline.split('|').map((part) => part.trim());
+const roleMain = roleParts[0] ?? profile.roleHeadline;
+const roleSub = roleParts.length > 1 ? roleParts.slice(1).join(' | ') : null;
 ---
 
 <!-- START FOOTER -->
@@ -44,8 +49,9 @@ const navIconMap: Record<string, 'home' | 'user' | 'code' | 'terminal' | 'briefc
           />
         </div>
 
-        <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold mb-3">
-          {profile.roleHeadline}
+        <p class="text-[11px] font-semibold uppercase tracking-[0.24em] mb-3">
+          <span style="color: var(--txt-primary);">{roleMain}</span>
+          {roleSub && <span class="text-gold">&nbsp;| {roleSub}</span>}
         </p>
 
         <p class="text-[14px] leading-relaxed text-[#cbd5e1] max-w-sm mb-6">
