@@ -55,7 +55,7 @@ Reglas:
 
 | ID | Criterio | Verificación |
 | :-- | :-- | :-- |
-| AC-C1 | `grep -E "#7c3aed\|#ea580c\|#ea6a15\|#059669\|#e11d48\|#8060cf\|#d97706\|#8b5cf6"` en `src/` devuelve **0 coincidencias**, con dos excepciones documentadas: (a) el mapa de familias de `src/data/accents.ts` (temas del StyleSwitcher) y (b) los tokens semánticos de estado `--status-success/--status-warning/--status-error` definidos una sola vez en `global.css` (semántica universal de formularios, no decoración). | grep |
+| AC-C1 | `grep -E "#7c3aed\|#ea580c\|#ea6a15\|#059669\|#e11d48\|#8060cf\|#d97706\|#8b5cf6"` en `src/` devuelve **0 coincidencias**, con tres excepciones documentadas: (a) el mapa de familias de `src/data/accents.ts` (temas del StyleSwitcher), (b) los tokens semánticos de estado `--status-success/--status-warning/--status-error` definidos una sola vez en `global.css` (semántica universal de formularios, no decoración) y (c) las definiciones de tema `styleSwitcher.themes.hex` en el YML (SSOT del selector). | grep |
 | AC-C2 | Los tokens `--accent-1..6` en `global.css` coinciden exactamente con §1.2. | lectura |
 | AC-C3 | El mapa de paletas vive en **un único módulo TS** (`src/data/accents.ts`); `Layout.astro` (inline anti-flash vía inyección build-time) y `StyleSwitcher.astro` lo consumen de ahí. | lectura de código |
 | AC-C4 | En capturas light y dark a 1440 y 375, ningún elemento decorativo (rails del canvas, bordes de tarjeta, badges de métricas) presenta un matiz fuera de la familia azul/cian/pizarra (excepto logos de marca). | evidencia visual |
