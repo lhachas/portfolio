@@ -3113,14 +3113,7 @@ textarea.form-control-pill {
 }
 
 .section-trace {
-  position: absolute;
-  top: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(480px, 72%);
-  height: 1px;
-  background-color: var(--chrome-border);
-  pointer-events: none;
+  display: none;
 }
 
 .section-trace-node {
